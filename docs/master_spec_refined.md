@@ -133,15 +133,16 @@ Build "Canada Immigration OS" — the definitive multi-tenant SaaS platform for 
 7. **Drafting & QA Agent** - Document generation, review, and quality assurance
 
 **Specialized Agents:**
-8. **Lead Intelligence Agent** - Lead scoring, qualification, and conversion optimization
-9. **Calendar & Scheduling Agent** - Appointment management and deadline tracking
-10. **Financial Intelligence Agent** - Billing, payments, and financial reporting
-11. **Communication Agent** - Multi-channel messaging and client engagement
+8. **Config Agent** - Configuration & schema orchestrator for dynamic system configuration
+9. **Lead Intelligence Agent** - Lead scoring, qualification, and conversion optimization
+10. **Calendar & Scheduling Agent** - Appointment management and deadline tracking
+11. **Financial Intelligence Agent** - Billing, payments, and financial reporting
+12. **Communication Agent** - Multi-channel messaging and client engagement
 
 **System Agents:**
-12. **Evolution Agent** - Self-improvement, feature development, and competitive analysis
-13. **Security & Compliance Agent** - Threat detection, compliance monitoring, and audit
-14. **Performance Optimization Agent** - System monitoring, scaling, and optimization
+13. **Evolution Agent** - Self-improvement, feature development, and competitive analysis
+14. **Security & Compliance Agent** - Threat detection, compliance monitoring, and audit
+15. **Performance Optimization Agent** - System monitoring, scaling, and optimization
 
 ### 2.3 Enhanced Tenancy & Isolation
 
@@ -286,7 +287,47 @@ Build "Canada Immigration OS" — the definitive multi-tenant SaaS platform for 
 - **Language Adaptation:** Communicate in client's preferred language
 - **Success Prediction:** Identify clients likely to need additional support
 
-### 4.4 New Agent: Lead Intelligence Agent
+### 4.4 New Agent: Config Agent - Configuration & Schema Orchestrator
+
+**Role:** Single, authoritative owner of all configurable metadata in the system
+
+**Responsibilities:**
+- **Configuration Management:** Maintain all configuration domains (case types, forms, fields, checklists, templates, feature flags)
+- **Natural-Language → Config Operations:** Parse admin/Mastermind prompts and convert to concrete configuration changes
+- **Config Change Proposals & Approvals:** Generate proposals for high-impact changes requiring human approval
+- **Schema Awareness & Validation:** Ensure config changes don't break existing forms, workflows, or data constraints
+- **Developer & Agent-Facing APIs:** Expose clear configuration API surface for other agents and services
+- **Tenant-Specific Overrides:** Support global defaults with per-tenant customizations
+
+**Key Features:**
+- **Natural Language Processing:** Convert instructions like "For Express Entry FSW, add a boolean field `has_canadian_experience` after `noc_code`" into safe config changes
+- **Versioned Configuration:** All config changes are versioned, auditable, and reversible
+- **Risk-Based Approval:** High-impact changes require human approval; low-risk UI changes can be auto-applied
+- **Pre-flight Validation:** Run dry-run validations before applying changes
+- **Multi-Tenant Support:** Global defaults with organization-specific overrides
+- **Complete Audit Trail:** All changes logged with who/what/when/why details
+
+**Safety Guardrails:**
+- Never directly touches law logic (only configuration)
+- All changes logged in audit trail
+- Human approval required for high-risk changes
+- Schema validation prevents breaking changes
+- Cannot bypass Approved Rules Engine
+
+**API Surface:**
+- `GET /config/case-types`
+- `GET /config/forms?case_type=...`
+- `GET /config/fields?case_type=...`
+- `GET /config/checklists?case_type=...`
+- `GET /config/templates?template_type=...`
+
+**Interactions with Other Agents:**
+- **Mastermind Agent:** Translates strategic proposals into concrete configuration
+- **Law Intelligence Agent:** Converts law changes into required config updates
+- **Evolution Agent:** Implements improvement suggestions through config changes
+- **All Other Agents:** Consume configuration through standardized APIs
+
+### 4.5 New Agent: Lead Intelligence Agent
 
 **Role:** Lead management and conversion optimization
 
@@ -304,7 +345,7 @@ Build "Canada Immigration OS" — the definitive multi-tenant SaaS platform for 
 - **Dynamic Content:** Personalize marketing messages based on lead profile
 - **Integration Management:** Sync with marketing automation and CRM tools
 
-### 4.5 New Agent: Document Intelligence Agent
+### 4.6 New Agent: Document Intelligence Agent
 
 **Role:** Advanced document processing and automation
 

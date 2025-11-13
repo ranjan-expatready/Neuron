@@ -364,6 +364,7 @@ graph TB
         MASTERMIND[Mastermind Agent]
         LAW_INTEL[Law Intelligence Agent]
         CLIENT_SUCCESS[Client Success Agent]
+        CONFIG_AGENT[Config Agent]
         DOC_INTEL[Document Intelligence Agent]
         ELIGIBILITY[Eligibility Agent]
         WORKFLOW[Workflow Agent]

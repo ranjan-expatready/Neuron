@@ -477,9 +477,130 @@ sequenceDiagram
 
 ---
 
-## 7. Error Handling & Fallback Patterns
+## 7. Configuration Management & Schema Updates Flow
 
-### 7.1 Agent Failure Handling
+This sequence demonstrates how the Config Agent processes natural language configuration requests and safely applies changes to the system.
+
+```mermaid
+sequenceDiagram
+    participant Admin as Admin User
+    participant Console as Admin Console
+    participant ConfigAgent as Config Agent
+    participant Mastermind as Mastermind Agent
+    participant ValidationService as Validation Service
+    participant Database as Configuration DB
+    participant AuditService as Audit Service
+    participant OtherAgents as Other Agents
+    
+    Note over Admin, OtherAgents: Phase 1: Configuration Change Request
+    
+    Admin->>Console: "For Express Entry FSW, add boolean field 'has_canadian_experience' after 'noc_code'"
+    Console->>ConfigAgent: Parse natural language request
+    ConfigAgent->>ConfigAgent: Analyze request intent
+    ConfigAgent->>ConfigAgent: Identify target entities (case_type, field)
+    
+    Note over Admin, OtherAgents: Phase 2: Impact Assessment & Validation
+    
+    ConfigAgent->>ValidationService: Validate proposed changes
+    ValidationService->>Database: Check existing schema
+    ValidationService->>ValidationService: Assess breaking changes
+    ValidationService->>ConfigAgent: Return validation results
+    
+    ConfigAgent->>ConfigAgent: Determine risk level (LOW/MEDIUM/HIGH)
+    
+    alt High Risk Change
+        ConfigAgent->>Database: Create config_change_proposal
+        ConfigAgent->>Mastermind: Request review for law-sensitive change
+        ConfigAgent->>Admin: Notify approval required
+        
+        Note over Admin, OtherAgents: Approval Workflow
+        Mastermind->>Mastermind: Review legal implications
+        Mastermind->>ConfigAgent: Provide approval/rejection
+        
+        alt Approved
+            Admin->>Console: Approve change proposal
+            Console->>ConfigAgent: Execute approved change
+        else Rejected
+            ConfigAgent->>Admin: Notify rejection with reasons
+            ConfigAgent->>Database: Update proposal status to REJECTED
+        end
+    else Low/Medium Risk Change
+        ConfigAgent->>ConfigAgent: Auto-approve with logging
+    end
+    
+    Note over Admin, OtherAgents: Phase 3: Configuration Application
+    
+    ConfigAgent->>Database: Begin transaction
+    ConfigAgent->>Database: Update config_case_types
+    ConfigAgent->>Database: Insert new config_fields record
+    ConfigAgent->>Database: Update form layouts if needed
+    ConfigAgent->>Database: Commit transaction
+    
+    ConfigAgent->>AuditService: Log configuration change
+    ConfigAgent->>Database: Create config_change_log entry
+    
+    Note over Admin, OtherAgents: Phase 4: System Propagation
+    
+    ConfigAgent->>OtherAgents: Notify configuration update
+    OtherAgents->>ConfigAgent: Refresh configuration cache
+    ConfigAgent->>Console: Confirm change applied successfully
+    Console->>Admin: Display success notification
+    
+    Note over Admin, OtherAgents: Phase 5: Validation & Rollback (if needed)
+    
+    ConfigAgent->>ValidationService: Post-change validation
+    ValidationService->>Database: Verify schema integrity
+    ValidationService->>ConfigAgent: Confirm system stability
+    
+    alt Validation Failed
+        ConfigAgent->>Database: Execute rollback plan
+        ConfigAgent->>AuditService: Log rollback action
+        ConfigAgent->>Admin: Notify rollback completed
+    else Validation Passed
+        ConfigAgent->>Admin: Confirm change successfully applied
+    end
+```
+
+### 7.1 Configuration API Interactions
+
+```mermaid
+sequenceDiagram
+    participant ClientApp as Client Application
+    participant APIGateway as API Gateway
+    participant ConfigAgent as Config Agent
+    participant Cache as Redis Cache
+    participant Database as Config DB
+    
+    Note over ClientApp, Database: Configuration Retrieval Pattern
+    
+    ClientApp->>APIGateway: GET /config/forms?case_type=express_entry_fsw
+    APIGateway->>ConfigAgent: Route configuration request
+    
+    ConfigAgent->>Cache: Check cached configuration
+    
+    alt Cache Hit
+        Cache->>ConfigAgent: Return cached config
+    else Cache Miss
+        ConfigAgent->>Database: Query config_forms + config_fields
+        Database->>ConfigAgent: Return configuration data
+        ConfigAgent->>ConfigAgent: Apply org-specific overrides
+        ConfigAgent->>Cache: Store in cache (TTL: 1 hour)
+    end
+    
+    ConfigAgent->>APIGateway: Return formatted configuration
+    APIGateway->>ClientApp: JSON configuration response
+    
+    Note over ClientApp, Database: Cache Invalidation on Updates
+    
+    ConfigAgent->>Cache: Invalidate affected cache keys
+    ConfigAgent->>ConfigAgent: Notify other agent instances
+```
+
+---
+
+## 8. Error Handling & Fallback Patterns
+
+### 8.1 Agent Failure Handling
 
 ```mermaid
 sequenceDiagram
@@ -515,7 +636,7 @@ sequenceDiagram
     end
 ```
 
-### 7.2 Data Consistency Patterns
+### 8.2 Data Consistency Patterns
 
 ```mermaid
 sequenceDiagram
@@ -539,9 +660,9 @@ sequenceDiagram
 
 ---
 
-## 8. Performance Optimization Patterns
+## 9. Performance Optimization Patterns
 
-### 8.1 Caching Strategy
+### 9.1 Caching Strategy
 
 ```mermaid
 sequenceDiagram
@@ -569,7 +690,7 @@ sequenceDiagram
     end
 ```
 
-### 8.2 Batch Processing Pattern
+### 9.2 Batch Processing Pattern
 
 ```mermaid
 sequenceDiagram

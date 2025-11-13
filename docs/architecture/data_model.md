@@ -27,6 +27,7 @@ erDiagram
     ORGANIZATIONS ||--o{ CASES : owns
     ORGANIZATIONS ||--o{ LEADS : manages
     ORGANIZATIONS ||--o{ TEMPLATES : customizes
+    ORGANIZATIONS ||--o{ CONFIG_OVERRIDES : customizes
     
     USERS ||--o{ ORG_MEMBERSHIPS : belongs_to
     USERS ||--o{ CASE_ASSIGNMENTS : assigned_to
@@ -53,6 +54,12 @@ erDiagram
     
     CASES ||--o{ ELIGIBILITY_ASSESSMENTS : evaluated_by
     CASES ||--o{ CRS_CALCULATIONS : scored_by
+    
+    CONFIG_CASE_TYPES ||--o{ CONFIG_FORMS : defines
+    CONFIG_FORMS ||--o{ CONFIG_FIELDS : contains
+    CONFIG_CASE_TYPES ||--o{ CONFIG_CHECKLISTS : uses
+    CONFIG_TEMPLATES ||--o{ CONFIG_OVERRIDES : customized_by
+    CONFIG_CHANGE_PROPOSALS ||--o{ CONFIG_CHANGE_LOG : becomes
 ```
 
 ---
@@ -1014,6 +1021,136 @@ CREATE TABLE config_fields (
     
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Forms Configuration
+CREATE TABLE config_forms (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID REFERENCES organizations(id),
+    case_type_id UUID REFERENCES config_case_types(id),
+    
+    form_key VARCHAR(100) NOT NULL,
+    label VARCHAR(255) NOT NULL,
+    description TEXT,
+    
+    -- Form structure
+    steps JSONB DEFAULT '[]', -- Multi-step form configuration
+    layout JSONB DEFAULT '{}', -- Layout and grouping configuration
+    
+    -- Display
+    display_order INTEGER DEFAULT 0,
+    
+    -- Status
+    is_active BOOLEAN DEFAULT TRUE,
+    
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    
+    UNIQUE(COALESCE(org_id, '00000000-0000-0000-0000-000000000000'), case_type_id, form_key)
+);
+
+-- Checklists Configuration
+CREATE TABLE config_checklists (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID REFERENCES organizations(id),
+    case_type_id UUID REFERENCES config_case_types(id),
+    
+    checklist_key VARCHAR(100) NOT NULL,
+    label VARCHAR(255) NOT NULL,
+    description TEXT,
+    
+    -- Checklist items
+    items JSONB NOT NULL DEFAULT '[]',
+    dependencies JSONB DEFAULT '{}', -- Task dependencies
+    
+    -- Visibility conditions
+    visibility_conditions JSONB DEFAULT '{}',
+    
+    -- Status
+    is_active BOOLEAN DEFAULT TRUE,
+    
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    
+    UNIQUE(COALESCE(org_id, '00000000-0000-0000-0000-000000000000'), case_type_id, checklist_key)
+);
+
+-- Feature Flags Configuration
+CREATE TABLE config_feature_flags (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID REFERENCES organizations(id), -- NULL for system-wide
+    
+    flag_key VARCHAR(100) NOT NULL,
+    label VARCHAR(255) NOT NULL,
+    description TEXT,
+    
+    -- Flag configuration
+    is_enabled BOOLEAN DEFAULT FALSE,
+    config JSONB DEFAULT '{}',
+    
+    -- Rollout configuration
+    rollout_percentage INTEGER DEFAULT 0 CHECK (rollout_percentage >= 0 AND rollout_percentage <= 100),
+    target_users JSONB DEFAULT '[]',
+    
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    
+    UNIQUE(COALESCE(org_id, '00000000-0000-0000-0000-000000000000'), flag_key)
+);
+
+-- Configuration Change Proposals
+CREATE TABLE config_change_proposals (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID REFERENCES organizations(id),
+    
+    -- Proposal details
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    change_type VARCHAR(100) NOT NULL, -- field_add, field_modify, form_update, etc.
+    
+    -- Change specification
+    target_entity VARCHAR(100) NOT NULL, -- case_types, forms, fields, checklists, etc.
+    target_id UUID, -- ID of the entity being changed
+    proposed_changes JSONB NOT NULL,
+    
+    -- Impact assessment
+    risk_level VARCHAR(20) DEFAULT 'MEDIUM' CHECK (risk_level IN ('LOW', 'MEDIUM', 'HIGH')),
+    affected_entities JSONB DEFAULT '[]',
+    rollback_plan TEXT,
+    
+    -- Approval workflow
+    status VARCHAR(50) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED', 'APPLIED')),
+    approved_by UUID REFERENCES users(id),
+    approved_at TIMESTAMP,
+    rejection_reason TEXT,
+    
+    -- Attribution
+    proposed_by UUID REFERENCES users(id),
+    
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Configuration Change Log
+CREATE TABLE config_change_log (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID REFERENCES organizations(id),
+    proposal_id UUID REFERENCES config_change_proposals(id),
+    
+    -- Change details
+    change_type VARCHAR(100) NOT NULL,
+    target_entity VARCHAR(100) NOT NULL,
+    target_id UUID,
+    
+    -- Change data
+    old_values JSONB,
+    new_values JSONB,
+    diff JSONB, -- Computed diff for easy review
+    
+    -- Attribution
+    applied_by UUID REFERENCES users(id),
+    
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Templates
