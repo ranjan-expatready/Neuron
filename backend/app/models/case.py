@@ -33,7 +33,7 @@ class Case(Base):
     government_fees = Column(Integer)  # in cents
     
     # Metadata
-    metadata = Column(JSONB, default={})  # flexible storage for case-specific data
+    case_metadata = Column(JSONB, default={})  # flexible storage for case-specific data
     form_data = Column(JSONB, default={})  # form responses and data
     checklist_data = Column(JSONB, default={})  # checklist completion status
     eligibility_assessment = Column(JSONB, default={})  # eligibility results

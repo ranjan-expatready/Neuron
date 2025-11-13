@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 import os
 from dotenv import load_dotenv
 
@@ -65,7 +66,7 @@ async def root():
 async def health_check(db: Session = Depends(get_db)):
     try:
         # Simple database connectivity check
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         return {"status": "healthy", "database": "connected"}
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Database connection failed: {str(e)}")

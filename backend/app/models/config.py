@@ -16,7 +16,7 @@ class ConfigCaseType(Base):
     category = Column(String(100))  # immigration, study, work, family
     is_active = Column(Boolean, default=True)
     sort_order = Column(Integer, default=0)
-    metadata = Column(JSONB, default={})
+    config_metadata = Column(JSONB, default={})
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -90,7 +90,7 @@ class ConfigChecklist(Base):
     is_active = Column(Boolean, default=True)
     sort_order = Column(Integer, default=0)
     conditions = Column(JSONB, default={})  # conditional logic
-    metadata = Column(JSONB, default={})
+    checklist_metadata = Column(JSONB, default={})
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
