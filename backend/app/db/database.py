@@ -7,15 +7,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/canada_immigration_os_dev")
+# Use SQLite for testing when PostgreSQL is not available
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
 
 # Create SQLAlchemy engine
-engine = create_engine(
-    DATABASE_URL,
-    poolclass=StaticPool,
-    pool_pre_ping=True,
-    echo=os.getenv("DEBUG", "false").lower() == "true"
-)
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(
+        DATABASE_URL,
+        poolclass=StaticPool,
+        connect_args={"check_same_thread": False},
+        echo=os.getenv("DEBUG", "false").lower() == "true"
+    )
+else:
+    engine = create_engine(
+        DATABASE_URL,
+        poolclass=StaticPool,
+        pool_pre_ping=True,
+        echo=os.getenv("DEBUG", "false").lower() == "true"
+    )
 
 # Create SessionLocal class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

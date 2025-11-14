@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, DateTime, Boolean, Integer, Text, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID, JSON
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 import uuid
@@ -9,14 +9,14 @@ from ..db.database import Base
 class ConfigCaseType(Base):
     __tablename__ = "config_case_types"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     code = Column(String(100), unique=True, nullable=False, index=True)  # EXPRESS_ENTRY_FSW, STUDY_PERMIT
     name = Column(String(255), nullable=False)
     description = Column(Text)
     category = Column(String(100))  # immigration, study, work, family
     is_active = Column(Boolean, default=True)
     sort_order = Column(Integer, default=0)
-    config_metadata = Column(JSONB, default={})
+    config_metadata = Column(JSON, default={})
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -31,17 +31,17 @@ class ConfigCaseType(Base):
 class ConfigForm(Base):
     __tablename__ = "config_forms"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    case_type_id = Column(UUID(as_uuid=True), ForeignKey("config_case_types.id", ondelete="CASCADE"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    case_type_id = Column(String(36), ForeignKey("config_case_types.id", ondelete="CASCADE"), nullable=False)
     code = Column(String(100), nullable=False, index=True)  # personal_info, education, work_experience
     name = Column(String(255), nullable=False)
     description = Column(Text)
     step_number = Column(Integer, default=1)
     is_required = Column(Boolean, default=True)
     is_active = Column(Boolean, default=True)
-    form_schema = Column(JSONB, default={})  # JSON schema for form validation
-    ui_schema = Column(JSONB, default={})  # UI rendering configuration
-    validation_rules = Column(JSONB, default={})
+    form_schema = Column(JSON, default={})  # JSON schema for form validation
+    ui_schema = Column(JSON, default={})  # UI rendering configuration
+    validation_rules = Column(JSON, default={})
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -55,8 +55,8 @@ class ConfigForm(Base):
 class ConfigField(Base):
     __tablename__ = "config_fields"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    case_type_id = Column(UUID(as_uuid=True), ForeignKey("config_case_types.id", ondelete="CASCADE"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    case_type_id = Column(String(36), ForeignKey("config_case_types.id", ondelete="CASCADE"), nullable=False)
     form_code = Column(String(100), nullable=False)  # links to ConfigForm.code
     field_code = Column(String(100), nullable=False, index=True)
     field_name = Column(String(255), nullable=False)
@@ -64,8 +64,8 @@ class ConfigField(Base):
     is_required = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
     sort_order = Column(Integer, default=0)
-    validation_rules = Column(JSONB, default={})
-    options = Column(JSONB, default={})  # for select fields, etc.
+    validation_rules = Column(JSON, default={})
+    options = Column(JSON, default={})  # for select fields, etc.
     help_text = Column(Text)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -80,7 +80,7 @@ class ConfigField(Base):
 class ConfigChecklist(Base):
     __tablename__ = "config_checklists"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     case_type_code = Column(String(100), nullable=False, index=True)
     item_code = Column(String(100), nullable=False, index=True)
     item_name = Column(String(255), nullable=False)
@@ -89,8 +89,8 @@ class ConfigChecklist(Base):
     is_required = Column(Boolean, default=True)
     is_active = Column(Boolean, default=True)
     sort_order = Column(Integer, default=0)
-    conditions = Column(JSONB, default={})  # conditional logic
-    checklist_metadata = Column(JSONB, default={})
+    conditions = Column(JSON, default={})  # conditional logic
+    checklist_metadata = Column(JSON, default={})
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -101,14 +101,14 @@ class ConfigChecklist(Base):
 class ConfigTemplate(Base):
     __tablename__ = "config_templates"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     template_type = Column(String(100), nullable=False, index=True)  # email, document, form
     template_code = Column(String(100), nullable=False, index=True)
     name = Column(String(255), nullable=False)
     description = Column(Text)
     subject = Column(String(500))  # for email templates
     content = Column(Text, nullable=False)
-    variables = Column(JSONB, default={})  # available template variables
+    variables = Column(JSON, default={})  # available template variables
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -120,15 +120,15 @@ class ConfigTemplate(Base):
 class ConfigFeatureFlag(Base):
     __tablename__ = "config_feature_flags"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     flag_key = Column(String(100), unique=True, nullable=False, index=True)
     name = Column(String(255), nullable=False)
     description = Column(Text)
     is_enabled = Column(Boolean, default=False)
     rollout_percentage = Column(Integer, default=0)  # 0-100
-    target_orgs = Column(JSONB, default=[])  # specific org IDs
-    target_users = Column(JSONB, default=[])  # specific user IDs
-    conditions = Column(JSONB, default={})  # additional conditions
+    target_orgs = Column(JSON, default=[])  # specific org IDs
+    target_users = Column(JSON, default=[])  # specific user IDs
+    conditions = Column(JSON, default={})  # additional conditions
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 

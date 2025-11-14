@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey, Text, Integer
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID, JSON
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 import uuid
@@ -9,9 +9,9 @@ from ..db.database import Base
 class Case(Base):
     __tablename__ = "cases"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
-    primary_person_id = Column(UUID(as_uuid=True), ForeignKey("persons.id", ondelete="CASCADE"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    org_id = Column(String(36), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
+    primary_person_id = Column(String(36), ForeignKey("persons.id", ondelete="CASCADE"), nullable=False)
     case_number = Column(String(50), unique=True, index=True)  # internal case number
     case_type = Column(String(100), nullable=False)  # EXPRESS_ENTRY_FSW, STUDY_PERMIT, etc.
     status = Column(String(50), default='draft')  # draft, active, submitted, approved, rejected, closed
@@ -33,14 +33,14 @@ class Case(Base):
     government_fees = Column(Integer)  # in cents
     
     # Metadata
-    case_metadata = Column(JSONB, default={})  # flexible storage for case-specific data
-    form_data = Column(JSONB, default={})  # form responses and data
-    checklist_data = Column(JSONB, default={})  # checklist completion status
-    eligibility_assessment = Column(JSONB, default={})  # eligibility results
+    case_metadata = Column(JSON, default={})  # flexible storage for case-specific data
+    form_data = Column(JSON, default={})  # form responses and data
+    checklist_data = Column(JSON, default={})  # checklist completion status
+    eligibility_assessment = Column(JSON, default={})  # eligibility results
     
     # Audit fields
-    assigned_to = Column(UUID(as_uuid=True), ForeignKey("users.id"))
-    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    assigned_to = Column(String(36), ForeignKey("users.id"))
+    created_by = Column(String(36), ForeignKey("users.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     deleted_at = Column(DateTime(timezone=True))

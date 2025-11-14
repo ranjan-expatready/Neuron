@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey, Date
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID, JSON
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 import uuid
@@ -9,8 +9,8 @@ from ..db.database import Base
 class Person(Base):
     __tablename__ = "persons"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    org_id = Column(String(36), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     date_of_birth = Column(Date)
@@ -19,13 +19,13 @@ class Person(Base):
     nationality = Column(String(100))
     passport_number = Column(String(50))
     passport_expiry = Column(Date)
-    address = Column(JSONB, default={})  # structured address data
-    personal_info = Column(JSONB, default={})  # additional personal details
-    immigration_history = Column(JSONB, default={})  # previous applications, visas, etc.
-    education = Column(JSONB, default={})  # education history
-    work_experience = Column(JSONB, default={})  # work experience
-    language_scores = Column(JSONB, default={})  # IELTS, CELPIP, TEF, etc.
-    family_info = Column(JSONB, default={})  # spouse, children, etc.
+    address = Column(JSON, default={})  # structured address data
+    personal_info = Column(JSON, default={})  # additional personal details
+    immigration_history = Column(JSON, default={})  # previous applications, visas, etc.
+    education = Column(JSON, default={})  # education history
+    work_experience = Column(JSON, default={})  # work experience
+    language_scores = Column(JSON, default={})  # IELTS, CELPIP, TEF, etc.
+    family_info = Column(JSON, default={})  # spouse, children, etc.
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     deleted_at = Column(DateTime(timezone=True))

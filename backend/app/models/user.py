@@ -1,22 +1,31 @@
-from sqlalchemy import Column, String, Boolean, DateTime, Text
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy import Column, String, Boolean, DateTime, Text, JSON, JSON
+from sqlalchemy.dialects.postgresql import UUID, JSON
 from sqlalchemy.sql import func
 import uuid
+import os
 from ..db.database import Base
 
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    # Use String for SQLite compatibility, UUID for PostgreSQL
+    if os.getenv("DATABASE_URL", "").startswith("sqlite"):
+        id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+        profile = Column(JSON, default={})
+        preferences = Column(JSON, default={})
+        professional_info = Column(JSON, default={})  # licenses, certifications, etc.
+    else:
+        id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+        profile = Column(JSON, default={})
+        preferences = Column(JSON, default={})
+        professional_info = Column(JSON, default={})  # licenses, certifications, etc.
+    
     email = Column(String(255), unique=True, nullable=False, index=True)
     encrypted_password = Column(String(255), nullable=False)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     phone = Column(String(20))
-    profile = Column(JSONB, default={})
-    preferences = Column(JSONB, default={})
-    professional_info = Column(JSONB, default={})  # licenses, certifications, etc.
     last_login_at = Column(DateTime(timezone=True))
     email_verified_at = Column(DateTime(timezone=True))
     phone_verified_at = Column(DateTime(timezone=True))
