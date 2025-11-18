@@ -76,6 +76,11 @@ CSA (Customer Success Agent)
 Drafting & QA agents
 
 
+**AI Core Architecture**: The detailed design of all AI agents and meta-engines is specified in Thread A (Sections 1-170). See:
+- [Thread A Full Specification](AI_CORE/Neuron_ThreadA_MetaEngines_FULL.md)
+- [Thread A Table of Contents](AI_CORE/Neuron_ThreadA_MetaEngines_TOC.md)  
+- [Thread A Executive Summary](AI_CORE/Neuron_ThreadA_MetaEngines_SUMMARY.md)
+
 Is self-feeding (learns from IRCC/PNP updates) and self-evolving (feature suggestions via Evolution Agent).
 
 Keeps humans in ultimate control of legal rules and important product config.
