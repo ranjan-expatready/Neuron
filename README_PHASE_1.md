@@ -28,6 +28,10 @@ This document explains how to set up and run the Phase 1 implementation of Canad
 │   ├── types/        # TypeScript type definitions
 │   └── tests/        # Frontend tests
 ├── docs/             # Project documentation
+│   ├── AI_CORE/      # AI Core and Meta-Engines specification (Thread A)
+│   ├── architecture/ # System architecture documentation
+│   ├── product/      # Product requirements and specifications
+│   └── *.md          # Master specifications and phase documentation
 ├── infra/            # Infrastructure and deployment configs
 ├── .github/workflows/ # CI/CD workflows
 └── README_PHASE_1.md # This file
