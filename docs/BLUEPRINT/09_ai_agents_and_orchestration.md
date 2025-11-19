@@ -700,6 +700,19 @@ graph LR
 - **Transparency:** Explainable AI decisions
 - **Accountability:** Clear responsibility for AI decisions
 
+## Link to Canonical AI Core / Meta-Engine Specification (Thread A)
+
+The detailed design of Neuron's AI Core (all meta-engines, officer simulation, refusal reconstruction, portfolio viability, universal case preparation, etc.) is defined in the Thread A specification:
+
+- [Neuron Meta-Engines — FULL Specification](../AI_CORE/Neuron_ThreadA_MetaEngines_FULL.md)
+- [Neuron Meta-Engines — Table of Contents](../AI_CORE/Neuron_ThreadA_MetaEngines_TOC.md)
+- [Neuron Meta-Engines — Executive Summary](../AI_CORE/Neuron_ThreadA_MetaEngines_SUMMARY.md)
+
+All future implementations of AI orchestration, case reasoning, refusal-proofing, and officer simulation **must follow these documents as the canonical source of truth**.  
+If implementation ever diverges, engineers must either:
+- update the implementation to match Thread A, or  
+- raise a proposal to evolve the blueprint (with explicit sign-off).
+
 ---
 
 *Document Version: 1.0*  

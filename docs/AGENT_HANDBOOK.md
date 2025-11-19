@@ -934,6 +934,31 @@ log_entry_format:
 
 ---
 
+## AI Core and Meta-Engine Specifications
+
+For detailed AI orchestration, case reasoning, and meta-engine implementation guidance, agents should reference the Thread A specification:
+
+### Primary Reference
+- **[Thread A Executive Summary](AI_CORE/Neuron_ThreadA_MetaEngines_SUMMARY.md)** - Start here for quick orientation and cost-effective token usage
+
+### Detailed Implementation
+- **[Thread A Full Specification](AI_CORE/Neuron_ThreadA_MetaEngines_FULL.md)** - Complete specification for engineers/agents doing deep implementation work
+- **[Thread A Table of Contents](AI_CORE/Neuron_ThreadA_MetaEngines_TOC.md)** - Navigation and section index for targeted reference
+
+### Usage Guidelines
+
+**For Quick Reference**: Read the Executive Summary first to understand the overall architecture and your role within it.
+
+**For Implementation**: Consult specific sections in the Full Specification when implementing AI core features, meta-engines, or orchestration patterns.
+
+**For Navigation**: Use the Table of Contents to jump directly to relevant sections without reading the entire specification.
+
+All agents must ensure their implementations align with the Thread A governance model and meta-engine specifications. Any deviations must be explicitly documented and approved through the proper channels.
+
+**Important**: Thread A represents the canonical AI Core specification. All AI-related development must follow these patterns and constraints.
+
+---
+
 This handbook serves as the definitive guide for multi-agent coordination on the Neuron ImmigrationOS platform. All agents and human operators must follow these protocols to ensure effective collaboration, maintain system quality, and achieve project objectives safely and efficiently.
 
 ---
