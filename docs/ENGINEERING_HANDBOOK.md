@@ -428,6 +428,21 @@ service_design_principles:
 
 ## Branching Strategy
 
+### Repository Status (Updated 2025-11-18)
+
+**Current State**: The repository has been normalized with `main` branch as the canonical source of truth.
+
+#### Historical Branches (Preserved as Backups)
+- `foundation-scaffolding-complete` - Complete foundation scaffold (merged into main)
+- `feature/thread-a-meta-engines` - Thread A AI_CORE documentation (integrated into main)
+- `phase-0-research-architecture-docs` - Early research documentation (preserved)
+
+#### Working Rules for Future Development
+1. **Main Branch Authority** - `main` branch contains all canonical documentation and code
+2. **Feature Development** - All new features branch from and merge back to `main`
+3. **Documentation Updates** - All documentation changes go through `main` branch
+4. **Historical Preservation** - Historical branches preserved as backups, not for active development
+
 ### Git Flow Model
 
 #### Branch Types
