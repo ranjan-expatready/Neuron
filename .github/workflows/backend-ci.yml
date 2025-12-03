@@ -15,8 +15,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: canada_immigration_os
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -51,7 +52,8 @@ jobs:
         working-directory: ./backend
         run: |
           cp .env.example .env
-          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test_db" >> .env
+          # Mirror docker-compose credentials so Alembic/pytest connect successfully.
+          echo "DATABASE_URL=postgresql://postgres:password@localhost:5432/canada_immigration_os" >> .env
 
       - name: Run database migrations
         working-directory: ./backend
@@ -91,7 +93,7 @@ jobs:
           safety check --json --output safety-report.json || true
 
       - name: Upload security reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: security-reports
           path: |

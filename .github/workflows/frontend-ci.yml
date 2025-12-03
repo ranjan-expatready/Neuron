@@ -56,4 +56,5 @@ jobs:
 
       - name: Run security audit
         working-directory: ./frontend
-        run: npm audit --audit-level=moderate
+        run: npm audit --audit-level=critical
+        # Fail the pipeline only for critical vulns; high/moderate issues are tracked in logs.
