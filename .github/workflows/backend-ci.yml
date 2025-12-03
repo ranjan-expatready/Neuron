@@ -54,7 +54,7 @@ jobs:
       - name: Install Playwright browsers (chromium)
         working-directory: ./backend
         run: |
-          python -m playwright install --with-deps chromium
+          python -m playwright install chromium
 
       - name: Set up environment variables
         working-directory: ./backend
