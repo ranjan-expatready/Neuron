@@ -8,7 +8,7 @@ on:
       - ".github/workflows/backend-ci.yml"
 
 jobs:
-  test:
+  backend-tests:
     runs-on: ubuntu-latest
     env:
       # CI database mirrors docker-compose defaults; override any *_dev values from .env.
@@ -80,7 +80,7 @@ jobs:
           flags: backend
           fail_ci_if_error: false
 
-  security:
+  backend-security:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
