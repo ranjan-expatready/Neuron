@@ -1,3 +1,10 @@
+## 2025-12-05 – CI guardrails live on main
+
+- [branch-protection] Updated `main` protection to require `backend-tests` and `frontend-tests` (strict up-to-date, force-push/delete disabled) while allowing 0 required reviews for solo maintenance.
+- [ci] Renamed backend/frontend workflow jobs so each status exposes a unique context, reran the pipelines after the `.env` and Codecov fixes, and confirmed both are green.
+- [merge] Merged PR #2 `chore(ci): standardize CI and guardrails` into `main` and removed `ci-guardrails-setup`.
+- [docs] Logged the guardrail activation in PRODUCT_LOG and the knowledge base so future agents treat backend/frontend CI as mandatory gates.
+
 ## 2025-12-03 – Stabilization & E2E Spine
 
 - [backend] Standardized runtime on Python 3.10.19 with `backend/.venv`, fixed `psycopg2`/`pydantic-settings` compatibility, and added `make e2e-*` helpers plus shared `/api/v1/auth/login` ↔ `/login-json` helper in `backend/src/app/api/routes/auth.py`.

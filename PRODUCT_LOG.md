@@ -40,6 +40,6 @@
 
 ## F. DevOps, CI/CD & Reliability
 
-- ✅ Backend/Frontend CI Pipelines (`.github/workflows/*.yml`) – Lint/test pipelines checked in, pending activation.
+- ✅ CI guardrails active on `main` – GitHub Actions jobs `backend-tests` (pytest + ≥80% coverage on `backend/src`) and `frontend-tests` (lint + build) are required status checks; branch protection keeps force-push/delete disabled and skips approval requirements for solo maintainer flows; E2E spine remains manual via `docs/E2E_SPINE_SETUP.md`.
 - 🟡 Test Infrastructure (`testsprite_tests/*`, `docs/E2E_SPINE_SETUP.md`) – Manual `make e2e-*` flows ready; CI orchestration not yet wired.
 - 🧩 Observability & Alerting (see `blueprint/07_system_architecture.md`, `docs/FAANG_DEVOPS_CI_CD_REVIEW.md`) – Logging/monitoring runbooks defined but not deployed.
