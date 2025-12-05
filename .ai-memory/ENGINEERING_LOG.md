@@ -1,3 +1,9 @@
+## 2025-12-05 – [governance][memory] Engineering governance loop in place
+
+- [docs] Added `docs/ENGINEERING_GOVERNANCE.md` covering agent bootstrap, change types, log rules, and CI guardrails.
+- [kb] Extended `.ai-knowledge-base.json` with a governance section pointing to the doc, ENGINEERING_LOG, and PRODUCT_LOG plus mandatory rules.
+- [product] Noted in PRODUCT_LOG that governance is now a required part of DevOps/CI/CD so future sessions honor persistent memory.
+
 ## 2025-12-03 – Stabilization & E2E Spine
 
 - [backend] Standardized runtime on Python 3.10.19 with `backend/.venv`, fixed `psycopg2`/`pydantic-settings` compatibility, and added `make e2e-*` helpers plus shared `/api/v1/auth/login` ↔ `/login-json` helper in `backend/src/app/api/routes/auth.py`.
