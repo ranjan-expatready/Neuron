@@ -3,13 +3,19 @@
   "last_updated": "2025-12-03T16:20:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
-    "test_directories": ["backend/tests/unit", "backend/tests/integration"],
+    "test_directories": [
+      "backend/tests/unit",
+      "backend/tests/integration"
+    ],
     "commands": [
       "cd backend && pytest",
       "cd backend && pytest -m \"unit\"",
       "cd backend && pytest -m \"integration\""
     ],
-    "markers": ["unit", "integration"]
+    "markers": [
+      "unit",
+      "integration"
+    ]
   },
   "backend_runtime": {
     "python_version": "3.10.19",
@@ -114,7 +120,10 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/app/api", "backend/app/services"],
+      "focus_areas": [
+        "backend/app/api",
+        "backend/app/services"
+      ],
       "last_activity": null
     },
     "Frontend Agent": {
@@ -122,7 +131,9 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["frontend/src"],
+      "focus_areas": [
+        "frontend/src"
+      ],
       "last_activity": null
     },
     "QA Agent": {
@@ -130,7 +141,10 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/tests", "frontend/tests"],
+      "focus_areas": [
+        "backend/tests",
+        "frontend/tests"
+      ],
       "last_activity": null
     },
     "DevOps Agent": {
@@ -138,7 +152,11 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["infra", "docker-compose.yml", ".github"],
+      "focus_areas": [
+        "infra",
+        "docker-compose.yml",
+        ".github"
+      ],
       "last_activity": null
     },
     "AI Orchestration Agent": {
@@ -146,7 +164,9 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/app/services/ai"],
+      "focus_areas": [
+        "backend/app/services/ai"
+      ],
       "last_activity": null
     },
     "TestSprite Agent": {
@@ -154,10 +174,18 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/tests", "frontend/tests", "test coverage"],
+      "focus_areas": [
+        "backend/tests",
+        "frontend/tests",
+        "test coverage"
+      ],
       "last_activity": null,
       "specialization": "Test generation, execution, and coverage monitoring",
-      "tools": ["TestSprite MCP", "pytest", "coverage"]
+      "tools": [
+        "TestSprite MCP",
+        "pytest",
+        "coverage"
+      ]
     }
   },
   "agent_coordination": {
@@ -202,7 +230,9 @@
         "assigned_at": "2025-12-02T22:28:58.440088",
         "estimated_time": "1-2 hours",
         "description": "Verify registration fix works correctly and write comprehensive integration tests. Test various password lengths, login flows, and edge cases.",
-        "dependencies": ["ASSIGN_001"],
+        "dependencies": [
+          "ASSIGN_001"
+        ],
         "waiting_for": null,
         "progress": 100,
         "started_at": "2025-12-02T23:30:00",
@@ -220,7 +250,10 @@
         "assigned_at": "2025-12-02T22:28:58.440089",
         "estimated_time": "30 minutes",
         "description": "Re-run all 10 TestSprite backend tests after registration fix. Verify all tests pass and generate updated test report.",
-        "dependencies": ["ASSIGN_001", "ASSIGN_002"],
+        "dependencies": [
+          "ASSIGN_001",
+          "ASSIGN_002"
+        ],
         "waiting_for": null
       },
       {
@@ -233,7 +266,9 @@
         "assigned_at": "2025-12-02T22:28:58.440090",
         "estimated_time": "1-2 hours",
         "description": "Run TestSprite frontend test plan. Test all frontend pages, components, API integration, and authentication flows.",
-        "dependencies": ["ASSIGN_003"],
+        "dependencies": [
+          "ASSIGN_003"
+        ],
         "waiting_for": "Backend tests to pass"
       },
       {
@@ -245,8 +280,10 @@
         "status": "pending",
         "assigned_at": "2025-12-02T22:28:58.440091",
         "estimated_time": "2-3 hours",
-        "description": "Run comprehensive E2E tests. Test complete user flows: Register \u2192 Login \u2192 Create Case \u2192 Upload Document. Test multi-tenant isolation and cross-browser compatibility.",
-        "dependencies": ["ASSIGN_004"],
+        "description": "Run comprehensive E2E tests. Test complete user flows: Register → Login → Create Case → Upload Document. Test multi-tenant isolation and cross-browser compatibility.",
+        "dependencies": [
+          "ASSIGN_004"
+        ],
         "waiting_for": "Frontend tests to pass"
       },
       {
@@ -283,7 +320,9 @@
         "assigned_at": "2025-12-03T00:15:00",
         "estimated_time": "2-4 days",
         "description": "Build case-task data model, services, and /tasks API (create/list/update, auto-generation hooks, reminders).",
-        "dependencies": ["ASSIGN_006"],
+        "dependencies": [
+          "ASSIGN_006"
+        ],
         "waiting_for": null
       },
       {
@@ -512,8 +551,13 @@
         "status": "completed",
         "completed_at": "2025-12-01T00:00:00",
         "description": "Fixed bcrypt password hashing to handle passwords longer than 72 bytes",
-        "files_modified": ["backend/app/services/auth.py"],
-        "files_created": ["backend/tests/test_auth.py", "AUTH_BUG_FIXED.md"],
+        "files_modified": [
+          "backend/app/services/auth.py"
+        ],
+        "files_created": [
+          "backend/tests/test_auth.py",
+          "AUTH_BUG_FIXED.md"
+        ],
         "impact": "Critical - Enables user registration and login"
       },
       {
@@ -595,7 +639,9 @@
         "status": "completed",
         "completed_at": "2025-12-02T23:45:00",
         "description": "Added parameterized API tests for long + unicode passwords and re-ran auth suites",
-        "files_modified": ["backend/tests/test_auth_endpoints.py"],
+        "files_modified": [
+          "backend/tests/test_auth_endpoints.py"
+        ],
         "impact": "Quality - prevents regressions on password hashing and login flows"
       }
     ],
@@ -684,7 +730,9 @@
         "priority": "P0",
         "status": "in_progress",
         "estimated_time": "2-4 days",
-        "dependencies": ["WORKFLOW_TASK_TEST_PLAN"],
+        "dependencies": [
+          "WORKFLOW_TASK_TEST_PLAN"
+        ],
         "description": "Models, services, API endpoints, reminder hooks, and tests",
         "progress": "5% - modeling phase"
       },
@@ -955,7 +1003,7 @@
         "key_points": [
           "Product Manager/CTO Agent is the single interface for all coordination",
           "User gives high-level goals, agent breaks down and assigns to specialized agents",
-          "Minimal interaction pattern: Give goal \u2192 Check status \u2192 Give feedback",
+          "Minimal interaction pattern: Give goal → Check status → Give feedback",
           "Agent coordinates all work, tracks progress, updates knowledge base",
           "Gold-class quality standards: 80%+ tests, clean code, security, performance"
         ],
@@ -996,7 +1044,7 @@
           "Two-layer memory system: .ai-knowledge-base.json (primary, human-readable) + ChromaDB (vector DB for semantic search)",
           "Agents read knowledge base at start of each session to resume work",
           "Statefulness: Knowledge base persists across sessions, agents continue from saved state",
-          "Daily workflow: Morning check-in \u2192 Continue work \u2192 End of day summary \u2192 Next day resume",
+          "Daily workflow: Morning check-in → Continue work → End of day summary → Next day resume",
           "No context loss: Everything saved in version-controlled knowledge base"
         ],
         "decisions": [
@@ -1011,7 +1059,7 @@
             "impact": "Agents primarily use knowledge base, ChromaDB for advanced semantic queries"
           },
           {
-            "decision": "Daily workflow: Check status \u2192 Continue work \u2192 Update knowledge base",
+            "decision": "Daily workflow: Check status → Continue work → Update knowledge base",
             "reasoning": "User needs simple pattern for daily resumption",
             "impact": "User can resume work with single command, agent handles everything"
           }
@@ -1179,7 +1227,7 @@
           "Test plans should be generated before assignment to guide implementation",
           "Test results must be logged in knowledge base for tracking",
           "Quality gates: Only mark complete when tests pass and coverage meets threshold (80%+)",
-          "Automatic workflow: Code completion \u2192 TestSprite invoked \u2192 Tests run \u2192 Results logged \u2192 Quality ensured"
+          "Automatic workflow: Code completion → TestSprite invoked → Tests run → Results logged → Quality ensured"
         ],
         "decisions": [
           {
@@ -1225,7 +1273,7 @@
         "summary": "User asked about test-driven development and adding TestSprite as dedicated agent under Product Manager/CTO Agent",
         "key_points": [
           "TestSprite Agent created as specialized testing agent",
-          "TDD workflow: Test plan first \u2192 Implementation \u2192 Testing \u2192 Quality check",
+          "TDD workflow: Test plan first → Implementation → Testing → Quality check",
           "Product Manager/CTO Agent coordinates with TestSprite Agent (doesn't invoke TestSprite MCP directly)",
           "TestSprite Agent handles all testing: test plans, execution, coverage monitoring",
           "Better separation of concerns: Product Manager/CTO coordinates, TestSprite Agent specializes",
@@ -1331,10 +1379,10 @@
           "Confirmed: All agents integrated through Product Manager/CTO Agent - user only talks to one agent",
           "Confirmed: Product Manager/CTO Agent decides which agent to invoke and coordinates everything",
           "Upgraded from TDD to FAANG-Style Hybrid Approach: ATDD + Contract Testing + TDD + Property-Based Testing",
-          "ATDD for features: Acceptance criteria \u2192 Tests \u2192 Implementation (better product alignment)",
-          "Contract Testing for APIs: API contracts \u2192 Tests \u2192 Parallel development (faster delivery)",
-          "TDD for implementation: Unit tests \u2192 Implementation (code quality)",
-          "Property-Based Testing for complex logic: Properties \u2192 Tests \u2192 Edge case coverage"
+          "ATDD for features: Acceptance criteria → Tests → Implementation (better product alignment)",
+          "Contract Testing for APIs: API contracts → Tests → Parallel development (faster delivery)",
+          "TDD for implementation: Unit tests → Implementation (code quality)",
+          "Property-Based Testing for complex logic: Properties → Tests → Edge case coverage"
         ],
         "decisions": [
           {
@@ -1377,7 +1425,7 @@
           "Pre-commit hooks: Code formatting, linting, security checks before commit",
           "Branch protection: Prevents direct pushes, requires PR reviews and tests",
           "Semantic versioning: MAJOR.MINOR.PATCH with tags and changelog",
-          "Deployment gates: Staging \u2192 Production with rollback automation",
+          "Deployment gates: Staging → Production with rollback automation",
           "Coverage enforcement: 80%+ coverage required in CI",
           "Code review checklist: FAANG-level quality standards",
           "Release process: Versioned releases with rollback capability"
@@ -1401,7 +1449,7 @@
           {
             "decision": "Add deployment gates with automatic rollback",
             "reasoning": "User wants safe deployments with rollback capability",
-            "impact": "Staging \u2192 Production with health checks and automatic rollback"
+            "impact": "Staging → Production with health checks and automatic rollback"
           },
           {
             "decision": "Enforce 80%+ coverage in CI/CD",
@@ -1518,7 +1566,7 @@
         ],
         "next_steps": [
           "User can use master prompt template for any task",
-          "Product Manager/CTO Agent will always follow: Knowledge base \u2192 FAANG-style \u2192 Multi-agent \u2192 Persistent memory \u2192 Quality gates \u2192 Status report",
+          "Product Manager/CTO Agent will always follow: Knowledge base → FAANG-style → Multi-agent → Persistent memory → Quality gates → Status report",
           "Every task ensures FAANG-level quality and best practices"
         ]
       },
@@ -1631,7 +1679,7 @@
           "Agent reports progress every 5 tasks",
           "Agent continues until complete or session ends",
           "Easy resumption - agent reads knowledge base and continues from saved state",
-          "Daily workflow: Morning resume \u2192 Work autonomously \u2192 End of day status \u2192 Next day resume"
+          "Daily workflow: Morning resume → Work autonomously → End of day status → Next day resume"
         ],
         "decisions": [
           {
@@ -1818,5 +1866,16 @@
     ],
     "last_reviewed": "2025-12-03T00:40:00",
     "overall_coverage_percentage": 0
+  },
+  "governance": {
+    "doc": "docs/ENGINEERING_GOVERNANCE.md",
+    "engineering_log": ".ai-memory/ENGINEERING_LOG.md",
+    "product_log": "PRODUCT_LOG.md",
+    "rules": [
+      "Always run the bootstrap checklist in docs/ENGINEERING_GOVERNANCE.md before making changes.",
+      "Every meaningful change must append to ENGINEERING_LOG with date, tags, modules touched, and test impact.",
+      "Any user-visible or roadmap change must update PRODUCT_LOG under the correct section.",
+      "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and required documentation updates."
+    ]
   }
 }
