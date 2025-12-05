@@ -7,7 +7,7 @@ import sys
 from dotenv import load_dotenv
 
 # Add the app directory to the path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Load environment variables
 load_dotenv()
@@ -21,19 +21,29 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Import all models to ensure they are registered with SQLAlchemy
-from app.models.user import User
-from app.models.organization import Organization, OrganizationMembership
-from app.models.person import Person
-from app.models.case import Case
-from app.models.config import (
-    ConfigCaseType, ConfigForm, ConfigField, 
-    ConfigChecklist, ConfigTemplate, ConfigFeatureFlag
+# Import canonical models so metadata is populated
+from src.app.models import (  # noqa: F401
+    Case,
+    CaseTask,
+    CaseTaskActivity,
+    CaseTaskAssignment,
+    CaseTaskDependency,
+    ConfigCaseType,
+    ConfigChecklist,
+    ConfigFeatureFlag,
+    ConfigField,
+    ConfigForm,
+    ConfigTemplate,
+    Document,
+    Organization,
+    OrganizationMembership,
+    Person,
+    User,
 )
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from app.db.database import Base
+from src.app.db.database import Base
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
