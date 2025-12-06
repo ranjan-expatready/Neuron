@@ -1,3 +1,10 @@
+## 2025-12-06 – [domain][ircc_foundation][octagon] Foundational IRCC knowledge seed (DRAFT)
+
+- Designed an IRCC domain taxonomy under `domain_knowledge/raw` and `domain_knowledge/processed` for CRS, language, work, education, NOC, LMIA, funds, docs, biometrics/medicals, and major program families (EE/PNP/Study/Work/Family/Visitor/Temp/Humanitarian).
+- Collected key IRCC URLs (via Octagon-style research) into `raw/**/sources.md`, each labeled draft/not legally verified.
+- Authored engineer-facing DRAFT overviews for core building blocks, program families, and lifecycle to guide data models, APIs, and workflows.
+- Established `domain_knowledge/index.md` as the entry point; all content marked DRAFT pending SME/legal validation.
+
 ## 2025-12-06 – [governance][domain][octagon] Hybrid domain knowledge pipeline
 
 - Created `domain_knowledge/` (with README) as the canonical store for immigration raw evidence and processed summaries.
