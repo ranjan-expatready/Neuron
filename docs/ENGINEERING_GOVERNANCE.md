@@ -59,3 +59,14 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
 3. **Before pushing:** Run relevant tests (backend-tests, frontend-tests, e2e if touched). Update ENGINEERING_LOG (and PRODUCT_LOG if applicable).
 4. **On PR:** Ensure `backend-tests` and `frontend-tests` are green, and reference the ENGINEERING_LOG entry (date + tags) in the PR description.
 5. **After merge:** Confirm logs/KB are committed so future sessions can resume seamlessly.
+
+## 7. Domain Knowledge Check (IRCC / Immigration)
+- Applies to any CRS, eligibility, checklist, questionnaire, or workflow item tied to immigration rules.
+- **Before implementation:**
+  1. Locate the relevant backlog ID in `PRODUCT_BACKLOG.md` to confirm scope/dependencies.
+  2. Review `domain_knowledge/` (raw + processed) for the supporting IRCC/PNP evidence.
+  3. If evidence is missing or marked draft, use Octagon (or the approved research tool) to discover official sources and propose what to ingest.
+  4. Ask the human owner to confirm priority documents and authorize storing them under `domain_knowledge/raw/`.
+  5. Summarize into `domain_knowledge/processed/` with citations and validation status before writing code.
+- Draft summaries are acceptable for development, but production-critical logic must be reviewed by an immigration SME.
+- **Octagon may accelerate research and drafting, but `domain_knowledge/` remains the canonical store for immigration rules.**

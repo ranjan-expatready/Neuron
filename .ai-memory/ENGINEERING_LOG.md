@@ -1,3 +1,10 @@
+## 2025-12-06 – [governance][domain][octagon] Hybrid domain knowledge pipeline
+
+- Created `domain_knowledge/` (with README) as the canonical store for immigration raw evidence and processed summaries.
+- Documented the Octagon discovery/harvest/structuring workflow in `docs/OCTAGON_DOMAIN_PIPELINE.md` so research stays traceable.
+- Updated `docs/ENGINEERING_GOVERNANCE.md` with a mandatory domain knowledge check before CRS/eligibility/backlog work, clarifying Octagon’s helper role.
+- Extended `.ai-knowledge-base.json` with `domain_knowledge` metadata plus `external_tools.octagon` so future agents follow the pipeline.
+
 ## 2025-12-06 – [product][governance][backlog] Product log + backlog synthesized from blueprints
 
 - [docs] Rebuilt `PRODUCT_LOG.md` so every domain (A–G) now lists ✅/🟡/🔴/🔵 capabilities mapped to `[BP-03…BP-14]` and current implementation reality.
