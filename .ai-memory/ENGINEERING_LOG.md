@@ -1,3 +1,10 @@
+## 2025-12-06 – [product][governance][backlog] Product log + backlog synthesized from blueprints
+
+- [docs] Rebuilt `PRODUCT_LOG.md` so every domain (A–G) now lists ✅/🟡/🔴/🔵 capabilities mapped to `[BP-03…BP-14]` and current implementation reality.
+- [backlog] Created `PRODUCT_BACKLOG.md` with 40+ items across Platform, Access, Cases, Documents, Brain, Automation, Analytics, and Expansion to capture all 🔴/🟡 blueprint gaps.
+- [kb] Extended `.ai-knowledge-base.json` with a `backlog` pointer + usage rules so agents reference backlog IDs before starting work.
+- [memory] Logged this governance update so future sessions treat PRODUCT_LOG + PRODUCT_BACKLOG as the canonical product state.
+
 ## 2025-12-05 – [governance][memory] Engineering governance loop in place
 
 - [docs] Added `docs/ENGINEERING_GOVERNANCE.md` covering agent bootstrap, change types, log rules, and CI guardrails.

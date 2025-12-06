@@ -32,7 +32,7 @@
     "db_url": "sqlite:///./e2e.db",
     "setup_command": "cd backend && source .venv/bin/activate && make e2e-db-reset",
     "run_command": "cd backend && source .venv/bin/activate && make e2e-spine",
-    "description": "Canonical login → dashboard → new case → upload → verify documents."
+    "description": "Canonical login \u2192 dashboard \u2192 new case \u2192 upload \u2192 verify documents."
   },
   "blueprint_docs": {
     "index": "blueprint/00_BLUEPRINT_INDEX.md",
@@ -280,7 +280,7 @@
         "status": "pending",
         "assigned_at": "2025-12-02T22:28:58.440091",
         "estimated_time": "2-3 hours",
-        "description": "Run comprehensive E2E tests. Test complete user flows: Register → Login → Create Case → Upload Document. Test multi-tenant isolation and cross-browser compatibility.",
+        "description": "Run comprehensive E2E tests. Test complete user flows: Register \u2192 Login \u2192 Create Case \u2192 Upload Document. Test multi-tenant isolation and cross-browser compatibility.",
         "dependencies": [
           "ASSIGN_004"
         ],
@@ -1003,7 +1003,7 @@
         "key_points": [
           "Product Manager/CTO Agent is the single interface for all coordination",
           "User gives high-level goals, agent breaks down and assigns to specialized agents",
-          "Minimal interaction pattern: Give goal → Check status → Give feedback",
+          "Minimal interaction pattern: Give goal \u2192 Check status \u2192 Give feedback",
           "Agent coordinates all work, tracks progress, updates knowledge base",
           "Gold-class quality standards: 80%+ tests, clean code, security, performance"
         ],
@@ -1044,7 +1044,7 @@
           "Two-layer memory system: .ai-knowledge-base.json (primary, human-readable) + ChromaDB (vector DB for semantic search)",
           "Agents read knowledge base at start of each session to resume work",
           "Statefulness: Knowledge base persists across sessions, agents continue from saved state",
-          "Daily workflow: Morning check-in → Continue work → End of day summary → Next day resume",
+          "Daily workflow: Morning check-in \u2192 Continue work \u2192 End of day summary \u2192 Next day resume",
           "No context loss: Everything saved in version-controlled knowledge base"
         ],
         "decisions": [
@@ -1059,7 +1059,7 @@
             "impact": "Agents primarily use knowledge base, ChromaDB for advanced semantic queries"
           },
           {
-            "decision": "Daily workflow: Check status → Continue work → Update knowledge base",
+            "decision": "Daily workflow: Check status \u2192 Continue work \u2192 Update knowledge base",
             "reasoning": "User needs simple pattern for daily resumption",
             "impact": "User can resume work with single command, agent handles everything"
           }
@@ -1227,7 +1227,7 @@
           "Test plans should be generated before assignment to guide implementation",
           "Test results must be logged in knowledge base for tracking",
           "Quality gates: Only mark complete when tests pass and coverage meets threshold (80%+)",
-          "Automatic workflow: Code completion → TestSprite invoked → Tests run → Results logged → Quality ensured"
+          "Automatic workflow: Code completion \u2192 TestSprite invoked \u2192 Tests run \u2192 Results logged \u2192 Quality ensured"
         ],
         "decisions": [
           {
@@ -1273,7 +1273,7 @@
         "summary": "User asked about test-driven development and adding TestSprite as dedicated agent under Product Manager/CTO Agent",
         "key_points": [
           "TestSprite Agent created as specialized testing agent",
-          "TDD workflow: Test plan first → Implementation → Testing → Quality check",
+          "TDD workflow: Test plan first \u2192 Implementation \u2192 Testing \u2192 Quality check",
           "Product Manager/CTO Agent coordinates with TestSprite Agent (doesn't invoke TestSprite MCP directly)",
           "TestSprite Agent handles all testing: test plans, execution, coverage monitoring",
           "Better separation of concerns: Product Manager/CTO coordinates, TestSprite Agent specializes",
@@ -1379,10 +1379,10 @@
           "Confirmed: All agents integrated through Product Manager/CTO Agent - user only talks to one agent",
           "Confirmed: Product Manager/CTO Agent decides which agent to invoke and coordinates everything",
           "Upgraded from TDD to FAANG-Style Hybrid Approach: ATDD + Contract Testing + TDD + Property-Based Testing",
-          "ATDD for features: Acceptance criteria → Tests → Implementation (better product alignment)",
-          "Contract Testing for APIs: API contracts → Tests → Parallel development (faster delivery)",
-          "TDD for implementation: Unit tests → Implementation (code quality)",
-          "Property-Based Testing for complex logic: Properties → Tests → Edge case coverage"
+          "ATDD for features: Acceptance criteria \u2192 Tests \u2192 Implementation (better product alignment)",
+          "Contract Testing for APIs: API contracts \u2192 Tests \u2192 Parallel development (faster delivery)",
+          "TDD for implementation: Unit tests \u2192 Implementation (code quality)",
+          "Property-Based Testing for complex logic: Properties \u2192 Tests \u2192 Edge case coverage"
         ],
         "decisions": [
           {
@@ -1425,7 +1425,7 @@
           "Pre-commit hooks: Code formatting, linting, security checks before commit",
           "Branch protection: Prevents direct pushes, requires PR reviews and tests",
           "Semantic versioning: MAJOR.MINOR.PATCH with tags and changelog",
-          "Deployment gates: Staging → Production with rollback automation",
+          "Deployment gates: Staging \u2192 Production with rollback automation",
           "Coverage enforcement: 80%+ coverage required in CI",
           "Code review checklist: FAANG-level quality standards",
           "Release process: Versioned releases with rollback capability"
@@ -1449,7 +1449,7 @@
           {
             "decision": "Add deployment gates with automatic rollback",
             "reasoning": "User wants safe deployments with rollback capability",
-            "impact": "Staging → Production with health checks and automatic rollback"
+            "impact": "Staging \u2192 Production with health checks and automatic rollback"
           },
           {
             "decision": "Enforce 80%+ coverage in CI/CD",
@@ -1566,7 +1566,7 @@
         ],
         "next_steps": [
           "User can use master prompt template for any task",
-          "Product Manager/CTO Agent will always follow: Knowledge base → FAANG-style → Multi-agent → Persistent memory → Quality gates → Status report",
+          "Product Manager/CTO Agent will always follow: Knowledge base \u2192 FAANG-style \u2192 Multi-agent \u2192 Persistent memory \u2192 Quality gates \u2192 Status report",
           "Every task ensures FAANG-level quality and best practices"
         ]
       },
@@ -1679,7 +1679,7 @@
           "Agent reports progress every 5 tasks",
           "Agent continues until complete or session ends",
           "Easy resumption - agent reads knowledge base and continues from saved state",
-          "Daily workflow: Morning resume → Work autonomously → End of day status → Next day resume"
+          "Daily workflow: Morning resume \u2192 Work autonomously \u2192 End of day status \u2192 Next day resume"
         ],
         "decisions": [
           {
@@ -1876,6 +1876,15 @@
       "Every meaningful change must append to ENGINEERING_LOG with date, tags, modules touched, and test impact.",
       "Any user-visible or roadmap change must update PRODUCT_LOG under the correct section.",
       "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and required documentation updates."
+    ]
+  },
+  "backlog": {
+    "file": "PRODUCT_BACKLOG.md",
+    "description": "Canonical backlog synthesized from blueprint/03, blueprint/13, and blueprint/14 so every \ud83d\udd34/\ud83d\udfe1 feature has a tracked ID.",
+    "usage": [
+      "Before starting new work, scan PRODUCT_BACKLOG.md for an existing item ID and reference it in PRs/ENGINEERING_LOG.",
+      "When delivering a feature, update the matching backlog entry\u2019s status/notes and reflect the change in PRODUCT_LOG.",
+      "Use backlog IDs when planning epics so agents share a single scope definition."
     ]
   }
 }
