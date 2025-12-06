@@ -1,0 +1,21 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Schema for proof-of-funds thresholds and exemptions; no amounts included."
+
+thresholds:
+  schema:
+    - family_size: "int"
+      required_amount_cad: "decimal"
+      effective_date: "date"
+      source: "string"
+
+exemptions:
+  - condition: "valid_job_offer_or_cec"
+    description: "Applicants with a valid job offer/LMIA or in CEC may be exempt from PoF thresholds."
+
+validation:
+  - rule: "Amounts must be versioned and dated"
+  - rule: "Currency assumed CAD; conversions handled upstream if needed"
+
+status: "DRAFT – populate amounts from official IRCC table later."

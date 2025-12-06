@@ -1,0 +1,49 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Schema for language tests and CLB mappings. Populate from official IRCC tables."
+
+tests:
+  - code: "IELTS_G"
+    name: "IELTS General Training"
+    skills: ["reading", "writing", "listening", "speaking"]
+    mapping_schema:
+      clb: "int"
+      min_score: "decimal"
+      max_score: "decimal"
+  - code: "CELPIP_G"
+    name: "CELPIP General"
+    skills: ["reading", "writing", "listening", "speaking"]
+    mapping_schema:
+      clb: "int"
+      min_score: "decimal"
+      max_score: "decimal"
+  - code: "TEF_CANADA"
+    name: "TEF Canada"
+    skills: ["reading", "writing", "listening", "speaking"]
+    mapping_schema:
+      clb: "int"
+      min_score: "decimal"
+      max_score: "decimal"
+  - code: "TCF_CANADA"
+    name: "TCF Canada"
+    skills: ["reading", "writing", "listening", "speaking"]
+    mapping_schema:
+      clb: "int"
+      min_score: "decimal"
+      max_score: "decimal"
+
+first_official_language:
+  description: "Points schema for first official language per skill."
+  schema:
+    clb_band: "int"
+    points_per_skill: "int"
+    spouse_variant: "int"
+
+second_official_language:
+  description: "Points schema for second official language per skill."
+  schema:
+    clb_band: "int"
+    points_per_skill: "int"
+
+status: "DRAFT – no real CLB mappings or points until populated from domain_knowledge/raw/crs"

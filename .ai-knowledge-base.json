@@ -114,6 +114,26 @@
       "Skim relevant blueprint docs (e.g., 03/04/06/09/13/14) before domain-heavy tasks."
     ]
   },
+  "governance": {
+    "doc": "docs/ENGINEERING_GOVERNANCE.md",
+    "engineering_log": ".ai-memory/ENGINEERING_LOG.md",
+    "product_log": "PRODUCT_LOG.md",
+    "rules": [
+      "Always run the bootstrap checklist in docs/ENGINEERING_GOVERNANCE.md before making changes.",
+      "Every meaningful change must append to ENGINEERING_LOG with date, tags, modules touched, and test impact.",
+      "Any user-visible or roadmap change must update PRODUCT_LOG under the correct section.",
+      "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and documentation updates."
+    ]
+  },
+  "backlog": {
+    "file": "PRODUCT_BACKLOG.md",
+    "description": "Canonical backlog synthesized from blueprint/03, blueprint/13, and blueprint/14 so every 🔴/🟡 feature has a tracked ID.",
+    "usage": [
+      "Before starting new work, scan PRODUCT_BACKLOG.md for an existing item ID and reference it in PRs/ENGINEERING_LOG.",
+      "When delivering a feature, update the matching backlog entry’s status/notes and reflect the change in PRODUCT_LOG.",
+      "Use backlog IDs when planning epics so agents share a single scope definition."
+    ]
+  },
   "agents": {
     "Backend API Agent": {
       "role": "Implement REST APIs and backend services",
@@ -187,6 +207,21 @@
         "coverage"
       ]
     }
+  },
+  "config_domain": {
+    "root": "config/domain",
+    "files": [
+      "config/domain/crs.yaml",
+      "config/domain/programs.yaml",
+      "config/domain/language.yaml",
+      "config/domain/work_experience.yaml",
+      "config/domain/proof_of_funds.yaml",
+      "config/domain/documents.yaml"
+    ],
+    "rules": [
+      "All immigration logic MUST read from these configs, not from hard-coded constants.",
+      "Any change in IRCC rules MUST be reflected here first."
+    ]
   },
   "agent_coordination": {
     "active_assignments": [

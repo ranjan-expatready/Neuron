@@ -278,6 +278,39 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Source:** BP-03, BP-09, BP-14 Gap #1
 - **Dependencies:** Person profile schema, rule engine
 
+#### [CFG-001] Domain Config Service (backend)
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** HIGH
+- **Phase:** P1 (Foundation)
+- **Type:** Backend Service
+- **Description:** Implement a ConfigService to load/validate `config/domain/*.yaml` (CRS, programs, language, work, PoF, documents) with caching, versioning, and schema validation.
+- **Source:** Config-first governance requirement
+- **Dependencies:** YAML schema definitions, validation library, logging
+
+#### [CFG-002] CI guard: ban hard-coded domain constants
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** HIGH
+- **Phase:** P1
+- **Type:** CI/DevEx
+- **Description:** Add CI checks/lints to prevent hard-coded CRS/eligibility thresholds in backend/src and ensure domain logic reads from config/domain.
+- **Source:** Config-first governance requirement
+- **Dependencies:** ConfigService availability, lint/regex rules
+
+#### [CFG-003] Admin Config UI (domain rules)
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend/Admin
+- **Description:** Build an admin UI to edit `config/domain/*.yaml` with validation, preview, and staged rollout (draft/staging/prod).
+- **Source:** Config-first governance requirement
+- **Dependencies:** ConfigService API, authentication/authorization, validation APIs
+
 #### [BA-002] Eligibility What-If Simulator
 
 - **Domain:** 3.5 Brain & AI

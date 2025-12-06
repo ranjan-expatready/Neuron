@@ -1,0 +1,178 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Structure only; populate from official IRCC CRS tables in domain_knowledge/raw/crs."
+
+factors:
+  age:
+    description: "Age-based CRS points"
+    fields:
+      - name: "min_age"
+        type: "int"
+      - name: "max_age"
+        type: "int"
+      - name: "points_table"
+        type: "list"
+        item_schema:
+          min: "int"
+          max: "int"
+          with_spouse: "int"
+          no_spouse: "int"
+
+  education:
+    description: "Education level CRS points"
+    fields:
+      - name: "level"
+        type: "enum"
+        values:
+          [
+            "none",
+            "secondary",
+            "one-year-postsecondary",
+            "two-year-postsecondary",
+            "bachelor",
+            "two-or-more",
+            "master",
+            "professional",
+            "phd",
+          ]
+      - name: "with_spouse"
+        type: "int"
+      - name: "no_spouse"
+        type: "int"
+
+  language:
+    description: "First/second official language points"
+    fields:
+      - name: "clb_band"
+        type: "int"
+      - name: "skill_points"
+        type: "object"
+        properties:
+          reading: "int"
+          writing: "int"
+          listening: "int"
+          speaking: "int"
+      - name: "spouse_language_points"
+        type: "object"
+        properties:
+          reading: "int"
+          writing: "int"
+          listening: "int"
+          speaking: "int"
+
+  canadian_work:
+    description: "Canadian work experience points"
+    fields:
+      - name: "years_range"
+        type: "object"
+        properties:
+          min_years: "int"
+          max_years: "int"
+      - name: "with_spouse"
+        type: "int"
+      - name: "no_spouse"
+        type: "int"
+
+  foreign_work:
+    description: "Foreign work experience buckets"
+    fields:
+      - name: "years_range"
+        type: "object"
+        properties:
+          min_years: "int"
+          max_years: "int"
+      - name: "points"
+        type: "int"
+
+  spouse:
+    description: "Spouse factors"
+    fields:
+      - name: "education"
+        type: "int"
+      - name: "language_per_skill"
+        type: "int"
+      - name: "canadian_work"
+        type: "int"
+
+  skill_transferability:
+    description: "Transferability factors with caps per IRCC tables"
+    fields:
+      - name: "category"
+        type: "enum"
+        values:
+          - "education_language"
+          - "education_canadian_work"
+          - "foreign_work_language"
+          - "foreign_work_canadian_work"
+          - "certificate_language"
+      - name: "conditions"
+        type: "list"
+        item_schema:
+          description: "string"
+          points: "int"
+      - name: "category_cap"
+        type: "int"
+    overall_cap:
+      type: "int"
+      description: "Max total transferability points"
+
+  additional_points:
+    description: "Additional CRS points"
+    buckets:
+      - name: "pnp_nomination"
+        type: "int"
+        notes: "Typically 600; populate from official table."
+      - name: "arranged_employment"
+        type: "list"
+        item_schema:
+          teer: "string"
+          points: "int"
+      - name: "canadian_study"
+        type: "list"
+        item_schema:
+          duration: "string"
+          points: "int"
+      - name: "french_bonus"
+        type: "list"
+        item_schema:
+          clb_french: "int"
+          clb_english: "int"
+          points: "int"
+      - name: "sibling_in_canada"
+        type: "int"
+      - name: "other"
+        type: "list"
+        item_schema:
+          description: "string"
+          points: "int"
+
+clb_mappings:
+  description: "CLB mapping to test scores (IELTS/CELPIP/TEF/TCF) – placeholders"
+  tests:
+    - name: "IELTS_G"
+      skills: ["reading", "writing", "listening", "speaking"]
+      mapping_schema:
+        clb: "int"
+        min_score: "decimal"
+        max_score: "decimal"
+    - name: "CELPIP_G"
+      skills: ["reading", "writing", "listening", "speaking"]
+      mapping_schema:
+        clb: "int"
+        min_score: "decimal"
+        max_score: "decimal"
+    - name: "TEF_Canada"
+      skills: ["reading", "writing", "listening", "speaking"]
+      mapping_schema:
+        clb: "int"
+        min_score: "decimal"
+        max_score: "decimal"
+    - name: "TCF_Canada"
+      skills: ["reading", "writing", "listening", "speaking"]
+      mapping_schema:
+        clb: "int"
+        min_score: "decimal"
+        max_score: "decimal"
+
+status: "DRAFT – NO REAL POINT VALUES UNTIL POPULATED FROM domain_knowledge/raw/crs"

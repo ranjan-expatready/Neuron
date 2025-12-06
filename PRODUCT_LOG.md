@@ -39,6 +39,7 @@
 - 🔴 Advisory playbooks & compliance guidance – Blueprint `[BP-10]` artifacts exist only in docs.
 - 🔴 Client success / 24×7 support agent – No runtime or UI instrumentation yet `[BP-09]`.
 - 🔵 Document intelligence + AI explainability – Planned via Phase 2 `[BP-13]`; current document service is rule-based only.
+- ✅ Config-first domain layer (`config/domain/*.yaml`) established as the canonical source for immigration rules (CRS, eligibility, documents). Code must not hard-code thresholds; configs drive future engines.
 
 ## E. Agentic & Automation Features
 

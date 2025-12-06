@@ -1,9 +1,11 @@
 # Engineering Governance
 
 ## 1. Purpose & Scope
+
 This document defines the FAANG-style governance loop for every agent (Cursor, GPT, automation scripts, humans) working on Neuron-2. Always read and follow these rules **before** writing code, tests, or docs so that persistent memory, product status, and blueprint intent stay aligned.
 
 ## 2. Agent Bootstrap Checklist
+
 1. **Load runtime + knowledge paths:** Read `.ai-knowledge-base.json` (backend/frontend commands, CI behavior, blueprint links).
 2. **Review product status:** Read `PRODUCT_LOG.md` to understand which features/sections are ✅, 🟡, 🧩, or ⛔.
 3. **Review latest engineering changes:** Read the last few entries in `.ai-memory/ENGINEERING_LOG.md`.
@@ -18,15 +20,16 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
 
 ## 3. Change Types & Required Memory Updates
 
-| Type | Definition | Required updates |
-|------|------------|------------------|
-| **Type A – Backend feature / bugfix** | Touches `backend/src/app/**`, `backend/tests/**`, schemas, services, or APIs. | - Add/adjust backend tests.<br>- Append ENGINEERING_LOG entry (include date, `[backend][area]` tags, summary, key files).<br>- Update PRODUCT_LOG section A/C if behavior or API is user-visible. |
-| **Type B – Frontend feature / bugfix** | Touches `frontend/src/**`, Next.js routes, frontend tests, Playwright flows. | - Add/adjust frontend/unit/E2E tests.<br>- ENGINEERING_LOG entry with `[frontend]` tag.<br>- PRODUCT_LOG section B/C/E if UX changes (screens, flows, data shown). |
-| **Type C – Infra / CI / DevOps** | Touches workflows, Makefiles, Docker, scripts, runtime automation. | - ENGINEERING_LOG entry with `[infra][ci]` tags.<br>- PRODUCT_LOG section F bullet describing the new guardrail/tooling. |
-| **Type D – AI/Agent / Automation / CRS / Brain** | Touches AI agents, orchestration, CRS calculators, automation flows. | - ENGINEERING_LOG entry `[ai][automation]`.<br>- PRODUCT_LOG section D/E bullet describing capability & blueprints referenced.<br>- Reference blueprint/09, blueprint/13 as appropriate. |
-| **Type E – Documentation-only** | Pure docs (blueprint updates, guides, runbooks) without code. | - ENGINEERING_LOG entry `[docs]` when material (new requirements, workflows, policies).<br>- PRODUCT_LOG only if doc introduces/retire user-facing functionality. |
+| Type                                             | Definition                                                                    | Required updates                                                                                                                                                                                  |
+| ------------------------------------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Type A – Backend feature / bugfix**            | Touches `backend/src/app/**`, `backend/tests/**`, schemas, services, or APIs. | - Add/adjust backend tests.<br>- Append ENGINEERING_LOG entry (include date, `[backend][area]` tags, summary, key files).<br>- Update PRODUCT_LOG section A/C if behavior or API is user-visible. |
+| **Type B – Frontend feature / bugfix**           | Touches `frontend/src/**`, Next.js routes, frontend tests, Playwright flows.  | - Add/adjust frontend/unit/E2E tests.<br>- ENGINEERING_LOG entry with `[frontend]` tag.<br>- PRODUCT_LOG section B/C/E if UX changes (screens, flows, data shown).                                |
+| **Type C – Infra / CI / DevOps**                 | Touches workflows, Makefiles, Docker, scripts, runtime automation.            | - ENGINEERING_LOG entry with `[infra][ci]` tags.<br>- PRODUCT_LOG section F bullet describing the new guardrail/tooling.                                                                          |
+| **Type D – AI/Agent / Automation / CRS / Brain** | Touches agent prompts, automation, CRS calculators, orchestration.            | - ENGINEERING_LOG entry `[ai][automation]`.<br>- PRODUCT_LOG section D/E bullet describing capability & blueprints referenced.<br>- Reference blueprint/09, blueprint/13 as appropriate.          |
+| **Type E – Documentation-only**                  | Pure docs (blueprint updates, guides, runbooks) without code.                 | - ENGINEERING_LOG entry `[docs]` when material (new requirements, workflows, policies).<br>- PRODUCT_LOG only if doc introduces/retire user-facing functionality.                                 |
 
 **Example ENGINEERING_LOG entry (Type C):**
+
 ```
 ## 2025-12-05 – [ci][devops] CI guardrails live on main
 - [branch-protection] Required `backend-tests` + `frontend-tests`, strict up-to-date, no force pushes.
@@ -35,25 +38,29 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
 ```
 
 **Example PRODUCT_LOG bullet (Type B):**
+
 ```
 - ✅ Client login UX hardened – `/auth/login` now uses JSON endpoint, adds inline validation, and redirects to `/dashboard` after success.
 ```
 
 ## 4. Engineering Log Format
-* File: `.ai-memory/ENGINEERING_LOG.md`
-* Heading format: `## YYYY-MM-DD – [tags] short summary`
-* Use concise bullets (3–6 lines) covering:
+
+- File: `.ai-memory/ENGINEERING_LOG.md`
+- Heading format: `## YYYY-MM-DD – [tags] short summary`
+- Use concise bullets (3–6 lines) covering:
   - Area (backend/frontend/infra/ai/docs).
   - Key modules or files.
   - Tests/CI impact or follow-up work.
-* Always append (never rewrite history). List newest entry at the top.
+- Always append (never rewrite history). List newest entry at the top.
 
 ## 5. Product Log Usage
-* `PRODUCT_LOG.md` is the single source of truth for product readiness (sections A–F).
-* Any change that affects user-visible behavior, roadmap status, or Go-To-Market messaging **must** update the relevant section.
-* Before proposing or building new work, agents MUST read PRODUCT_LOG to avoid duplicating completed work or diverging from roadmap priorities.
+
+- `PRODUCT_LOG.md` is the single source of truth for product readiness (sections A–F).
+- Any change that affects user-visible behavior, roadmap status, or Go-To-Market messaging **must** update the relevant section.
+- Before proposing or building new work, agents MUST read PRODUCT_LOG to avoid duplicating completed work or diverging from roadmap priorities.
 
 ## 6. Governance Loop Summary
+
 1. **Before coding:** Run the Agent Bootstrap Checklist (Section 2).
 2. **During implementation:** Keep each change scoped to one change type when possible; follow its required memory/product updates.
 3. **Before pushing:** Run relevant tests (backend-tests, frontend-tests, e2e if touched). Update ENGINEERING_LOG (and PRODUCT_LOG if applicable).
@@ -61,6 +68,7 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
 5. **After merge:** Confirm logs/KB are committed so future sessions can resume seamlessly.
 
 ## 7. Domain Knowledge Check (IRCC / Immigration)
+
 - Applies to any CRS, eligibility, checklist, questionnaire, or workflow item tied to immigration rules.
 - **Before implementation:**
   1. Locate the relevant backlog ID in `PRODUCT_BACKLOG.md` to confirm scope/dependencies.
@@ -70,3 +78,27 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
   5. Summarize into `domain_knowledge/processed/` with citations and validation status before writing code.
 - Draft summaries are acceptable for development, but production-critical logic must be reviewed by an immigration SME.
 - **Octagon may accelerate research and drafting, but `domain_knowledge/` remains the canonical store for immigration rules.**
+
+## 8. Config-First Domain Rules
+
+- All immigration rules (CRS, eligibility thresholds, documents, points) must be sourced from `config/domain/*.yaml` (config-first layer). No hard-coded domain constants are permitted in backend/src or frontend/src.
+- Any domain rule change MUST:
+  1. Update `config/domain/*.yaml` with the new values and notes.
+  2. Add/adjust tests covering the affected logic.
+  3. Append `.ai-memory/ENGINEERING_LOG.md` with date/tags/summary.
+  4. Update `PRODUCT_LOG.md` / `PRODUCT_BACKLOG.md` when user-visible behavior or roadmap scope changes.
+- Services should consume domain config through a dedicated ConfigService (validated, cached), not ad hoc file reads.
+- Keep configs versioned and mark status (DRAFT/REVIEWED) before production use.
+
+## 9. Domain Knowledge Check (IRCC / Immigration)
+
+- **Trigger:** Any backlog item or change touching CRS scoring, eligibility logic, questionnaires, document checklists, workflows, or other immigration-specific functionality.
+- **Required steps:**
+  1. Look up the related backlog ID in `PRODUCT_BACKLOG.md` to understand scope and dependencies.
+  2. Review `domain_knowledge/` (raw + processed) for the authoritative IRCC/PNP material that supports the change.
+  3. If the needed evidence is missing or unverified:
+     - Use Octagon (or the assigned research tool) to discover official sources and propose what should be downloaded.
+     - Coordinate with the human owner to confirm priority sources and approve storing them under `domain_knowledge/raw/`.
+     - Summarize into `domain_knowledge/processed/` with source citations and validation status before shipping code.
+  4. Keep drafts clearly labeled until a subject-matter expert reviews them; production-critical rules must not ship without review.
+- Agents may leverage Octagon to accelerate research and drafting, **but `domain_knowledge/` remains the canonical store for immigration rules**. Always update the repository before implementing or modifying domain logic.
