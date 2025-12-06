@@ -1,0 +1,19 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+
+flags:
+  crs_calculator_beta:
+    enabled: false
+    description: "New CRS calculator UI/engine."
+  ai_assistant_beta:
+    enabled: false
+    description: "In-app AI immigration assistant."
+  workflow_automation_beta:
+    enabled: false
+    description: "Automatic task/checklist generation for cases."
+  octagon_domain_refresh:
+    enabled: true
+    description: "Allow Octagon-based domain refresh pipeline."
+
+status: "DRAFT – flags are placeholders; wire to services after validation."

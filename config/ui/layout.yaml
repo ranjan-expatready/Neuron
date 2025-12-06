@@ -1,0 +1,44 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+
+layout:
+  navigation:
+    style: "sidebar"
+    sections:
+      - id: "dashboard"
+        label: "Dashboard"
+        icon: "home"
+        route: "/dashboard"
+        enabled: true
+      - id: "cases"
+        label: "Cases"
+        icon: "folder"
+        route: "/cases"
+        enabled: true
+      - id: "crs_calculator"
+        label: "CRS Calculator"
+        icon: "calculator"
+        route: "/tools/crs"
+        enabled: false
+      - id: "reports"
+        label: "Reports"
+        icon: "chart"
+        route: "/reports"
+        enabled: false
+  header:
+    show_tenant_logo: true
+    show_environment_badge: true
+  dashboard:
+    sections:
+      - id: "my_cases"
+        title: "My Active Cases"
+        enabled: true
+      - id: "tasks"
+        title: "Tasks"
+        enabled: true
+      - id: "crs_quick_tool"
+        title: "Quick CRS Check"
+        enabled: false
+
+status: "DRAFT – layout entries are examples; wire into Layout builder later."

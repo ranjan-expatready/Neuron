@@ -1,0 +1,30 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Structure only; real tenant themes managed via admin/config flow."
+
+theme:
+  name: "default"
+  typography:
+    font_family: "system-ui"
+    font_scale:
+      body: 1.0
+      heading: 1.2
+      title: 1.4
+  colors:
+    primary: "#0052CC"
+    primary_light: "#4C9AFF"
+    primary_dark: "#0747A6"
+    accent: "#FFAB00"
+    danger: "#DE350B"
+    success: "#36B37E"
+    surface_background: "#F4F5F7"
+    text_primary: "#172B4D"
+    text_muted: "#6B778C"
+  border_radius:
+    button: "0.375rem"
+    card: "0.5rem"
+  spacing:
+    unit: 4
+
+status: "DRAFT – theme values are examples; replace via admin-configured themes."
