@@ -1,3 +1,51 @@
+## 2025-12-06 – [domain][crs][octagon_ingest_v1] CRS ingestion attempt (DRAFT)
+
+- Targeted CRS domain ingestion using official IRCC/Canada.ca URLs (CRS page, eligibility page, NOC site). Network access unavailable in this environment; raw file documents sources + TODOs to populate exact tables.
+- Added `domain_knowledge/raw/crs/sources.md` with official URLs and explicit TODO to copy full CRS point tables (core/spouse/transferability/additional) once accessible.
+- Added processed overview `domain_knowledge/processed/core_overview/crs_overview.md` outlining data model and deterministic CRS computation steps, with TODOs to inject exact point values/CLB thresholds when fetched.
+- No code or workflow changes; content remains DRAFT until IRCC tables are imported verbatim.
+
+## 2025-12-06 – [config][domain][governance] Config-first domain layer established (DRAFT)
+
+- Created `config/domain/` with draft schemas (`crs.yaml`, `programs.yaml`, `language.yaml`, `work_experience.yaml`, `proof_of_funds.yaml`, `documents.yaml`) plus README stating config-first rules; no real IRCC values added.
+- Updated `docs/ENGINEERING_GOVERNANCE.md` with Config-First Domain Rules: no hard-coded thresholds; all changes must flow through config/domain + tests + logs/product updates.
+- Extended `.ai-knowledge-base.json` with `config_domain` pointers; added PRODUCT_LOG bullet and PRODUCT_BACKLOG items `[CFG-001..003]` for ConfigService, CI guard, and admin UI.
+- No runtime wiring yet; tests unchanged (not run in this docs/config task).
+
+## 2025-12-06 – [product][governance][backlog] Product log + backlog synthesized from blueprints
+
+- [docs] Rebuilt `PRODUCT_LOG.md` so every domain (A–G) now lists ✅/🟡/🔴/🔵 capabilities mapped to `[BP-03…BP-14]` and current implementation reality.
+- [backlog] Created `PRODUCT_BACKLOG.md` with 40+ items across Platform, Access, Cases, Documents, Brain, Automation, Analytics, and Expansion to capture all 🔴/🟡 blueprint gaps.
+- [kb] Extended `.ai-knowledge-base.json` with a `backlog` pointer + usage rules so agents reference backlog IDs before starting work.
+- [memory] Logged this governance update so future sessions treat PRODUCT_LOG + PRODUCT_BACKLOG as the canonical product state.
+
+## 2025-12-06 – [product][governance][backlog] Product log + backlog synthesized from blueprints
+
+- [docs] Rebuilt `PRODUCT_LOG.md` so every domain (A–G) now lists ✅/🟡/🔴/🔵 capabilities mapped to `[BP-03…BP-14]` and current implementation reality.
+- [backlog] Created `PRODUCT_BACKLOG.md` with 40+ items across Platform, Access, Cases, Documents, Brain, Automation, Analytics, and Expansion to capture all 🔴/🟡 blueprint gaps.
+- [kb] Extended `.ai-knowledge-base.json` with a `backlog` pointer + usage rules so agents reference backlog IDs before starting work.
+- [memory] Logged this governance update so future sessions treat PRODUCT_LOG + PRODUCT_BACKLOG as the canonical product state.
+
+## 2025-12-05 – [governance][memory] Engineering governance loop in place
+
+- [docs] Added `docs/ENGINEERING_GOVERNANCE.md` covering agent bootstrap, change types, log rules, and CI guardrails.
+- [kb] Extended `.ai-knowledge-base.json` with a governance section pointing to the doc, ENGINEERING_LOG, and PRODUCT_LOG plus mandatory rules.
+- [product] Noted in PRODUCT_LOG that governance is now a required part of DevOps/CI/CD so future sessions honor persistent memory.
+
+## 2025-12-05 – CI guardrails live on main
+
+- [branch-protection] Switched `main` protection to require the GitHub Actions jobs `backend-tests` and `frontend-tests` (strict up-to-date, app_id=15368), kept force-push/delete disabled, and relaxed review count to 0 for solo maintainer flow.
+- [ci] Gave backend/frontend workflows unique job names, regenerated runs, and confirmed both pipelines pass after the `.env` + Codecov fixes.
+- [merge] With required checks green, merged PR #2 `chore(ci): standardize CI and guardrails` into `main` (auto-deleted `ci-guardrails-setup`).
+- [next] Documented the guardrails activation in PRODUCT_LOG and knowledge base so future agents treat backend/frontend CI as required gates for every PR.
+
+## 2025-12-05 – CI guardrails live on main
+
+- [branch-protection] Updated `main` protection to require the GitHub Actions jobs `backend-tests` and `frontend-tests` (strict up-to-date, app_id=15368) while keeping force-push/delete disabled and relaxing approving reviews to 0 for solo maintenance.
+- [ci] Renamed backend/frontend workflow jobs so each status has a unique context, regenerated runs after the `.env`/Codecov fixes, and confirmed both pipelines are green.
+- [merge] Merged PR #2 `chore(ci): standardize CI and guardrails` into `main` and auto-deleted `ci-guardrails-setup`.
+- [docs] Refreshed PRODUCT_LOG + knowledge base so future agents treat backend/frontend CI as required gates on every PR.
+
 ## 2025-12-03 – Stabilization & E2E Spine
 
 - [backend] Standardized runtime on Python 3.10.19 with `backend/.venv`, fixed `psycopg2`/`pydantic-settings` compatibility, and added `make e2e-*` helpers plus shared `/api/v1/auth/login` ↔ `/login-json` helper in `backend/src/app/api/routes/auth.py`.

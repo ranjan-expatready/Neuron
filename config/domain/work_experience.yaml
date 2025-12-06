@@ -1,0 +1,35 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Schema for Canadian and foreign work experience; no point values yet."
+
+canadian_work:
+  fields:
+    - name: "years_range"
+      type: "object"
+      properties:
+        min_years: "int"
+        max_years: "int"
+    - name: "teer_levels"
+      type: "list"
+      item_schema: "string"
+    - name: "points_with_spouse"
+      type: "int"
+    - name: "points_no_spouse"
+      type: "int"
+
+foreign_work:
+  fields:
+    - name: "years_range"
+      type: "object"
+      properties:
+        min_years: "int"
+        max_years: "int"
+    - name: "points"
+      type: "int"
+
+validation:
+  - rule: "Work experience must map to valid NOC/TEER codes"
+  - rule: "Continuous employment flag may be required by certain programs"
+
+status: "DRAFT – populate with official thresholds in later ingestion."

@@ -1,0 +1,55 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Schema for document categories and requirements; no program-specific lists yet."
+
+categories:
+  - code: "identity"
+    description: "Passports, IDs, birth certificates"
+  - code: "civil_status"
+    description: "Marriage, divorce, custody"
+  - code: "police"
+    description: "Police certificates / clearances"
+  - code: "medical"
+    description: "Medical exams, biometrics"
+  - code: "education"
+    description: "Degrees, transcripts, ECA reports"
+  - code: "employment"
+    description: "Job letters, pay stubs, reference letters"
+  - code: "funds"
+    description: "Bank letters, statements"
+  - code: "other"
+    description: "Miscellaneous supporting docs"
+
+requirements_schema:
+  description: "Template for program/stage-specific document requirements"
+  fields:
+    - name: "program_code"
+      type: "string"
+    - name: "stage"
+      type: "string"
+    - name: "category"
+      type: "enum"
+      values:
+        [
+          "identity",
+          "civil_status",
+          "police",
+          "medical",
+          "education",
+          "employment",
+          "funds",
+          "other",
+        ]
+    - name: "mandatory"
+      type: "bool"
+    - name: "description"
+      type: "string"
+    - name: "validity_days"
+      type: "int"
+    - name: "translation_required"
+      type: "bool"
+    - name: "source_ref"
+      type: "string"
+
+status: "DRAFT – fill program-specific document lists after rule ingestion."
