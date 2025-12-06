@@ -32,3 +32,5 @@ This index points to IRCC-related materials stored in this repository. All conte
 2. Consult core building blocks in `processed/{crs,language,noc,work_experience,education,...}` for data model hints.
 3. Trace back to `raw/**/sources.md` to see the underlying IRCC URLs and notes before implementing or refining rules.
 4. Treat everything here as **draft** until reviewed by an immigration SME; flag gaps in processed files before coding.
+
+CI touch: trigger backend/frontend CI
