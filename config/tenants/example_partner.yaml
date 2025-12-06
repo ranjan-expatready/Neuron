@@ -1,0 +1,27 @@
+meta:
+  tenant_code: "example_partner"
+  name: "Example Partner Tenant"
+  status: "ACTIVE"
+  theme_ref: "config/ui/theme.yaml"
+  layout_ref: "config/ui/layout.yaml"
+
+modules:
+  express_entry: true
+  pnp: true
+  study: false
+  work: true
+  family: true
+  visitor: true
+  humanitarian: false
+
+limits:
+  max_active_cases: 300
+  max_users: 50
+  storage_gb: 50
+
+features:
+  enable_crs_calculator: true
+  enable_ai_assistant: false
+  enable_workflow_automation: false
+
+status: "DRAFT – sample partner configuration; replace with real tenant settings."
