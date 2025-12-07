@@ -60,3 +60,9 @@
 - [tests] Checked in the restored pytest spine under `backend/tests/{unit,integration,e2e}`, aligned fixtures with `src.app` imports, and kept Playwright e2e gated by `RUN_E2E`.
 - [ci] Updated `backend-ci` to install Playwright browsers and leveraged the existing pytest.ini coverage gate (≥80%); local run now reports ~82.2% line coverage across `src/app`.
 - [lint] Ran ruff/black on the new source, normalized exception handling (`raise … from err`), and configured ruff to keep Optional[...] syntax until a broader typing pass.
+
+## 2025-12-07 – [domain][ircc_ingest_browser][coverage_v1]
+
+- Created `domain_knowledge/COVERAGE_CHECKLIST.md` summarizing Cycle 1 coverage for CRS, language, work_experience, education, NOC, proof_of_funds, documents, biometrics_medicals, and Express Entry.
+- Added backlog items [IRCC-201..205] for CLB mappings, CRS transferability, language thresholds, NOC crosswalk, and biometrics/medical rules.
+- Documentation-only change; no runtime code or configs modified.

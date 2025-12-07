@@ -366,6 +366,56 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Source:** BP-09, BP-13
 - **Dependencies:** Law intelligence ingestion, reporting engine
 
+#### [IRCC-201] CRS CLB mappings
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** HIGH
+- **Phase:** P1
+- **Type:** Backend rules/config
+- **Description:** Add CLB-to-test score mapping tables (IELTS/CELPIP/TEF/TCF) to `config/domain/crs.yaml` and wire to CRS computation.
+- **Dependencies:** Language test parser, config loader
+
+#### [IRCC-202] CRS transferability tables
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** HIGH
+- **Phase:** P1
+- **Type:** Backend rules/config
+- **Description:** Model CRS skill-transferability combinations (education×language, foreign×Canadian work, certificate×language) as config-driven tables.
+- **Dependencies:** CRS config schema, validation tests
+
+#### [IRCC-203] Language CLB thresholds
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** HIGH
+- **Phase:** P1
+- **Type:** Backend rules/config
+- **Description:** Externalize CLB program minima for CEC/FSW/FST and per-ability CLB mappings for each accepted test in `config/domain/language.yaml`.
+- **Dependencies:** Language test ingestion, config loader
+
+#### [IRCC-204] NOC/TEER crosswalk
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** MEDIUM
+- **Phase:** P1
+- **Type:** Data/Integration
+- **Description:** Design NOC 2021 code ↔ TEER crosswalk service with change monitoring; avoid copying full dataset—link to authoritative source.
+- **Dependencies:** External NOC dataset/endpoint, caching
+
+#### [IRCC-205] Biometrics & medical rules
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔴 Missing
+- **Priority:** MEDIUM
+- **Phase:** P1
+- **Type:** Rules/config
+- **Description:** Clarify medical exam validity, reuse rules, and biometrics deadlines; create “medical_required” checklist logic in domain knowledge/config.
+- **Dependencies:** Domain knowledge updates, config schemas, workflow integration
+
 ### 3.6 Agentic & Automation
 
 #### [AA-001] Multi-Agent Runtime & Scheduler
