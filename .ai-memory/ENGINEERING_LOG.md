@@ -85,3 +85,8 @@
 - Extended `.ai-knowledge-base.json` with `repo_hygiene` rules pointer.
 - Backlog: added [ENG-999] Repo hygiene monitor (planned) to enforce clean main/branch protection.
 - Docs-only; no runtime code or configs changed.
+
+## 2025-12-08 – [domain][ircc_cycle2][biometrics_medicals_validity_v1]
+- Ingested biometrics/medical validity & reuse from IRCC (biometrics page; temp/PR medical exam pages); captured in `raw/biometrics_medicals/validity_sources.md` + `validity_tables.md` and updated processed overview.
+- Updated coverage checklist (Biometrics/Medicals) and backlog IRCC-205 to reflect Cycle 2.3 progress (validity/reuse drafted; implementation pending).
+- Domain-only documentation; no runtime code changes.
