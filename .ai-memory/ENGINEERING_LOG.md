@@ -72,3 +72,10 @@
 - Recorded program minima from Express Entry language-test page (2025-08-21) for CEC TEER splits, FSW first/second, and FST thresholds.
 - Files: `domain_knowledge/raw/language/clb_sources.md`, `clb_tables.md`, `processed/language/clb_overview.md`; references added in processed overview.
 - Status: DRAFT; SME/legal validation still required; no backend/frontend/config changes.
+
+## 2025-12-08 – [domain][ircc_cycle2][crs_transferability_ingest_v1]
+- Ingested CRS skill transferability and additional-points tables from IRCC CRS criteria page (check-score/crs-criteria.html, date modified 2025-08-21) via HTTP fetch (Browser Tab unavailable in session).
+- Added raw sources/tables: `domain_knowledge/raw/crs/transferability_sources.md`, `domain_knowledge/raw/crs/transferability_tables.md` (education+language, education+Canadian work, foreign work+language, foreign work+Canadian work, certificate+language; additional points PNP/French/sibling/Canadian study).
+- Added processed overview: `domain_knowledge/processed/core_overview/crs_transferability.md` with engineering guidance to read tables from config (DRAFT, SME validation pending).
+- Updated coverage checklist to reflect transferability tables captured (still DRAFT) and set IRCC-202 to In Progress.
+- No backend/frontend/config runtime changes; documentation/domain knowledge only.
