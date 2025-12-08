@@ -79,3 +79,9 @@
 - Added processed overview: `domain_knowledge/processed/core_overview/crs_transferability.md` with engineering guidance to read tables from config (DRAFT, SME validation pending).
 - Updated coverage checklist to reflect transferability tables captured (still DRAFT) and set IRCC-202 to In Progress.
 - No backend/frontend/config runtime changes; documentation/domain knowledge only.
+
+## 2025-12-08 – [governance][repo_hygiene][docs_only]
+- Added repo hygiene & branch workflow rules to `docs/ENGINEERING_GOVERNANCE.md` (feature branches, clean main, protection template, automation expectations).
+- Extended `.ai-knowledge-base.json` with `repo_hygiene` rules pointer.
+- Backlog: added [ENG-999] Repo hygiene monitor (planned) to enforce clean main/branch protection.
+- Docs-only; no runtime code or configs changed.
