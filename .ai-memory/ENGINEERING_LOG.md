@@ -68,12 +68,14 @@
 - Documentation-only change; no runtime code or configs modified.
 
 ## 2025-12-07 – [domain][language][clb_cycle_2_1]
+
 - Ingested CLB/NCLC tables (CELPIP-G, IELTS GT, PTE Core, TEF Canada post-2023 and 2019–2023, TCF Canada) from IRCC PGWP language-results page (2025-07-09).
 - Recorded program minima from Express Entry language-test page (2025-08-21) for CEC TEER splits, FSW first/second, and FST thresholds.
 - Files: `domain_knowledge/raw/language/clb_sources.md`, `clb_tables.md`, `processed/language/clb_overview.md`; references added in processed overview.
 - Status: DRAFT; SME/legal validation still required; no backend/frontend/config changes.
 
 ## 2025-12-08 – [domain][ircc_cycle2][crs_transferability_ingest_v1]
+
 - Ingested CRS skill transferability and additional-points tables from IRCC CRS criteria page (check-score/crs-criteria.html, date modified 2025-08-21) via HTTP fetch (Browser Tab unavailable in session).
 - Added raw sources/tables: `domain_knowledge/raw/crs/transferability_sources.md`, `domain_knowledge/raw/crs/transferability_tables.md` (education+language, education+Canadian work, foreign work+language, foreign work+Canadian work, certificate+language; additional points PNP/French/sibling/Canadian study).
 - Added processed overview: `domain_knowledge/processed/core_overview/crs_transferability.md` with engineering guidance to read tables from config (DRAFT, SME validation pending).
@@ -81,12 +83,20 @@
 - No backend/frontend/config runtime changes; documentation/domain knowledge only.
 
 ## 2025-12-08 – [governance][repo_hygiene][docs_only]
+
 - Added repo hygiene & branch workflow rules to `docs/ENGINEERING_GOVERNANCE.md` (feature branches, clean main, protection template, automation expectations).
 - Extended `.ai-knowledge-base.json` with `repo_hygiene` rules pointer.
 - Backlog: added [ENG-999] Repo hygiene monitor (planned) to enforce clean main/branch protection.
 - Docs-only; no runtime code or configs changed.
 
 ## 2025-12-08 – [domain][ircc_cycle2][biometrics_medicals_validity_v1]
+
 - Ingested biometrics/medical validity & reuse from IRCC (biometrics page; temp/PR medical exam pages); captured in `raw/biometrics_medicals/validity_sources.md` + `validity_tables.md` and updated processed overview.
 - Updated coverage checklist (Biometrics/Medicals) and backlog IRCC-205 to reflect Cycle 2.3 progress (validity/reuse drafted; implementation pending).
 - Domain-only documentation; no runtime code changes.
+
+## 2025-12-08 – [domain][ircc_cycle2][program_rules_adr_v1]
+
+- Ingested Express Entry program rules (FSW/CEC/FST + EE-aligned PNP) into raw sources and processed program overview; program gates before CRS, CLB/PoF/work references noted (DRAFT).
+- Captured ADR patterns and workflows (triggers, deadlines, portal submission) in raw and processed ADR docs for checklist/flag design (DRAFT).
+- Updated coverage checklist and backlog (IRCC-206/207/208; statuses for IRCC-201..205 set to in-progress where ingested) reflecting Cycle 2.4 scope; no runtime code changes.

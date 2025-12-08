@@ -369,7 +369,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [IRCC-201] CRS CLB mappings
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔴 Missing
+- **Status:** 🟡 In Progress – CLB tables ingested; config wiring pending
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend rules/config
@@ -379,7 +379,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [IRCC-202] CRS transferability tables
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔴 Missing
+- **Status:** 🟡 In Progress – transferability tables ingested; config wiring pending
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend rules/config
@@ -389,7 +389,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [IRCC-203] Language CLB thresholds
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔴 Missing
+- **Status:** 🟡 In Progress – program minima captured; wiring to config/runtime pending
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend rules/config
@@ -409,12 +409,42 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [IRCC-205] Biometrics & medical rules
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔴 Missing
+- **Status:** 🟡 In Progress – validity/reuse drafted; rule-engine wiring pending
 - **Priority:** MEDIUM
 - **Phase:** P1
 - **Type:** Rules/config
 - **Description:** Clarify medical exam validity, reuse rules, and biometrics deadlines; create “medical_required” checklist logic in domain knowledge/config.
 - **Dependencies:** Domain knowledge updates, config schemas, workflow integration
+
+#### [IRCC-206] Express Entry program rules (FSW/CEC/FST/PNP) – engine wiring
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P1
+- **Type:** Rules/config
+- **Description:** Implement program eligibility evaluation (FSW/CEC/FST + EE-aligned PNP flag) using config-driven thresholds (language CLB, work TEER, education/ECA, funds) before CRS ranking.
+- **Dependencies:** Program rules docs, CLB tables, work/education models, PoF rules
+
+#### [IRCC-207] ADR engine & UI flows
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P2
+- **Phase:** P1
+- **Type:** Rules/config + UX
+- **Description:** Model ADR categories/flags (work, funds, education, identity/police, medical/biometrics), tie to checklist templates, due dates, and applicant notifications.
+- **Dependencies:** ADR overview, documents pipeline, workflow/task/notifications
+
+#### [IRCC-208] PNP linkage rules (Express Entry)
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P2
+- **Phase:** P1
+- **Type:** Rules/config
+- **Description:** Capture enhanced vs non-EE PNP handling, +600 CRS nomination application, and routing impacts on eligibility/checklists.
+- **Dependencies:** CRS additional points, program family docs, province stream metadata
 
 ### 3.6 Agentic & Automation
 
