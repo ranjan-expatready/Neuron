@@ -100,3 +100,9 @@
 - Ingested Express Entry program rules (FSW/CEC/FST + EE-aligned PNP) into raw sources and processed program overview; program gates before CRS, CLB/PoF/work references noted (DRAFT).
 - Captured ADR patterns and workflows (triggers, deadlines, portal submission) in raw and processed ADR docs for checklist/flag design (DRAFT).
 - Updated coverage checklist and backlog (IRCC-206/207/208; statuses for IRCC-201..205 set to in-progress where ingested) reflecting Cycle 2.4 scope; no runtime code changes.
+
+## 2025-12-08 – [domain][ircc_cycle2][noc_arranged_employment_v1]
+
+- Added NOC/TEER crosswalk notes and EE skilled vs non-skilled mapping (TEER 0–3 eligible) in raw/processed docs; flagged need for external lookup and PNP overrides.
+- Captured arranged employment program rules (valid job offer, TEER 0–3, LMIA vs LMIA-exempt, duration/non-seasonal) in raw sources and work experience overview.
+- Updated coverage checklist and backlog (IRCC-209 NOC/TEER resolver, IRCC-210 arranged employment rules; IRCC-201..205 statuses unchanged) to reflect Cycle 2.5 scope; no runtime code changes.
