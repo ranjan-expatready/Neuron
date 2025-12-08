@@ -66,3 +66,9 @@
 - Created `domain_knowledge/COVERAGE_CHECKLIST.md` summarizing Cycle 1 coverage for CRS, language, work_experience, education, NOC, proof_of_funds, documents, biometrics_medicals, and Express Entry.
 - Added backlog items [IRCC-201..205] for CLB mappings, CRS transferability, language thresholds, NOC crosswalk, and biometrics/medical rules.
 - Documentation-only change; no runtime code or configs modified.
+
+## 2025-12-07 – [domain][language][clb_cycle_2_1]
+- Ingested CLB/NCLC tables (CELPIP-G, IELTS GT, PTE Core, TEF Canada post-2023 and 2019–2023, TCF Canada) from IRCC PGWP language-results page (2025-07-09).
+- Recorded program minima from Express Entry language-test page (2025-08-21) for CEC TEER splits, FSW first/second, and FST thresholds.
+- Files: `domain_knowledge/raw/language/clb_sources.md`, `clb_tables.md`, `processed/language/clb_overview.md`; references added in processed overview.
+- Status: DRAFT; SME/legal validation still required; no backend/frontend/config changes.
