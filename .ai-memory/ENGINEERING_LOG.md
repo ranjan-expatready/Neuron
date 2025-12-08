@@ -112,3 +112,9 @@
 - Authored rule engine design docs (`docs/RULE_ENGINE_OVERVIEW.md`, `docs/RULE_ENGINE_CRS_ELIGIBILITY.md`) covering architecture, inputs/outputs, config-first mapping, and edge cases (CRS + eligibility).
 - Updated `.ai-knowledge-base.json` with `rule_engine` pointers; extended backlog with ENG-RULE-001..003 for engine skeleton, config wiring, and golden tests.
 - Documentation-only; no runtime code or configs changed.
+
+## 2025-12-08 – [backend][rule_engine][skeleton]
+
+- Implemented initial rule engine skeleton (models, config port stub, RuleEngine, RuleEngineService) without hard-coded IRCC constants; config to be replaced by YAML in ENG-RULE-002.
+- Added basic eligibility checks for FSW/CEC and placeholder CRS breakdown; included expiry warning flags for language/medical.
+- Added unit tests for FSW/CEC happy/failure paths; backend-only changes, no domain_knowledge or frontend edits.
