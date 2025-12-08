@@ -106,3 +106,9 @@
 - Added NOC/TEER crosswalk notes and EE skilled vs non-skilled mapping (TEER 0–3 eligible) in raw/processed docs; flagged need for external lookup and PNP overrides.
 - Captured arranged employment program rules (valid job offer, TEER 0–3, LMIA vs LMIA-exempt, duration/non-seasonal) in raw sources and work experience overview.
 - Updated coverage checklist and backlog (IRCC-209 NOC/TEER resolver, IRCC-210 arranged employment rules; IRCC-201..205 statuses unchanged) to reflect Cycle 2.5 scope; no runtime code changes.
+
+## 2025-12-08 – [design][rule_engine][docs_only]
+
+- Authored rule engine design docs (`docs/RULE_ENGINE_OVERVIEW.md`, `docs/RULE_ENGINE_CRS_ELIGIBILITY.md`) covering architecture, inputs/outputs, config-first mapping, and edge cases (CRS + eligibility).
+- Updated `.ai-knowledge-base.json` with `rule_engine` pointers; extended backlog with ENG-RULE-001..003 for engine skeleton, config wiring, and golden tests.
+- Documentation-only; no runtime code or configs changed.
