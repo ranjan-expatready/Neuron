@@ -3,19 +3,13 @@
   "last_updated": "2025-12-03T16:20:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
-    "test_directories": [
-      "backend/tests/unit",
-      "backend/tests/integration"
-    ],
+    "test_directories": ["backend/tests/unit", "backend/tests/integration"],
     "commands": [
       "cd backend && pytest",
       "cd backend && pytest -m \"unit\"",
       "cd backend && pytest -m \"integration\""
     ],
-    "markers": [
-      "unit",
-      "integration"
-    ]
+    "markers": ["unit", "integration"]
   },
   "backend_runtime": {
     "python_version": "3.10.19",
@@ -140,10 +134,7 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": [
-        "backend/app/api",
-        "backend/app/services"
-      ],
+      "focus_areas": ["backend/app/api", "backend/app/services"],
       "last_activity": null
     },
     "Frontend Agent": {
@@ -151,9 +142,7 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": [
-        "frontend/src"
-      ],
+      "focus_areas": ["frontend/src"],
       "last_activity": null
     },
     "QA Agent": {
@@ -161,10 +150,7 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": [
-        "backend/tests",
-        "frontend/tests"
-      ],
+      "focus_areas": ["backend/tests", "frontend/tests"],
       "last_activity": null
     },
     "DevOps Agent": {
@@ -172,11 +158,7 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": [
-        "infra",
-        "docker-compose.yml",
-        ".github"
-      ],
+      "focus_areas": ["infra", "docker-compose.yml", ".github"],
       "last_activity": null
     },
     "AI Orchestration Agent": {
@@ -184,9 +166,7 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": [
-        "backend/app/services/ai"
-      ],
+      "focus_areas": ["backend/app/services/ai"],
       "last_activity": null
     },
     "TestSprite Agent": {
@@ -194,18 +174,10 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": [
-        "backend/tests",
-        "frontend/tests",
-        "test coverage"
-      ],
+      "focus_areas": ["backend/tests", "frontend/tests", "test coverage"],
       "last_activity": null,
       "specialization": "Test generation, execution, and coverage monitoring",
-      "tools": [
-        "TestSprite MCP",
-        "pytest",
-        "coverage"
-      ]
+      "tools": ["TestSprite MCP", "pytest", "coverage"]
     }
   },
   "config_domain": {
@@ -221,6 +193,15 @@
     "rules": [
       "All immigration logic MUST read from these configs, not from hard-coded constants.",
       "Any change in IRCC rules MUST be reflected here first."
+    ]
+  },
+  "rule_engine": {
+    "overview": "docs/RULE_ENGINE_OVERVIEW.md",
+    "crs_eligibility": "docs/RULE_ENGINE_CRS_ELIGIBILITY.md",
+    "rules": [
+      "Read RULE_ENGINE_OVERVIEW.md before implementing any rule code.",
+      "Use RULE_ENGINE_CRS_ELIGIBILITY.md as the canonical mapping from domain_knowledge to engine modules.",
+      "Do not hard-code IRCC constants; fetch from config/domain YAMLs informed by domain_knowledge."
     ]
   },
   "agent_coordination": {
@@ -265,9 +246,7 @@
         "assigned_at": "2025-12-02T22:28:58.440088",
         "estimated_time": "1-2 hours",
         "description": "Verify registration fix works correctly and write comprehensive integration tests. Test various password lengths, login flows, and edge cases.",
-        "dependencies": [
-          "ASSIGN_001"
-        ],
+        "dependencies": ["ASSIGN_001"],
         "waiting_for": null,
         "progress": 100,
         "started_at": "2025-12-02T23:30:00",
@@ -285,10 +264,7 @@
         "assigned_at": "2025-12-02T22:28:58.440089",
         "estimated_time": "30 minutes",
         "description": "Re-run all 10 TestSprite backend tests after registration fix. Verify all tests pass and generate updated test report.",
-        "dependencies": [
-          "ASSIGN_001",
-          "ASSIGN_002"
-        ],
+        "dependencies": ["ASSIGN_001", "ASSIGN_002"],
         "waiting_for": null
       },
       {
@@ -301,9 +277,7 @@
         "assigned_at": "2025-12-02T22:28:58.440090",
         "estimated_time": "1-2 hours",
         "description": "Run TestSprite frontend test plan. Test all frontend pages, components, API integration, and authentication flows.",
-        "dependencies": [
-          "ASSIGN_003"
-        ],
+        "dependencies": ["ASSIGN_003"],
         "waiting_for": "Backend tests to pass"
       },
       {
@@ -316,9 +290,7 @@
         "assigned_at": "2025-12-02T22:28:58.440091",
         "estimated_time": "2-3 hours",
         "description": "Run comprehensive E2E tests. Test complete user flows: Register → Login → Create Case → Upload Document. Test multi-tenant isolation and cross-browser compatibility.",
-        "dependencies": [
-          "ASSIGN_004"
-        ],
+        "dependencies": ["ASSIGN_004"],
         "waiting_for": "Frontend tests to pass"
       },
       {
@@ -355,9 +327,7 @@
         "assigned_at": "2025-12-03T00:15:00",
         "estimated_time": "2-4 days",
         "description": "Build case-task data model, services, and /tasks API (create/list/update, auto-generation hooks, reminders).",
-        "dependencies": [
-          "ASSIGN_006"
-        ],
+        "dependencies": ["ASSIGN_006"],
         "waiting_for": null
       },
       {
@@ -586,13 +556,8 @@
         "status": "completed",
         "completed_at": "2025-12-01T00:00:00",
         "description": "Fixed bcrypt password hashing to handle passwords longer than 72 bytes",
-        "files_modified": [
-          "backend/app/services/auth.py"
-        ],
-        "files_created": [
-          "backend/tests/test_auth.py",
-          "AUTH_BUG_FIXED.md"
-        ],
+        "files_modified": ["backend/app/services/auth.py"],
+        "files_created": ["backend/tests/test_auth.py", "AUTH_BUG_FIXED.md"],
         "impact": "Critical - Enables user registration and login"
       },
       {
@@ -674,9 +639,7 @@
         "status": "completed",
         "completed_at": "2025-12-02T23:45:00",
         "description": "Added parameterized API tests for long + unicode passwords and re-ran auth suites",
-        "files_modified": [
-          "backend/tests/test_auth_endpoints.py"
-        ],
+        "files_modified": ["backend/tests/test_auth_endpoints.py"],
         "impact": "Quality - prevents regressions on password hashing and login flows"
       }
     ],
@@ -765,9 +728,7 @@
         "priority": "P0",
         "status": "in_progress",
         "estimated_time": "2-4 days",
-        "dependencies": [
-          "WORKFLOW_TASK_TEST_PLAN"
-        ],
+        "dependencies": ["WORKFLOW_TASK_TEST_PLAN"],
         "description": "Models, services, API endpoints, reminder hooks, and tests",
         "progress": "5% - modeling phase"
       },
@@ -1901,26 +1862,6 @@
     ],
     "last_reviewed": "2025-12-03T00:40:00",
     "overall_coverage_percentage": 0
-  },
-  "governance": {
-    "doc": "docs/ENGINEERING_GOVERNANCE.md",
-    "engineering_log": ".ai-memory/ENGINEERING_LOG.md",
-    "product_log": "PRODUCT_LOG.md",
-    "rules": [
-      "Always run the bootstrap checklist in docs/ENGINEERING_GOVERNANCE.md before making changes.",
-      "Every meaningful change must append to ENGINEERING_LOG with date, tags, modules touched, and test impact.",
-      "Any user-visible or roadmap change must update PRODUCT_LOG under the correct section.",
-      "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and required documentation updates."
-    ]
-  },
-  "backlog": {
-    "file": "PRODUCT_BACKLOG.md",
-    "description": "Canonical backlog synthesized from blueprint/03, blueprint/13, and blueprint/14 so every 🔴/🟡 feature has a tracked ID.",
-    "usage": [
-      "Before starting new work, scan PRODUCT_BACKLOG.md for an existing item ID and reference it in PRs/ENGINEERING_LOG.",
-      "When delivering a feature, update the matching backlog entry’s status/notes and reflect the change in PRODUCT_LOG.",
-      "Use backlog IDs when planning epics so agents share a single scope definition."
-    ]
   },
   "domain_knowledge": {
     "path": "domain_knowledge/",

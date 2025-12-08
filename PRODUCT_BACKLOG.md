@@ -466,6 +466,36 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Implement arranged-employment validation (TEER 0–3, LMIA/LMIA-exempt job offer, duration, non-seasonal, employer constraints) and expose to eligibility + CRS engines.
 - **Dependencies:** Arranged employment docs, work experience model, employer/LMIA data
 
+#### [ENG-RULE-001] Implement rule engine skeleton
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P1
+- **Phase:** P1
+- **Type:** Backend rules/config
+- **Description:** Implement core rule engine that takes a normalized candidate profile and produces eligibility + CRS breakdown per program, using config/domain YAMLs and domain_knowledge as reference.
+- **Dependencies:** RULE_ENGINE_OVERVIEW.md, RULE_ENGINE_CRS_ELIGIBILITY.md, config/domain schemas
+
+#### [ENG-RULE-002] Wire config/domain to rule engine
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P1
+- **Phase:** P1
+- **Type:** Backend rules/config
+- **Description:** Define YAML schemas for CRS and eligibility (e.g., crs.yaml, eligibility.yaml) and load/validate them in the rule engine.
+- **Dependencies:** rule engine skeleton, schema design, domain_knowledge references
+
+#### [ENG-RULE-003] Golden test suite for CRS & eligibility
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P2
+- **Phase:** P1
+- **Type:** Testing
+- **Description:** Add golden test cases for eligibility and CRS, including edge cases (continuity gaps, TEER 4/5 rejection, expiring tests/medicals/biometrics, funds exemptions), using domain_knowledge as oracle.
+- **Dependencies:** rule engine skeleton, config wiring, test fixtures from domain_knowledge
+
 ### 3.6 Agentic & Automation
 
 #### [AA-001] Multi-Agent Runtime & Scheduler
