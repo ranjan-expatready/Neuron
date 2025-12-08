@@ -48,11 +48,11 @@
 
 ### 1.5 NOC / TEER
 
-- Status: 🟡
-- Raw: `domain_knowledge/raw/noc/sources.md`
+- Status: 🟡 (Cycle 2.5 – crosswalk & EE eligibility mapping ingested; SME validation pending)
+- Raw: `domain_knowledge/raw/noc/sources.md`, `domain_knowledge/raw/noc/crosswalk_sources.md`
 - Processed: `domain_knowledge/processed/noc/overview.md`
-- Covered: NOC 2021 adoption; TEER 0–5 definitions and examples; link to official NOC search.
-- Missing / TODO: Full NOC code crosswalk; mapping guidance for arranged employment eligibility; change-monitor strategy for NOC updates.
+- Covered: NOC 2021 adoption; TEER 0–5 definitions; skilled vs non-skilled for EE (TEER 0–3 eligible); crosswalk guidance and need for external lookup.
+- Missing / TODO: Full NOC code table; automated TEER resolver; province-specific overrides; change monitoring.
 
 ### 1.6 Proof of Funds
 
@@ -85,6 +85,14 @@
 - Processed: `domain_knowledge/processed/program_families/express_entry.md`
 - Covered: FSW/CEC/FST program rules (language, work, education/ECA, funds), +600 PNP nomination, program gate before CRS, continuous vs part-time equivalence, reuse of CLB/PoF/work models.
 - Missing / TODO: Full FSW 67-point grid, detailed trades list, province-specific PNP rules, draw/category-based selection references, SME validation and engine wiring.
+
+### 1.10 Arranged Employment (Express Entry Context)
+
+- Status: 🟡 (Cycle 2.5 – validity rules captured; SME validation pending)
+- Raw: `domain_knowledge/raw/work_experience/arranged_employment_sources.md`
+- Processed: `domain_knowledge/processed/work_experience/overview.md`
+- Covered: Valid job offer definition (TEER 0–3, full-time, non-seasonal, ≥1 year post-PR), LMIA vs LMIA-exempt employer-specific permits, separation from general work history, engineering model hints.
+- Missing / TODO: Detailed LMIA exemption catalogue, province-specific nuances, automated validation hooks, SME validation.
 
 ## 2. Summary for Engineering Planning
 

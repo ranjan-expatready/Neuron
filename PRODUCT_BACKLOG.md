@@ -446,6 +446,26 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Capture enhanced vs non-EE PNP handling, +600 CRS nomination application, and routing impacts on eligibility/checklists.
 - **Dependencies:** CRS additional points, program family docs, province stream metadata
 
+#### [IRCC-209] NOC/TEER eligibility resolver
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P1
+- **Phase:** P1
+- **Type:** Rules/config
+- **Description:** Implement NOC 2021 → TEER lookup and EE eligibility flagging (skilled vs non-skilled), with change monitoring and external lookup support.
+- **Dependencies:** NOC crosswalk docs, work experience model, config/external datasets
+
+#### [IRCC-210] Arranged employment rules (EE)
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P1
+- **Phase:** P1
+- **Type:** Rules/config
+- **Description:** Implement arranged-employment validation (TEER 0–3, LMIA/LMIA-exempt job offer, duration, non-seasonal, employer constraints) and expose to eligibility + CRS engines.
+- **Dependencies:** Arranged employment docs, work experience model, employer/LMIA data
+
 ### 3.6 Agentic & Automation
 
 #### [AA-001] Multi-Agent Runtime & Scheduler
