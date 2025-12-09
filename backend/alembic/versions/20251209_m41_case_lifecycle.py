@@ -58,6 +58,9 @@ def upgrade():
         )
 
     user_columns = {col["name"] for col in inspector.get_columns("users")}
+    unique_constraints = {c.get("name") for c in inspector.get_unique_constraints("users")}
+    indexes = {i.get("name") for i in inspector.get_indexes("users")}
+
     with op.batch_alter_table("users") as batch_op:
         if "tenant_id" not in user_columns:
             batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
@@ -67,14 +70,10 @@ def upgrade():
             batch_op.add_column(sa.Column("hashed_password", sa.String(length=255), nullable=True))
         if "role" not in user_columns:
             batch_op.add_column(sa.Column("role", sa.String(length=50), server_default="agent", nullable=False))
-        try:
+        if "users_email_key" in unique_constraints:
             batch_op.drop_constraint("users_email_key", type_="unique")
-        except Exception:
-            pass
-        try:
+        if "ix_users_email" in indexes:
             batch_op.drop_index("ix_users_email")
-        except Exception:
-            pass
         if "tenant_id" in user_columns:
             batch_op.create_foreign_key("fk_users_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
         batch_op.create_unique_constraint("uq_users_tenant_email", ["tenant_id", "email"])
