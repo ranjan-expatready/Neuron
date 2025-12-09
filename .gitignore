@@ -257,6 +257,9 @@ public
 .yarn/unplugged
 .yarn/build-state.yml
 .yarn/install-state.gz
+
+# Cursor / local IDE state
+.cursor/
 .pnp.*
 
 # IDEs

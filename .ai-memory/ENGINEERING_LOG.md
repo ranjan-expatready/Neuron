@@ -19,6 +19,12 @@
 - Extended CaseRecord/Snapshot/Event with tenant_id + creator and lifecycle statuses; added CaseLifecycleService and API (`/api/v1/case-lifecycle/*`).
 - Docs/KB/backlog/product log updated for M4.1; tests cover tenant/user models, lifecycle service, and lifecycle API; branch protection restored post-merge.
 
+## 2025-12-09 – [chore][repo_hygiene] Normalize scripts and .cursor handling
+
+- Added `.cursor/` to `.gitignore` (local IDE state; keep untracked).
+- Reviewed `backend/run_tests.py`, `backend/start_backend.sh`, `scripts/dev-setup.sh` — left as-is after confirming alignment with existing workflows; no hard-coded local paths added.
+- Tests: backend `source .venv/bin/activate && pytest -q` ✅; frontend `cd frontend && npm test` ✅.
+
 ## 2025-12-09 – [frontend][admin_config_ui][m3_2]
 
 - Added read-only Admin Config UI at `/admin/config` (sidebar sections + JSON detail) consuming Admin Config API; shows banner, summaries, and dev mock fallback if API is inaccessible.
