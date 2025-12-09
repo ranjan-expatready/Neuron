@@ -112,9 +112,6 @@
 - Authored rule engine design docs (`docs/RULE_ENGINE_OVERVIEW.md`, `docs/RULE_ENGINE_CRS_ELIGIBILITY.md`) covering architecture, inputs/outputs, config-first mapping, and edge cases (CRS + eligibility).
 - Updated `.ai-knowledge-base.json` with `rule_engine` pointers; extended backlog with ENG-RULE-001..003 for engine skeleton, config wiring, and golden tests.
 - Documentation-only; no runtime code or configs changed.
-  <<<<<<< Updated upstream
-  =======
-
 ## 2025-12-08 – [backend][rule_engine][skeleton]
 
 - Implemented initial rule engine skeleton (models, config port stub, RuleEngine, RuleEngineService) without hard-coded IRCC constants; config to be replaced by YAML in ENG-RULE-002.
@@ -126,10 +123,14 @@
 - Wired rule engine to `config/domain/*.yaml` via typed `DomainRulesConfig` and `config_loader`; removed hard-coded thresholds.
 - Added config models/loaders, updated engine/service to consume config, and expanded tests (config-driven outcomes, loader happy/error cases).
 - Refreshed domain configs (language, work experience, PoF, programs, arranged employment, biometrics) and docs/KB/backlog to reflect config-first wiring.
-  > > > > > > > Stashed changes
 
 ## 2025-12-09 – [tests][backend][local_pytest]
 
 - Branch: feature/rule-engine-config-wiring; scope: rule engine config wiring.
 - Ran pytest via backend/.venv310 (Python 3.10.19); result: 151 passed, 4 skipped, 18 warnings; coverage 82.94% (meets ≥80%).
 - Note: original backend/.venv pointed to old path; used fresh .venv310 for local run. CI (backend-tests/frontend-tests) remains the final gate.
+## 2025-12-09 – [governance][repo_reset][auto]
+- Safety backup pushed: safety/local-dirty-20251209-090825 (untracked files only; venv excluded for size).
+- Reset main to origin/main and cleaned working tree with `git clean -xfd`.
+- Verified branch protection: required checks backend-tests/frontend-tests, strict=true, enforce_admins=true, reviews=0.
+- No runtime code touched.
