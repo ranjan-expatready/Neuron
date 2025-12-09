@@ -79,20 +79,34 @@ def upgrade():
         batch_op.create_unique_constraint("uq_users_tenant_email", ["tenant_id", "email"])
         batch_op.create_index("ix_users_email", ["email"])
 
+    case_record_columns = {col["name"] for col in inspector.get_columns("case_records")}
+    case_record_fks = {fk.get("name") for fk in inspector.get_foreign_keys("case_records")}
     with op.batch_alter_table("case_records") as batch_op:
-        batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
-        batch_op.add_column(sa.Column("created_by_user_id", sa.String(length=36), nullable=True))
+        if "tenant_id" not in case_record_columns:
+            batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
+        if "created_by_user_id" not in case_record_columns:
+            batch_op.add_column(sa.Column("created_by_user_id", sa.String(length=36), nullable=True))
         batch_op.alter_column("status", server_default="draft")
-        batch_op.create_foreign_key("fk_case_records_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
-        batch_op.create_foreign_key("fk_case_records_user", "users", ["created_by_user_id"], ["id"], ondelete="SET NULL")
+        if "fk_case_records_tenant" not in case_record_fks:
+            batch_op.create_foreign_key("fk_case_records_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
+        if "fk_case_records_user" not in case_record_fks:
+            batch_op.create_foreign_key("fk_case_records_user", "users", ["created_by_user_id"], ["id"], ondelete="SET NULL")
 
+    case_snapshot_columns = {col["name"] for col in inspector.get_columns("case_snapshots")}
+    case_snapshot_fks = {fk.get("name") for fk in inspector.get_foreign_keys("case_snapshots")}
     with op.batch_alter_table("case_snapshots") as batch_op:
-        batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
-        batch_op.create_foreign_key("fk_case_snapshots_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
+        if "tenant_id" not in case_snapshot_columns:
+            batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
+        if "fk_case_snapshots_tenant" not in case_snapshot_fks:
+            batch_op.create_foreign_key("fk_case_snapshots_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
 
+    case_event_columns = {col["name"] for col in inspector.get_columns("case_events")}
+    case_event_fks = {fk.get("name") for fk in inspector.get_foreign_keys("case_events")}
     with op.batch_alter_table("case_events") as batch_op:
-        batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
-        batch_op.create_foreign_key("fk_case_events_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
+        if "tenant_id" not in case_event_columns:
+            batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
+        if "fk_case_events_tenant" not in case_event_fks:
+            batch_op.create_foreign_key("fk_case_events_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
 
 
 def downgrade():
