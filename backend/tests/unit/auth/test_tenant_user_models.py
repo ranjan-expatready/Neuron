@@ -1,11 +1,13 @@
 from sqlalchemy.exc import IntegrityError
 
-from src.app.db.database import SessionLocal
+from src.app.db.database import Base, SessionLocal, engine
 from src.app.models.tenant import Tenant
 from src.app.models.user import User
 
 
 def test_tenant_and_user_unique_email_per_tenant():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
         tenant = Tenant(name="Tenant A")

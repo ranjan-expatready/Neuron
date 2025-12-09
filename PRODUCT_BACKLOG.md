@@ -345,11 +345,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [UX-002] Pricing & checkout integration for case evaluation
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔵 Planned
+- **Status:** 🟡 In Progress
 - **Priority:** P2
-- **Phase:** P2
+- **Phase:** P4
 - **Type:** Frontend/Payments
-- **Description:** Attach pricing plans and payment flow to case evaluation; gated access for paid tiers.
+- **Description:** Attach pricing plans and payment flow to case evaluation; gated access for paid tiers (plan catalog and gating in progress under M4.2).
 - **Dependencies:** Billing/payments service, auth, pricing config
 
 #### [PM-001] Maintain roadmap and phases doc
@@ -601,11 +601,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [ENG-CASE-001] Case Lifecycle Engine (M4.1)
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🟡 In Progress
+- **Status:** ✅ Done
 - **Priority:** P1
-- **Phase:** P1
+- **Phase:** P4
 - **Type:** Backend persistence + API
-- **Description:** Tenant-aware case lifecycle with Tenant/User models, CaseRecord ownership/status, immutable snapshots and audit events, and lifecycle API for submit/review/complete/archive.
+- **Description:** Tenant-aware case lifecycle with Tenant/User models, CaseRecord ownership/status, immutable snapshots and audit events, and lifecycle API for submit/review/complete/archive (delivered in M4.1).
 - **Dependencies:** CaseRecord/CaseSnapshot/CaseEvent, Tenant/User models, lifecycle service, branch protection + CI
 
 #### [ENG-RULE-007] Case History & Audit (Phase 3.5)
@@ -621,11 +621,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [ENG-RULE-008] User/Tenant-Scoped Case History (Phase 4)
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔵 Planned
+- **Status:** 🟡 In Progress
 - **Priority:** P1
-- **Phase:** P4 (Future)
+- **Phase:** P4 (Ongoing)
 - **Type:** Backend persistence + AuthN/AuthZ
-- **Description:** Link case history to authenticated users/tenants, enforce scoping/RBAC, and secure history APIs for production use.
+- **Description:** Link case history to authenticated users/tenants, enforce scoping/RBAC, and secure history APIs for production use. Tenant/creator fields and plan gating shipped in M4.1/M4.2; auth/RBAC enforcement remains.
 - **Dependencies:** ENG-RULE-007 data model, auth/tenant context propagation, audit logging
 
 ### 3.6 Agentic & Automation

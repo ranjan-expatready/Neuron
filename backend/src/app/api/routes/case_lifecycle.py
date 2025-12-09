@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -23,6 +23,7 @@ class CaseRecordResponse(BaseModel):
     status: str
     tenant_id: str | None = None
     created_by_user_id: str | None = None
+    case_type: str | None = None
     profile: dict[str, Any] = {}
     program_eligibility: dict[str, Any] = {}
 
@@ -63,6 +64,7 @@ def _build_response(
             status=record.status,
             tenant_id=record.tenant_id,
             created_by_user_id=record.created_by_user_id,
+            case_type=getattr(record, "case_type", None),
             profile=record.profile or {},
             program_eligibility=record.program_eligibility or {},
         ),
@@ -79,7 +81,8 @@ async def submit_case(case_id: str, request: LifecycleRequest, db: Session = Dep
     try:
         record = service.submit_case(case_id, request.user_id, request.tenant_id)
     except CaseLifecycleError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        status_code = 403 if "plan" in str(exc).lower() or "quota" in str(exc).lower() else 400
+        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
     return _build_response(record, snapshot_repo, event_repo)
 
 
@@ -91,7 +94,8 @@ async def mark_in_review(case_id: str, request: LifecycleRequest, db: Session = 
     try:
         record = service.mark_in_review(case_id, request.user_id, request.tenant_id)
     except CaseLifecycleError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        status_code = 403 if "plan" in str(exc).lower() or "quota" in str(exc).lower() else 400
+        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
     return _build_response(record, snapshot_repo, event_repo)
 
 
@@ -103,7 +107,8 @@ async def mark_complete(case_id: str, request: LifecycleRequest, db: Session = D
     try:
         record = service.mark_complete(case_id, request.user_id, request.tenant_id)
     except CaseLifecycleError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        status_code = 403 if "plan" in str(exc).lower() or "quota" in str(exc).lower() else 400
+        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
     return _build_response(record, snapshot_repo, event_repo)
 
 
@@ -115,6 +120,7 @@ async def archive_case(case_id: str, request: LifecycleRequest, db: Session = De
     try:
         record = service.archive_case(case_id, request.user_id, request.tenant_id)
     except CaseLifecycleError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        status_code = 403 if "plan" in str(exc).lower() or "quota" in str(exc).lower() else 400
+        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
     return _build_response(record, snapshot_repo, event_repo)
 

@@ -11,6 +11,14 @@ from src.app.cases.repository import (
     CaseRepository,
     CaseSnapshotRepository,
 )
+from src.app.config.plans_service import (
+    PlanCaseTypeNotAllowed,
+    PlanConfigError,
+    PlanFeatureDisabled,
+    PlanQuotaExceeded,
+    PlansConfigService,
+)
+from src.app.models.tenant import Tenant
 
 
 class CaseLifecycleError(Exception):
@@ -33,6 +41,16 @@ class CaseLifecycleService:
         self.case_repo = CaseRepository(db)
         self.snapshot_repo = CaseSnapshotRepository(db)
         self.event_repo = CaseEventRepository(db)
+        self.plans = PlansConfigService()
+
+    def _get_plan_for_tenant(self, tenant_id: str):
+        tenant = self.db.query(Tenant).filter(Tenant.id == tenant_id).first()
+        if not tenant:
+            raise CaseLifecycleError("Tenant not found")
+        try:
+            return self.plans.get_plan(tenant.plan_code)
+        except PlanConfigError as exc:
+            raise CaseLifecycleError(str(exc)) from exc
 
     def _transition(
         self,
@@ -46,6 +64,14 @@ class CaseLifecycleService:
         record = self.case_repo.get_case(case_id, tenant_id=tenant_id)
         if not record:
             raise CaseLifecycleError("Case not found for tenant")
+
+        try:
+            plan = self._get_plan_for_tenant(tenant_id)
+            self.plans.assert_feature(plan, "enable_case_lifecycle")
+            if record.case_type:
+                self.plans.assert_case_type_allowed(plan, record.case_type)
+        except (PlanFeatureDisabled, PlanCaseTypeNotAllowed, PlanConfigError) as exc:
+            raise CaseLifecycleError(str(exc)) from exc
 
         current = record.status
         allowed = self.ALLOWED_TRANSITIONS.get(current, set())
@@ -67,6 +93,7 @@ class CaseLifecycleService:
             config_fingerprint=record.config_fingerprint,
             source=record.source,
             tenant_id=record.tenant_id,
+            case_type=record.case_type,
         )
 
         self.event_repo.log_event(
@@ -93,6 +120,15 @@ class CaseLifecycleService:
         user_id: str,
         source: str = "case_lifecycle",
     ) -> CaseRecord:
+        plan = self._get_plan_for_tenant(tenant_id)
+        try:
+            self.plans.assert_feature(plan, "enable_case_lifecycle")
+            self.plans.assert_case_type_allowed(plan, "express_entry_basic")
+            active_cases = self.case_repo.count_active_cases(tenant_id)
+            self.plans.assert_active_case_quota(plan, active_cases)
+        except (PlanFeatureDisabled, PlanCaseTypeNotAllowed, PlanQuotaExceeded, PlanConfigError) as exc:
+            raise CaseLifecycleError(str(exc)) from exc
+
         record = self.case_repo.create_case(
             profile=profile or {},
             program_eligibility=program_eligibility or {},
@@ -104,6 +140,7 @@ class CaseLifecycleService:
             tenant_id=tenant_id,
             created_by=user_id,
             created_by_user_id=user_id,
+            case_type="express_entry_basic",
         )
 
         version = self.snapshot_repo.next_version(record.id)
@@ -117,6 +154,7 @@ class CaseLifecycleService:
             config_fingerprint=record.config_fingerprint,
             source=record.source,
             tenant_id=record.tenant_id,
+            case_type=record.case_type,
         )
 
         self.event_repo.log_event(

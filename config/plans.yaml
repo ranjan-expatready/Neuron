@@ -1,0 +1,49 @@
+plans:
+  - plan_code: starter
+    name: Starter
+    description: "Entry tier for evaluation and light usage."
+    features:
+      enable_case_history: true
+      enable_case_lifecycle: false
+      enable_admin_config: false
+    quotas:
+      max_active_cases: 5
+      max_users: 5
+      max_storage_gb: 5
+    allowed_case_types:
+      - express_entry_basic
+
+  - plan_code: pro
+    name: Pro
+    description: "Enables lifecycle and admin config with higher quotas."
+    features:
+      enable_case_history: true
+      enable_case_lifecycle: true
+      enable_admin_config: true
+    quotas:
+      max_active_cases: 50
+      max_users: 50
+      max_storage_gb: 50
+    allowed_case_types:
+      - express_entry_basic
+      - express_entry_full
+      - family_class
+      - lmia_stream
+
+  - plan_code: enterprise
+    name: Enterprise
+    description: "Full platform access with relaxed quotas."
+    features:
+      enable_case_history: true
+      enable_case_lifecycle: true
+      enable_admin_config: true
+    quotas:
+      max_active_cases: 1000
+      max_users: 500
+      max_storage_gb: 500
+    allowed_case_types:
+      - express_entry_basic
+      - express_entry_full
+      - family_class
+      - lmia_stream
+

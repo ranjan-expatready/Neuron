@@ -19,6 +19,15 @@
 - Extended CaseRecord/Snapshot/Event with tenant_id + creator and lifecycle statuses; added CaseLifecycleService and API (`/api/v1/case-lifecycle/*`).
 - Docs/KB/backlog/product log updated for M4.1; tests cover tenant/user models, lifecycle service, and lifecycle API; branch protection restored post-merge.
 
+## 2025-12-09 – [backend][frontend][pricing][case_types][m4_2]
+
+- Added config-first pricing plans (`config/plans.yaml`) and case types (`config/case_types.yaml`) with loaders (`PlansConfigService`, `CaseTypesConfigService`) and plan gating (features, quotas, allowed case types).
+- Extended Tenant with `plan_code`; CaseRecord/Snapshot with `case_type`; Alembic migration `20251209_m42_pricing_case_types` idempotently adds columns with defaults.
+- Enforced plan gating across case evaluation/history/lifecycle and admin config endpoints; new admin endpoints expose plans and case types.
+- Frontend dashboard surfaces current plan/quotas and gating messages for disabled features.
+- Docs added: `docs/PRICING_AND_PLANS.md`, `docs/CASE_TYPES.md`; roadmap/log/backlog updated to post-M4.1 with M4.2 in progress.
+- Tests: backend `pytest -q` (coverage gate 80%); frontend `npm test -- --runInBand --coverage`.
+
 ## 2025-12-09 – [frontend][admin_config_ui][m3_2]
 
 - Added read-only Admin Config UI at `/admin/config` (sidebar sections + JSON detail) consuming Admin Config API; shows banner, summaries, and dev mock fallback if API is inaccessible.

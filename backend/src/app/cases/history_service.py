@@ -11,6 +11,14 @@ from src.app.cases.repository import (
     CaseRepository,
     CaseSnapshotRepository,
 )
+from src.app.config.case_types_service import CaseTypeConfigError, CaseTypesConfigService
+from src.app.config.plans_service import (
+    PlanCaseTypeNotAllowed,
+    PlanFeatureDisabled,
+    PlanQuotaExceeded,
+    PlansConfigService,
+)
+from src.app.models.tenant import Tenant
 
 
 @dataclass
@@ -29,6 +37,18 @@ class CaseHistoryService:
         self.case_repo = CaseRepository(db)
         self.snapshot_repo = CaseSnapshotRepository(db)
         self.event_repo = CaseEventRepository(db)
+        self.plans = PlansConfigService()
+        self.case_types = CaseTypesConfigService()
+
+    def _get_tenant_and_plan(self, tenant_id: str):
+        tenant = self.db.query(Tenant).filter(Tenant.id == tenant_id).first()
+        if not tenant:
+            raise ValueError("Tenant not found")
+        try:
+            plan = self.plans.get_plan(tenant.plan_code)
+        except Exception as exc:  # PlanConfigError
+            raise ValueError(str(exc)) from exc
+        return tenant, plan
 
     def persist_evaluation(
         self,
@@ -41,8 +61,18 @@ class CaseHistoryService:
         source: str,
         status: str = "evaluated",
         actor: str = "system",
-        tenant_id: Optional[str] = None,
+        tenant_id: str,
+        created_by_user_id: Optional[str],
+        case_type: str,
     ) -> CaseHistoryResult:
+        # Validate plan + case type + quotas
+        _, plan = self._get_tenant_and_plan(tenant_id)
+        self.case_types.require_case_type(case_type)
+        self.plans.assert_feature(plan, "enable_case_history")
+        active_cases = self.case_repo.count_active_cases(tenant_id)
+        self.plans.assert_case_type_allowed(plan, case_type)
+        self.plans.assert_active_case_quota(plan, active_cases)
+
         # Single transaction to ensure record + snapshot + event stay consistent.
         record = self.case_repo.create_case(
             profile=profile,
@@ -54,7 +84,8 @@ class CaseHistoryService:
             status=status,
             tenant_id=tenant_id,
             created_by=actor,
-            created_by_user_id=None,
+            created_by_user_id=created_by_user_id,
+            case_type=case_type,
         )
 
         snapshot_version = self.snapshot_repo.next_version(record.id)
@@ -68,6 +99,7 @@ class CaseHistoryService:
             config_fingerprint=config_fingerprint,
             source=source,
             tenant_id=tenant_id,
+            case_type=case_type,
         )
 
         self.event_repo.log_event(

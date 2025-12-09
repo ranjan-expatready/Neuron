@@ -1,0 +1,59 @@
+case_types:
+  - code: express_entry_basic
+    label: "Express Entry (Basic)"
+    program_categories:
+      - express_entry
+    required_data_blocks:
+      - personal_info
+      - language_tests
+      - education
+      - work_experience
+      - proof_of_funds
+    required_documents:
+      - identity_documents
+      - resume
+
+  - code: express_entry_full
+    label: "Express Entry (Full Service)"
+    program_categories:
+      - express_entry
+    required_data_blocks:
+      - personal_info
+      - language_tests
+      - education
+      - work_experience
+      - proof_of_funds
+      - travel_history
+      - family_information
+    required_documents:
+      - identity_documents
+      - resume
+      - employment_letters
+      - education_credentials
+
+  - code: family_class
+    label: "Family Class Sponsorship"
+    program_categories:
+      - family_class
+    required_data_blocks:
+      - sponsor_details
+      - relationship_proof
+      - financial_support
+    required_documents:
+      - sponsorship_forms
+      - relationship_evidence
+      - financial_support_documents
+
+  - code: lmia_stream
+    label: "LMIA Stream"
+    program_categories:
+      - lmia
+    required_data_blocks:
+      - employer_details
+      - job_offer
+      - labor_market_info
+    required_documents:
+      - employer_compliance_forms
+      - job_offer_letter
+      - advertising_evidence
+

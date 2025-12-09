@@ -1,16 +1,50 @@
 from datetime import date, timedelta
 
+import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
 
+from src.app.db.database import Base, SessionLocal, engine
 from src.app.main import app
+from src.app.models.tenant import Tenant
+from src.app.models.user import User
 
 
 client = TestClient(app)
 
 
-def _eligible_payload():
+@pytest.fixture(scope="function")
+def tenant_user():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+    db: Session = SessionLocal()
+    try:
+        tenant = Tenant(name="Eval Tenant", plan_code="pro")
+        db.add(tenant)
+        db.commit()
+        db.refresh(tenant)
+
+        user = User(
+            email="eval@example.com",
+            full_name="Eval User",
+            hashed_password="hash",
+            tenant_id=tenant.id,
+            role="admin",
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        yield tenant.id, user.id
+    finally:
+        db.close()
+
+
+def _eligible_payload(tenant_id: str, user_id: str):
     today = date.today()
     return {
+        "tenant_id": tenant_id,
+        "user_id": user_id,
+        "case_type": "express_entry_basic",
         "profile": {
             "marital_status": "single",
             "family_size": 1,
@@ -39,8 +73,9 @@ def _eligible_payload():
     }
 
 
-def test_case_evaluation_happy_path():
-    response = client.post("/api/v1/cases/evaluate", json=_eligible_payload())
+def test_case_evaluation_happy_path(tenant_user):
+    tenant_id, user_id = tenant_user
+    response = client.post("/api/v1/cases/evaluate", json=_eligible_payload(tenant_id, user_id))
     assert response.status_code == 200
     body = response.json()
     assert body["case_id"]
@@ -52,8 +87,9 @@ def test_case_evaluation_happy_path():
     assert body["config_version"]
 
 
-def test_case_evaluation_ineligible_language():
-    payload = _eligible_payload()
+def test_case_evaluation_ineligible_language(tenant_user):
+    tenant_id, user_id = tenant_user
+    payload = _eligible_payload(tenant_id, user_id)
     payload["profile"]["language_tests"][0]["listening_clb"] = 3
     payload["profile"]["language_tests"][0]["reading_clb"] = 3
     payload["profile"]["language_tests"][0]["writing_clb"] = 3
@@ -68,8 +104,9 @@ def test_case_evaluation_ineligible_language():
     assert any("CLB" in reason.upper() for reason in fsw["reasons"])
 
 
-def test_case_evaluation_warns_expiring_language():
-    payload = _eligible_payload()
+def test_case_evaluation_warns_expiring_language(tenant_user):
+    tenant_id, user_id = tenant_user
+    payload = _eligible_payload(tenant_id, user_id)
     payload["profile"]["language_tests"][0]["expiry_date"] = (date.today() + timedelta(days=5)).isoformat()
 
     response = client.post("/api/v1/cases/evaluate", json=payload)

@@ -28,6 +28,7 @@ class CaseRepository:
         tenant_id: Optional[str] = None,
         created_by: Optional[str] = "system",
         created_by_user_id: Optional[str] = None,
+        case_type: str = "express_entry_basic",
     ) -> CaseRecord:
         record = CaseRecord(
             profile=profile,
@@ -40,6 +41,7 @@ class CaseRepository:
             tenant_id=tenant_id,
             created_by_user_id=created_by_user_id,
             created_by=created_by,
+            case_type=case_type,
         )
         self.db.add(record)
         self.db.flush()
@@ -52,11 +54,22 @@ class CaseRepository:
         return query.first()
 
     def list_recent(self, limit: int = 50) -> list[CaseRecord]:
+        return self.db.query(CaseRecord).order_by(CaseRecord.created_at.desc()).limit(limit).all()
+
+    def list_recent_for_tenant(self, tenant_id: str, limit: int = 50) -> list[CaseRecord]:
         return (
             self.db.query(CaseRecord)
+            .filter(CaseRecord.tenant_id == tenant_id)
             .order_by(CaseRecord.created_at.desc())
             .limit(limit)
             .all()
+        )
+
+    def count_active_cases(self, tenant_id: str) -> int:
+        return (
+            self.db.query(CaseRecord)
+            .filter(CaseRecord.tenant_id == tenant_id, CaseRecord.status != "archived")
+            .count()
         )
 
 
@@ -87,6 +100,7 @@ class CaseSnapshotRepository:
         source: str,
         snapshot_at: Optional[datetime] = None,
         tenant_id: Optional[str] = None,
+        case_type: str = "express_entry_basic",
     ) -> CaseSnapshot:
         snapshot = CaseSnapshot(
             case_id=case_id,
@@ -99,6 +113,7 @@ class CaseSnapshotRepository:
             source=source,
             snapshot_at=snapshot_at,
             tenant_id=tenant_id,
+            case_type=case_type,
         )
         self.db.add(snapshot)
         self.db.flush()

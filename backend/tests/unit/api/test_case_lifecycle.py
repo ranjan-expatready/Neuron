@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from fastapi.testclient import TestClient
 
 from src.app.cases.lifecycle_service import CaseLifecycleService
-from src.app.db.database import SessionLocal
+from src.app.db.database import Base, SessionLocal, engine
 from src.app.main import app
 from src.app.models.tenant import Tenant
 from src.app.models.user import User
@@ -12,8 +12,10 @@ client = TestClient(app)
 
 
 def _bootstrap_case():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
-    tenant = Tenant(name="Tenant API")
+    tenant = Tenant(name="Tenant API", plan_code="pro")
     db.add(tenant)
     db.commit()
     db.refresh(tenant)
@@ -67,4 +69,21 @@ def test_case_lifecycle_submit_endpoint():
     assert body["record"]["status"] == "submitted"
     assert body["last_snapshot_version"] >= 1
     assert body["events"]
+
+
+def test_case_lifecycle_blocked_when_plan_disables_feature():
+    # Create case under pro, then downgrade plan to starter and attempt transition
+    case_id, user_id, tenant_id = _bootstrap_case()
+    db = SessionLocal()
+    tenant = db.query(Tenant).filter(Tenant.id == tenant_id).first()
+    tenant.plan_code = "starter"
+    db.commit()
+    db.close()
+
+    response = client.post(
+        f"/api/v1/case-lifecycle/{case_id}/review",
+        json={"user_id": user_id, "tenant_id": tenant_id},
+    )
+    assert response.status_code in (400, 403)
+    assert "lifecycle" in response.json().get("detail", "").lower()
 
