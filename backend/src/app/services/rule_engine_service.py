@@ -3,7 +3,12 @@ from __future__ import annotations
 from src.app.domain_config.service import ConfigService
 from src.app.rules.config_port import RuleConfigPort
 from src.app.rules.engine import RuleEngine
-from src.app.rules.models import CandidateProfile, ProgramEvaluationResult
+from src.app.rules.models import (
+    CandidateProfile,
+    ProgramEvaluationResult,
+    ProgramEligibilitySummary,
+)
+from src.app.rules.program_eligibility import evaluate_programs
 
 
 class RuleEngineService:
@@ -24,3 +29,14 @@ class RuleEngineService:
 
     def evaluate(self, profile: CandidateProfile) -> dict[str, ProgramEvaluationResult]:
         return self.engine.evaluate_candidate(profile)
+
+    def evaluate_programs(self, profile: CandidateProfile) -> ProgramEligibilitySummary:
+        return evaluate_programs(profile, self.engine.config)
+
+    def evaluate_full_profile(self, profile: CandidateProfile) -> dict[str, object]:
+        """
+        Combined view: program eligibility + CRS breakdown (DRAFT).
+        """
+        program_summary = self.evaluate_programs(profile)
+        crs_results = self.evaluate(profile)
+        return {"programs": program_summary, "crs": crs_results}

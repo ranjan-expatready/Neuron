@@ -73,6 +73,11 @@ class ProgramRule(BaseModel):
     requires_job_offer: bool = False
     requires_certificate_or_offer: bool = False
     uses_proof_of_funds: bool = True
+    min_education_level: Optional[str] = None  # DRAFT: string label comparison only
+    min_continuous_months: Optional[int] = None
+    min_canadian_months: Optional[int] = None
+    eligible_teers: list[int] = Field(default_factory=list)
+    notes: Optional[str] = None
 
 
 class ProgramRulesConfig(BaseModel):
