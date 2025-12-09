@@ -54,7 +54,7 @@ class CaseHistoryService:
             status=status,
             tenant_id=tenant_id,
             created_by=actor,
-            created_by_user_id=actor if actor else None,
+            created_by_user_id=None,
         )
 
         snapshot_version = self.snapshot_repo.next_version(record.id)
