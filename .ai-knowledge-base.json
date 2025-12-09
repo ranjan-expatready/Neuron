@@ -92,11 +92,11 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "post-m4.5",
-    "completion_percentage": 93,
+    "status": "post-m5.1",
+    "completion_percentage": 94,
     "current_phase": "Phase 4",
-    "next_milestone": "Billing enforcement polish and pricing UX",
-    "current_milestone": "M4.5 Billing & Plan Enforcement"
+    "next_milestone": "M5.2 CRS explanations + UI wiring",
+    "current_milestone": "M5.1 CRS engine core"
   },
   "agent_bootstrap": {
     "steps": [
@@ -265,7 +265,8 @@
     "docs": [
       "docs/RULE_ENGINE_OVERVIEW.md",
       "docs/RULE_ENGINE_CRS_ELIGIBILITY.md",
-      "docs/RULE_ENGINE_PROGRAM_ELIGIBILITY.md"
+      "docs/RULE_ENGINE_PROGRAM_ELIGIBILITY.md",
+      "docs/CRS_ENGINE_OVERVIEW.md"
     ],
     "config_sources": [
       "config/domain/crs.yaml",
@@ -279,6 +280,10 @@
     "services": [
       "backend/src/app/rules/program_eligibility.py",
       "backend/src/app/services/rule_engine_service.py",
+      "backend/src/app/services/crs_engine.py",
+      "backend/src/app/rules/crs_engine.py",
+      "backend/src/app/rules/crs_adapter.py",
+      "backend/src/app/domain/crs/models.py",
       "backend/src/app/domain_config/service.py"
     ],
     "rules": [
