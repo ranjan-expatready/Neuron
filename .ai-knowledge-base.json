@@ -223,6 +223,17 @@
       "Program eligibility (FSW/CEC/FST) is config-driven; add new programs by extending programs.yaml + config models."
     ]
   },
+  "document_matrix": {
+    "docs": ["docs/DOCUMENT_MATRIX_OVERVIEW.md"],
+    "code": [
+      "backend/src/app/documents/service.py",
+      "backend/src/app/cases/model.py"
+    ],
+    "config": [
+      "config/domain/forms.yaml",
+      "config/domain/documents.yaml"
+    ]
+  },
   "agent_coordination": {
     "active_assignments": [
       {

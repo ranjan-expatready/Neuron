@@ -1,6 +1,80 @@
 meta:
   version: "0.1.0"
   status: "DRAFT"
+  notes: "Document matrix structure only; values require SME/legal validation."
+
+documents:
+  fsw:
+    base:
+      - id: "passport"
+        label: "Passport / travel document"
+        category: "identity"
+        mandatory: true
+      - id: "eca_report"
+        label: "Educational Credential Assessment"
+        category: "education"
+        mandatory: true
+      - id: "language_test"
+        label: "Language test results"
+        category: "language"
+        mandatory: true
+      - id: "work_experience_letters"
+        label: "Reference letters for skilled work"
+        category: "work"
+        mandatory: true
+    spouse:
+      - id: "marriage_certificate"
+        label: "Marriage certificate"
+        category: "family"
+        mandatory: true
+    pof_required:
+      - id: "proof_of_funds"
+        label: "Proof of funds"
+        category: "financial"
+        mandatory: true
+  cec:
+    base:
+      - id: "passport"
+        label: "Passport / travel document"
+        category: "identity"
+        mandatory: true
+      - id: "language_test"
+        label: "Language test results"
+        category: "language"
+        mandatory: true
+      - id: "work_experience_letters"
+        label: "Canadian work experience letters"
+        category: "work"
+        mandatory: true
+    spouse:
+      - id: "marriage_certificate"
+        label: "Marriage certificate"
+        category: "family"
+        mandatory: true
+    pof_required: []
+  fst:
+    base:
+      - id: "trade_certificate"
+        label: "Certificate of qualification (trade)"
+        category: "work"
+        mandatory: true
+      - id: "language_test"
+        label: "Language test results"
+        category: "language"
+        mandatory: true
+    spouse:
+      - id: "marriage_certificate"
+        label: "Marriage certificate"
+        category: "family"
+        mandatory: false
+    pof_required:
+      - id: "proof_of_funds"
+        label: "Proof of funds"
+        category: "financial"
+        mandatory: true
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
   notes: "Schema for document categories and requirements; no program-specific lists yet."
 
 categories:

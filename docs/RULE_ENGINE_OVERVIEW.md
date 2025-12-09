@@ -34,9 +34,10 @@
   - Map to CRS inputs (age bucket, CLB per skill, education level, Canadian/foreign work years, nomination flag).
 - Rule Evaluators:
   - Program eligibility evaluators: FSW, CEC, FST, EE-aligned PNP (and future programs), driven by `config/domain/programs.yaml`, `language.yaml`, `work_experience.yaml`, `proof_of_funds.yaml`.
+  - Document & Forms Matrix: resolves required forms/documents per program using `config/domain/forms.yaml` and `config/domain/documents.yaml`.
   - CRS scorer: uses CRS core + spouse + transferability + additional points tables (from config informed by domain_knowledge).
 - Aggregator:
-  - Produce `EvaluationResult` with eligibility per program, CRS breakdown, warnings/edge cases, and traceable rule ids.
+  - Produce `EvaluationResult` with eligibility per program, CRS breakdown, required forms/documents (via CaseService), warnings/edge cases, and traceable rule ids.
 
 ## 4) Config-First Principles
 
