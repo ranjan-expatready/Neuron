@@ -112,3 +112,9 @@
 - Authored rule engine design docs (`docs/RULE_ENGINE_OVERVIEW.md`, `docs/RULE_ENGINE_CRS_ELIGIBILITY.md`) covering architecture, inputs/outputs, config-first mapping, and edge cases (CRS + eligibility).
 - Updated `.ai-knowledge-base.json` with `rule_engine` pointers; extended backlog with ENG-RULE-001..003 for engine skeleton, config wiring, and golden tests.
 - Documentation-only; no runtime code or configs changed.
+
+## 2025-12-09 – [governance][repo_reset][auto]
+- Safety backup pushed: safety/local-dirty-20251209-090825 (untracked files only; venv excluded for size).
+- Reset main to origin/main and cleaned working tree with `git clean -xfd`.
+- Verified branch protection: required checks backend-tests/frontend-tests, strict=true, enforce_admins=true, reviews=0.
+- No runtime code touched.
