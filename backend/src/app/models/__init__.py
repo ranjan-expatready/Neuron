@@ -13,6 +13,7 @@ from .organization import Organization, OrganizationMembership
 from .person import Person
 from .task import CaseTask, CaseTaskActivity, CaseTaskAssignment, CaseTaskDependency
 from .user import User
+from .tenant import Tenant
 
 __all__ = [
     "User",
@@ -31,6 +32,7 @@ __all__ = [
     "CaseTaskAssignment",
     "CaseTaskActivity",
     "CaseTaskDependency",
+    "Tenant",
     "CaseRecord",
     "CaseSnapshot",
     "CaseEvent",

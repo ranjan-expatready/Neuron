@@ -598,6 +598,16 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Config-driven Case Evaluation API exposing program eligibility, CRS breakdown, and document/forms matrix with explainability metadata.
 - **Dependencies:** RuleEngineService, DocumentMatrixService, CaseService, config/domain/*.yaml
 
+#### [ENG-CASE-001] Case Lifecycle Engine (M4.1)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🟡 In Progress
+- **Priority:** P1
+- **Phase:** P1
+- **Type:** Backend persistence + API
+- **Description:** Tenant-aware case lifecycle with Tenant/User models, CaseRecord ownership/status, immutable snapshots and audit events, and lifecycle API for submit/review/complete/archive.
+- **Dependencies:** CaseRecord/CaseSnapshot/CaseEvent, Tenant/User models, lifecycle service, branch protection + CI
+
 #### [ENG-RULE-007] Case History & Audit (Phase 3.5)
 
 - **Domain:** 3.5 Brain & AI

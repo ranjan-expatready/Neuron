@@ -54,6 +54,7 @@ class CaseHistoryService:
             status=status,
             tenant_id=tenant_id,
             created_by=actor,
+            created_by_user_id=actor if actor else None,
         )
 
         snapshot_version = self.snapshot_repo.next_version(record.id)
@@ -66,12 +67,14 @@ class CaseHistoryService:
             required_artifacts=required_artifacts,
             config_fingerprint=config_fingerprint,
             source=source,
+            tenant_id=tenant_id,
         )
 
         self.event_repo.log_event(
             event_type="EVALUATION_CREATED",
             case_id=record.id,
             actor=actor,
+            tenant_id=tenant_id,
             metadata={"source": source, "version": snapshot_version},
         )
 

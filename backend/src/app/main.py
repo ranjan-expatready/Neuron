@@ -87,13 +87,18 @@ app.include_router(documents.router, prefix="/api/v1/documents", tags=["Document
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
 app.include_router(admin_config.router, prefix="/api/v1/admin/config", tags=["Admin Configuration"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
-from src.app.api.routes import case_evaluation, case_history  # noqa: E402
+from src.app.api.routes import case_evaluation, case_history, case_lifecycle  # noqa: E402
 
 app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
 app.include_router(
     case_history.router,
     prefix="/api/v1/case-history",
     tags=["Case History"],
+)
+app.include_router(
+    case_lifecycle.router,
+    prefix="/api/v1",
+    tags=["Case Lifecycle"],
 )
 
 

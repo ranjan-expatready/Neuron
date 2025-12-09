@@ -24,9 +24,10 @@ class CaseRepository:
         required_artifacts: Optional[dict[str, Any]],
         config_fingerprint: Optional[dict[str, Any]],
         source: str,
-        status: str = "evaluated",
+        status: str = "draft",
         tenant_id: Optional[str] = None,
         created_by: Optional[str] = "system",
+        created_by_user_id: Optional[str] = None,
     ) -> CaseRecord:
         record = CaseRecord(
             profile=profile,
@@ -37,14 +38,18 @@ class CaseRepository:
             source=source,
             status=status,
             tenant_id=tenant_id,
+            created_by_user_id=created_by_user_id,
             created_by=created_by,
         )
         self.db.add(record)
         self.db.flush()
         return record
 
-    def get_case(self, case_id: str) -> Optional[CaseRecord]:
-        return self.db.query(CaseRecord).filter(CaseRecord.id == case_id).first()
+    def get_case(self, case_id: str, tenant_id: Optional[str] = None) -> Optional[CaseRecord]:
+        query = self.db.query(CaseRecord).filter(CaseRecord.id == case_id)
+        if tenant_id:
+            query = query.filter(CaseRecord.tenant_id == tenant_id)
+        return query.first()
 
     def list_recent(self, limit: int = 50) -> list[CaseRecord]:
         return (
@@ -81,6 +86,7 @@ class CaseSnapshotRepository:
         config_fingerprint: Optional[dict[str, Any]],
         source: str,
         snapshot_at: Optional[datetime] = None,
+        tenant_id: Optional[str] = None,
     ) -> CaseSnapshot:
         snapshot = CaseSnapshot(
             case_id=case_id,
@@ -92,6 +98,7 @@ class CaseSnapshotRepository:
             config_fingerprint=config_fingerprint,
             source=source,
             snapshot_at=snapshot_at,
+            tenant_id=tenant_id,
         )
         self.db.add(snapshot)
         self.db.flush()
@@ -118,12 +125,14 @@ class CaseEventRepository:
         event_type: str,
         case_id: Optional[str],
         actor: str,
+        tenant_id: Optional[str] = None,
         metadata: Optional[dict[str, Any]] = None,
     ) -> CaseEvent:
         event = CaseEvent(
             event_type=event_type,
             case_id=case_id,
             actor=actor,
+            tenant_id=tenant_id,
             event_metadata=metadata or {},
         )
         self.db.add(event)
