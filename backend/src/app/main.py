@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from src.app.api.routes import admin_config, auth, cases, documents, organizations, persons, tasks, users
 from src.app.api.routes import config as config_routes
 from src.app.config import settings
+from src.app.cases import models_db as case_history_models
 from src.app.db.database import engine, get_db
 from src.app.middleware.security import security_middleware
 from src.app.models import case, config, document, organization, person, task, user
@@ -26,6 +27,7 @@ case.Base.metadata.create_all(bind=engine)
 document.Base.metadata.create_all(bind=engine)
 config.Base.metadata.create_all(bind=engine)
 task.Base.metadata.create_all(bind=engine)
+case_history_models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.app_name,
@@ -85,13 +87,14 @@ app.include_router(documents.router, prefix="/api/v1/documents", tags=["Document
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
 app.include_router(admin_config.router, prefix="/api/v1/admin/config", tags=["Admin Configuration"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
-from src.app.api.routes import case_evaluation  # noqa: E402
+from src.app.api.routes import case_evaluation, case_history  # noqa: E402
 
 app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
-# Case evaluation (stateless, config-driven)
-from src.app.api.routes import case_evaluation  # noqa: E402
-
-app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
+app.include_router(
+    case_history.router,
+    prefix="/api/v1/case-history",
+    tags=["Case History"],
+)
 
 
 @app.get("/")

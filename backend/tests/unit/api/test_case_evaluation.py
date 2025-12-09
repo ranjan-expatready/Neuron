@@ -43,6 +43,8 @@ def test_case_evaluation_happy_path():
     response = client.post("/api/v1/cases/evaluate", json=_eligible_payload())
     assert response.status_code == 200
     body = response.json()
+    assert body["case_id"]
+    assert body["version"] == 1
     assert "program_eligibility" in body
     assert any(item["eligible"] for item in body["program_eligibility"])
     assert body["crs"]["total"] >= 0
@@ -74,4 +76,5 @@ def test_case_evaluation_warns_expiring_language():
     assert response.status_code == 200
     body = response.json()
     assert "warnings" in body
+    assert body["audit"]["source"] == "express_entry_intake"
 
