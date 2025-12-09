@@ -50,3 +50,9 @@
 - Snapshot-based unit tests: known profiles → expected eligibility + CRS breakdown.
 - Golden edge cases: borderline ages, continuity gaps, TEER 4–5 rejection, expiring language/medical/biometrics, funds exemptions.
 - Integration tests: end-to-end evaluation using domain_knowledge examples as fixtures; ensure traceability (rule ids + explanations).
+
+## 6) Config-First Rules (ENG-RULE-002)
+
+- All thresholds/point tables are loaded from `config/domain/*.yaml` into a typed `DomainRulesConfig`; RuleEngine never hard-codes IRCC constants.
+- YAMLs are derived from domain_knowledge (raw/processed) and marked DRAFT until SME validation.
+- Safe evolution flow: update YAML (with citations/comments), add/adjust tests, load via config loader, then wire into the engine; no direct Python constants.

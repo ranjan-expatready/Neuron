@@ -479,12 +479,22 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [ENG-RULE-002] Wire config/domain to rule engine
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** P1
 - **Phase:** P1
 - **Type:** Backend rules/config
 - **Description:** Define YAML schemas for CRS and eligibility (e.g., crs.yaml, eligibility.yaml) and load/validate them in the rule engine.
 - **Dependencies:** rule engine skeleton, schema design, domain_knowledge references
+
+#### [ENG-RULE-004] Config admin UI/editor (follow-up)
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P3
+- **Phase:** P2
+- **Type:** Backend/Frontend tooling
+- **Description:** Build a safe admin surface (or agent) to edit/validate config/domain/\*.yaml, including drafts, approvals, and rollout toggles.
+- **Dependencies:** ENG-RULE-002 config models/loader, governance rules
 
 #### [ENG-RULE-003] Golden test suite for CRS & eligibility
 

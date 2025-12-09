@@ -201,7 +201,8 @@
     "rules": [
       "Read RULE_ENGINE_OVERVIEW.md before implementing any rule code.",
       "Use RULE_ENGINE_CRS_ELIGIBILITY.md as the canonical mapping from domain_knowledge to engine modules.",
-      "Do not hard-code IRCC constants; fetch from config/domain YAMLs informed by domain_knowledge."
+      "Do not hard-code IRCC constants; fetch from config/domain YAMLs informed by domain_knowledge.",
+      "All thresholds and tables load into DomainRulesConfig via config_loader; engine logic must consume that config (no inline magic numbers)."
     ]
   },
   "agent_coordination": {

@@ -1,42 +1,24 @@
 meta:
-  version: "0.1.0"
+  version: "0.2.0"
   status: "DRAFT"
-  notes: "Program catalog; values reference domain_knowledge processed docs."
+  notes: "Program catalog + rule toggles. Source: domain_knowledge/processed/program_families/express_entry.md"
 
-programs:
+program_rules:
   - code: "FSW"
-    name: "Federal Skilled Worker"
-    config_ref: "domain_knowledge/processed/program_families/express_entry.md"
-    eligibility_ref: "domain_knowledge/processed/core_overview/crs_overview.md"
+    requires_job_offer: false
+    requires_certificate_or_offer: false
+    uses_proof_of_funds: true
   - code: "CEC"
-    name: "Canadian Experience Class"
-    config_ref: "domain_knowledge/processed/program_families/express_entry.md"
-    eligibility_ref: "domain_knowledge/processed/core_overview/crs_overview.md"
+    requires_job_offer: false
+    requires_certificate_or_offer: false
+    uses_proof_of_funds: false
   - code: "FST"
-    name: "Federal Skilled Trades"
-    config_ref: "domain_knowledge/processed/program_families/express_entry.md"
-    eligibility_ref: "domain_knowledge/processed/core_overview/crs_overview.md"
+    requires_job_offer: false
+    requires_certificate_or_offer: true
+    uses_proof_of_funds: true
   - code: "PNP_EE"
-    name: "Express Entry PNP (Enhanced)"
-    config_ref: "domain_knowledge/processed/program_families/pnp.md"
-    eligibility_ref: "domain_knowledge/processed/core_overview/crs_overview.md"
-  - code: "PNP_BASE"
-    name: "PNP Base (Paper/Non-EE)"
-    config_ref: "domain_knowledge/processed/program_families/pnp.md"
-  - code: "STUDY"
-    name: "Study Permit"
-    config_ref: "domain_knowledge/processed/program_families/study.md"
-  - code: "WORK_PERMIT"
-    name: "Work Permit (LMIA-based or exempt)"
-    config_ref: "domain_knowledge/processed/program_families/work.md"
-  - code: "FAMILY"
-    name: "Family Sponsorship"
-    config_ref: "domain_knowledge/processed/program_families/family.md"
-  - code: "VISITOR_TEMP"
-    name: "Visitor / Temporary"
-    config_ref: "domain_knowledge/processed/program_families/visitor_temp.md"
-  - code: "HUMANITARIAN_PILOTS"
-    name: "Humanitarian & Pilots"
-    config_ref: "domain_knowledge/processed/program_families/humanitarian_pilots.md"
+    requires_job_offer: false
+    requires_certificate_or_offer: false
+    uses_proof_of_funds: true
 
-status: "DRAFT – structure only; fill program-specific parameters in later iterations."
+status: "DRAFT – SME/legal validation required."
