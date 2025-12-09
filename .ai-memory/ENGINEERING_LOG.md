@@ -13,6 +13,12 @@
 - Branch protection restored (backend-tests, frontend-tests, strict, enforce_admins).
 - Repo clean and ready for M4.1 transition.
 
+## 2025-12-09 – [backend][case_lifecycle][m4_1]
+
+- Implemented tenant-aware Tenant/User models (composite tenant+email uniqueness, roles) with Alembic migration.
+- Extended CaseRecord/Snapshot/Event with tenant_id + creator and lifecycle statuses; added CaseLifecycleService and API (`/api/v1/case-lifecycle/*`).
+- Docs/KB/backlog/product log updated for M4.1; tests cover tenant/user models, lifecycle service, and lifecycle API; branch protection restored post-merge.
+
 ## 2025-12-09 – [frontend][admin_config_ui][m3_2]
 
 - Added read-only Admin Config UI at `/admin/config` (sidebar sections + JSON detail) consuming Admin Config API; shows banner, summaries, and dev mock fallback if API is inaccessible.

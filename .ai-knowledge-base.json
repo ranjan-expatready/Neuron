@@ -1,6 +1,6 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-09T00:00:00+00:00",
+  "last_updated": "2025-12-09T12:50:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
     "test_directories": ["backend/tests/unit", "backend/tests/integration"],
@@ -306,6 +306,16 @@
     "notes": [
       "CaseRecord is the canonical state; CaseSnapshot is immutable history; CaseEvent is the audit trail.",
       "Phase 3.5 is internal-only; user/tenant-level history will be added in Phase 4."
+    ]
+  },
+  "case_lifecycle": {
+    "docs": ["docs/CASE_LIFECYCLE_API.md"],
+    "models": [
+      "backend/src/app/auth/models.py",
+      "backend/src/app/cases/lifecycle_service.py"
+    ],
+    "notes": [
+      "Case lifecycle is fully tenant-aware and exposes safe state transitions."
     ]
   },
   "agent_coordination": {

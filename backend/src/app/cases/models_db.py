@@ -19,14 +19,24 @@ class CaseRecord(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
     )
     source = Column(String(100), nullable=False, index=True)
-    status = Column(String(50), nullable=False, default="evaluated")
+    status = Column(
+        String(50),
+        nullable=False,
+        default="draft",
+    )
     profile = Column(JSON, nullable=False)
     program_eligibility = Column(JSON, nullable=False)
     crs_breakdown = Column(JSON, nullable=True)
     required_artifacts = Column(JSON, nullable=True)
     config_fingerprint = Column(JSON, nullable=True)
-    tenant_id = Column(String(64), nullable=True, index=True)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=True, index=True)
+    created_by_user_id = Column(
+        String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True
+    )
     created_by = Column(String(64), nullable=True)
+
+    tenant = relationship("Tenant", back_populates="cases")
+    creator_user = relationship("User", back_populates="created_cases")
 
     snapshots = relationship(
         "CaseSnapshot",
@@ -59,6 +69,7 @@ class CaseSnapshot(Base):
     )
     snapshot_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     source = Column(String(100), nullable=False, index=True)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=True, index=True)
     profile = Column(JSON, nullable=False)
     program_eligibility = Column(JSON, nullable=False)
     crs_breakdown = Column(JSON, nullable=True)
@@ -82,6 +93,7 @@ class CaseEvent(Base):
         String(36), ForeignKey("case_records.id", ondelete="SET NULL"), nullable=True, index=True
     )
     event_type = Column(String(100), nullable=False)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=True, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     actor = Column(String(100), nullable=False, default="system")
     event_metadata = Column("metadata", JSON, nullable=True)

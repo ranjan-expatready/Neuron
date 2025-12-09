@@ -5,6 +5,7 @@ from . import (
     cases,
     case_evaluation,
     case_history,
+    case_lifecycle,
     config,
     documents,
     organizations,
