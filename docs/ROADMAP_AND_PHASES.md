@@ -1,4 +1,4 @@
-# Roadmap & Phases (M3.4 – Docs Only)
+# Roadmap & Phases (Post-M4.1)
 
 ## 1) High-Level Vision
 - Canada Immigration OS with transparent, explainable rule engine.
@@ -10,20 +10,19 @@
 - **Phase 0 – Foundations & Discovery (✅ Done)**: Competitor research, PRD, risk analysis, spec refinement.
 - **Phase 1 – Domain Knowledge Ingestion (✅ Done for core EE)**: CRS, CLB tables, program rules (FSW/CEC/FST), PoF, NOC/TEER, biometrics/medicals, ADR patterns.
 - **Phase 2 – Rule Engine & Config Layer (✅ Done)**: ConfigService, CRS engine, program eligibility, document matrix, Case Evaluation API.
-- **Phase 3 – Initial UX & Admin Surfaces (🟡 In Progress)**: Admin Config API & UI (read-only); Case Intake UI (`/express-entry/intake`). Next: minimal case history, basic UX polish.
-- **Phase 4 – Persistence, Pricing & Accounts (🔵 Planned)**: User accounts, saved cases, pricing/plans, billing integration.
+- **Phase 3 – Initial UX & Admin Surfaces (✅ Done)**: Admin Config API & UI (read-only); Case Intake UI (`/express-entry/intake`); roadmap doc created in M3.4.
+- **Phase 4 – Persistence, Pricing & Accounts (🟡 In Progress)**: M3.5 Case History & Audit ✅; M4.1 Case Lifecycle & Tenant Infrastructure ✅; next up M4.2 Pricing Plans & Case Types.
 - **Phase 5 – AI Agent Layer & Automation (🔵 Planned)**: Product agent, Configurator agent, Case coach, QA agent; OpenHands/Cursor integration for continuous improvement.
 - **Phase 6 – Production Hardening & Scale (🔵 Planned)**: Load tests, observability, incident playbooks, performance tuning.
 
 ## 3) Where We Are Today
-- Currently at end of **Phase 3.3**: Admin Config UI + Case Intake UI are live; backend rule engine + configs are wired and tested.
-- Phase 3.4 (this doc) is roadmap/orientation.
-- Next concrete build step: **Phase 3.5 – Case History & Minimal Persistence** (planned).
+- Post-**Phase 4.1**: Case History & Audit (M3.5) and Case Lifecycle + Tenant Infrastructure (M4.1) are live with snapshots/events and tenant-aware ownership.
+- Entering **Phase 4** execution focused on pricing/accounts; next concrete build step is **M4.2 – Pricing Plans & Case Types**.
 
 ## 4) Next Milestones (3–5)
-- **M3.5 – Case History (Local & API-ready)**: Minimal persistence for evaluated cases; history list + recall.
-- **M4.1 – Accounts & Auth Skeleton**: Basic account flows to gate case history and admin tools.
-- **M4.2 – Pricing Plans & Case Types**: Plan selection + paywall hooks around evaluations.
+- **M3.5 – Case History & Audit**: ✅ Persist evaluations with CaseRecord/Snapshot/Event, audit log, and history API.
+- **M4.1 – Case Lifecycle & Tenant Infrastructure**: ✅ Tenant/User models, lifecycle service + API with snapshots/events.
+- **M4.2 – Pricing Plans & Case Types**: Plan selection, case type catalog, and paywall hooks around evaluations (next in queue).
 - **M5.1 – Configurator AI Agent (read-only suggestions)**: Surface suggested config diffs; no auto-write.
 - **M5.2 – OpenHands-assisted refactor & deeper tests**: Hardening of rule engine + UI with automated refactors/tests.
 
