@@ -28,3 +28,5 @@ def test_metrics_endpoint():
     body = resp.json()
     assert "requests_total" in body
     assert "requests_failed_total" in body
+    assert "billing_events_total" in body
+    assert "plan_limit_violations_total" in body

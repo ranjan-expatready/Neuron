@@ -1,0 +1,35 @@
+default_plan: starter
+plans:
+  starter:
+    label: Starter
+    limits:
+      max_cases: 50
+      max_evaluations_per_month: 200
+      express_entry_enabled: true
+      lifecycle_transitions_enabled: true
+      document_generation_enabled: true
+  pro:
+    label: Professional
+    limits:
+      max_cases: 200
+      max_evaluations_per_month: 1000
+      express_entry_enabled: true
+      lifecycle_transitions_enabled: true
+      document_generation_enabled: true
+  enterprise:
+    label: Enterprise
+    limits:
+      max_cases: null
+      max_evaluations_per_month: null
+      express_entry_enabled: true
+      lifecycle_transitions_enabled: true
+      document_generation_enabled: true
+  trial:
+    label: Trial
+    limits:
+      max_cases: 1
+      max_evaluations_per_month: 1
+      express_entry_enabled: true
+      lifecycle_transitions_enabled: true
+      document_generation_enabled: true
+

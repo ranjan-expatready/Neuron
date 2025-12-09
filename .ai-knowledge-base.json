@@ -92,11 +92,11 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "post-m4.4",
-    "completion_percentage": 92,
+    "status": "post-m4.5",
+    "completion_percentage": 93,
     "current_phase": "Phase 4",
-    "next_milestone": "Post-M4.3 hardening and retention purge policies",
-    "current_milestone": "M4.4 Observability & SRE Baseline"
+    "next_milestone": "Billing enforcement polish and pricing UX",
+    "current_milestone": "M4.5 Billing & Plan Enforcement"
   },
   "agent_bootstrap": {
     "steps": [
@@ -2091,9 +2091,29 @@
       ]
     }
   },
+  "billing": {
+    "doc": "docs/BILLING_OVERVIEW.md",
+    "plan_config": "config/plans.yaml",
+    "admin_endpoints": [
+      "/api/v1/admin/billing/state",
+      "/api/v1/admin/billing/usage",
+      "/api/v1/admin/billing/update-plan",
+      "/api/v1/admin/billing/portal-url"
+    ],
+    "events": [
+      "case_created",
+      "evaluation_run",
+      "lifecycle_transition",
+      "document_generated"
+    ],
+    "metrics": [
+      "billing_events_total",
+      "plan_limit_violations_total"
+    ]
+  },
   "observability": {
     "logging": "Structured logging with request_id, tenant/user context; helpers in backend/src/app/observability/logging.py",
     "health_endpoints": "/internal/healthz (liveness), /internal/readyz (DB readiness)",
-    "metrics_endpoint": "/internal/metrics returns in-process counters requests_total/requests_failed_total"
+    "metrics_endpoint": "/internal/metrics returns in-process counters requests_total/requests_failed_total plus billing_events_total/plan_limit_violations_total"
   }
 }

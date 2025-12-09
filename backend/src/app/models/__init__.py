@@ -14,6 +14,7 @@ from .person import Person
 from .task import CaseTask, CaseTaskActivity, CaseTaskAssignment, CaseTaskDependency
 from .user import User
 from .tenant import Tenant
+from .billing import TenantBillingState
 
 __all__ = [
     "User",
@@ -33,6 +34,7 @@ __all__ = [
     "CaseTaskActivity",
     "CaseTaskDependency",
     "Tenant",
+    "TenantBillingState",
     "CaseRecord",
     "CaseSnapshot",
     "CaseEvent",

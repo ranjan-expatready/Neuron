@@ -33,3 +33,8 @@ class LifecyclePermissionError(ForbiddenError):
     def __init__(self, detail: str = "Lifecycle action not permitted for role") -> None:
         super().__init__(detail)
 
+
+class PlanLimitError(ForbiddenError):
+    def __init__(self, detail: str = "Plan limit exceeded") -> None:
+        super().__init__(detail)
+

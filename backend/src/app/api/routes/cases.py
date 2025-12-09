@@ -9,9 +9,11 @@ from ...models.organization import Organization
 from ...models.user import User
 from ...schemas.case import Case, CaseCreate, CaseUpdate
 from ...services.case import CaseService
+from ...services.billing_service import BillingService
 from ...services.person import PersonService
 from ...services.task import CaseTaskService
 from ..dependencies import get_current_user, get_current_user_org
+from ...security.errors import TenantAccessError
 
 router = APIRouter()
 
@@ -24,6 +26,10 @@ async def create_case(
     db: Session = Depends(get_db),
 ):
     """Create a new case"""
+    if not current_user.tenant_id:
+        raise TenantAccessError("Tenant context required")
+    billing_service = BillingService(db)
+    billing_service.apply_plan_limits(current_user.tenant_id, "case_created")
     # Verify the person belongs to the organization
     person = PersonService.get_person_by_id(db, case_data.primary_person_id, str(current_org.id))
     if not person:
@@ -33,6 +39,7 @@ async def create_case(
         )
 
     case = CaseService.create_case(db, case_data, str(current_org.id), str(current_user.id))
+    billing_service.record_usage_event(current_user.tenant_id, "case_created")
     return case
 
 

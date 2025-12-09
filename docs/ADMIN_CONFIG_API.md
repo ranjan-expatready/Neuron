@@ -36,3 +36,6 @@
 
 
 > Security/Observability (M4.4): endpoints require authenticated users; logs carry request_id and tenant/user IDs; soft-deleted items stay hidden by default; internal health/metrics endpoints exist at /internal/healthz, /internal/readyz, /internal/metrics.
+
+## Related Admin Surfaces
+- Billing admin endpoints (M4.5) live under `/api/v1/admin/billing/*` for plan state, usage, and plan updates; restricted to admin/owner roles.

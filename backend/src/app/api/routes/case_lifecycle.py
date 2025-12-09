@@ -12,6 +12,7 @@ from src.app.cases.repository import CaseEventRepository, CaseRepository, CaseSn
 from src.app.db.database import get_db
 from src.app.models.user import User
 from src.app.security.errors import TenantAccessError
+from src.app.services.billing_service import BillingService
 
 router = APIRouter()
 
@@ -79,6 +80,8 @@ async def submit_case(
 ):
     if not current_user.tenant_id:
         raise TenantAccessError("Tenant context required")
+    billing_service = BillingService(db)
+    billing_service.apply_plan_limits(current_user.tenant_id, "lifecycle_transition")
     service = CaseLifecycleService(db)
     event_repo = CaseEventRepository(db)
     snapshot_repo = CaseSnapshotRepository(db)
@@ -86,6 +89,7 @@ async def submit_case(
         record = service.submit_case(case_id, current_user.id, current_user.tenant_id, current_user.role)
     except CaseLifecycleError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    billing_service.record_usage_event(current_user.tenant_id, "lifecycle_transition")
     return _build_response(record, snapshot_repo, event_repo)
 
 
@@ -97,6 +101,8 @@ async def mark_in_review(
 ):
     if not current_user.tenant_id:
         raise TenantAccessError("Tenant context required")
+    billing_service = BillingService(db)
+    billing_service.apply_plan_limits(current_user.tenant_id, "lifecycle_transition")
     service = CaseLifecycleService(db)
     event_repo = CaseEventRepository(db)
     snapshot_repo = CaseSnapshotRepository(db)
@@ -104,6 +110,7 @@ async def mark_in_review(
         record = service.mark_in_review(case_id, current_user.id, current_user.tenant_id, current_user.role)
     except CaseLifecycleError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    billing_service.record_usage_event(current_user.tenant_id, "lifecycle_transition")
     return _build_response(record, snapshot_repo, event_repo)
 
 
@@ -115,6 +122,8 @@ async def mark_complete(
 ):
     if not current_user.tenant_id:
         raise TenantAccessError("Tenant context required")
+    billing_service = BillingService(db)
+    billing_service.apply_plan_limits(current_user.tenant_id, "lifecycle_transition")
     service = CaseLifecycleService(db)
     event_repo = CaseEventRepository(db)
     snapshot_repo = CaseSnapshotRepository(db)
@@ -122,6 +131,7 @@ async def mark_complete(
         record = service.mark_complete(case_id, current_user.id, current_user.tenant_id, current_user.role)
     except CaseLifecycleError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    billing_service.record_usage_event(current_user.tenant_id, "lifecycle_transition")
     return _build_response(record, snapshot_repo, event_repo)
 
 
@@ -133,6 +143,8 @@ async def archive_case(
 ):
     if not current_user.tenant_id:
         raise TenantAccessError("Tenant context required")
+    billing_service = BillingService(db)
+    billing_service.apply_plan_limits(current_user.tenant_id, "lifecycle_transition")
     service = CaseLifecycleService(db)
     event_repo = CaseEventRepository(db)
     snapshot_repo = CaseSnapshotRepository(db)
@@ -140,5 +152,6 @@ async def archive_case(
         record = service.archive_case(case_id, current_user.id, current_user.tenant_id, current_user.role)
     except CaseLifecycleError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    billing_service.record_usage_event(current_user.tenant_id, "lifecycle_transition")
     return _build_response(record, snapshot_repo, event_repo)
 

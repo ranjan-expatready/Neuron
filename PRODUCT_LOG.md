@@ -30,7 +30,7 @@
 - ✅ Document intake & storage (`backend/src/app/api/routes/documents.py`, `frontend/src/app/cases/[id]/upload/page.tsx`) – Secure uploads with categorization, partial OCR hooks.
 - 🟡 Person/client profiles – Backend models exist, but dedicated UI journeys, household management, and profile completeness scoring remain `[BP-02]/[BP-03]`.
 - 🟡 Workflow & task service – Test plan + scaffolding exist (`docs/WORKFLOW_TASK_TEST_PLAN.md`), yet services/routes aren’t production-ready `[BP-08]`.
-- 🔴 Billing, payments & trust accounting – Spec’d in `[BP-03 §5.3]` and gap analysis P0 #21; no code implemented.
+- 🟡 Billing plan enforcement stub (M4.5) – Plan config + tenant billing state, plan limits on case creation/evaluation/lifecycle, admin usage endpoints; payments/trust accounting still pending `[BP-03 §5.3]`.
 - 🔴 Lead/CRM pipeline → case automation – Intake flows remain manual despite `[BP-13 §Phase 2]`.
 
 ## D. Brain & AI (Law, Rules, CRS, Intelligence)

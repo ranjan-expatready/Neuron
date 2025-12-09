@@ -20,6 +20,7 @@ from src.app.models.user import User
 from src.app.observability.logging import get_logger, log_info
 from src.app.rules.models import CandidateProfile, ProgramEligibilityResult
 from src.app.security.errors import TenantAccessError
+from src.app.services.billing_service import BillingService
 from src.app.services.rule_engine_service import RuleEngineService
 
 
@@ -150,6 +151,8 @@ async def evaluate_case(
     history_service = CaseHistoryService(db)
     if not current_user.tenant_id:
         raise TenantAccessError("Tenant context required")
+    billing_service = BillingService(db)
+    billing_service.apply_plan_limits(current_user.tenant_id, "evaluation_run")
 
     case = case_service.build_case(request.profile)
     crs_results = rule_engine.evaluate(request.profile)
@@ -242,6 +245,7 @@ async def evaluate_case(
         tenant_id=current_user.tenant_id,
         created_by_user_id=current_user.id,
     )
+    billing_service.record_usage_event(current_user.tenant_id, "evaluation_run")
 
     return CaseEvaluationResponse(
         case_id=history.case_id,

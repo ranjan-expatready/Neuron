@@ -1,5 +1,11 @@
 # Engineering Memory Log
 
+## 2025-12-10 – [backend][billing][m4_5]
+- Added BillingService abstraction with plan config loader (`config/plans.yaml`), plan state persistence, usage counters, plan limit enforcement, and structured logging/metrics.
+- Introduced billing admin router (`/api/v1/admin/billing/*`) for state/usage/plan updates; secured via admin/owner RBAC.
+- Enforced plan limits on case creation, evaluation, and lifecycle transitions; standardized `plan_limit_exceeded` error + observability metrics (`billing_events_total`, `plan_limit_violations_total`).
+- New Alembic migration `20251210_m45_billing_plan_state`, `tenant_billing_state` model, billing doc, and billing test suite.
+
 ## 2025-12-10 – [backend][security][tenant][m4_3]
 - Stabilized M4.3 security & tenant guardrails (auth binding on case evaluation/history/lifecycle/admin config).
 - Enforced tenant isolation and lifecycle RBAC; soft deletes + retention stub added for cases/snapshots/events.

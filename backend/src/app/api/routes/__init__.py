@@ -3,6 +3,7 @@
 from . import (
     admin_config,
     auth,
+    billing_admin,
     cases,
     case_evaluation,
     case_history,
@@ -18,6 +19,7 @@ from . import (
 __all__ = [
     "admin_config",
     "auth",
+    "billing_admin",
     "cases",
     "case_evaluation",
     "case_history",

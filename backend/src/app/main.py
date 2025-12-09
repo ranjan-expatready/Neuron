@@ -10,7 +10,17 @@ from fastapi.security import HTTPBearer
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from src.app.api.routes import admin_config, auth, cases, documents, organizations, persons, tasks, users
+from src.app.api.routes import (
+    admin_config,
+    auth,
+    billing_admin,
+    cases,
+    documents,
+    organizations,
+    persons,
+    tasks,
+    users,
+)
 from src.app.api.routes import config as config_routes
 from src.app.api.routes.internal import router as internal_router
 
@@ -18,12 +28,13 @@ from src.app.config import settings
 from src.app.cases import models_db as case_history_models
 from src.app.db.database import engine, get_db
 from src.app.middleware.security import security_middleware
-from src.app.models import case, config, document, organization, person, task, user
+from src.app.models import case, config, document, organization, person, task, user, billing
 from src.app.observability.logging import get_logger, log_info, log_error
 from src.app.observability.metrics import metrics_registry
 from src.app.security.errors import (
     ForbiddenError,
     LifecyclePermissionError,
+    PlanLimitError,
     TenantAccessError,
     UnauthorizedError,
     SecurityError,
@@ -135,6 +146,7 @@ app.include_router(cases.router, prefix="/api/v1/cases", tags=["Cases"])
 app.include_router(documents.router, prefix="/api/v1/documents", tags=["Documents"])
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
 app.include_router(admin_config.router, prefix="/api/v1/admin/config", tags=["Admin Configuration"])
+app.include_router(billing_admin.router, prefix="/api/v1/admin/billing", tags=["Billing Admin"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
 from src.app.api.routes import case_evaluation, case_history, case_lifecycle  # noqa: E402
 
@@ -192,6 +204,14 @@ async def lifecycle_handler(request: Request, exc: LifecyclePermissionError):
         content=SecurityError(
             error="lifecycle_permission", detail=exc.detail, status_code=exc.status_code
         ).model_dump(),
+    )
+
+
+@app.exception_handler(PlanLimitError)
+async def plan_limit_handler(request: Request, exc: PlanLimitError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": "plan_limit_exceeded", "detail": exc.detail, "status_code": exc.status_code},
     )
 
 

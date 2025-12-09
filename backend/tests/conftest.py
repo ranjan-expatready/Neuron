@@ -15,6 +15,7 @@ from src.app.main import app
 from src.app.models import task as task_models  # noqa: F401
 from src.app.models.organization import Organization, OrganizationMembership
 from src.app.models.tenant import Tenant  # noqa: F401
+from src.app.models.billing import TenantBillingState  # noqa: F401
 from src.app.models.user import User
 from src.app.services.auth import AuthService
 

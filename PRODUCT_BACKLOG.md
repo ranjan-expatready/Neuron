@@ -167,11 +167,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [CF-003] Billing, Payments & Trust Accounting
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔴 Missing
+- **Status:** 🟡 Partial
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend + Integrations
-- **Description:** Implement invoices, payment plans, trust account handling, and PCI/AML compliance `[BP-03 §5.3]`.
+- **Description:** Implement invoices, payment plans, trust account handling, and PCI/AML compliance `[BP-03 §5.3]`. Plan enforcement + usage tracking shipped in M4.5; payments/trust accounting remain.
 - **Source:** BP-03, BP-14 Gap #21, #20
 - **Dependencies:** Payment gateway, audit logging, reporting
 
