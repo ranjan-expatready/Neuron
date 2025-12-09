@@ -51,3 +51,4 @@ def test_fst_requires_trade_certificate() -> None:
 
     assert any(d.id == "trade_certificate" for d in result.required_documents)
 
+

@@ -24,3 +24,4 @@
 - Related: `domain_knowledge/raw/crs/sources.md`, `domain_knowledge/processed/crs/core_overview.md`
 
 Status: DRAFT — SME/legal validation required before production use.
+

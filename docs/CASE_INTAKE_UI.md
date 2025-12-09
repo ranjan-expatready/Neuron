@@ -23,3 +23,4 @@
 - Uses fetch against `/api/v1/cases/evaluate`; ensure backend is running and accessible in dev.
 - Tests: `frontend/tests/case-intake.test.tsx` (Jest + Testing Library).
 
+

@@ -95,3 +95,4 @@ rows:
   - [canadian_study, "Post-secondary credential 3+ years in Canada", 30]
   - [provincial_nomination, "Provincial/territorial nomination", 600]
 notes: Job-offer points are absent on this page (per Mar 25, 2025 removal noted elsewhere). All values DRAFT pending SME validation.
+

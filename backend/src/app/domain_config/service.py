@@ -85,3 +85,4 @@ class ConfigService:
     def get_biometrics_medicals(self) -> BiometricsMedicalsConfig:
         return self.load_bundle().biometrics_medicals
 
+

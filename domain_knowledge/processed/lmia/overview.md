@@ -22,3 +22,4 @@ Captures Labour Market Impact Assessment (LMIA) context and job offer attributes
 
 ## Status
 - DRAFT – requires SME/legal review before production.
+

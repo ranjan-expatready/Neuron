@@ -30,3 +30,4 @@
   - Use NOC 2021 codes (structure: 5-digit) with TEER mapping to determine skilled eligibility; do not embed full code tables—rely on external lookup.
 
 Status: DRAFT – high-level extraction only; SME/legal validation required.
+

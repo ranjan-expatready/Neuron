@@ -34,3 +34,4 @@
   - Additional trades documentation (licensing/assessment) can be requested to validate qualifications.
 
 Status: DRAFT – high-level extraction only; SME/legal validation required.
+

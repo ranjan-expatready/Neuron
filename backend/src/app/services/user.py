@@ -25,12 +25,9 @@ class UserService:
         db_user = User(
             email=user_data.email,
             encrypted_password=hashed_password,
-            hashed_password=hashed_password,
-            full_name=f"{user_data.first_name} {user_data.last_name}".strip(),
             first_name=user_data.first_name,
             last_name=user_data.last_name,
             phone=user_data.phone,
-            role="agent",
         )
         db.add(db_user)
         db.flush()  # Get the user ID

@@ -99,3 +99,4 @@ class DomainRulesConfigService:
 
 def load_domain_rules_config(base_path: Path | None = None) -> DomainRulesConfig:
     return DomainRulesConfigService(base_path).load()
+

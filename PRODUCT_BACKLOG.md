@@ -598,36 +598,6 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Config-driven Case Evaluation API exposing program eligibility, CRS breakdown, and document/forms matrix with explainability metadata.
 - **Dependencies:** RuleEngineService, DocumentMatrixService, CaseService, config/domain/*.yaml
 
-#### [ENG-CASE-001] Case Lifecycle Engine (M4.1)
-
-- **Domain:** 3.3 Cases & Workflows
-- **Status:** 🟡 In Progress
-- **Priority:** P1
-- **Phase:** P1
-- **Type:** Backend persistence + API
-- **Description:** Tenant-aware case lifecycle with Tenant/User models, CaseRecord ownership/status, immutable snapshots and audit events, and lifecycle API for submit/review/complete/archive.
-- **Dependencies:** CaseRecord/CaseSnapshot/CaseEvent, Tenant/User models, lifecycle service, branch protection + CI
-
-#### [ENG-RULE-007] Case History & Audit (Phase 3.5)
-
-- **Domain:** 3.5 Brain & AI
-- **Status:** ✅ Done
-- **Priority:** P1
-- **Phase:** P1
-- **Type:** Backend persistence + API
-- **Description:** Persist evaluated cases with canonical CaseRecord, immutable CaseSnapshot versions, and CaseEvent audit entries; expose internal read-only APIs for listing and retrieving history.
-- **Dependencies:** Case Evaluation API, ConfigService hashes, Alembic migrations, CaseHistoryService
-
-#### [ENG-RULE-008] User/Tenant-Scoped Case History (Phase 4)
-
-- **Domain:** 3.5 Brain & AI
-- **Status:** 🔵 Planned
-- **Priority:** P1
-- **Phase:** P4 (Future)
-- **Type:** Backend persistence + AuthN/AuthZ
-- **Description:** Link case history to authenticated users/tenants, enforce scoping/RBAC, and secure history APIs for production use.
-- **Dependencies:** ENG-RULE-007 data model, auth/tenant context propagation, audit logging
-
 ### 3.6 Agentic & Automation
 
 #### [AA-001] Multi-Agent Runtime & Scheduler

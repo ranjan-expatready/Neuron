@@ -21,3 +21,4 @@
   - Job offer location may determine PNP relevance; province-specific rules apply when nomination is involved (out of scope here).
 
 Status: DRAFT – high-level extraction only; SME/legal validation required.
+

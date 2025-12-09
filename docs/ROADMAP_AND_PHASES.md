@@ -27,3 +27,4 @@
 - **M5.1 – Configurator AI Agent (read-only suggestions)**: Surface suggested config diffs; no auto-write.
 - **M5.2 – OpenHands-assisted refactor & deeper tests**: Hardening of rule engine + UI with automated refactors/tests.
 
+

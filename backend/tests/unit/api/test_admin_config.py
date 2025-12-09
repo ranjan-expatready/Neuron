@@ -63,3 +63,4 @@ def test_get_config_section_not_found():
     assert "detail" in response.json()
 
 
+

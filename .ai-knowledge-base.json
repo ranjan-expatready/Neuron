@@ -1,6 +1,6 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-09T12:50:00+00:00",
+  "last_updated": "2025-12-03T16:20:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
     "test_directories": ["backend/tests/unit", "backend/tests/integration"],
@@ -291,31 +291,6 @@
     "notes": [
       "POST /api/v1/cases/evaluate exposes config-driven program eligibility + CRS + forms/documents.",
       "All thresholds derive from config/domain/*.yaml via ConfigService/RuleEngineService/DocumentMatrixService."
-    ]
-  },
-  "case_history": {
-    "doc": "docs/CASE_HISTORY_OVERVIEW.md",
-    "api": [
-      "backend/src/app/api/routes/case_history.py",
-      "backend/src/app/api/routes/case_evaluation.py"
-    ],
-    "services": [
-      "backend/src/app/cases/history_service.py",
-      "backend/src/app/cases/repository.py"
-    ],
-    "notes": [
-      "CaseRecord is the canonical state; CaseSnapshot is immutable history; CaseEvent is the audit trail.",
-      "Phase 3.5 is internal-only; user/tenant-level history will be added in Phase 4."
-    ]
-  },
-  "case_lifecycle": {
-    "docs": ["docs/CASE_LIFECYCLE_API.md"],
-    "models": [
-      "backend/src/app/auth/models.py",
-      "backend/src/app/cases/lifecycle_service.py"
-    ],
-    "notes": [
-      "Case lifecycle is fully tenant-aware and exposes safe state transitions."
     ]
   },
   "agent_coordination": {

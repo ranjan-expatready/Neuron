@@ -104,3 +104,4 @@ def test_fst_requires_job_offer() -> None:
     # Language still high, so should now be eligible
     assert fst2.eligible is True
 
+

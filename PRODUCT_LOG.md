@@ -49,14 +49,6 @@
 - ✅ Milestone 3.3 — Express Entry Case Intake UI: frontend route `/express-entry/intake` collects minimal profile inputs, calls Case Evaluation API, and displays program eligibility, CRS breakdown, and required forms/documents (read-only, single-session).
 - ✅ Milestone 3.4 — Roadmap & Phase Overview: added `docs/ROADMAP_AND_PHASES.md` summarizing phases 0–6, current position (end of Phase 3.3), and next milestones; linked in knowledge base.
 - ✅ Rule engine skeleton + config wiring (ENG-RULE-001/002) merged: CRS/eligibility engine reads `config/domain/*.yaml`; still internal-only, no public API exposure yet.
-- ✅ Milestone 3.5 – Case History, Audit & Versioned Snapshots
-  - Implemented CaseRecord, CaseSnapshot, and CaseEvent models with Alembic migration.
-  - Case Evaluation API now persists evaluations and returns `case_id` + `version` with audit metadata.
-  - Added internal Case History API (`/api/v1/case-history`) for listing and inspecting stored cases.
-- ✅ Milestone 4.1 – Case Lifecycle & Tenant Infrastructure
-  - Added Tenant and tenant-scoped User models (composite tenant+email uniqueness, roles, hashed_password).
-  - CaseRecord now tracks tenant ownership, creator user, and lifecycle status; snapshots/events store tenant_id.
-  - Case lifecycle service + API (`/api/v1/case-lifecycle/*`) manage submit/review/complete/archive with audit + snapshots; docs/tests updated.
 
 ## E. Agentic & Automation Features
 
