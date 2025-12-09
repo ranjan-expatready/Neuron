@@ -1,3 +1,10 @@
+## 2025-12-09 – [config][admin_api][m3_1]
+
+- Added Admin Config Read API (`/api/v1/admin/config`, `/sections`, `/{section}`) using AdminConfigService + ConfigService + DocumentMatrixService; snapshot exposes CRS, language, work_experience, proof_of_funds, program_rules, arranged_employment, biometrics_medicals, documents, and forms.
+- Router registered in main; new doc `docs/ADMIN_CONFIG_API.md`; KB/backlog/product log updated for Milestone 3.1.
+- Tests: backend pytest via `backend/.venv` ✅ (172 passed, 4 skipped, coverage ~83.8%).
+- Branch protection unchanged (backend-tests + frontend-tests required; no frontend changes).
+
 ## 2025-12-06 – [domain][crs][octagon_ingest_v1] CRS ingestion attempt (DRAFT)
 
 - Targeted CRS domain ingestion using official IRCC/Canada.ca URLs (CRS page, eligibility page, NOC site). Network access unavailable in this environment; raw file documents sources + TODOs to populate exact tables.

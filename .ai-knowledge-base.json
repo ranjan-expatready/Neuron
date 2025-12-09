@@ -195,6 +195,19 @@
       "Any change in IRCC rules MUST be reflected here first."
     ]
   },
+  "admin_config_api": {
+    "doc": "docs/ADMIN_CONFIG_API.md",
+    "modules": [
+      "backend/src/app/domain_config/service.py",
+      "backend/src/app/admin_config/service.py",
+      "backend/src/app/api/routes/admin_config.py",
+      "backend/src/app/documents/service.py"
+    ],
+    "notes": [
+      "Read-only endpoints exposing loaded domain configuration and document/form matrices.",
+      "Config-first: all values originate from config/domain/*.yaml via ConfigService and DocumentMatrixService."
+    ]
+  },
   "rule_engine": {
     "docs": [
       "docs/RULE_ENGINE_OVERVIEW.md",

@@ -77,6 +77,10 @@ class DocumentMatrixService:
         self._bundle = DocumentConfigBundle(documents=docs_cfg, forms=forms_cfg)
         return self._bundle
 
+    def get_bundle(self) -> DocumentConfigBundle:
+        """Expose the cached documents/forms bundle for read-only callers."""
+        return self._load_bundle()
+
     def get_required_documents(self, profile: CandidateProfile, program: str) -> DocumentMatrixResult:
         bundle = self._load_bundle()
         domain_cfg = self.config_service.get_domain_rules()
