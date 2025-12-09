@@ -1,49 +1,15 @@
 meta:
-  version: "0.1.0"
+  version: "0.2.0"
   status: "DRAFT"
-  notes: "Schema for language tests and CLB mappings. Populate from official IRCC tables."
+  notes: "Program language minima and CLB tables derived from IRCC; SME validation required. Sources: domain_knowledge/raw/language/clb_tables.md; domain_knowledge/processed/language/clb_overview.md."
 
-tests:
-  - code: "IELTS_G"
-    name: "IELTS General Training"
-    skills: ["reading", "writing", "listening", "speaking"]
-    mapping_schema:
-      clb: "int"
-      min_score: "decimal"
-      max_score: "decimal"
-  - code: "CELPIP_G"
-    name: "CELPIP General"
-    skills: ["reading", "writing", "listening", "speaking"]
-    mapping_schema:
-      clb: "int"
-      min_score: "decimal"
-      max_score: "decimal"
-  - code: "TEF_CANADA"
-    name: "TEF Canada"
-    skills: ["reading", "writing", "listening", "speaking"]
-    mapping_schema:
-      clb: "int"
-      min_score: "decimal"
-      max_score: "decimal"
-  - code: "TCF_CANADA"
-    name: "TCF Canada"
-    skills: ["reading", "writing", "listening", "speaking"]
-    mapping_schema:
-      clb: "int"
-      min_score: "decimal"
-      max_score: "decimal"
+program_minima:
+  fsw_min_clb: 7
+  cec_min_clb_teer_0_1: 7
+  cec_min_clb_teer_2_3: 5
+  fst_min_clb_speak_listen: 5
+  fst_min_clb_read_write: 4
 
-first_official_language:
-  description: "Points schema for first official language per skill."
-  schema:
-    clb_band: "int"
-    points_per_skill: "int"
-    spouse_variant: "int"
+clb_tables_ref: "domain_knowledge/raw/language/clb_tables.md"
 
-second_official_language:
-  description: "Points schema for second official language per skill."
-  schema:
-    clb_band: "int"
-    points_per_skill: "int"
-
-status: "DRAFT – no real CLB mappings or points until populated from domain_knowledge/raw/crs"
+clb_tables: [] # Full tables live in domain_knowledge/raw; summarized here as ref placeholder.

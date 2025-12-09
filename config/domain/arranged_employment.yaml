@@ -1,0 +1,12 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Derived from IRCC arranged employment rules; SME validation required. Source: domain_knowledge/raw/work_experience/arranged_employment_sources.md"
+
+arranged_employment:
+  valid_teers: [0, 1, 2, 3]
+  min_duration_months: 12
+  require_full_time: true
+  require_non_seasonal: true
+
+status: "DRAFT – replace with validated thresholds and LMIA exemption catalogue."

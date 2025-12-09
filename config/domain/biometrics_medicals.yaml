@@ -1,0 +1,11 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Validity/reuse from domain_knowledge/raw/biometrics_medicals/validity_sources.md; SME validation required."
+
+biometrics_medicals:
+  medical_validity_months: 12
+  biometrics_validity_months: 120
+  expiry_warning_days: 90
+
+status: "DRAFT – refine with program-specific reuse/exemption logic."

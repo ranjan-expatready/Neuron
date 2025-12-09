@@ -1,21 +1,33 @@
 meta:
-  version: "0.1.0"
+  version: "0.2.0"
   status: "DRAFT"
-  notes: "Schema for proof-of-funds thresholds and exemptions; no amounts included."
+  notes: "PoF thresholds derived from IRCC PoF table (domain_knowledge/raw/proof_of_funds/sources.md); SME validation required."
 
-thresholds:
-  schema:
-    - family_size: "int"
-      required_amount_cad: "decimal"
-      effective_date: "date"
-      source: "string"
+table:
+  - family_size: 1
+    amount_cad: 13757
+    effective_date: "2025-07-07"
+  - family_size: 2
+    amount_cad: 17127
+    effective_date: "2025-07-07"
+  - family_size: 3
+    amount_cad: 21055
+    effective_date: "2025-07-07"
+  - family_size: 4
+    amount_cad: 25562
+    effective_date: "2025-07-07"
+  - family_size: 5
+    amount_cad: 28994
+    effective_date: "2025-07-07"
+  - family_size: 6
+    amount_cad: 32622
+    effective_date: "2025-07-07"
+  - family_size: 7
+    amount_cad: 36424
+    effective_date: "2025-07-07"
 
 exemptions:
-  - condition: "valid_job_offer_or_cec"
-    description: "Applicants with a valid job offer/LMIA or in CEC may be exempt from PoF thresholds."
+  - "CEC"
+  - "valid_job_offer"
 
-validation:
-  - rule: "Amounts must be versioned and dated"
-  - rule: "Currency assumed CAD; conversions handled upstream if needed"
-
-status: "DRAFT – populate amounts from official IRCC table later."
+status: "DRAFT – SME/legal validation required."

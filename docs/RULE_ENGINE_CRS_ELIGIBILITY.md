@@ -75,3 +75,17 @@ eligibility:
 
 - Every rule should have: `rule_id`, `rule_name`, `severity`, `explanation`, `source_ref` (domain_knowledge link).
 - EvaluationResult should carry reason codes for eligibility decisions and CRS factor derivations to support audits and UI explanations.
+
+## 7) Config Keys (ENG-RULE-002)
+
+- Eligibility:
+  - `language.yaml`: `fsw_min_clb`, `cec_min_clb_teer_0_1`, `cec_min_clb_teer_2_3`, `fst_min_clb_*`, `clb_tables_ref`.
+  - `work_experience.yaml`: `eligible_teers`, `fsw.min_continuous_months`, `cec.min_canadian_months`, `cec.recency_years`.
+  - `proof_of_funds.yaml`: `table[]`, `exemptions`.
+  - `programs.yaml`: `program_rules[].uses_proof_of_funds`, `requires_job_offer`, `requires_certificate_or_offer`.
+  - `arranged_employment.yaml`: `valid_teers`, `min_duration_months`, `require_full_time`, `require_non_seasonal`.
+  - `biometrics_medicals.yaml`: `medical_validity_months`, `biometrics_validity_months`, `expiry_warning_days`.
+- CRS:
+  - `crs.yaml`: `crs_core.base_age_points`, `language_bonus_per_clb` (placeholders until tables are wired); `crs_transferability.notes` points to raw tables.
+- Engine wiring:
+  - YAMLs → `DomainRulesConfig` (config_models) via `config_loader.load_domain_rules_config()` → injected into `RuleEngine` / `RuleEngineService`.
