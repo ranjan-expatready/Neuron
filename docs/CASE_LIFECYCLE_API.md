@@ -73,3 +73,5 @@ Response:
 - RBAC applies per the matrix above; disallowed transitions return `LifecyclePermissionError`.
 - Soft-deleted cases remain hidden unless an admin requests `include_deleted=true`.
 
+
+> Security/Observability (M4.4): endpoints require authenticated users; logs carry request_id and tenant/user IDs; soft-deleted items stay hidden by default; internal health/metrics endpoints exist at /internal/healthz, /internal/readyz, /internal/metrics.

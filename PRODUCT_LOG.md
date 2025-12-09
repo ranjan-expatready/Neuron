@@ -83,3 +83,8 @@
 - 🔵 Mobile apps (consultant + client) – Strategy defined in `[BP-13 P1]`, awaiting execution.
 - 🔵 Partnership ecosystem & GTM motions – Outlined in `[BP-13]/spec gap #24` but tooling/support absent.
 - 🔵 International expansion (UK/AUS/US playbooks) – Captured in `[BP-13 Phase 3]`, unstarted.
+
+## 2025-12-09 – M4.4 Observability & SRE Baseline
+- Added request ID middleware and structured logging with tenant/user context across case evaluation, lifecycle, history, and admin config flows.
+- Exposed internal liveness/readiness (`/internal/healthz`, `/internal/readyz`) and metrics (`/internal/metrics`) endpoints for ops use.
+- Established in-process request counters to support future telemetry integration.

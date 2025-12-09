@@ -62,3 +62,5 @@ Scope is **backend-only**, internal/testing. No auth is wired yet; user/tenant l
 - Authenticated access to history endpoints.
 - Cross-environment provenance, IP/device metadata, and export hooks for compliance.
 
+
+> Security/Observability (M4.4): endpoints require authenticated users; logs carry request_id and tenant/user IDs; soft-deleted items stay hidden by default; internal health/metrics endpoints exist at /internal/healthz, /internal/readyz, /internal/metrics.

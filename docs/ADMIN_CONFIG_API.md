@@ -34,3 +34,5 @@
 - `backend/tests/unit/api/test_admin_config.py`
 - Run: `cd backend && pytest backend/tests/unit/api/test_admin_config.py`
 
+
+> Security/Observability (M4.4): endpoints require authenticated users; logs carry request_id and tenant/user IDs; soft-deleted items stay hidden by default; internal health/metrics endpoints exist at /internal/healthz, /internal/readyz, /internal/metrics.

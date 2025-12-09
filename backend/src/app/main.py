@@ -1,4 +1,6 @@
 import logging
+import time
+import uuid
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -10,11 +12,15 @@ from sqlalchemy.orm import Session
 
 from src.app.api.routes import admin_config, auth, cases, documents, organizations, persons, tasks, users
 from src.app.api.routes import config as config_routes
+from src.app.api.routes.internal import router as internal_router
+
 from src.app.config import settings
 from src.app.cases import models_db as case_history_models
 from src.app.db.database import engine, get_db
 from src.app.middleware.security import security_middleware
 from src.app.models import case, config, document, organization, person, task, user
+from src.app.observability.logging import get_logger, log_info, log_error
+from src.app.observability.metrics import metrics_registry
 from src.app.security.errors import (
     ForbiddenError,
     LifecyclePermissionError,
@@ -23,7 +29,7 @@ from src.app.security.errors import (
     SecurityError,
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 load_dotenv()
 
 # Create all tables
@@ -53,6 +59,42 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Observability middleware (request_id, timing, metrics, structured log)
+@app.middleware("http")
+async def observability_middleware(request: Request, call_next):
+    request_id = str(uuid.uuid4())
+    request.state.request_id = request_id
+    start = time.perf_counter()
+    try:
+        response = await call_next(request)
+        status_code = response.status_code
+    except Exception:
+        status_code = 500
+        duration_ms = (time.perf_counter() - start) * 1000
+        metrics_registry.record_request(request.method, request.url.path, status_code, duration_ms)
+        log_error(
+            logger=logger,
+            message="request.failed",
+            request=request,
+            status_code=status_code,
+            duration_ms=duration_ms,
+            component="http_request",
+        )
+        raise
+
+    duration_ms = (time.perf_counter() - start) * 1000
+    metrics_registry.record_request(request.method, request.url.path, status_code, duration_ms)
+    log_info(
+        logger=logger,
+        message="request.completed",
+        request=request,
+        status_code=status_code,
+        duration_ms=duration_ms,
+        component="http_request",
+    )
+    response.headers["X-Request-ID"] = request_id
+    return response
 
 # Add security middleware
 app.middleware("http")(security_middleware)
@@ -97,6 +139,7 @@ app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
 from src.app.api.routes import case_evaluation, case_history, case_lifecycle  # noqa: E402
 
 app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
+app.include_router(internal_router, prefix="/internal", tags=["Internal"])
 app.include_router(
     case_history.router,
     prefix="/api/v1/case-history",

@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import hashlib
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
@@ -16,12 +17,14 @@ from src.app.db.database import get_db
 from src.app.documents.service import DocumentMatrixService
 from src.app.domain_config.service import ConfigService
 from src.app.models.user import User
+from src.app.observability.logging import get_logger, log_info
 from src.app.rules.models import CandidateProfile, ProgramEligibilityResult
 from src.app.security.errors import TenantAccessError
 from src.app.services.rule_engine_service import RuleEngineService
 
 
 router = APIRouter()
+logger = get_logger(__name__)
 
 
 class FactorDetail(BaseModel):

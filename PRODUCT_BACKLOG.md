@@ -798,3 +798,6 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Extend billing/financial services to support multi-currency, tax reporting, and jurisdiction-specific rules `[BP-13 §Phase 3]`.
 - **Source:** BP-13, Gap #20
 - **Dependencies:** Financial reporting, localization, legal research
+
+- [DONE] Observability baseline (M4.4): structured logging, request IDs, health/ready/metrics endpoints.
+- [OPEN] Observability enhancements: tracing, Prometheus/Grafana integration, alerting/SLOs, per-tenant dashboards.

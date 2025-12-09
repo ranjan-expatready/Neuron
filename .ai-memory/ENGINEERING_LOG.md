@@ -230,3 +230,9 @@
 - Reset main to origin/main and cleaned working tree with `git clean -xfd`.
 - Verified branch protection: required checks backend-tests/frontend-tests, strict=true, enforce_admins=true, reviews=0.
 - No runtime code touched.
+
+## 2025-12-09 – [backend][observability][sre][m4_4]
+- Implemented M4.4 observability baseline atop M4.3 (request ID middleware, structured logging helpers, tenant/user context).
+- Added /internal/healthz, /internal/readyz, and /internal/metrics endpoints with in-process counters.
+- Instrumented case evaluation, lifecycle, history, and admin config flows with structured logs.
+- Added observability tests; backend suite remains green with >85% coverage.
