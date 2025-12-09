@@ -485,6 +485,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Backend rules/config
 - **Description:** Define YAML schemas for CRS and eligibility (e.g., crs.yaml, eligibility.yaml) and load/validate them in the rule engine.
 - **Dependencies:** rule engine skeleton, schema design, domain_knowledge references
+- **Notes:** Implemented via PR #19; see ENGINEERING_LOG entry dated 2025-12-09 `[rules][crs_engine][config_wiring_complete]`.
 
 #### [ENG-RULE-004] Config admin UI/editor (follow-up)
 
