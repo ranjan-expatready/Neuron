@@ -1,0 +1,104 @@
+[
+  {
+    "id": "TC001",
+    "title": "User Registration Success",
+    "description": "Verify that a new user can successfully register with valid information.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      { "type": "action", "description": "Navigate to /auth/register" },
+      {
+        "type": "action",
+        "description": "Enter email, password, first/last name, and organization"
+      },
+      { "type": "action", "description": "Submit the registration form" },
+      {
+        "type": "assertion",
+        "description": "Confirm success toast and redirect to login"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User Login with Valid Credentials",
+    "description": "Ensure user can login with correct email and password via the UI.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      { "type": "action", "description": "Navigate to /auth/login" },
+      {
+        "type": "action",
+        "description": "Input newly registered email/password"
+      },
+      { "type": "action", "description": "Click login" },
+      {
+        "type": "assertion",
+        "description": "Verify redirect to /cases dashboard"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "User Login with Invalid Credentials",
+    "description": "Verify login fails gracefully with wrong password.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      { "type": "action", "description": "Navigate to /auth/login" },
+      {
+        "type": "action",
+        "description": "Input valid email and incorrect password"
+      },
+      { "type": "action", "description": "Click login" },
+      {
+        "type": "assertion",
+        "description": "Ensure error banner appears and no redirect occurs"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Case List and Detail View",
+    "description": "Validate case listing table, status filter, and drill-down page.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      { "type": "action", "description": "Login as consultant" },
+      { "type": "action", "description": "Navigate to /cases" },
+      {
+        "type": "assertion",
+        "description": "Verify table renders seeded cases with pagination"
+      },
+      {
+        "type": "action",
+        "description": "Click a case to open /cases/[id]"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm header shows case metadata, timeline, and tabs"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Document Upload Flow",
+    "description": "Ensure drag-and-drop upload UI works and progress indicator updates.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login and navigate to /cases/[id]/upload"
+      },
+      {
+        "type": "action",
+        "description": "Select a small PDF file and fill in document metadata"
+      },
+      { "type": "action", "description": "Submit upload" },
+      {
+        "type": "assertion",
+        "description": "Verify success alert and redirect back to case detail showing new document entry"
+      }
+    ]
+  }
+]

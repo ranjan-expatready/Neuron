@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "register a new user successfully",
+    "description": "Test the /api/v1/auth/register endpoint to ensure a new user can be registered with valid data and receives a 200 response confirming user creation."
+  },
+  {
+    "id": "TC002",
+    "title": "login with valid credentials",
+    "description": "Test the /api/v1/auth/login-json endpoint to verify that a user can login with valid credentials and receives a JWT token with a 200 response."
+  },
+  {
+    "id": "TC003",
+    "title": "list all cases for a user",
+    "description": "Test the GET /api/v1/cases endpoint to ensure it returns a list of cases associated with the authenticated user with a 200 response."
+  },
+  {
+    "id": "TC004",
+    "title": "create a new immigration case",
+    "description": "Test the POST /api/v1/cases endpoint to verify that a new immigration case can be created successfully and returns a 200 response with case details."
+  },
+  {
+    "id": "TC005",
+    "title": "get case details by case id",
+    "description": "Test the GET /api/v1/cases/{case_id} endpoint to retrieve detailed information of a specific case by its ID, expecting a 200 response or 404 if not found."
+  },
+  {
+    "id": "TC006",
+    "title": "update an existing case",
+    "description": "Test the PUT /api/v1/cases/{case_id} endpoint to update details of an existing case and verify a 200 response confirming the update."
+  },
+  {
+    "id": "TC007",
+    "title": "delete a case by id",
+    "description": "Test the DELETE /api/v1/cases/{case_id} endpoint to delete a specific case by its ID and confirm a 200 response indicating successful deletion."
+  },
+  {
+    "id": "TC008",
+    "title": "upload a document successfully",
+    "description": "Test the POST /api/v1/documents/upload endpoint to upload a document file securely and verify a 200 response confirming the upload."
+  },
+  {
+    "id": "TC009",
+    "title": "list all uploaded documents",
+    "description": "Test the GET /api/v1/documents endpoint to retrieve a list of all uploaded documents with a 200 response."
+  },
+  {
+    "id": "TC010",
+    "title": "create a new person record",
+    "description": "Test the POST /api/v1/persons endpoint to create a new person record and verify a 200 response confirming creation."
+  }
+]

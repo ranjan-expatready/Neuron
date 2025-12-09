@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "project": "Canada Immigration OS",
+    "date": "2025-11-19",
+    "prepared_by": "AI Product Manager"
+  },
+  "product_overview": "Canada Immigration OS is a comprehensive AI-powered SaaS platform designed specifically for Canadian immigration consultants and law firms. It automates 80-90% of routine immigration practice tasks through a unique multi-agent AI architecture that combines deep Canadian immigration expertise, advanced AI agents, and a comprehensive legal compliance framework. The platform enhances consultant productivity, improves client experience via self-service portals and mobile apps, and ensures strict compliance with Canadian immigration law and privacy regulations.",
+  "core_goals": [
+    "Automate 80-90% of routine immigration consulting tasks for efficiency and scalability",
+    "Deliver superior client experience with 24/7 AI support, transparent case tracking, and multi-channel communication",
+    "Maintain full legal compliance with human-in-the-loop oversight and a human-approved IRCC rule engine",
+    "Enable 3-5x consultant case capacity increase through intelligent automation",
+    "Establish Canada Immigration OS as the leading Canadian immigration consulting platform within 3 years",
+    "Create a robust integration ecosystem with extensive third-party app marketplace",
+    "Provide actionable data-driven insights and advanced analytics",
+    "Support multi-language and multi-jurisdictional expansion capabilities",
+    "Offer enterprise-grade security, data sovereignty, and compliance features",
+    "Drive continuous innovation with self-evolving AI agents and workflows"
+  ],
+  "key_features": [
+    "Multi-Agent AI Architecture including Mastermind Consultant, Law Intelligence, Eligibility & CRS, Document Intelligence, Workflow Orchestration, Client Success, and more",
+    "Comprehensive Case Management System with automated task generation, milestone tracking, and collaboration tools",
+    "Advanced Client Portal supporting secure authentication, document upload, communication, payment processing, and progress visualization",
+    "Native Mobile Applications for iOS and Android with offline capabilities, biometric login, and push notifications",
+    "Lead Management and CRM with AI-powered lead scoring, pipeline automation, and conversion analytics",
+    "Sophisticated Document Automation with AI-driven OCR, metadata extraction, classification, quality assurance, and e-signature integration",
+    "Powerful Reporting & Analytics including custom dashboards, predictive analytics, business intelligence, and benchmarking",
+    "Robust Security & Compliance Framework meeting Canadian privacy laws (PIPEDA), GDPR, SOC 2, PCI DSS, and legal profession regulations",
+    "Integration Marketplace with pre-built connectors to accounting, communication, storage, e-signature, calendar, and marketing tools",
+    "Multi-Tenant Architecture ensuring complete firm data isolation, role-based access control, and customizable firm branding"
+  ],
+  "user_flow_summary": [
+    "Lead Discovery → Client Conversion: Capturing leads from various channels, AI scoring leads, nurturing, and converting through consultation and agreement signing",
+    "Client Onboarding → Case Setup: Client guided onboarding with profile and family information collection, AI strategy recommendation, and consultant approval",
+    "Document Collection → Validation: Clients upload documents via multiple methods, AI-powered OCR, classification, quality checking, with consultant review for exceptions",
+    "Eligibility Assessment → Strategy Planning: AI eligibility assessment through rule engine and CRS calculations, multi-pathway analysis, consultant review and client consultation",
+    "Application Preparation → Submission: AI-driven form and document auto-filling, multi-layer QA, client approval, payment, and submission processing",
+    "Case Monitoring → Decision Management: Automated IRCC status monitoring, client and consultant notifications, handling of additional document requests, decision processing, and case closure"
+  ],
+  "validation_criteria": [
+    "All multi-agent AI components must be fully integrated, operational, and provide human-in-the-loop controls",
+    "Case management supports real-time updates, workflow automation, and multi-user collaboration with data isolation",
+    "Client portal is secure, multi-language, accessible (WCAG 2.1 AA compliant), mobile-responsive, and supports document handling and communication",
+    "Mobile applications support offline use, biometric authentication, and provide push notifications",
+    "CRM and lead management accurately score leads and automate outreach workflows",
+    "Document processing achieves >95% accuracy for OCR and metadata extraction, with proper fraud detection",
+    "Reporting system delivers accurate, up-to-date business intelligence and predictive analytics",
+    "System meets performance SLAs including 99.9% uptime and sub-second response times",
+    "Security complies with PIPEDA, GDPR, SOC 2, and professional regulations with comprehensive audit trails",
+    "Integration marketplace supports 20+ pre-built connectors with seamless configuration and use",
+    "Platform ensures full multi-tenant data isolation and role-based access to all resources"
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "Python",
+      "FastAPI",
+      "SQLAlchemy",
+      "PostgreSQL",
+      "Pytest",
+      "JavaScript/TypeScript",
+      "React",
+      "Next.js",
+      "Tailwind CSS"
+    ],
+    "features": [
+      {
+        "name": "Authentication Service",
+        "description": "Handles registration, login (form + JSON), JWT creation, and password hashing.",
+        "files": [
+          "backend/app/api/routes/auth.py",
+          "backend/app/services/auth.py",
+          "backend/app/services/user.py"
+        ]
+      },
+      {
+        "name": "Case Management Service",
+        "description": "CRUD endpoints, lifecycle transitions, filtering, and statistics for immigration cases.",
+        "files": [
+          "backend/app/api/routes/cases.py",
+          "backend/app/services/case.py",
+          "backend/app/models/case.py"
+        ]
+      },
+      {
+        "name": "Person & Organization Directory",
+        "description": "Manage people, organizations, memberships, and search functionality scoped by org.",
+        "files": [
+          "backend/app/api/routes/persons.py",
+          "backend/app/api/routes/organizations.py",
+          "backend/app/services/person.py",
+          "backend/app/services/organization.py"
+        ]
+      },
+      {
+        "name": "Document Management & OCR",
+        "description": "Secure upload, storage metadata, OCR extraction, and validation for supporting documents.",
+        "files": [
+          "backend/app/api/routes/documents.py",
+          "backend/app/services/document.py",
+          "backend/app/services/ocr.py",
+          "backend/app/models/document.py"
+        ]
+      },
+      {
+        "name": "Frontend Client Portal",
+        "description": "Next.js app with authentication context, case list/detail pages, document upload UI, and shared components.",
+        "files": [
+          "frontend/src/app/auth/login/page.tsx",
+          "frontend/src/app/cases/page.tsx",
+          "frontend/src/app/cases/[id]/page.tsx",
+          "frontend/src/app/cases/[id]/upload/page.tsx",
+          "frontend/src/lib/auth-context.tsx"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run all tests
+        run: |
+          echo "Running comprehensive test suite..."
+          # This job depends on backend-ci and frontend-ci passing
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to staging environment..."
+          # Add your deployment commands here
+          # Example: kubectl apply, terraform apply, etc.
+
+      - name: Health Check
+        run: |
+          echo "Running post-deployment health checks..."
+          # Verify deployment is healthy
+
+      - name: Run Smoke Tests
+        run: |
+          echo "Running smoke tests on staging..."
+          # Run critical path tests

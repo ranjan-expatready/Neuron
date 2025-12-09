@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "octagon": {
+      "url": "https://mcp.octagonagents.com/mcp",
+      "apiKey": "sk_live_wS9fhwc-yqnz2D8NxxmSzzPTt_4TZPGtnhOTY5yYwRtEmamjHKEzPd_m-Z1CTklVlSK1nIpaTAfFQov711qpEw"
+    }
+  }
+}
