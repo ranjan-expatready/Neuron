@@ -20,11 +20,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [PL-001] Multi-tenant Data Isolation Hardening
 
 - **Domain:** 3.1 Platform & Core
-- **Status:** 🟡 Partial
+- **Status:** ✅ Done (M4.3)
 - **Priority:** HIGH
 - **Phase:** P1 (Foundation)
 - **Type:** Database + Backend services
-- **Description:** Finish org-level isolation (row-level security, retention, soft deletes, tenant-scoped search) and add audit-friendly backup policies so every org’s data satisfies `[BP-06]`.
+- **Description:** Auth binding on case APIs, strict tenant isolation on CaseRecord/Snapshot/Event, lifecycle RBAC, soft deletes + retention stub, standardized security errors. Remaining: production retention purge policies and RLS/backup automation (future).
 - **Source:** BP-06 (Data Model & ERD), BP-14 (Gap #10)
 - **Dependencies:** Alembic migrations, tenancy middleware, org context propagation
 

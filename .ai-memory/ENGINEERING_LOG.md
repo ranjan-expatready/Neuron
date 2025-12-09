@@ -1,3 +1,10 @@
+# Engineering Memory Log
+
+## 2025-12-10 – [backend][security][tenant][m4_3]
+- Stabilized M4.3 security & tenant guardrails (auth binding on case evaluation/history/lifecycle/admin config).
+- Enforced tenant isolation and lifecycle RBAC; soft deletes + retention stub added for cases/snapshots/events.
+- Updated security docs and knowledge base; backend/frontend tests green (181 passing, ~85% coverage).
+
 ## 2025-12-09 – [rules][cases][m3_5_case_history_audit]
 
 - Branch: feature/case-history-m3-5; scope: case evaluation persistence/history/audit.

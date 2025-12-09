@@ -45,19 +45,28 @@ class CaseRepository:
         self.db.flush()
         return record
 
-    def get_case(self, case_id: str, tenant_id: Optional[str] = None) -> Optional[CaseRecord]:
+    def get_case(
+        self, case_id: str, tenant_id: Optional[str] = None, include_deleted: bool = False
+    ) -> Optional[CaseRecord]:
         query = self.db.query(CaseRecord).filter(CaseRecord.id == case_id)
         if tenant_id:
             query = query.filter(CaseRecord.tenant_id == tenant_id)
+        if not include_deleted:
+            query = query.filter(CaseRecord.is_deleted.is_(False))
         return query.first()
 
-    def list_recent(self, limit: int = 50) -> list[CaseRecord]:
-        return (
-            self.db.query(CaseRecord)
-            .order_by(CaseRecord.created_at.desc())
-            .limit(limit)
-            .all()
-        )
+    def list_recent(self, limit: int = 50, tenant_id: Optional[str] = None) -> list[CaseRecord]:
+        query = self.db.query(CaseRecord).filter(CaseRecord.is_deleted.is_(False))
+        if tenant_id:
+            query = query.filter(CaseRecord.tenant_id == tenant_id)
+        return query.order_by(CaseRecord.created_at.desc()).limit(limit).all()
+
+    def soft_delete(self, case_id: str, tenant_id: Optional[str] = None) -> None:
+        record = self.get_case(case_id, tenant_id=tenant_id, include_deleted=True)
+        if record:
+            record.is_deleted = True
+            record.deleted_at = datetime.utcnow()
+            self.db.flush()
 
 
 class CaseSnapshotRepository:
@@ -69,7 +78,7 @@ class CaseSnapshotRepository:
     def next_version(self, case_id: str) -> int:
         current = (
             self.db.query(func.max(CaseSnapshot.version))
-            .filter(CaseSnapshot.case_id == case_id)
+            .filter(CaseSnapshot.case_id == case_id, CaseSnapshot.is_deleted.is_(False))
             .scalar()
         )
         return (current or 0) + 1
@@ -104,13 +113,15 @@ class CaseSnapshotRepository:
         self.db.flush()
         return snapshot
 
-    def list_snapshots(self, case_id: str) -> list[CaseSnapshot]:
-        return (
-            self.db.query(CaseSnapshot)
-            .filter(CaseSnapshot.case_id == case_id)
-            .order_by(CaseSnapshot.version.asc())
-            .all()
-        )
+    def list_snapshots(
+        self, case_id: str, include_deleted: bool = False, tenant_id: Optional[str] = None
+    ) -> list[CaseSnapshot]:
+        query = self.db.query(CaseSnapshot).filter(CaseSnapshot.case_id == case_id)
+        if tenant_id:
+            query = query.filter(CaseSnapshot.tenant_id == tenant_id)
+        if not include_deleted:
+            query = query.filter(CaseSnapshot.is_deleted.is_(False))
+        return query.order_by(CaseSnapshot.version.asc()).all()
 
 
 class CaseEventRepository:
@@ -139,11 +150,13 @@ class CaseEventRepository:
         self.db.flush()
         return event
 
-    def list_events(self, case_id: str) -> list[CaseEvent]:
-        return (
-            self.db.query(CaseEvent)
-            .filter(CaseEvent.case_id == case_id)
-            .order_by(CaseEvent.created_at.asc())
-            .all()
-        )
+    def list_events(
+        self, case_id: str, include_deleted: bool = False, tenant_id: Optional[str] = None
+    ) -> list[CaseEvent]:
+        query = self.db.query(CaseEvent).filter(CaseEvent.case_id == case_id)
+        if tenant_id:
+            query = query.filter(CaseEvent.tenant_id == tenant_id)
+        if not include_deleted:
+            query = query.filter(CaseEvent.is_deleted.is_(False))
+        return query.order_by(CaseEvent.created_at.asc()).all()
 
