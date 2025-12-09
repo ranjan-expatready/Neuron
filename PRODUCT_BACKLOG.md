@@ -352,6 +352,26 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Attach pricing plans and payment flow to case evaluation; gated access for paid tiers.
 - **Dependencies:** Billing/payments service, auth, pricing config
 
+#### [PM-001] Maintain roadmap and phases doc
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🟡 In Progress
+- **Priority:** P2
+- **Phase:** P2
+- **Type:** Product/Docs
+- **Description:** Keep `docs/ROADMAP_AND_PHASES.md` aligned with major milestones; update after each phase change.
+- **Dependencies:** Engineering governance, milestone tracking
+
+#### [PM-002] Surface roadmap snapshot in admin/product UI
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P3
+- **Phase:** P2
+- **Type:** Frontend/Admin
+- **Description:** Display a read-only roadmap/phase card in internal admin/product dashboard for quick orientation.
+- **Dependencies:** Roadmap doc, admin UI
+
 #### [BA-002] Eligibility What-If Simulator
 
 - **Domain:** 3.5 Brain & AI
