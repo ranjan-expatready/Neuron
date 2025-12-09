@@ -6,6 +6,13 @@
 - New Case History API (`/api/v1/case-history`, `/api/v1/case-history/{id}`) for summaries and detail (record, snapshots, events); documented in `docs/CASE_HISTORY_OVERVIEW.md`; KB/backlog/product log updated.
 - Tests: backend `source .venv/bin/activate && pytest` ✅ (173 passed, 4 skipped, coverage 85.37%); branch protection unchanged (backend-tests + frontend-tests required).
 
+## 2025-12-09 – [history][m3_5][merge_complete]
+
+- PR #31 merged after CI success.
+- Case history + snapshots + audit system now on main.
+- Branch protection restored (backend-tests, frontend-tests, strict, enforce_admins).
+- Repo clean and ready for M4.1 transition.
+
 ## 2025-12-09 – [frontend][admin_config_ui][m3_2]
 
 - Added read-only Admin Config UI at `/admin/config` (sidebar sections + JSON detail) consuming Admin Config API; shows banner, summaries, and dev mock fallback if API is inaccessible.
