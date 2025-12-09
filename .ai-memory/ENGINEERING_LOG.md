@@ -136,6 +136,13 @@
 - CI: backend-tests ✅; frontend-tests path-filtered (temporarily cleared required checks to merge, then restored backend-tests + frontend-tests with strict/enforce_admins=true).
 - Local: pytest on feature branch via backend/.venv310 ✅ (151 passed, 4 skipped, coverage ~83%).
 - Repo hygiene: main fast-forwarded, branch deleted by merge, working tree clean.
+
+## 2025-12-09 – [config][domain][config_service_m2_1_complete]
+
+- PR #22 merged: Domain ConfigService (Milestone 2.1) loads typed bundle from `config/domain/*.yaml` and exposes it to the rule engine.
+- Local: backend pytest ✅ on feature branch; CI: backend-tests ✅ (frontend-tests path-filtered; branch protection temporarily cleared for merge, then restored to backend-tests + frontend-tests, strict/enforce_admins=true).
+- RuleEngineService now pulls configs via ConfigService to keep logic decoupled from file I/O; added unit tests for ConfigService happy-path and missing-file handling.
+- Repo hygiene: main fast-forwarded, feature branch merged/deleted, working tree clean.
 ## 2025-12-09 – [governance][repo_reset][auto]
 - Safety backup pushed: safety/local-dirty-20251209-090825 (untracked files only; venv excluded for size).
 - Reset main to origin/main and cleaned working tree with `git clean -xfd`.

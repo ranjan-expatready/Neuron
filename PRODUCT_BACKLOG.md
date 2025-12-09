@@ -281,13 +281,14 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [CFG-001] Domain Config Service (backend)
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔴 Missing
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P1 (Foundation)
 - **Type:** Backend Service
 - **Description:** Implement a ConfigService to load/validate `config/domain/*.yaml` (CRS, programs, language, work, PoF, documents) with caching, versioning, and schema validation.
 - **Source:** Config-first governance requirement
 - **Dependencies:** YAML schema definitions, validation library, logging
+- **Notes:** Backend ConfigService shipped in PR #22 (Milestone 2.1); backend consumers use the typed bundle; UI/admin surface remains future work.
 
 #### [CFG-002] CI guard: ban hard-coded domain constants
 
