@@ -1,3 +1,11 @@
+## 2025-12-09 – [rules][cases][m3_5_case_history_audit]
+
+- Branch: feature/case-history-m3-5; scope: case evaluation persistence/history/audit.
+- Added CaseRecord, CaseSnapshot, and CaseEvent SQLAlchemy models + Alembic migration `20251209_case_history`.
+- CaseHistoryService + repositories persist evaluations; Case Evaluation API now returns `case_id`, `version`, audit info, and stores config fingerprints + required artifacts.
+- New Case History API (`/api/v1/case-history`, `/api/v1/case-history/{id}`) for summaries and detail (record, snapshots, events); documented in `docs/CASE_HISTORY_OVERVIEW.md`; KB/backlog/product log updated.
+- Tests: backend `source .venv/bin/activate && pytest` ✅ (173 passed, 4 skipped, coverage 85.37%); branch protection unchanged (backend-tests + frontend-tests required).
+
 ## 2025-12-09 – [frontend][admin_config_ui][m3_2]
 
 - Added read-only Admin Config UI at `/admin/config` (sidebar sections + JSON detail) consuming Admin Config API; shows banner, summaries, and dev mock fallback if API is inaccessible.

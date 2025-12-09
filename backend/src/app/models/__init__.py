@@ -7,6 +7,7 @@ from .config import (
     ConfigForm,
     ConfigTemplate,
 )
+from src.app.cases.models_db import CaseEvent, CaseRecord, CaseSnapshot
 from .document import Document
 from .organization import Organization, OrganizationMembership
 from .person import Person
@@ -30,4 +31,7 @@ __all__ = [
     "CaseTaskAssignment",
     "CaseTaskActivity",
     "CaseTaskDependency",
+    "CaseRecord",
+    "CaseSnapshot",
+    "CaseEvent",
 ]
