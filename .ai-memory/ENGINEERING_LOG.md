@@ -127,3 +127,9 @@
 - Added config models/loaders, updated engine/service to consume config, and expanded tests (config-driven outcomes, loader happy/error cases).
 - Refreshed domain configs (language, work experience, PoF, programs, arranged employment, biometrics) and docs/KB/backlog to reflect config-first wiring.
   > > > > > > > Stashed changes
+
+## 2025-12-09 – [tests][backend][local_pytest]
+
+- Branch: feature/rule-engine-config-wiring; scope: rule engine config wiring.
+- Ran pytest via backend/.venv310 (Python 3.10.19); result: 151 passed, 4 skipped, 18 warnings; coverage 82.94% (meets ≥80%).
+- Note: original backend/.venv pointed to old path; used fresh .venv310 for local run. CI (backend-tests/frontend-tests) remains the final gate.
