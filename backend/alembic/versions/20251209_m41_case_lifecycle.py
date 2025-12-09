@@ -7,6 +7,7 @@ Create Date: 2025-12-09
 
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy import inspect
 
 # revision identifiers, used by Alembic.
 revision = "20251209_m41_case_lifecycle"
@@ -16,6 +17,9 @@ depends_on = None
 
 
 def upgrade():
+    bind = op.get_bind()
+    inspector = inspect(bind)
+
     op.create_table(
         "tenants",
         sa.Column("id", sa.String(length=36), nullable=False),
@@ -26,6 +30,32 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index("ix_tenants_name", "tenants", ["name"], unique=False)
+
+    if not inspector.has_table("users"):
+        op.create_table(
+            "users",
+            sa.Column("id", sa.String(length=36), primary_key=True),
+            sa.Column("tenant_id", sa.String(length=36), nullable=True),
+            sa.Column("email", sa.String(length=255), nullable=False),
+            sa.Column("full_name", sa.String(length=255), nullable=True),
+            sa.Column("hashed_password", sa.String(length=255), nullable=True),
+            sa.Column("role", sa.String(length=50), server_default="agent", nullable=False),
+            sa.Column("encrypted_password", sa.String(length=255), nullable=True),
+            sa.Column("first_name", sa.String(length=100), nullable=True),
+            sa.Column("last_name", sa.String(length=100), nullable=True),
+            sa.Column("phone", sa.String(length=20)),
+            sa.Column("profile", sa.JSON(), default={}),
+            sa.Column("preferences", sa.JSON(), default={}),
+            sa.Column("professional_info", sa.JSON(), default={}),
+            sa.Column("last_login_at", sa.DateTime(timezone=True)),
+            sa.Column("email_verified_at", sa.DateTime(timezone=True)),
+            sa.Column("phone_verified_at", sa.DateTime(timezone=True)),
+            sa.Column("two_factor_enabled", sa.Boolean(), default=False),
+            sa.Column("two_factor_secret", sa.String(length=255)),
+            sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")),
+            sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")),
+            sa.Column("deleted_at", sa.DateTime(timezone=True)),
+        )
 
     with op.batch_alter_table("users") as batch_op:
         batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
