@@ -1,6 +1,6 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-09T12:50:00+00:00",
+  "last_updated": "2025-12-10T12:00:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
     "test_directories": ["backend/tests/unit", "backend/tests/integration"],
@@ -65,40 +65,31 @@
     }
   },
   "test_results": {
-    "last_run": "2025-12-03T15:01:40+00:00",
-    "overall_coverage": 75,
-    "total_tests": 25,
-    "passing_tests": 25,
+    "last_run": "2025-12-10T12:00:00+00:00",
+    "overall_coverage": 85,
+    "total_tests": 181,
+    "passing_tests": 181,
     "failing_tests": 0,
     "coverage_threshold": 80,
-    "meets_threshold": false,
+    "meets_threshold": true,
     "recent_runs": [
       {
-        "timestamp": "2025-12-02T23:45:00",
-        "scope": "backend_auth_endpoints+auth_service",
-        "tests_run": 25,
-        "passed": 25,
+        "timestamp": "2025-12-10T12:00:00+00:00",
+        "scope": "backend_full_suite_m4_3_security",
+        "tests_run": 181,
+        "passed": 181,
         "failed": 0,
-        "coverage": 75,
-        "notes": "Targeted auth endpoint + service tests after registration fix"
-      },
-      {
-        "timestamp": "2025-12-03T15:01:40+00:00",
-        "scope": "frontend_unit_error_helpers",
-        "tests_run": 5,
-        "passed": 5,
-        "failed": 0,
-        "coverage": 2.84,
-        "notes": "Vitest unit tests validating error handling helper for login/register flow"
+        "coverage": 85,
+        "notes": "Backend pytest (auth binding, tenant isolation, RBAC, soft deletes) all green; coverage >=85%."
       }
     ]
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 1 - 90% Complete - Production Ready",
-    "completion_percentage": 90,
-    "current_phase": "Phase 1",
-    "next_milestone": "E2E tests and production deployment"
+    "status": "Phase 4 - Security Guardrails (M4.3) complete",
+    "completion_percentage": 92,
+    "current_phase": "Phase 4",
+    "next_milestone": "Post-M4.3 hardening and retention purge policies"
   },
   "agent_bootstrap": {
     "steps": [
@@ -279,6 +270,25 @@
       "config/domain/forms.yaml",
       "config/domain/documents.yaml"
     ]
+  },
+  "security": {
+    "milestone": "M4.3 - Security & Tenant Guardrails",
+    "roles": ["owner", "admin", "case_manager", "viewer"],
+    "rbac": {
+      "draft_to_submitted": ["owner", "admin", "case_manager"],
+      "submitted_to_in_review": ["admin", "case_manager"],
+      "in_review_to_complete": ["admin"],
+      "complete_to_archived": ["admin"],
+      "any_to_draft": ["admin"]
+    },
+    "invariants": [
+      "All case queries are tenant-scoped; cross-tenant access is denied.",
+      "Lifecycle transitions require auth and role checks; violations raise LifecyclePermissionError.",
+      "Soft-deleted cases/snapshots/events are hidden by default; admin can include with include_deleted=true.",
+      "Security error model standardized: UnauthorizedError, ForbiddenError, TenantAccessError, LifecyclePermissionError."
+    ],
+    "soft_delete_fields": ["is_deleted", "deleted_at"],
+    "retention": "RetentionService stub exists; future work will implement tenant-specific purge policies."
   },
   "case_api": {
     "docs": ["docs/RULE_ENGINE_CASE_API.md"],

@@ -11,7 +11,8 @@
 
 - ✅ Backend runtime, tooling & CI parity (`backend/Makefile`, `backend/.venv`, `docs/E2E_SPINE_SETUP.md`) – Python 3.10.19 toolchain, pytest spine, and e2e helpers aligned with `[BP-07]`.
 - ✅ Canonical FastAPI surface (`backend/src/app/main.py`, `backend/src/app/api/*`) – Auth, organizations, cases, and documents online per `[BP-03]`.
-- 🟡 Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Org/person/case schemas exist but isolation, soft deletes, and retention controls from `[BP-06]` still pending.
+- ✅ Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Auth binding across case APIs, strict tenant isolation on CaseRecord/Snapshot/Event, lifecycle RBAC, soft deletes with retention stub, standardized security errors (M4.3).
+- ✅ M4.3 Security Guardrails – RCICs and tenants are protected by enforced auth/tenant scoping, role-based lifecycle controls, soft deletes by default, and consistent security error responses.
 - 🔴 Observability, metrics & SRE stack (logs, tracing, incident runbooks) – Logging strategy outlined in `[BP-05]/[BP-07]` but no implementation yet.
 - 🔴 Mobile & offline-ready client surfaces – Blueprint `[BP-04]/[BP-13]` calls for responsive & native experiences that are not in the repo.
 

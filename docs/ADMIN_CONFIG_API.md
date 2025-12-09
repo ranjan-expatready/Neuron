@@ -5,6 +5,8 @@
 ## Purpose
 - Provide human admins and AI config agents with a transparent view of the loaded domain configs (CRS, language, work experience, proof of funds, program rules, arranged employment, biometrics/medicals, documents, forms).
 - Keep config-first governance: no hard-coded IRCC constants in code; everything is surfaced from YAML.
+- Security (M4.3): endpoints require authentication; only admin/owner roles may access; responses are tenant-aware where applicable.
+- Security (M4.3): endpoints require authentication; only admin/owner roles may access; responses are tenant-aware where applicable.
 
 ## Endpoints
 - `GET /api/v1/admin/config`

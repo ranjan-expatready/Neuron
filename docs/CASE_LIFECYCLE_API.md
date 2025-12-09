@@ -12,6 +12,17 @@ Every transition writes:
 - `CaseSnapshot` version (+1)
 - `CaseEvent` with actor + metadata
 
+### Security & RBAC (M4.3)
+- Authentication required; user/tenant/role derived from the bearer token (no manual IDs in the request body).
+- Tenant isolation: lifecycle actions are limited to the caller’s tenant; cross-tenant access raises `TenantAccessError`.
+- Role-based transitions:
+  - `draft → submitted`: owner, admin, case_manager
+  - `submitted → in_review`: admin, case_manager
+  - `in_review → complete`: admin
+  - `complete → archived`: admin
+  - `any → draft (reset)`: admin
+- Soft deletes: soft-deleted cases are excluded by default; admins may pass `?include_deleted=true` to view.
+
 ## Endpoints (Phase 4.1)
 
 Base: `/api/v1`
@@ -21,11 +32,8 @@ Base: `/api/v1`
 - `POST /case-lifecycle/{case_id}/complete`
 - `POST /case-lifecycle/{case_id}/archive`
 
-Request body:
-
-```json
-{ "user_id": "<uuid>", "tenant_id": "<uuid>" }
-```
+Auth:
+- Bearer token required; user, tenant, and role are resolved from the token.
 
 Response:
 
@@ -61,7 +69,7 @@ Response:
 
 ## Notes & Limitations
 
-- Internal-only in 4.1; no auth middleware yet.
-- Tenant ownership is enforced per request by matching `tenant_id` on `CaseRecord`.
-- Future phases will bind lifecycle endpoints to authenticated users/roles.
+- Auth + tenant isolation are enforced in M4.3; cross-tenant access is blocked.
+- RBAC applies per the matrix above; disallowed transitions return `LifecyclePermissionError`.
+- Soft-deleted cases remain hidden unless an admin requests `include_deleted=true`.
 
