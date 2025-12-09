@@ -42,6 +42,7 @@
 - ✅ Config-first domain layer (`config/domain/*.yaml`) established as the canonical source for immigration rules (CRS, eligibility, documents). Code must not hard-code thresholds; configs drive future engines.
 - ✅ Domain ConfigService (Milestone 2.1) — backend service loads typed `config/domain/*.yaml` bundle for rule engine and future admin tools.
 - ✅ Program Eligibility Engine (Milestone 2.2) — config-driven evaluation for FSW/CEC/FST wired through ConfigService + RuleEngineService with unit tests.
+- ✅ Milestone 2.3 — Document & Forms Matrix + Case Skeleton (backend-only): config-driven forms/documents resolution and case assembly using RuleEngineService + DocumentMatrixService.
 - ✅ Rule engine skeleton + config wiring (ENG-RULE-001/002) merged: CRS/eligibility engine reads `config/domain/*.yaml`; still internal-only, no public API exposure yet.
 
 ## E. Agentic & Automation Features

@@ -30,6 +30,9 @@
 - `ProgramEligibilitySummary`:
   - List of results
   - Helpers: `eligible_programs()`, `primary_recommendation()` (simple priority: CEC → FSW → FST)
+- Downstream usage:
+  - DocumentMatrixService consumes selected program to resolve forms/documents.
+  - CaseService assembles program eligibility + required forms/documents into a case skeleton.
 
 ## Rule Outline (config-driven)
 

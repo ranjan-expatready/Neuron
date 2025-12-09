@@ -1,0 +1,20 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Express Entry forms matrix; DRAFT placeholders."
+
+forms:
+  express_entry:
+    fsw:
+      - "IMM0008"
+      - "IMM5669"
+      - "IMM5406"
+    cec:
+      - "IMM0008"
+      - "IMM5669"
+    fst:
+      - "IMM0008"
+      - "IMM5406"
+  spouse:
+    - "IMM5406"
+
