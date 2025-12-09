@@ -332,6 +332,26 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Add secure, audited editing capabilities to Admin Config UI (config change proposals, approvals, versioning).
 - **Dependencies:** Admin Config Read UI, ConfigService API, auth/approvals
 
+#### [UX-001] Case intake persistence & history
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** P2
+- **Phase:** P2
+- **Type:** Frontend/Backend
+- **Description:** Allow authenticated users to save and revisit multiple case evaluations with history and comparisons.
+- **Dependencies:** Case evaluation API, auth/session, storage
+
+#### [UX-002] Pricing & checkout integration for case evaluation
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** P2
+- **Phase:** P2
+- **Type:** Frontend/Payments
+- **Description:** Attach pricing plans and payment flow to case evaluation; gated access for paid tiers.
+- **Dependencies:** Billing/payments service, auth, pricing config
+
 #### [BA-002] Eligibility What-If Simulator
 
 - **Domain:** 3.5 Brain & AI

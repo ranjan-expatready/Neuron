@@ -222,6 +222,17 @@
       "Shows sections list, selected section JSON, and dev mock fallback if API is inaccessible."
     ]
   },
+  "case_intake_ui": {
+    "frontend_route": "/express-entry/intake",
+    "docs": "docs/CASE_INTAKE_UI.md",
+    "apis": [
+      "POST /api/v1/cases/evaluate"
+    ],
+    "notes": [
+      "Express Entry intake form; calls Case Evaluation API for program eligibility, CRS breakdown, and required forms/documents.",
+      "Read-only, single-session; no persistence or payments; no IRCC constants in frontend."
+    ]
+  },
   "rule_engine": {
     "docs": [
       "docs/RULE_ENGINE_OVERVIEW.md",

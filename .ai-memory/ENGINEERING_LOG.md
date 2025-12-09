@@ -5,6 +5,13 @@
 - Tests: frontend `npm run lint` ✅; backend unchanged.
 - Branch protection unchanged (backend-tests + frontend-tests required; strict/enforce_admins=true).
 
+## 2025-12-09 – [frontend][case_intake_ui][m3_3]
+
+- Added Express Entry Case Intake UI at `/express-entry/intake`: intake form (age, family size, education, language CLB, work, PoF, job offer) posting to Case Evaluation API; results show program eligibility, CRS breakdown, required forms/documents.
+- Docs: `docs/CASE_INTAKE_UI.md`; KB updated with `case_intake_ui`; backlog adds UX-001/UX-002; product log notes Milestone 3.3.
+- Tests: frontend `npm test` (Jest + Testing Library) ✅; lint unchanged.
+- Branch protection restored after merge (backend-tests + frontend-tests, strict/enforce_admins=true).
+
 ## 2025-12-09 – [config][admin_api][m3_1]
 
 - Added Admin Config Read API (`/api/v1/admin/config`, `/sections`, `/{section}`) using AdminConfigService + ConfigService + DocumentMatrixService; snapshot exposes CRS, language, work_experience, proof_of_funds, program_rules, arranged_employment, biometrics_medicals, documents, and forms.
