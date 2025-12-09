@@ -84,6 +84,13 @@ app.include_router(cases.router, prefix="/api/v1/cases", tags=["Cases"])
 app.include_router(documents.router, prefix="/api/v1/documents", tags=["Documents"])
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
+from src.app.api.routes import case_evaluation  # noqa: E402
+
+app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
+# Case evaluation (stateless, config-driven)
+from src.app.api.routes import case_evaluation  # noqa: E402
+
+app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
 
 
 @app.get("/")

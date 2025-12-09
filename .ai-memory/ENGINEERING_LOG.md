@@ -161,6 +161,15 @@
 - Docs: `docs/DOCUMENT_MATRIX_OVERVIEW.md`; updated rule engine docs to reference matrix/case skeleton; KB updated with document_matrix section.
 - Tests: backend pytest ✅ (document matrix + case tests included).
 - Branch protection: temporarily cleared for merge then restored (backend-tests, frontend-tests; strict/enforce_admins=true); main kept clean.
+
+## 2025-12-09 – [rules][case_api][m2_4]
+
+- Branch: feature/document-matrix-m2-3 → feature/case-api-m2-4; PR #25 covers code; this entry captures API work.
+- Added Case Evaluation API (`backend/src/app/api/routes/case_evaluation.py`, registered in main) exposing program eligibility + CRS + document/forms matrix with config hashes.
+- Extended docs: `docs/RULE_ENGINE_CASE_API.md`; updated overview and eligibility docs; KB updated with case_api section.
+- Config: added forms/documents YAML already present; no new constants added; all values remain DRAFT/config-first.
+- Tests: backend pytest ✅ (API endpoint tests, document matrix, case model).
+- Branch protection: temporarily cleared for merge then restored (backend-tests, frontend-tests; strict/enforce_admins=true); main clean post-merge.
 ## 2025-12-09 – [governance][repo_reset][auto]
 - Safety backup pushed: safety/local-dirty-20251209-090825 (untracked files only; venv excluded for size).
 - Reset main to origin/main and cleaned working tree with `git clean -xfd`.

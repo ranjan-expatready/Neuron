@@ -234,6 +234,19 @@
       "config/domain/documents.yaml"
     ]
   },
+  "case_api": {
+    "docs": ["docs/RULE_ENGINE_CASE_API.md"],
+    "routes": ["backend/src/app/api/routes/case_evaluation.py"],
+    "services": [
+      "backend/src/app/services/rule_engine_service.py",
+      "backend/src/app/cases/model.py",
+      "backend/src/app/documents/service.py"
+    ],
+    "notes": [
+      "POST /api/v1/cases/evaluate exposes config-driven program eligibility + CRS + forms/documents.",
+      "All thresholds derive from config/domain/*.yaml via ConfigService/RuleEngineService/DocumentMatrixService."
+    ]
+  },
   "agent_coordination": {
     "active_assignments": [
       {

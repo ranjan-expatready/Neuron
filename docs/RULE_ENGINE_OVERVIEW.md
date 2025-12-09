@@ -39,6 +39,13 @@
 - Aggregator:
   - Produce `EvaluationResult` with eligibility per program, CRS breakdown, required forms/documents (via CaseService), warnings/edge cases, and traceable rule ids.
 
+## 7) Case Evaluation API
+
+- Endpoint: `POST /api/v1/cases/evaluate`
+- Uses ConfigService → RuleEngineService (eligibility + CRS) → DocumentMatrixService → CaseService.
+- Returns explainable payload: program eligibility (reasons), CRS breakdown, forms/documents, config hashes, warnings.
+- See `docs/RULE_ENGINE_CASE_API.md` for details.
+
 ## 4) Config-First Principles
 
 - No IRCC constants hard-coded in backend/frontend. All numeric thresholds/tables come from config/domain YAMLs, authored from domain_knowledge sources.

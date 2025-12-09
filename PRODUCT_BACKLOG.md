@@ -528,6 +528,16 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Config-driven forms/documents matrix (forms.yaml, documents.yaml) plus Case skeleton assembly via DocumentMatrixService and CaseService.
 - **Dependencies:** ConfigService, DocumentMatrixService, RuleEngineService, config/domain/forms.yaml, config/domain/documents.yaml
 
+#### [ENG-RULE-006] Case Evaluation API & Explainability
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** ✅ Done
+- **Priority:** P1
+- **Phase:** P1
+- **Type:** Backend API
+- **Description:** Config-driven Case Evaluation API exposing program eligibility, CRS breakdown, and document/forms matrix with explainability metadata.
+- **Dependencies:** RuleEngineService, DocumentMatrixService, CaseService, config/domain/*.yaml
+
 ### 3.6 Agentic & Automation
 
 #### [AA-001] Multi-Agent Runtime & Scheduler
