@@ -2,11 +2,6 @@ from datetime import date, timedelta
 
 from fastapi.testclient import TestClient
 
-from src.app.main import app
-
-
-client = TestClient(app)
-
 
 def _eligible_payload():
     today = date.today()
@@ -39,8 +34,8 @@ def _eligible_payload():
     }
 
 
-def test_case_evaluation_happy_path():
-    response = client.post("/api/v1/cases/evaluate", json=_eligible_payload())
+def test_case_evaluation_happy_path(client: TestClient, auth_headers):
+    response = client.post("/api/v1/cases/evaluate", json=_eligible_payload(), headers=auth_headers)
     assert response.status_code == 200
     body = response.json()
     assert body["case_id"]
@@ -52,14 +47,14 @@ def test_case_evaluation_happy_path():
     assert body["config_version"]
 
 
-def test_case_evaluation_ineligible_language():
+def test_case_evaluation_ineligible_language(client: TestClient, auth_headers):
     payload = _eligible_payload()
     payload["profile"]["language_tests"][0]["listening_clb"] = 3
     payload["profile"]["language_tests"][0]["reading_clb"] = 3
     payload["profile"]["language_tests"][0]["writing_clb"] = 3
     payload["profile"]["language_tests"][0]["speaking_clb"] = 3
 
-    response = client.post("/api/v1/cases/evaluate", json=payload)
+    response = client.post("/api/v1/cases/evaluate", json=payload, headers=auth_headers)
     assert response.status_code == 200
     body = response.json()
     fsw = next((p for p in body["program_eligibility"] if p["program_code"] == "FSW"), None)
@@ -68,11 +63,11 @@ def test_case_evaluation_ineligible_language():
     assert any("CLB" in reason.upper() for reason in fsw["reasons"])
 
 
-def test_case_evaluation_warns_expiring_language():
+def test_case_evaluation_warns_expiring_language(client: TestClient, auth_headers):
     payload = _eligible_payload()
     payload["profile"]["language_tests"][0]["expiry_date"] = (date.today() + timedelta(days=5)).isoformat()
 
-    response = client.post("/api/v1/cases/evaluate", json=payload)
+    response = client.post("/api/v1/cases/evaluate", json=payload, headers=auth_headers)
     assert response.status_code == 200
     body = response.json()
     assert "warnings" in body

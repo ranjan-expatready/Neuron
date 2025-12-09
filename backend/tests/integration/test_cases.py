@@ -72,12 +72,7 @@ def test_person(db: Session, test_org: Organization) -> Person:
 @pytest.fixture
 def case_auth_headers(client, test_user: User) -> dict:
     """Obtain auth headers for the test user via real login flow."""
-    response = client.post(
-        "/api/v1/auth/login",
-        data={"username": test_user.email, "password": TEST_USER_PASSWORD},
-    )
-    assert response.status_code == 200, response.text
-    token = response.json()["access_token"]
+    token = AuthService.create_access_token(data={"sub": test_user.email})
     return {"Authorization": f"Bearer {token}"}
 
 
@@ -266,197 +261,169 @@ class TestCaseService:
 
 
 class TestCaseAPI:
-    """Test Case API endpoints"""
+    """Test Case API endpoints - uses client default org/user via dependency overrides"""
 
-    def test_create_case_endpoint(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_user: User,
-        test_person: Person,
-        case_auth_headers: dict,
-    ):
+    def _create_person_for_client(self, client) -> Person:
+        """Helper to create a person under the client default org."""
+        db = client.db_session
+        person = Person(
+            id=str(uuid.uuid4()),
+            org_id=str(client.default_org.id),
+            first_name="John",
+            last_name="Doe",
+            email=f"john_{uuid.uuid4().hex[:6]}@example.com",
+        )
+        db.add(person)
+        db.commit()
+        db.refresh(person)
+        return person
+
+    def _create_case_for_client(self, client, person: Person) -> Case:
+        """Helper to create a case under the client default org."""
+        db = client.db_session
+        case = Case(
+            id=str(uuid.uuid4()),
+            org_id=str(client.default_org.id),
+            primary_person_id=person.id,
+            case_number=f"CA-{uuid.uuid4().hex[:8].upper()}",
+            case_type="EXPRESS_ENTRY_FSW",
+            title="Test Case",
+            status="draft",
+            priority="normal",
+            created_by=str(client.default_user.id),
+        )
+        db.add(case)
+        db.commit()
+        db.refresh(case)
+        return case
+
+    def test_create_case_endpoint(self, client):
         """Test POST /api/v1/cases"""
+        person = self._create_person_for_client(client)
         data = {
-            "primary_person_id": str(test_person.id),
+            "primary_person_id": str(person.id),
             "case_type": "EXPRESS_ENTRY_FSW",
             "title": "API Test Case",
             "description": "Test description",
             "priority": "normal",
         }
 
-        response = client.post("/api/v1/cases/", json=data, headers=case_auth_headers)
+        response = client.post("/api/v1/cases/", json=data)
 
-        assert response.status_code == 200
+        assert response.status_code == 200, f"Got {response.status_code}: {response.json()}"
         result = response.json()
         assert result["case_type"] == "EXPRESS_ENTRY_FSW"
         assert result["title"] == "API Test Case"
         assert result["status"] == "draft"
 
-    def test_get_cases_endpoint(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_get_cases_endpoint(self, client):
         """Test GET /api/v1/cases"""
+        person = self._create_person_for_client(client)
+        self._create_case_for_client(client, person)
 
-        response = client.get("/api/v1/cases/", headers=case_auth_headers)
+        response = client.get("/api/v1/cases/")
 
         assert response.status_code == 200
         cases = response.json()
         assert isinstance(cases, list)
         assert len(cases) >= 1
 
-    def test_get_case_by_id_endpoint(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_get_case_by_id_endpoint(self, client):
         """Test GET /api/v1/cases/{case_id}"""
+        person = self._create_person_for_client(client)
+        test_case = self._create_case_for_client(client, person)
 
-        response = client.get(f"/api/v1/cases/{test_case.id}", headers=case_auth_headers)
+        response = client.get(f"/api/v1/cases/{test_case.id}")
 
         assert response.status_code == 200
         result = response.json()
         assert result["id"] == test_case.id
 
-    def test_update_case_endpoint(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_update_case_endpoint(self, client):
         """Test PUT /api/v1/cases/{case_id}"""
+        person = self._create_person_for_client(client)
+        test_case = self._create_case_for_client(client, person)
         data = {"title": "Updated via API", "priority": "high"}
 
-        response = client.put(f"/api/v1/cases/{test_case.id}", json=data, headers=case_auth_headers)
+        response = client.put(f"/api/v1/cases/{test_case.id}", json=data)
 
         assert response.status_code == 200
         result = response.json()
         assert result["title"] == "Updated via API"
         assert result["priority"] == "high"
 
-    def test_update_case_status_transition(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_update_case_status_transition(self, client):
         """Test status transition via API"""
+        person = self._create_person_for_client(client)
+        test_case = self._create_case_for_client(client, person)
 
         # Transition to active
-        response = client.put(
-            f"/api/v1/cases/{test_case.id}", json={"status": "active"}, headers=case_auth_headers
-        )
+        response = client.put(f"/api/v1/cases/{test_case.id}", json={"status": "active"})
         assert response.status_code == 200
         assert response.json()["status"] == "active"
 
-    def test_update_case_invalid_status_transition(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_update_case_invalid_status_transition(self, client):
         """Test invalid status transition via API"""
+        person = self._create_person_for_client(client)
+        test_case = self._create_case_for_client(client, person)
 
         # Try invalid transition
-        response = client.put(
-            f"/api/v1/cases/{test_case.id}", json={"status": "approved"}, headers=case_auth_headers
-        )
+        response = client.put(f"/api/v1/cases/{test_case.id}", json={"status": "approved"})
         assert response.status_code == 400
 
-    def test_delete_case_endpoint(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_delete_case_endpoint(self, client):
         """Test DELETE /api/v1/cases/{case_id}"""
+        person = self._create_person_for_client(client)
+        test_case = self._create_case_for_client(client, person)
 
-        response = client.delete(f"/api/v1/cases/{test_case.id}", headers=case_auth_headers)
+        response = client.delete(f"/api/v1/cases/{test_case.id}")
 
         assert response.status_code == 200
         assert response.json()["message"] == "Case deleted successfully"
 
         # Verify case is soft-deleted
-        response = client.get(f"/api/v1/cases/{test_case.id}", headers=case_auth_headers)
+        response = client.get(f"/api/v1/cases/{test_case.id}")
         assert response.status_code == 404
 
-    def test_get_cases_by_status_filter(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_get_cases_by_status_filter(self, client):
         """Test GET /api/v1/cases?status=draft"""
+        person = self._create_person_for_client(client)
+        self._create_case_for_client(client, person)
 
-        response = client.get("/api/v1/cases/?status=draft", headers=case_auth_headers)
+        response = client.get("/api/v1/cases/?status=draft")
 
         assert response.status_code == 200
         cases = response.json()
         assert all(c["status"] == "draft" for c in cases)
 
-    def test_get_cases_by_type_filter(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_get_cases_by_type_filter(self, client):
         """Test GET /api/v1/cases?case_type=EXPRESS_ENTRY_FSW"""
+        person = self._create_person_for_client(client)
+        self._create_case_for_client(client, person)
 
-        response = client.get(
-            "/api/v1/cases/?case_type=EXPRESS_ENTRY_FSW", headers=case_auth_headers
-        )
+        response = client.get("/api/v1/cases/?case_type=EXPRESS_ENTRY_FSW")
 
         assert response.status_code == 200
         cases = response.json()
         assert all(c["case_type"] == "EXPRESS_ENTRY_FSW" for c in cases)
 
-    def test_get_case_statistics_endpoint(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_get_case_statistics_endpoint(self, client):
         """Test GET /api/v1/cases/stats/summary"""
+        person = self._create_person_for_client(client)
+        self._create_case_for_client(client, person)
 
-        response = client.get("/api/v1/cases/stats/summary", headers=case_auth_headers)
+        response = client.get("/api/v1/cases/stats/summary")
 
         assert response.status_code == 200
         stats = response.json()
         assert "total" in stats
         assert "draft" in stats
 
-    def test_multi_tenant_isolation(
-        self,
-        client,
-        db: Session,
-        test_org: Organization,
-        test_case: Case,
-        case_auth_headers: dict,
-    ):
+    def test_multi_tenant_isolation(self, client):
         """Ensure cases from other orgs are not accessible."""
+        db = client.db_session
+        person = self._create_person_for_client(client)
+
         other_org = Organization(
             id=str(uuid.uuid4()),
             name="Other Organization",
@@ -468,16 +435,16 @@ class TestCaseAPI:
         other_case = Case(
             id=str(uuid.uuid4()),
             org_id=other_org.id,
-            primary_person_id=test_case.primary_person_id,
+            primary_person_id=person.id,
             case_number="CA-OTHER-TEST",
             case_type="EXPRESS_ENTRY_FSW",
             title="Other Org Case",
             status="draft",
             priority="normal",
-            created_by=test_case.created_by,
+            created_by=str(client.default_user.id),
         )
         db.add(other_case)
         db.commit()
 
-        response = client.get(f"/api/v1/cases/{other_case.id}", headers=case_auth_headers)
+        response = client.get(f"/api/v1/cases/{other_case.id}")
         assert response.status_code == 404

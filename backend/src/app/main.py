@@ -15,6 +15,13 @@ from src.app.cases import models_db as case_history_models
 from src.app.db.database import engine, get_db
 from src.app.middleware.security import security_middleware
 from src.app.models import case, config, document, organization, person, task, user
+from src.app.security.errors import (
+    ForbiddenError,
+    LifecyclePermissionError,
+    TenantAccessError,
+    UnauthorizedError,
+    SecurityError,
+)
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -109,6 +116,40 @@ async def root():
         "version": settings.app_version,
         "environment": settings.environment,
     }
+
+
+@app.exception_handler(UnauthorizedError)
+async def unauthorized_handler(request: Request, exc: UnauthorizedError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(error="unauthorized", detail=exc.detail, status_code=exc.status_code).model_dump(),
+    )
+
+
+@app.exception_handler(ForbiddenError)
+async def forbidden_handler(request: Request, exc: ForbiddenError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(error="forbidden", detail=exc.detail, status_code=exc.status_code).model_dump(),
+    )
+
+
+@app.exception_handler(TenantAccessError)
+async def tenant_handler(request: Request, exc: TenantAccessError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(error="tenant_access", detail=exc.detail, status_code=exc.status_code).model_dump(),
+    )
+
+
+@app.exception_handler(LifecyclePermissionError)
+async def lifecycle_handler(request: Request, exc: LifecyclePermissionError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(
+            error="lifecycle_permission", detail=exc.detail, status_code=exc.status_code
+        ).model_dump(),
+    )
 
 
 @app.exception_handler(ValueError)

@@ -6,11 +6,8 @@ from typing import Any, Optional
 
 from sqlalchemy.orm import Session
 
-from src.app.cases.repository import (
-    CaseEventRepository,
-    CaseRepository,
-    CaseSnapshotRepository,
-)
+from src.app.cases.repository import CaseEventRepository, CaseRepository, CaseSnapshotRepository
+from src.app.security.errors import TenantAccessError
 
 
 @dataclass
@@ -42,7 +39,10 @@ class CaseHistoryService:
         status: str = "evaluated",
         actor: str = "system",
         tenant_id: Optional[str] = None,
+        created_by_user_id: Optional[str] = None,
     ) -> CaseHistoryResult:
+        if not tenant_id:
+            raise TenantAccessError("Tenant context is required for history persistence")
         # Single transaction to ensure record + snapshot + event stay consistent.
         record = self.case_repo.create_case(
             profile=profile,
@@ -54,7 +54,7 @@ class CaseHistoryService:
             status=status,
             tenant_id=tenant_id,
             created_by=actor,
-            created_by_user_id=None,
+            created_by_user_id=created_by_user_id,
         )
 
         snapshot_version = self.snapshot_repo.next_version(record.id)

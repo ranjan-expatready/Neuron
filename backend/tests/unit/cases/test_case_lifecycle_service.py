@@ -39,16 +39,16 @@ def test_case_lifecycle_transitions():
         )
         assert record.status == "draft"
 
-        record = service.submit_case(record.id, user.id, tenant.id)
+        record = service.submit_case(record.id, user.id, tenant.id, user.role)
         assert record.status == "submitted"
 
-        record = service.mark_in_review(record.id, user.id, tenant.id)
+        record = service.mark_in_review(record.id, user.id, tenant.id, user.role)
         assert record.status == "in_review"
 
-        record = service.mark_complete(record.id, user.id, tenant.id)
+        record = service.mark_complete(record.id, user.id, tenant.id, user.role)
         assert record.status == "complete"
 
-        record = service.archive_case(record.id, user.id, tenant.id)
+        record = service.archive_case(record.id, user.id, tenant.id, user.role)
         assert record.status == "archived"
     finally:
         db.close()
@@ -67,7 +67,7 @@ def test_invalid_transition():
         )
         # cannot go directly to complete from draft
         try:
-            service.mark_complete(record.id, user.id, tenant.id)
+            service.mark_complete(record.id, user.id, tenant.id, user.role)
             raised = False
         except CaseLifecycleError:
             raised = True

@@ -8,6 +8,7 @@ from ..db.database import get_db
 from ..models.organization import Organization
 from ..models.user import User
 from ..services.auth import AuthService
+from ..security.errors import UnauthorizedError
 
 security = HTTPBearer()
 
@@ -17,7 +18,10 @@ def get_current_user(
 ) -> User:
     """Get the current authenticated user"""
     token = credentials.credentials
-    return AuthService.get_current_user(db, token)
+    try:
+        return AuthService.get_current_user(db, token)
+    except HTTPException as exc:
+        raise UnauthorizedError(exc.detail)
 
 
 def get_current_user_org(
