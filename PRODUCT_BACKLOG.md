@@ -312,6 +312,16 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Source:** Config-first governance requirement
 - **Dependencies:** ConfigService API, authentication/authorization, validation APIs
 
+#### [CFG-004] Admin Config Read API
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P1
+- **Type:** Backend API
+- **Description:** Expose read-only domain configuration state (CRS, language, work_experience, proof_of_funds, program rules, arranged employment, biometrics/medicals, documents/forms) via `/api/v1/admin/config` for admins and AI config agents.
+- **Dependencies:** ConfigService, DocumentMatrixService, `config/domain/*.yaml`
+
 #### [BA-002] Eligibility What-If Simulator
 
 - **Domain:** 3.5 Brain & AI

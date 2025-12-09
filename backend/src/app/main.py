@@ -8,7 +8,7 @@ from fastapi.security import HTTPBearer
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from src.app.api.routes import auth, cases, documents, organizations, persons, tasks, users
+from src.app.api.routes import admin_config, auth, cases, documents, organizations, persons, tasks, users
 from src.app.api.routes import config as config_routes
 from src.app.config import settings
 from src.app.db.database import engine, get_db
@@ -83,6 +83,7 @@ app.include_router(persons.router, prefix="/api/v1/persons", tags=["Persons"])
 app.include_router(cases.router, prefix="/api/v1/cases", tags=["Cases"])
 app.include_router(documents.router, prefix="/api/v1/documents", tags=["Documents"])
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
+app.include_router(admin_config.router, prefix="/api/v1/admin/config", tags=["Admin Configuration"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
 from src.app.api.routes import case_evaluation  # noqa: E402
 
