@@ -57,11 +57,16 @@ def upgrade():
             sa.Column("deleted_at", sa.DateTime(timezone=True)),
         )
 
+    user_columns = {col["name"] for col in inspector.get_columns("users")}
     with op.batch_alter_table("users") as batch_op:
-        batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
-        batch_op.add_column(sa.Column("full_name", sa.String(length=255), nullable=True))
-        batch_op.add_column(sa.Column("hashed_password", sa.String(length=255), nullable=True))
-        batch_op.add_column(sa.Column("role", sa.String(length=50), server_default="agent", nullable=False))
+        if "tenant_id" not in user_columns:
+            batch_op.add_column(sa.Column("tenant_id", sa.String(length=36), nullable=True))
+        if "full_name" not in user_columns:
+            batch_op.add_column(sa.Column("full_name", sa.String(length=255), nullable=True))
+        if "hashed_password" not in user_columns:
+            batch_op.add_column(sa.Column("hashed_password", sa.String(length=255), nullable=True))
+        if "role" not in user_columns:
+            batch_op.add_column(sa.Column("role", sa.String(length=50), server_default="agent", nullable=False))
         try:
             batch_op.drop_constraint("users_email_key", type_="unique")
         except Exception:
@@ -70,7 +75,8 @@ def upgrade():
             batch_op.drop_index("ix_users_email")
         except Exception:
             pass
-        batch_op.create_foreign_key("fk_users_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
+        if "tenant_id" in user_columns:
+            batch_op.create_foreign_key("fk_users_tenant", "tenants", ["tenant_id"], ["id"], ondelete="CASCADE")
         batch_op.create_unique_constraint("uq_users_tenant_email", ["tenant_id", "email"])
         batch_op.create_index("ix_users_email", ["email"])
 
