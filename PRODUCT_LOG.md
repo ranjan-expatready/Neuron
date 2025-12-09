@@ -47,6 +47,7 @@
 - ✅ Milestone 3.1 — Admin Config Read API: read-only endpoints expose loaded domain configs (CRS, language, work, PoF, programs, arranged employment, biometrics/medicals, documents/forms) for admin/agent introspection; config-first, backend-only.
 - ✅ Milestone 3.2 — Admin Config UI (read-only): frontend route `/admin/config` displays section list and JSON snapshots from Admin Config API; mock fallback for dev when API is unavailable; no edits.
 - ✅ Milestone 3.3 — Express Entry Case Intake UI: frontend route `/express-entry/intake` collects minimal profile inputs, calls Case Evaluation API, and displays program eligibility, CRS breakdown, and required forms/documents (read-only, single-session).
+- ✅ Milestone 3.4 — Roadmap & Phase Overview: added `docs/ROADMAP_AND_PHASES.md` summarizing phases 0–6, current position (end of Phase 3.3), and next milestones; linked in knowledge base.
 - ✅ Rule engine skeleton + config wiring (ENG-RULE-001/002) merged: CRS/eligibility engine reads `config/domain/*.yaml`; still internal-only, no public API exposure yet.
 
 ## E. Agentic & Automation Features

@@ -12,6 +12,12 @@
 - Tests: frontend `npm test` (Jest + Testing Library) ✅; lint unchanged.
 - Branch protection restored after merge (backend-tests + frontend-tests, strict/enforce_admins=true).
 
+## 2025-12-09 – [product][roadmap][m3_4_docs_only]
+
+- Created `docs/ROADMAP_AND_PHASES.md` outlining vision and phases 0–6, current position (end of Phase 3.3), and next milestones (M3.5+).
+- KB updated with `roadmap_and_phases`; product log notes Milestone 3.4; backlog adds PM-001/PM-002 for roadmap maintenance/UI surfacing.
+- No runtime or config changes; docs/KB/backlog/logs only.
+
 ## 2025-12-09 – [config][admin_api][m3_1]
 
 - Added Admin Config Read API (`/api/v1/admin/config`, `/sections`, `/{section}`) using AdminConfigService + ConfigService + DocumentMatrixService; snapshot exposes CRS, language, work_experience, proof_of_funds, program_rules, arranged_employment, biometrics_medicals, documents, and forms.
