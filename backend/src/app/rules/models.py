@@ -123,6 +123,30 @@ class ProgramEvaluationResult(BaseModel):
     crs: Optional[CRSBreakdown] = None
 
 
+class ProgramEligibilityResult(BaseModel):
+    program_code: str
+    eligible: bool
+    reasons: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
+
+class ProgramEligibilitySummary(BaseModel):
+    results: list[ProgramEligibilityResult] = Field(default_factory=list)
+
+    def eligible_programs(self) -> list[str]:
+        return [r.program_code for r in self.results if r.eligible]
+
+    def primary_recommendation(self) -> Optional[str]:
+        """
+        Simple heuristic: prefer CEC, then FSW, then FST if eligible.
+        """
+        for code in ("CEC", "FSW", "FST"):
+            if code in self.eligible_programs():
+                return code
+        return self.eligible_programs()[0] if self.eligible_programs() else None
+
+
 class CandidateProfile(BaseModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None

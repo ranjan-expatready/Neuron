@@ -8,14 +8,18 @@ program_rules:
     requires_job_offer: false
     requires_certificate_or_offer: false
     uses_proof_of_funds: true
+    min_education_level: "secondary"
+    eligible_teers: [0, 1, 2, 3]
   - code: "CEC"
     requires_job_offer: false
     requires_certificate_or_offer: false
     uses_proof_of_funds: false
+    eligible_teers: [0, 1, 2, 3]
   - code: "FST"
     requires_job_offer: false
     requires_certificate_or_offer: true
     uses_proof_of_funds: true
+    notes: "Trades: requires valid job offer or trade certification per config"
   - code: "PNP_EE"
     requires_job_offer: false
     requires_certificate_or_offer: false

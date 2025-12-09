@@ -508,6 +508,16 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Add golden test cases for eligibility and CRS, including edge cases (continuity gaps, TEER 4/5 rejection, expiring tests/medicals/biometrics, funds exemptions), using domain_knowledge as oracle.
 - **Dependencies:** rule engine skeleton, config wiring, test fixtures from domain_knowledge
 
+#### [ENG-RULE-004] Program Eligibility Engine (FSW/CEC/FST)
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** ✅ Done
+- **Priority:** P1
+- **Phase:** P1
+- **Type:** Backend rules/config
+- **Description:** Config-driven program eligibility evaluation for FSW, CEC, FST using ConfigService + RuleEngineService; returns structured reasons/warnings.
+- **Dependencies:** config/domain/programs.yaml, language.yaml, work_experience.yaml, proof_of_funds.yaml
+
 ### 3.6 Agentic & Automation
 
 #### [AA-001] Multi-Agent Runtime & Scheduler

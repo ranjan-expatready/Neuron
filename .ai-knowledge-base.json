@@ -196,13 +196,31 @@
     ]
   },
   "rule_engine": {
-    "overview": "docs/RULE_ENGINE_OVERVIEW.md",
-    "crs_eligibility": "docs/RULE_ENGINE_CRS_ELIGIBILITY.md",
+    "docs": [
+      "docs/RULE_ENGINE_OVERVIEW.md",
+      "docs/RULE_ENGINE_CRS_ELIGIBILITY.md",
+      "docs/RULE_ENGINE_PROGRAM_ELIGIBILITY.md"
+    ],
+    "config_sources": [
+      "config/domain/crs.yaml",
+      "config/domain/programs.yaml",
+      "config/domain/language.yaml",
+      "config/domain/work_experience.yaml",
+      "config/domain/proof_of_funds.yaml",
+      "config/domain/arranged_employment.yaml",
+      "config/domain/biometrics_medicals.yaml"
+    ],
+    "services": [
+      "backend/src/app/rules/program_eligibility.py",
+      "backend/src/app/services/rule_engine_service.py",
+      "backend/src/app/domain_config/service.py"
+    ],
     "rules": [
       "Read RULE_ENGINE_OVERVIEW.md before implementing any rule code.",
-      "Use RULE_ENGINE_CRS_ELIGIBILITY.md as the canonical mapping from domain_knowledge to engine modules.",
+      "Use RULE_ENGINE_CRS_ELIGIBILITY.md and RULE_ENGINE_PROGRAM_ELIGIBILITY.md as canonical mappings from domain_knowledge to engine modules.",
       "Do not hard-code IRCC constants; fetch from config/domain YAMLs informed by domain_knowledge.",
-      "All thresholds and tables load into DomainRulesConfig via config_loader; engine logic must consume that config (no inline magic numbers)."
+      "All thresholds and tables load into DomainRulesConfig via config_loader/ConfigService; engine logic must consume that config (no inline magic numbers).",
+      "Program eligibility (FSW/CEC/FST) is config-driven; add new programs by extending programs.yaml + config models."
     ]
   },
   "agent_coordination": {
