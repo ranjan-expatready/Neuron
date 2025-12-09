@@ -1,3 +1,10 @@
+## 2025-12-09 – [frontend][admin_config_ui][m3_2]
+
+- Added read-only Admin Config UI at `/admin/config` (sidebar sections + JSON detail) consuming Admin Config API; shows banner, summaries, and dev mock fallback if API is inaccessible.
+- Docs: `docs/ADMIN_CONFIG_UI.md`; KB updated with `admin_config_ui`; backlog adds [CFG-005] Admin Config Write UI (planned); product log notes Milestone 3.2.
+- Tests: frontend `npm run lint` ✅; backend unchanged.
+- Branch protection unchanged (backend-tests + frontend-tests required; strict/enforce_admins=true).
+
 ## 2025-12-09 – [config][admin_api][m3_1]
 
 - Added Admin Config Read API (`/api/v1/admin/config`, `/sections`, `/{section}`) using AdminConfigService + ConfigService + DocumentMatrixService; snapshot exposes CRS, language, work_experience, proof_of_funds, program_rules, arranged_employment, biometrics_medicals, documents, and forms.

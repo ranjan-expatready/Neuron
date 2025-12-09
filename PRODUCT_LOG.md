@@ -45,6 +45,7 @@
 - ✅ Milestone 2.3 — Document & Forms Matrix + Case Skeleton (backend-only): config-driven forms/documents resolution and case assembly using RuleEngineService + DocumentMatrixService.
 - ✅ Milestone 2.4 — Case Evaluation API & Explainability: POST `/api/v1/cases/evaluate` exposes program eligibility, CRS breakdown, and documents/forms with config hashes; backend-only, config-driven.
 - ✅ Milestone 3.1 — Admin Config Read API: read-only endpoints expose loaded domain configs (CRS, language, work, PoF, programs, arranged employment, biometrics/medicals, documents/forms) for admin/agent introspection; config-first, backend-only.
+- ✅ Milestone 3.2 — Admin Config UI (read-only): frontend route `/admin/config` displays section list and JSON snapshots from Admin Config API; mock fallback for dev when API is unavailable; no edits.
 - ✅ Rule engine skeleton + config wiring (ENG-RULE-001/002) merged: CRS/eligibility engine reads `config/domain/*.yaml`; still internal-only, no public API exposure yet.
 
 ## E. Agentic & Automation Features

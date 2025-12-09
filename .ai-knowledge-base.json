@@ -208,6 +208,20 @@
       "Config-first: all values originate from config/domain/*.yaml via ConfigService and DocumentMatrixService."
     ]
   },
+  "admin_config_ui": {
+    "frontend_route": "/admin/config",
+    "docs": "docs/ADMIN_CONFIG_UI.md",
+    "apis": [
+      "GET /api/v1/admin/config",
+      "GET /api/v1/admin/config/sections",
+      "GET /api/v1/admin/config/{section}"
+    ],
+    "notes": [
+      "Read-only UI for domain configuration transparency.",
+      "Frontend must not hard-code IRCC rules; display backend Admin Config API responses.",
+      "Shows sections list, selected section JSON, and dev mock fallback if API is inaccessible."
+    ]
+  },
   "rule_engine": {
     "docs": [
       "docs/RULE_ENGINE_OVERVIEW.md",

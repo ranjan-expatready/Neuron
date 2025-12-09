@@ -322,6 +322,16 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Expose read-only domain configuration state (CRS, language, work_experience, proof_of_funds, program rules, arranged employment, biometrics/medicals, documents/forms) via `/api/v1/admin/config` for admins and AI config agents.
 - **Dependencies:** ConfigService, DocumentMatrixService, `config/domain/*.yaml`
 
+#### [CFG-005] Admin Config Write UI
+
+- **Domain:** 3.5 Brain & AI
+- **Status:** 🔵 Planned
+- **Priority:** P2
+- **Phase:** P2
+- **Type:** Frontend/Admin
+- **Description:** Add secure, audited editing capabilities to Admin Config UI (config change proposals, approvals, versioning).
+- **Dependencies:** Admin Config Read UI, ConfigService API, auth/approvals
+
 #### [BA-002] Eligibility What-If Simulator
 
 - **Domain:** 3.5 Brain & AI
