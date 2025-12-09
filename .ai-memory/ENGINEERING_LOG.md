@@ -19,6 +19,12 @@
 - Extended CaseRecord/Snapshot/Event with tenant_id + creator and lifecycle statuses; added CaseLifecycleService and API (`/api/v1/case-lifecycle/*`).
 - Docs/KB/backlog/product log updated for M4.1; tests cover tenant/user models, lifecycle service, and lifecycle API; branch protection restored post-merge.
 
+## 2025-12-09 – [chore][governance][kb_sync]
+
+- Synced `docs/ROADMAP_AND_PHASES.md` to mark M3.5 (Case History & Audit) and M4.1 (Case Lifecycle & Tenant Infrastructure) as complete; set M4.2 (Pricing Plans & Case Types) as the next milestone.
+- Updated `.ai-knowledge-base.json` with current Phase 4 status, next milestone (M4.2), and refreshed test metrics (backend pytest 181 tests @ ~85.45% coverage; frontend Jest 1 test @ ~89% coverage).
+- Aligned `PRODUCT_LOG.md` and `PRODUCT_BACKLOG.md` to reflect completed case history/lifecycle work and remaining pricing/tenant guardrail backlog items.
+
 ## 2025-12-09 – [frontend][admin_config_ui][m3_2]
 
 - Added read-only Admin Config UI at `/admin/config` (sidebar sections + JSON detail) consuming Admin Config API; shows banner, summaries, and dev mock fallback if API is inaccessible.

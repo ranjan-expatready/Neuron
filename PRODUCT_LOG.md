@@ -11,7 +11,7 @@
 
 - ✅ Backend runtime, tooling & CI parity (`backend/Makefile`, `backend/.venv`, `docs/E2E_SPINE_SETUP.md`) – Python 3.10.19 toolchain, pytest spine, and e2e helpers aligned with `[BP-07]`.
 - ✅ Canonical FastAPI surface (`backend/src/app/main.py`, `backend/src/app/api/*`) – Auth, organizations, cases, and documents online per `[BP-03]`.
-- 🟡 Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Org/person/case schemas exist but isolation, soft deletes, and retention controls from `[BP-06]` still pending.
+- 🟡 Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Tenant/User models and tenant-scoped cases are live (M4.1); deeper isolation (soft deletes, retention controls) still pending `[BP-06]`.
 - 🔴 Observability, metrics & SRE stack (logs, tracing, incident runbooks) – Logging strategy outlined in `[BP-05]/[BP-07]` but no implementation yet.
 - 🔴 Mobile & offline-ready client surfaces – Blueprint `[BP-04]/[BP-13]` calls for responsive & native experiences that are not in the repo.
 
@@ -57,6 +57,8 @@
   - Added Tenant and tenant-scoped User models (composite tenant+email uniqueness, roles, hashed_password).
   - CaseRecord now tracks tenant ownership, creator user, and lifecycle status; snapshots/events store tenant_id.
   - Case lifecycle service + API (`/api/v1/case-lifecycle/*`) manage submit/review/complete/archive with audit + snapshots; docs/tests updated.
+
+> Next major milestone: **M4.2 – Pricing Plans & Case Types** (pricing tiers, case type catalog, paywall hooks around evaluations).
 
 ## E. Agentic & Automation Features
 
