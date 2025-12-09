@@ -8,12 +8,14 @@ from pydantic import BaseModel, EmailStr, Field
 class TenantCreate(BaseModel):
     name: str
     metadata: dict | None = None
+    plan_code: str = "starter"
 
 
 class Tenant(BaseModel):
     id: str
     name: str
     metadata: dict | None = None
+    plan_code: str = "starter"
 
     class Config:
         from_attributes = True

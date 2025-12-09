@@ -5,15 +5,24 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from src.app.cases.history_service import CaseHistoryResult, CaseHistoryService
 from src.app.cases.model import CaseService
+from src.app.cases.repository import CaseRepository
+from src.app.config.case_types_service import CaseTypeConfigError, CaseTypesConfigService
+from src.app.config.plans_service import (
+    PlanCaseTypeNotAllowed,
+    PlanFeatureDisabled,
+    PlanQuotaExceeded,
+    PlansConfigService,
+)
 from src.app.db.database import get_db
 from src.app.documents.service import DocumentMatrixService
 from src.app.domain_config.service import ConfigService
+from src.app.models.tenant import Tenant
 from src.app.rules.models import CandidateProfile, ProgramEligibilityResult
 from src.app.services.rule_engine_service import RuleEngineService
 
@@ -53,6 +62,8 @@ class DocumentRequirement(BaseModel):
 class AuditInfo(BaseModel):
     created_at: datetime
     source: str
+    tenant_id: str
+    case_type: str
 
 
 class CaseEvaluationResponse(BaseModel):
@@ -67,10 +78,15 @@ class CaseEvaluationResponse(BaseModel):
     config: dict[str, str] | None = None
     warnings: list[str] = Field(default_factory=list)
     audit: AuditInfo
+    tenant_id: str
+    case_type: str
 
 
 class CaseEvaluationRequest(BaseModel):
     profile: CandidateProfile
+    tenant_id: str
+    user_id: str
+    case_type: str
 
 
 def _config_hashes() -> dict[str, str]:
@@ -114,6 +130,9 @@ def _persist_history(
     required_artifacts: dict[str, list],
     config_fingerprint: dict[str, str],
     source: str,
+    tenant_id: str,
+    user_id: str,
+    case_type: str,
 ) -> CaseHistoryResult:
     program_payload = [res.model_dump(mode="json") for res in program_results]
     return history_service.persist_evaluation(
@@ -124,6 +143,9 @@ def _persist_history(
         config_fingerprint=config_fingerprint,
         source=source,
         actor="system",
+        tenant_id=tenant_id,
+        created_by_user_id=user_id,
+        case_type=case_type,
     )
 
 
@@ -136,6 +158,28 @@ async def evaluate_case(
     document_service = DocumentMatrixService(config_service=config_service)
     case_service = CaseService(rule_engine=rule_engine, document_service=document_service)
     history_service = CaseHistoryService(db)
+    plans_service = PlansConfigService()
+    case_types_service = CaseTypesConfigService()
+    case_repo = CaseRepository(db)
+
+    tenant = db.query(Tenant).filter(Tenant.id == request.tenant_id).first()
+    if not tenant:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tenant not found")
+    try:
+        plan = plans_service.get_plan(tenant.plan_code)
+        case_types_service.require_case_type(request.case_type)
+        plans_service.assert_feature(plan, "enable_case_history")
+        plans_service.assert_case_type_allowed(plan, request.case_type)
+        active_cases = case_repo.count_active_cases(request.tenant_id)
+        plans_service.assert_active_case_quota(plan, active_cases)
+    except PlanFeatureDisabled as exc:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+    except PlanCaseTypeNotAllowed as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+    except PlanQuotaExceeded as exc:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+    except CaseTypeConfigError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
     case = case_service.build_case(request.profile)
     crs_results = rule_engine.evaluate(request.profile)
@@ -225,6 +269,9 @@ async def evaluate_case(
         required_artifacts=docs_payload,
         config_fingerprint=config_version,
         source=source,
+        tenant_id=request.tenant_id,
+        user_id=request.user_id,
+        case_type=request.case_type,
     )
 
     return CaseEvaluationResponse(
@@ -242,6 +289,13 @@ async def evaluate_case(
         config_version=config_version,
         config=config_version,
         warnings=warnings,
-        audit=AuditInfo(created_at=history.created_at, source=history.source),
+        audit=AuditInfo(
+            created_at=history.created_at,
+            source=history.source,
+            tenant_id=request.tenant_id,
+            case_type=request.case_type,
+        ),
+        tenant_id=request.tenant_id,
+        case_type=request.case_type,
     )
 

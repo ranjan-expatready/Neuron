@@ -12,6 +12,8 @@
 ## Behavior
 - Fetches sections from `GET /api/v1/admin/config/sections`.
 - Fetches selected section from `GET /api/v1/admin/config/{section}`.
+- Plan-aware: requests include `tenant_id`; backend enforces `enable_admin_config` on the tenant’s plan and returns 403 if the feature is disabled.
+- Surfacing plans/case types: UI can call `GET /api/v1/admin/config/plans` and `GET /api/v1/admin/config/case-types` to show pricing and case-type catalogs (read-only).
 - Shows:
   - Banner: “Read-only / law-sensitive / config-driven”.
   - Sidebar list of sections.
@@ -21,6 +23,7 @@
 ## Limitations
 - Read-only; no save or edit actions.
 - Auth behavior follows existing API protection. If unauthorized in dev, mock sample is shown with a warning banner.
+- Plan gating may block access when tenant plan lacks `enable_admin_config`; surface a friendly “Requires Pro or higher” message in UI.
 - Config hashes are not surfaced yet; add when the backend exposes them.
 
 ## How to use (dev)

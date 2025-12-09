@@ -1,13 +1,13 @@
 import uuid
 
 from src.app.cases.lifecycle_service import CaseLifecycleError, CaseLifecycleService
-from src.app.db.database import SessionLocal
+from src.app.db.database import Base, SessionLocal, engine
 from src.app.models.tenant import Tenant
 from src.app.models.user import User
 
 
 def _setup(db):
-    tenant = Tenant(name=f"Tenant Lifecycle {uuid.uuid4()}")
+    tenant = Tenant(name=f"Tenant Lifecycle {uuid.uuid4()}", plan_code="pro")
     db.add(tenant)
     db.commit()
     db.refresh(tenant)
@@ -26,6 +26,8 @@ def _setup(db):
 
 
 def test_case_lifecycle_transitions():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
         tenant, user = _setup(db)
@@ -55,6 +57,8 @@ def test_case_lifecycle_transitions():
 
 
 def test_invalid_transition():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
         tenant, user = _setup(db)

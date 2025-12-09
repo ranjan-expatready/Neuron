@@ -24,6 +24,7 @@ class CaseRecord(Base):
         nullable=False,
         default="draft",
     )
+    case_type = Column(String(100), nullable=False, default="express_entry_basic")
     profile = Column(JSON, nullable=False)
     program_eligibility = Column(JSON, nullable=False)
     crs_breakdown = Column(JSON, nullable=True)
@@ -76,6 +77,7 @@ class CaseSnapshot(Base):
     required_artifacts = Column(JSON, nullable=True)
     config_fingerprint = Column(JSON, nullable=True)
     version = Column(Integer, nullable=False)
+    case_type = Column(String(100), nullable=False, default="express_entry_basic")
 
     case = relationship("CaseRecord", back_populates="snapshots")
 

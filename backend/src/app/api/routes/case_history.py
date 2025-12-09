@@ -3,12 +3,14 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from src.app.cases.repository import CaseEventRepository, CaseRepository, CaseSnapshotRepository
+from src.app.config.plans_service import PlanFeatureDisabled, PlansConfigService
 from src.app.db.database import get_db
+from src.app.models.tenant import Tenant
 
 router = APIRouter()
 
@@ -28,6 +30,7 @@ class CaseRecordResponse(BaseModel):
     updated_at: datetime
     source: str
     status: str
+    case_type: str | None = None
     profile: dict[str, Any]
     program_eligibility: dict[str, Any]
     crs_breakdown: dict[str, Any] | None = None
@@ -43,6 +46,7 @@ class CaseSnapshotResponse(BaseModel):
     snapshot_at: datetime
     source: str
     version: int
+    case_type: str | None = None
     profile: dict[str, Any]
     program_eligibility: dict[str, Any]
     crs_breakdown: dict[str, Any] | None = None
@@ -93,9 +97,23 @@ def _crs_total(crs_breakdown: Any) -> int | None:
 
 
 @router.get("", response_model=list[CaseSummary])
-async def list_cases(limit: int = Query(50, ge=1, le=200), db: Session = Depends(get_db)):
+async def list_cases(
+    tenant_id: str = Query(..., description="Tenant scope for history access"),
+    limit: int = Query(50, ge=1, le=200),
+    db: Session = Depends(get_db),
+):
+    plans = PlansConfigService()
+    tenant = db.query(Tenant).filter(Tenant.id == tenant_id).first()
+    if not tenant:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tenant not found")
+    try:
+        plan = plans.get_plan(tenant.plan_code)
+        plans.assert_feature(plan, "enable_case_history")
+    except PlanFeatureDisabled as exc:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+
     repo = CaseRepository(db)
-    records = repo.list_recent(limit=limit)
+    records = repo.list_recent_for_tenant(tenant_id=tenant_id, limit=limit)
     summaries: list[CaseSummary] = []
     for record in records:
         summaries.append(
@@ -112,12 +130,26 @@ async def list_cases(limit: int = Query(50, ge=1, le=200), db: Session = Depends
 
 
 @router.get("/{case_id}", response_model=CaseDetailResponse)
-async def get_case(case_id: str, db: Session = Depends(get_db)):
+async def get_case(
+    case_id: str,
+    tenant_id: str = Query(..., description="Tenant scope for history access"),
+    db: Session = Depends(get_db),
+):
+    plans = PlansConfigService()
+    tenant = db.query(Tenant).filter(Tenant.id == tenant_id).first()
+    if not tenant:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tenant not found")
+    try:
+        plan = plans.get_plan(tenant.plan_code)
+        plans.assert_feature(plan, "enable_case_history")
+    except PlanFeatureDisabled as exc:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+
     repo = CaseRepository(db)
     snapshot_repo = CaseSnapshotRepository(db)
     event_repo = CaseEventRepository(db)
 
-    record = repo.get_case(case_id)
+    record = repo.get_case(case_id, tenant_id=tenant_id)
     if not record:
         raise HTTPException(status_code=404, detail="Case not found")
 
@@ -131,6 +163,7 @@ async def get_case(case_id: str, db: Session = Depends(get_db)):
             updated_at=record.updated_at,
             source=record.source,
             status=record.status,
+            case_type=getattr(record, "case_type", None),
             profile=record.profile,
             program_eligibility=record.program_eligibility,
             crs_breakdown=record.crs_breakdown,
@@ -146,6 +179,7 @@ async def get_case(case_id: str, db: Session = Depends(get_db)):
                 snapshot_at=snapshot.snapshot_at,
                 source=snapshot.source,
                 version=snapshot.version,
+            case_type=getattr(snapshot, "case_type", None),
                 profile=snapshot.profile,
                 program_eligibility=snapshot.program_eligibility,
                 crs_breakdown=snapshot.crs_breakdown,

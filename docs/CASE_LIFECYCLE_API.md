@@ -5,6 +5,9 @@
 Tenant-aware lifecycle endpoints manage a case from draft through archive while recording immutable snapshots and audit events.
 
 Statuses: `draft → submitted → in_review → complete → archived`.
+Plan/feature gating (M4.2):
+- Requires tenant plan feature `enable_case_lifecycle`.
+- Case type must be allowed by the tenant plan; lifecycle operations enforce allowed case types and quotas on active cases.
 
 Every transition writes:
 
@@ -54,14 +57,14 @@ Response:
 
 ## Models
 
-- `Tenant`: id, name, metadata, created_at/updated_at.
+- `Tenant`: id, name, metadata, plan_code, created_at/updated_at.
 - `User`: id, email, full_name, hashed_password, role (`admin|agent|end_user`), tenant_id (unique per-tenant email).
-- `CaseRecord`: now carries `tenant_id`, `created_by_user_id`, lifecycle `status`.
-- `CaseSnapshot` & `CaseEvent`: store `tenant_id` for audit isolation.
+- `CaseRecord`: carries `tenant_id`, `created_by_user_id`, lifecycle `status`, `case_type`.
+- `CaseSnapshot` & `CaseEvent`: store `tenant_id`; snapshots also store `case_type` for audit isolation.
 
 ## Notes & Limitations
 
-- Internal-only in 4.1; no auth middleware yet.
-- Tenant ownership is enforced per request by matching `tenant_id` on `CaseRecord`.
-- Future phases will bind lifecycle endpoints to authenticated users/roles.
+- Internal-only in 4.1; no auth middleware yet. Plan gating is enforced in 4.2.
+- Tenant ownership is enforced per request by matching `tenant_id` on `CaseRecord`; plan gating can return 403/400 for disabled features or disallowed case types.
+- Future phases will bind lifecycle endpoints to authenticated users/roles and surface plan selection/changes via billing.
 
