@@ -33,6 +33,7 @@
 - Downstream usage:
   - DocumentMatrixService consumes selected program to resolve forms/documents.
   - CaseService assembles program eligibility + required forms/documents into a case skeleton.
+  - Case Evaluation API returns this bundle at `/api/v1/cases/evaluate`.
 
 ## Rule Outline (config-driven)
 
