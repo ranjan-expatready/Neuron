@@ -11,6 +11,7 @@ const mockSuggestion = {
     subject: "Draft: Intake completion reminder",
     body: "Please complete your intake",
     requires_approval: true,
+    llm_used: true,
   },
   action_id: "action-1",
 };
@@ -61,6 +62,7 @@ describe("Case Engagement Page", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Draft: Intake completion reminder/i)).toBeInTheDocument();
+      expect(screen.getByText(/Generated with AI/i)).toBeInTheDocument();
     });
   });
 

@@ -89,9 +89,9 @@ Eligibility per event:
   - Logs: structured with tenant_id, case_id, agent_name, action_type, status, request_id.
 
 ## 11) Phases & Milestones
-- M8.1 (this doc): Spec only; no behavior changes.
-- M8.2: Implement admin-triggered, template-based shadow suggestions (intake incomplete, missing docs, client questions); RCIC review UI; no LLM, no auto-send.
-- M8.3: Add LLM-based suggestion generation (shadow-only, guardrails).
+- M8.1: Spec only; no behavior changes.
+- M8.2: Admin-triggered, template-based shadow suggestions (intake incomplete, missing docs, client questions); RCIC review UI; no LLM, no auto-send.
+- M8.3: LLM-based draft replies (shadow-only, guardrails, template fallback) for client questions and optional reminder rewrites; still no auto-send.
 - M8.4: AUTO mode rollout for low-risk reminders with tenant controls; messaging integration.
 - M8.5+: Additional channels (WhatsApp/SMS), analytics, deeper orchestration with other agents.
 

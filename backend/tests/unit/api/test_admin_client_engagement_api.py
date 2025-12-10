@@ -36,6 +36,7 @@ def test_intake_reminder_endpoint(client: TestClient, admin_headers):
     body = resp.json()
     assert body["suggestion"]["message_type"] == "intake_incomplete_reminder"
     assert body["suggestion"]["requires_approval"] is True
+    assert "llm_used" in body["suggestion"]
 
 
 def test_missing_docs_endpoint(client: TestClient, admin_headers):
@@ -48,6 +49,7 @@ def test_missing_docs_endpoint(client: TestClient, admin_headers):
     assert resp.status_code == 200
     body = resp.json()
     assert body["suggestion"]["message_type"] == "missing_documents_reminder"
+    assert "llm_used" in body["suggestion"]
 
 
 def test_client_question_endpoint(client: TestClient, admin_headers):
@@ -61,6 +63,8 @@ def test_client_question_endpoint(client: TestClient, admin_headers):
     body = resp.json()
     assert body["suggestion"]["message_type"] == "client_question_reply"
     assert "What is next?" in body["suggestion"]["body"]
+    assert body["suggestion"]["requires_approval"] is True
+    assert "llm_used" in body["suggestion"]
 
 
 def test_client_engagement_endpoints_require_rbac(client: TestClient):

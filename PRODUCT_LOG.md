@@ -76,6 +76,7 @@
 - 🟢 M8.0 Agentic Platform Skeleton: agent sessions/actions DB + migration, AgentOrchestratorService, ClientEngagementAgent (suggestions only, no sends), admin APIs `/api/v1/admin/agents/actions`/`sessions/{id}`, admin UI `/admin/agents` for audit visibility.
 - 🟢 M8.1 Client Engagement Agent Spec (Hybrid Mode): design covering shadow vs auto modes, event triggers, safety/guardrails, memory model, data contracts, and workflows. No runtime behavior changes yet; implementation follows in M8.2+.
 - 🟢 M8.2 Client Engagement Agent (shadow mode): template-based suggestions for intake incomplete, missing documents, and client questions; admin-triggered APIs and case engagement UI; no auto-send, no LLM.
+- 🟢 M8.3 Client Engagement Agent (LLM-assisted shadow replies): LLM-assisted draft replies for client questions and optional reminder rewrites; template fallback if LLM disabled/unavailable; admin-triggered only; no auto-send/cron; strict guardrails.
 - 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.
