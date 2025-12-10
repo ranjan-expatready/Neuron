@@ -270,11 +270,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [BA-001] CRS Core Calculator API
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔴 Missing
+- **Status:** ✅ Done (M5.1 core engine)
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend API + Rules Engine
-- **Description:** Implement CRS scoring per current IRCC rules with unit/integration tests `[BP-03 §CRS]`.
+- **Description:** Implement CRS scoring per current IRCC rules with unit/integration tests `[BP-03 §CRS]`. Config-first engine shipped backend-only; M5.2 delivered structured explainability; M5.3 delivered NL explanations and case integration (UI/report surfaces remain future).
 - **Source:** BP-03, BP-09, BP-14 Gap #1
 - **Dependencies:** Person profile schema, rule engine
 

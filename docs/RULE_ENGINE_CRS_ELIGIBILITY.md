@@ -86,6 +86,27 @@ eligibility:
   - `arranged_employment.yaml`: `valid_teers`, `min_duration_months`, `require_full_time`, `require_non_seasonal`.
   - `biometrics_medicals.yaml`: `medical_validity_months`, `biometrics_validity_months`, `expiry_warning_days`.
 - CRS:
-  - `crs.yaml`: `crs_core.base_age_points`, `language_bonus_per_clb` (placeholders until tables are wired); `crs_transferability.notes` points to raw tables.
+  - `crs.yaml`: `crs_core.*` tables (age, education, first/second language, Canadian work), `crs_spouse.*` spouse factors, `crs_transferability.*` bundles + caps, `crs_additional.*` (PNP, sibling, French, Canadian study, job-offer toggles).
 - Engine wiring:
-  - YAMLs → `DomainRulesConfig` (config_models) via `config_loader.load_domain_rules_config()` → injected into `RuleEngine` / `RuleEngineService`.
+  - YAMLs → `DomainRulesConfig` (config_models) via `config_loader.load_domain_rules_config()` → injected into `RuleEngine` / `RuleEngineService` and CRS engine.
+
+## 8) M5.1 CRS Engine Core (config-first)
+- Domain models: `backend/src/app/domain/crs/models.py` (`CRSProfileInput`, `CRSFactorContribution`, `CRSResult`).
+- Engine: `backend/src/app/rules/crs_engine.py` computes core, spouse, transferability, additional points with per-factor rule references.
+- Adapter: `backend/src/app/rules/crs_adapter.py` builds CRSProfileInput from CandidateProfile.
+- Service wrapper: `backend/src/app/services/crs_engine.py` with structured logging (`component="crs_engine"`) and metrics counters (`crs_evaluations_total`, `crs_evaluations_failed_total`).
+- Config source: `config/domain/crs.yaml` (tables derived from domain_knowledge/raw/crs/transferability_tables.md and Canada.ca CRS page, DRAFT until SME validation).
+
+## 9) M5.2 Structured Explainability (no natural language yet)
+- Each `CRSFactorContribution` now includes `explanation` with:
+  - `explanation_code` (stable factor identifier)
+  - `rule_path` (config path e.g., `crs_core.age_bands`, `crs_transferability.education_language`)
+  - `input_summary` (normalized inputs used)
+  - `threshold_summary` (key config thresholds/bands/caps)
+- Explainability data is derived solely from `config/domain/crs.yaml`; no IRCC constants are coded.
+- M5.3 will layer NL generation + UI; current output is machine-readable only.
+
+## 10) M5.3 Natural-Language Explanations & Case Integration
+- `CRSFactorContribution` may include `nl_explanation` (title/description/hints) generated from structured explanations without hard-coding IRCC numbers.
+- Case Evaluation API now returns CRS score + factor contributions + explanations; case history snapshots store the CRS payload for audit.
+- NL templates derive values from `input_summary` and `threshold_summary` (config-driven).

@@ -22,6 +22,7 @@ Scope is **backend-only**, internal/testing. No auth is wired yet; user/tenant l
   - `id` (UUID PK), `case_id` (FK → CaseRecord), `snapshot_at`, `source`
   - `version` (int, monotonic per `case_id`)
   - Same payload fields as CaseRecord; **immutable** after insert
+  - Includes CRS payload with score, factor contributions, and explanations (structured + NL)
 
 - **CaseEvent** (`case_events`)
   - `id` (UUID PK), `case_id` (nullable FK), `event_type` (e.g., `EVALUATION_CREATED`)

@@ -6,14 +6,113 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 
+class CrsAgeBand(BaseModel):
+    min_age: int
+    max_age: int
+    single: int
+    with_spouse: int
+
+
+class CrsEducationPoints(BaseModel):
+    level: str
+    single: int
+    with_spouse: int
+
+
+class CrsLanguagePoints(BaseModel):
+    clb: int
+    single_per_skill: int
+    with_spouse_per_skill: int
+
+
+class CrsSecondLanguageConfig(BaseModel):
+    rows: list[CrsLanguagePoints] = Field(default_factory=list)
+    max_points_single: int = 24
+    max_points_with_spouse: int = 22
+
+
+class CrsCanadianWorkPoints(BaseModel):
+    years: int
+    single: int
+    with_spouse: int
+
+
 class CrsCoreConfig(BaseModel):
-    base_age_points: int = 0  # Placeholder; SME validation required.
-    language_bonus_per_clb: int = 0  # Placeholder; SME validation required.
+    age_bands: list[CrsAgeBand] = Field(default_factory=list)
+    education: list[CrsEducationPoints] = Field(default_factory=list)
+    first_official_language: list[CrsLanguagePoints] = Field(default_factory=list)
+    second_official_language: CrsSecondLanguageConfig = Field(
+        default_factory=CrsSecondLanguageConfig
+    )
+    canadian_work_experience: list[CrsCanadianWorkPoints] = Field(default_factory=list)
+    # Legacy placeholders retained for backwards compatibility
+    base_age_points: int = 0
+    language_bonus_per_clb: int = 0
+
+
+class SpouseEducationPoints(BaseModel):
+    level: str
+    points: int
+
+
+class SpouseLanguagePoints(BaseModel):
+    clb: int
+    points_per_skill: int
+
+
+class SpouseCanadianWorkPoints(BaseModel):
+    years: int
+    points: int
+
+
+class CrsSpouseConfig(BaseModel):
+    education: list[SpouseEducationPoints] = Field(default_factory=list)
+    language: list[SpouseLanguagePoints] = Field(default_factory=list)
+    canadian_work_experience: list[SpouseCanadianWorkPoints] = Field(default_factory=list)
+
+
+class TransferabilityEntry(BaseModel):
+    factor_one: str
+    factor_two: str
+    points: int
+
+
+class TransferabilityCaps(BaseModel):
+    per_bundle: int = 50
+    total: int = 100
 
 
 class CrsTransferabilityConfig(BaseModel):
-    # Placeholder container for future wiring of transferability tables.
+    education_language: list[TransferabilityEntry] = Field(default_factory=list)
+    education_canadian_work: list[TransferabilityEntry] = Field(default_factory=list)
+    foreign_language: list[TransferabilityEntry] = Field(default_factory=list)
+    foreign_canadian_work: list[TransferabilityEntry] = Field(default_factory=list)
+    certificate_language: list[TransferabilityEntry] = Field(default_factory=list)
+    caps: TransferabilityCaps = Field(default_factory=TransferabilityCaps)
     notes: Optional[str] = None
+
+
+class CanadianStudyPoints(BaseModel):
+    one_to_two_years: int = 0
+    three_or_more_years: int = 0
+
+
+class FrenchBonusEntry(BaseModel):
+    condition: str
+    points: int
+
+
+class JobOfferBonusEntry(BaseModel):
+    teer_category: str
+    points: int
+
+
+class CrsAdditionalPointsConfig(BaseModel):
+    provincial_nomination: int = 0
+    sibling_in_canada: int = 0
+    canadian_study: CanadianStudyPoints = Field(default_factory=CanadianStudyPoints)
+    french: list[FrenchBonusEntry] = Field(default_factory=list)
+    job_offer: list[JobOfferBonusEntry] = Field(default_factory=list)
 
 
 class LanguageProgramMinima(BaseModel):
@@ -105,7 +204,9 @@ class BiometricsMedicalsConfig(BaseModel):
 
 class DomainRulesConfig(BaseModel):
     crs_core: CrsCoreConfig
+    crs_spouse: CrsSpouseConfig
     crs_transferability: CrsTransferabilityConfig
+    crs_additional: CrsAdditionalPointsConfig
     language: LanguageConfig
     clb_tables: ClbTablesConfig
     work_experience: WorkExperienceConfig

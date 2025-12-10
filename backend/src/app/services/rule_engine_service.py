@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from src.app.domain_config.service import ConfigService
 from src.app.rules.config_port import RuleConfigPort
+from src.app.rules.crs_adapter import build_crs_profile_from_candidate
+from src.app.rules.crs_engine import CRSEngine
 from src.app.rules.engine import RuleEngine
 from src.app.rules.models import (
     CandidateProfile,
@@ -26,6 +28,7 @@ class RuleEngineService:
             service = config_service or ConfigService()
             config = service.get_domain_rules()
         self.engine = RuleEngine(config=config)
+        self._domain_config = config
 
     def evaluate(self, profile: CandidateProfile) -> dict[str, ProgramEvaluationResult]:
         return self.engine.evaluate_candidate(profile)
@@ -40,3 +43,9 @@ class RuleEngineService:
         program_summary = self.evaluate_programs(profile)
         crs_results = self.evaluate(profile)
         return {"programs": program_summary, "crs": crs_results}
+
+    def compute_crs(self, profile: CandidateProfile):
+        crs_profile = build_crs_profile_from_candidate(profile)
+        crs_engine = CRSEngine(config=self._domain_config)
+        result = crs_engine.compute(crs_profile)
+        return result
