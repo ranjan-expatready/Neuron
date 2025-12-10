@@ -489,6 +489,33 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend
 - **Description:** Aggregate agent sessions/actions by tenant/case; charts, filters, export.
 
+#### [AGENT-010] Client engagement shadow suggestions (M8.2)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Implement event ingestion and template-based shadow suggestions for client engagement; RCIC review/approve only; no auto-send.
+
+#### [AGENT-011] LLM-based reply generation with guardrails (M8.3)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Add LLM-backed suggestions for client engagement replies with strict guardrails (risk filters, RCIC approval).
+
+#### [AGENT-012] AUTO mode configuration and rollout (M8.4)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Tenant-configurable AUTO mode for low-risk reminders (intake/docs), channel controls, frequency caps, full audit logging.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR

@@ -50,11 +50,12 @@
 
 ### Phase 8 – Agentic Platform
 - M8.0 – Agentic Platform Skeleton + Client Engagement Agent Skeleton ✅ (suggestions only, no auto-send)
-- M8.1 – LLM-backed engagement + triggers (planned)
+- M8.1 – Client Engagement Agent (Hybrid Mode) Spec ✅
+- M8.2 – LLM-backed engagement + triggers (planned)
 - M8.2 – Multi-agent orchestration + analytics (planned)
 
 ## 5) Current / Next
 - Current phase: **Phase 8 – Agentic Platform**
-- Current milestone: **M8.0 – Agentic Platform Skeleton + Client Engagement Agent Skeleton**
-- Next milestone: **M8.1 – LLM-backed engagement + triggers**
+- Current milestone: **M8.1 – Client Engagement Agent (Hybrid Mode) Spec**
+- Next milestone: **M8.2 – LLM-backed engagement + triggers**
 
