@@ -79,6 +79,7 @@
 - 🟢 M8.3 Client Engagement Agent (LLM-assisted shadow replies): LLM-assisted draft replies for client questions and optional reminder rewrites; template fallback if LLM disabled/unavailable; admin-triggered only; no auto-send/cron; strict guardrails.
 - 🟢 M8.4 Client Engagement AUTO mode (limited): tenant-controlled toggles and throttling for intake/doc reminders; admin-triggered auto-run endpoint; executed actions logged with `auto_mode=true`; client questions remain shadow-only; no internal cron added.
 - 🟢 Tagged `v0.8.3-phase8-agentic-shadow` after M8.3: Phase 8 golden snapshot with shadow + LLM drafts, full backend/frontend tests passing.
+- 🟢 M8.5 Architecture & Governance Documentation: Added NEURON_* anchor docs (vision/actor system, technical architecture, agentic platform & agents, memory/knowledge model, governance/prompts/testing) and wired them into roadmap/KB/logs as mandatory references for future work.
 - 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.

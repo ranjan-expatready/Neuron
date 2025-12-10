@@ -543,6 +543,15 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend + Backend
 - **Description:** Dashboards for engagement conversion, response rates, auto vs shadow effectiveness.
 
+#### [GOV-001] Architecture & Governance Documentation (M8.5)
+
+- **Domain:** Governance / Architecture
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Docs
+- **Description:** NEURON_* anchor docs for vision/actors, technical architecture, agent platform, memory model, and governance/prompts/testing; mandatory references for future milestones.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR
