@@ -3,6 +3,27 @@ meta:
   status: "DRAFT"
   notes: "Document matrix structure only; values require SME/legal validation."
 
+document_definitions:
+  - id: "passport_main"
+    label: "Passport – main applicant"
+    category: "identity"
+    required_for_programs: ["EE_FSW", "EE_CEC"]
+    required_when:
+      - field: "person.citizenship"
+        not_equals: "CANADA"
+  - id: "proof_of_funds"
+    label: "Proof of funds"
+    category: "financial"
+    required_for_programs: ["EE_FSW"]
+    required_when:
+      - field: "family.size"
+        greater_than: 1
+  - id: "eca_report"
+    label: "Educational Credential Assessment"
+    category: "education"
+    required_for_programs: ["EE_FSW"]
+    required_when: []
+
 documents:
   fsw:
     base:

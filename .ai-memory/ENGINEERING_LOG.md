@@ -1,5 +1,13 @@
 # Engineering Memory Log
 
+# Engineering Memory Log
+
+## 2025-12-10 – [backend][config][intake][documents][m6_1]
+- Added intake/document/form architecture doc `docs/INTAKE_AND_DOCUMENT_MODEL.md` outlining canonical data, field dictionary, templates, document matrix, form mapping, and governance.
+- Created config stubs for intake model (`config/domain/fields.yaml`, `intake_templates.yaml`) plus document/form definition stubs appended to existing matrices; kept runtime matrix structure intact.
+- Added optional read-only loader scaffold `backend/src/app/config/intake_config.py` to parse new configs without changing existing services.
+- Updated forms/documents configs with definition samples; no behavior or engine logic changes.
+
 ## 2025-12-09 – [backend][rule_engine][crs][m5_1]
 - Added config-first CRS engine for Express Entry (`backend/src/app/rules/crs_engine.py`) with structured factor contributions and CRS domain models (`backend/src/app/domain/crs/models.py`).
 - Introduced CRS adapter/service (`backend/src/app/rules/crs_adapter.py`, `backend/src/app/services/crs_engine.py`) plus observability hooks (structured logs, metrics counters `crs_evaluations_total`/`_failed_total`).

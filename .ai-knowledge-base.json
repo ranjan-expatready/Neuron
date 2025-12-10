@@ -92,13 +92,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "post-m5.3 integration",
+    "status": "post-m5.3 integration; Phase 6 design kickoff",
     "completion_percentage": 96,
-    "current_phase": "Phase 5 – CRS & Explainability",
-    "next_milestone": "M5.4 UI/report surfacing for CRS",
+    "current_phase": "Phase 5 – CRS & Explainability (Phase 6 design starting)",
+    "next_milestone": "M6.1 intake/document/form design + config stubs",
     "current_milestone": "M5.3 CRS natural-language explainability + case integration",
     "integration_branch": "integration/phase5_crs_and_billing",
-    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend 196/200 tests passing, 4 skipped, coverage 86.38%; frontend tests passing."
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend 196/200 tests passing, 4 skipped, coverage 86.38%; frontend tests passing. Intake/document/form architecture defined (M6.1) with new config stubs; runtime unchanged."
   },
   "agent_bootstrap": {
     "steps": [
@@ -210,7 +210,10 @@
       "config/domain/language.yaml",
       "config/domain/work_experience.yaml",
       "config/domain/proof_of_funds.yaml",
-      "config/domain/documents.yaml"
+      "config/domain/documents.yaml",
+      "config/domain/forms.yaml",
+      "config/domain/fields.yaml",
+      "config/domain/intake_templates.yaml"
     ],
     "rules": [
       "All immigration logic MUST read from these configs, not from hard-coded constants.",

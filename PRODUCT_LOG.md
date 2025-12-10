@@ -61,6 +61,7 @@
   - Added Tenant and tenant-scoped User models (composite tenant+email uniqueness, roles, hashed_password).
   - CaseRecord now tracks tenant ownership, creator user, and lifecycle status; snapshots/events store tenant_id.
   - Case lifecycle service + API (`/api/v1/case-lifecycle/*`) manage submit/review/complete/archive with audit + snapshots; docs/tests updated.
+- 🔵 M6.1 Intake/Document/Form design foundation added (docs/INTAKE_AND_DOCUMENT_MODEL.md + config stubs for fields/intake templates/document definitions/form mappings); no runtime behavior change. Wiring planned for M6.2+.
 
 ## E. Agentic & Automation Features
 
