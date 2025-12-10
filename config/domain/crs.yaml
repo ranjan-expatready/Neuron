@@ -1,11 +1,361 @@
 meta:
-  version: "0.2.0"
+  version: "0.3.0"
   status: "DRAFT"
-  notes: "Derived from IRCC CRS structure; values are placeholders and must be SME-validated. Source: domain_knowledge/raw/crs/* (transferability/additional), domain_knowledge/processed/core_overview/crs_transferability.md"
+  notes: "IRCC CRS criteria (Canada.ca CRS page, date modified 2025-08-21). Values copied for engineering use; SME/legal validation required before production. Transferability/additional tables trace back to domain_knowledge/raw/crs/transferability_tables.md."
 
 crs_core:
-  base_age_points: 50 # placeholder for skeleton; real tables to be loaded later
-  language_bonus_per_clb: 2 # placeholder for skeleton; do not ship without SME validation
+  age_bands:
+    - min_age: 17
+      max_age: 17
+      single: 0
+      with_spouse: 0
+    - min_age: 18
+      max_age: 18
+      single: 99
+      with_spouse: 90
+    - min_age: 19
+      max_age: 19
+      single: 105
+      with_spouse: 95
+    - min_age: 20
+      max_age: 29
+      single: 110
+      with_spouse: 100
+    - min_age: 30
+      max_age: 30
+      single: 105
+      with_spouse: 95
+    - min_age: 31
+      max_age: 31
+      single: 99
+      with_spouse: 90
+    - min_age: 32
+      max_age: 32
+      single: 94
+      with_spouse: 85
+    - min_age: 33
+      max_age: 33
+      single: 88
+      with_spouse: 80
+    - min_age: 34
+      max_age: 34
+      single: 83
+      with_spouse: 75
+    - min_age: 35
+      max_age: 35
+      single: 77
+      with_spouse: 70
+    - min_age: 36
+      max_age: 36
+      single: 72
+      with_spouse: 65
+    - min_age: 37
+      max_age: 37
+      single: 66
+      with_spouse: 60
+    - min_age: 38
+      max_age: 38
+      single: 61
+      with_spouse: 55
+    - min_age: 39
+      max_age: 39
+      single: 55
+      with_spouse: 50
+    - min_age: 40
+      max_age: 40
+      single: 50
+      with_spouse: 45
+    - min_age: 41
+      max_age: 41
+      single: 39
+      with_spouse: 35
+    - min_age: 42
+      max_age: 42
+      single: 28
+      with_spouse: 25
+    - min_age: 43
+      max_age: 43
+      single: 17
+      with_spouse: 15
+    - min_age: 44
+      max_age: 44
+      single: 6
+      with_spouse: 5
+    - min_age: 45
+      max_age: 150
+      single: 0
+      with_spouse: 0
+
+  education:
+    - level: "less_than_secondary"
+      single: 0
+      with_spouse: 0
+    - level: "secondary"
+      single: 30
+      with_spouse: 28
+    - level: "one_year_post_secondary"
+      single: 90
+      with_spouse: 84
+    - level: "two_year_post_secondary"
+      single: 98
+      with_spouse: 91
+    - level: "bachelor_three_year_plus"
+      single: 120
+      with_spouse: 112
+    - level: "two_or_more_credentials"
+      single: 128
+      with_spouse: 119
+    - level: "masters_or_professional"
+      single: 135
+      with_spouse: 126
+    - level: "doctorate"
+      single: 150
+      with_spouse: 140
+
+  first_official_language:
+    - clb: 4
+      single_per_skill: 0
+      with_spouse_per_skill: 0
+    - clb: 5
+      single_per_skill: 6
+      with_spouse_per_skill: 6
+    - clb: 6
+      single_per_skill: 9
+      with_spouse_per_skill: 8
+    - clb: 7
+      single_per_skill: 17
+      with_spouse_per_skill: 16
+    - clb: 8
+      single_per_skill: 23
+      with_spouse_per_skill: 22
+    - clb: 9
+      single_per_skill: 31
+      with_spouse_per_skill: 29
+    - clb: 10
+      single_per_skill: 34
+      with_spouse_per_skill: 32
+
+  second_official_language:
+    max_points_single: 24
+    max_points_with_spouse: 22
+    rows:
+      - clb: 4
+        single_per_skill: 0
+        with_spouse_per_skill: 0
+      - clb: 5
+        single_per_skill: 1
+        with_spouse_per_skill: 1
+      - clb: 6
+        single_per_skill: 1
+        with_spouse_per_skill: 1
+      - clb: 7
+        single_per_skill: 3
+        with_spouse_per_skill: 3
+      - clb: 8
+        single_per_skill: 3
+        with_spouse_per_skill: 3
+      - clb: 9
+        single_per_skill: 6
+        with_spouse_per_skill: 6
+      - clb: 10
+        single_per_skill: 6
+        with_spouse_per_skill: 6
+
+  canadian_work_experience:
+    - years: 0
+      single: 0
+      with_spouse: 0
+    - years: 1
+      single: 40
+      with_spouse: 35
+    - years: 2
+      single: 53
+      with_spouse: 46
+    - years: 3
+      single: 64
+      with_spouse: 56
+    - years: 4
+      single: 72
+      with_spouse: 63
+    - years: 5
+      single: 80
+      with_spouse: 70
+
+crs_spouse:
+  education:
+    - level: "less_than_secondary"
+      points: 0
+    - level: "secondary"
+      points: 2
+    - level: "one_year_post_secondary"
+      points: 6
+    - level: "two_year_post_secondary"
+      points: 7
+    - level: "bachelor_three_year_plus"
+      points: 8
+    - level: "two_or_more_credentials"
+      points: 9
+    - level: "masters_or_professional"
+      points: 10
+    - level: "doctorate"
+      points: 10
+
+  language:
+    - clb: 4
+      points_per_skill: 0
+    - clb: 5
+      points_per_skill: 1
+    - clb: 6
+      points_per_skill: 1
+    - clb: 7
+      points_per_skill: 3
+    - clb: 8
+      points_per_skill: 3
+    - clb: 9
+      points_per_skill: 5
+    - clb: 10
+      points_per_skill: 5
+
+  canadian_work_experience:
+    - years: 0
+      points: 0
+    - years: 1
+      points: 5
+    - years: 2
+      points: 7
+    - years: 3
+      points: 8
+    - years: 4
+      points: 9
+    - years: 5
+      points: 10
 
 crs_transferability:
-  notes: "Tables captured in domain_knowledge/raw/crs/transferability_tables.md; wiring TBD"
+  caps:
+    per_bundle: 50
+    total: 100
+
+  education_language:
+    - factor_one: "high_school_or_less"
+      factor_two: "clb7_to_clb8"
+      points: 0
+    - factor_one: "high_school_or_less"
+      factor_two: "clb9_plus"
+      points: 0
+    - factor_one: "postsec_1yr_plus"
+      factor_two: "clb7_to_clb8"
+      points: 13
+    - factor_one: "postsec_1yr_plus"
+      factor_two: "clb9_plus"
+      points: 25
+    - factor_one: "two_or_more_creds_one_3yr_plus"
+      factor_two: "clb7_to_clb8"
+      points: 25
+    - factor_one: "two_or_more_creds_one_3yr_plus"
+      factor_two: "clb9_plus"
+      points: 50
+    - factor_one: "masters_or_entry_to_practice"
+      factor_two: "clb7_to_clb8"
+      points: 25
+    - factor_one: "masters_or_entry_to_practice"
+      factor_two: "clb9_plus"
+      points: 50
+    - factor_one: "doctorate"
+      factor_two: "clb7_to_clb8"
+      points: 25
+    - factor_one: "doctorate"
+      factor_two: "clb9_plus"
+      points: 50
+
+  education_canadian_work:
+    - factor_one: "high_school_or_less"
+      factor_two: "one_year"
+      points: 0
+    - factor_one: "high_school_or_less"
+      factor_two: "two_years_plus"
+      points: 0
+    - factor_one: "postsec_1yr_plus"
+      factor_two: "one_year"
+      points: 13
+    - factor_one: "postsec_1yr_plus"
+      factor_two: "two_years_plus"
+      points: 25
+    - factor_one: "two_or_more_creds_one_3yr_plus"
+      factor_two: "one_year"
+      points: 25
+    - factor_one: "two_or_more_creds_one_3yr_plus"
+      factor_two: "two_years_plus"
+      points: 50
+    - factor_one: "masters_or_entry_to_practice"
+      factor_two: "one_year"
+      points: 25
+    - factor_one: "masters_or_entry_to_practice"
+      factor_two: "two_years_plus"
+      points: 50
+
+  foreign_language:
+    - factor_one: "none"
+      factor_two: "clb7_to_clb8"
+      points: 0
+    - factor_one: "none"
+      factor_two: "clb9_plus"
+      points: 0
+    - factor_one: "one_to_two_years"
+      factor_two: "clb7_to_clb8"
+      points: 13
+    - factor_one: "one_to_two_years"
+      factor_two: "clb9_plus"
+      points: 25
+    - factor_one: "three_or_more_years"
+      factor_two: "clb7_to_clb8"
+      points: 25
+    - factor_one: "three_or_more_years"
+      factor_two: "clb9_plus"
+      points: 50
+
+  foreign_canadian_work:
+    - factor_one: "none"
+      factor_two: "one_year"
+      points: 0
+    - factor_one: "none"
+      factor_two: "two_years_plus"
+      points: 0
+    - factor_one: "one_to_two_years"
+      factor_two: "one_year"
+      points: 13
+    - factor_one: "one_to_two_years"
+      factor_two: "two_years_plus"
+      points: 25
+    - factor_one: "three_or_more_years"
+      factor_two: "one_year"
+      points: 25
+    - factor_one: "three_or_more_years"
+      factor_two: "two_years_plus"
+      points: 50
+
+  certificate_language:
+    - factor_one: "certificate_present"
+      factor_two: "clb5_to_clb6"
+      points: 25
+    - factor_one: "certificate_present"
+      factor_two: "clb7_plus"
+      points: 50
+  notes: "Skill transferability tables are capped at 50 per sub-bundle and 100 overall."
+
+crs_additional:
+  provincial_nomination: 600
+  sibling_in_canada: 15
+  canadian_study:
+    one_to_two_years: 15
+    three_or_more_years: 30
+  french:
+    - condition: "nclc7_plus_and_english_clb4_or_less"
+      points: 25
+    - condition: "nclc7_plus_and_english_clb5_plus"
+      points: 50
+  job_offer:
+    - teer_category: "00_or_equivalent"
+      points: 0
+    - teer_category: "0_to_3"
+      points: 0
+  notes: "Job-offer points currently disabled per IRCC page (Mar 2025 removal). Update if policy reinstates."

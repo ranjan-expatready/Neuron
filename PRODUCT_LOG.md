@@ -35,7 +35,7 @@
 
 ## D. Brain & AI (Law, Rules, CRS, Intelligence)
 
-- 🔴 CRS calculator & eligibility scoring APIs – Core requirement in `[BP-03]/[BP-09]` with no current service.
+- 🟡 CRS engine core (Express Entry) – Config-first CRS computation with structured factor breakdown shipped backend-only (no UI/case wiring yet).
 - 🔴 Law intelligence & rule ingestion – Monitoring/approved-rules engine from `[BP-09]` not implemented.
 - 🔴 Advisory playbooks & compliance guidance – Blueprint `[BP-10]` artifacts exist only in docs.
 - 🔴 Client success / 24×7 support agent – No runtime or UI instrumentation yet `[BP-09]`.

@@ -4,7 +4,9 @@ from src.app.rules.config_models import (
     ArrangedEmploymentConfig,
     BiometricsMedicalsConfig,
     ClbTablesConfig,
+    CrsAdditionalPointsConfig,
     CrsCoreConfig,
+    CrsSpouseConfig,
     CrsTransferabilityConfig,
     DomainRulesConfig,
     LanguageConfig,
@@ -61,7 +63,9 @@ class TestRuleEngine:
     def setup_method(self):
         self.config = DomainRulesConfig(
             crs_core=CrsCoreConfig(base_age_points=50, language_bonus_per_clb=2),
+            crs_spouse=CrsSpouseConfig(),
             crs_transferability=CrsTransferabilityConfig(notes="placeholder"),
+            crs_additional=CrsAdditionalPointsConfig(),
             language=LanguageConfig(
                 fsw_min_clb=7,
                 cec_min_clb_teer_0_1=7,
