@@ -68,6 +68,18 @@ class ApiClient {
     return response.data;
   }
 
+  async getIntakeSchema(params: { program_code: string; plan_code?: string }) {
+    const response = await this.client.get("/api/v1/intake-schema", { params });
+    return response.data;
+  }
+
+  async getDocumentChecklist(caseId: string, program_code?: string) {
+    const response = await this.client.get(`/api/v1/document-checklist/${caseId}`, {
+      params: program_code ? { program_code } : undefined,
+    });
+    return response.data;
+  }
+
   async deleteCase(caseId: string) {
     const response = await this.client.delete(`/api/v1/cases/${caseId}`);
     return response.data;

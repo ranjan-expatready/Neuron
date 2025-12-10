@@ -6,6 +6,11 @@
 - New API routes `/api/v1/intake-schema` and `/api/v1/document-checklist/{case_id}` exposing config-driven schema and checklists with tenant-aware access.
 - Added tests for config loading, service resolution, and APIs; updated intake design doc with implementation status.
 
+## 2025-12-10 – [frontend][intake][m6_3]
+- Added schema-driven RCIC intake page (`frontend/src/app/cases/[caseId]/intake/page.tsx`) that fetches `/api/v1/intake-schema` and renders via reusable `IntakeFormRenderer`.
+- IntakeFormRenderer component renders fields/steps from config schema, validates basic rules, and saves intake data back to case form data via API client; document checklist is surfaced from `/api/v1/document-checklist/{case_id}`.
+- New frontend tests for renderer and RCIC intake page; backend tests re-run to ensure stability; docs/logs/backlog/KB updated for M6.3 status.
+
 # Engineering Memory Log
 
 ## 2025-12-10 – [backend][config][intake][documents][m6_1]

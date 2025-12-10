@@ -231,7 +231,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [INT-003] Schema-driven intake UI (M6.3)
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Frontend UX
@@ -261,6 +261,46 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 ### 3.4 Documents & OCR
 
 #### [DO-001] Document Intelligence Agent MVP
+
+#### [INT-006] Client self-serve intake portal (M6.4+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Client-facing intake uses the same schema-driven renderer, supports authentication, and saves canonical profile data for reuse.
+- **Dependencies:** INT-003, backend profile persistence APIs.
+
+#### [INT-007] Checklist ↔ upload integration (M6.4+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend/Backend
+- **Description:** Tie document checklist items to upload widgets, show completion state, and surface required/optional statuses from checklist.
+- **Dependencies:** INT-002, document upload APIs.
+
+#### [INT-008] Admin Config UI + approval (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend/Admin
+- **Description:** Build admin UI and approval flow for intake fields/templates/documents/forms; enforce human-in-loop before activation.
+- **Dependencies:** INT-001/002, governance rules.
+
+#### [INT-009] Extended condition operators (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend rules/config
+- **Description:** Add richer condition operators (lt/lte/range/regex) and nested logical groups for document/intake visibility.
+- **Dependencies:** INT-001/002, config schema updates, tests.
 
 - **Domain:** 3.4 Documents & OCR
 - **Status:** 🟡 Partial

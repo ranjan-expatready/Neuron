@@ -101,4 +101,5 @@
 ## Implementation Status
 - M6.2 delivered: validated config loaders (fields, templates, documents, forms), intake schema API (`/api/v1/intake-schema`), and document checklist API (`/api/v1/document-checklist/{case_id}`).
 - UI wiring remains future (M6.3+); configs stay the single source of truth.
+- M6.3 delivered: RCIC intake UI renders steps/fields from `/api/v1/intake-schema`, saves intake data to case form data, and surfaces document checklist from `/api/v1/document-checklist/{case_id}`. Client self-serve/mobile will reuse the same schema in future milestones.
 
