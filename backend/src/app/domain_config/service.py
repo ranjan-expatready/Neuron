@@ -10,7 +10,9 @@ from src.app.rules.config_models import (
     ArrangedEmploymentConfig,
     BiometricsMedicalsConfig,
     ClbTablesConfig,
+    CrsAdditionalPointsConfig,
     CrsCoreConfig,
+    CrsSpouseConfig,
     CrsTransferabilityConfig,
     DomainRulesConfig,
     LanguageConfig,
@@ -24,7 +26,9 @@ class DomainConfigBundle(BaseModel):
     """Aggregated, typed view of all domain rule configs."""
 
     crs_core: CrsCoreConfig
+    crs_spouse: CrsSpouseConfig
     crs_transferability: CrsTransferabilityConfig
+    crs_additional: CrsAdditionalPointsConfig
     language: LanguageConfig
     clb_tables: ClbTablesConfig
     work_experience: WorkExperienceConfig
