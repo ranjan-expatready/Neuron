@@ -30,6 +30,10 @@ def test_get_intake_schema(client: TestClient, admin_headers):
     assert data["program_code"] == "EE_FSW"
     assert data["steps"]
     assert data["steps"][0]["fields"]
+    # select options hydrated from options_ref
+    select_fields = [f for f in data["steps"][0]["fields"] if f["ui_control"] == "select"]
+    if select_fields:
+        assert select_fields[0].get("options") is not None
 
 
 def test_get_document_checklist(client: TestClient, admin_headers):
@@ -41,4 +45,12 @@ def test_get_document_checklist(client: TestClient, admin_headers):
     ids = {item["id"] for item in checklist}
     assert "passport_main" in ids
     assert any(item["id"] == "proof_of_funds" and item["required"] for item in checklist)
+
+
+def test_get_intake_options(client: TestClient, admin_headers):
+    response = client.get("/api/v1/intake-options", params={"name": "marital_status"}, headers=admin_headers)
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert any(opt["value"] == "single" for opt in data)
 

@@ -19,6 +19,8 @@ type ChecklistItem = {
   category: string;
   required: boolean;
   reasons: string[];
+  status?: "uploaded" | "missing";
+  files?: { id: string; filename: string }[];
 };
 
 const panelClass = "rounded-md border border-gray-200 bg-white shadow-sm p-4";
@@ -43,6 +45,8 @@ export default function CaseIntakePage() {
   const [saving, setSaving] = useState(false);
   const [initialValues, setInitialValues] = useState<Record<string, any>>({});
   const [programCode, setProgramCode] = useState<string>("EE_FSW");
+  const [profile, setProfile] = useState<Record<string, any>>({});
+  const [optionsCache, setOptionsCache] = useState<Record<string, { value: any; label: string }[]>>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,15 +59,18 @@ export default function CaseIntakePage() {
           "EE_FSW";
         setProgramCode(program);
 
+        const profileData = await apiClient.getCaseProfile(caseId);
+        setProfile(profileData.profile || {});
+
         const schemaData = await apiClient.getIntakeSchema({ program_code: program });
         setSchema(schemaData);
 
-        // Map stored form_data back to field ids when possible
-        if (schemaData?.steps?.length && caseData.form_data) {
+        // Map stored profile back to field ids when possible
+        if (schemaData?.steps?.length && profileData?.profile) {
           const values: Record<string, any> = {};
           schemaData.steps.forEach((step: any) => {
             step.fields.forEach((field: any) => {
-              const value = getValueFromPath(caseData.form_data as Record<string, any>, field.data_path);
+              const value = getValueFromPath(profileData.profile as Record<string, any>, field.data_path);
               if (value !== undefined) {
                 values[field.id] = value;
               }
@@ -73,7 +80,22 @@ export default function CaseIntakePage() {
         }
 
         const checklistData: ChecklistItem[] = await apiClient.getDocumentChecklist(caseId, program);
-        setChecklist(checklistData);
+        // fetch documents to determine status
+        const caseDocs = await apiClient.getCaseDocuments(caseId);
+        const enriched = checklistData.map((item) => {
+          const matches = caseDocs.filter(
+            (doc: any) =>
+              doc.document_type === item.id ||
+              doc.category === item.category ||
+              doc.title?.toLowerCase().includes(item.label?.toLowerCase() || ""),
+          );
+          return {
+            ...item,
+            status: matches.length > 0 ? "uploaded" : "missing",
+            files: matches.map((d: any) => ({ id: d.id, filename: d.original_filename || d.filename })),
+          };
+        });
+        setChecklist(enriched);
       } catch (err) {
         console.error("Failed to load intake data", err);
         setError("Unable to load intake schema or checklist. Please ensure backend is reachable.");
@@ -91,17 +113,21 @@ export default function CaseIntakePage() {
     setSaving(true);
     setError(null);
     try {
-      // Persist into case form_data for now (TODO: align with canonical profile API when exposed)
-      await apiClient.updateCase(caseId, {
-        form_data: { profile: payload.profile || payload },
-        metadata: { program_code: programCode },
-      });
+      // Persist canonical profile
+      await apiClient.updateCaseProfile(caseId, payload.profile || payload);
     } catch (err) {
       console.error("Failed to save intake", err);
       setError("Saving intake failed. Please retry.");
     } finally {
       setSaving(false);
     }
+  };
+
+  const resolveOptionsRef = async (ref: string) => {
+    if (optionsCache[ref]) return optionsCache[ref];
+    const opts = await apiClient.getIntakeOptions(ref);
+    setOptionsCache((prev) => ({ ...prev, [ref]: opts }));
+    return opts;
   };
 
   const checklistRequired = useMemo(() => checklist.filter((c) => c.required), [checklist]);
@@ -140,7 +166,12 @@ export default function CaseIntakePage() {
         {saving ? <span className="text-sm text-gray-600">Saving...</span> : null}
       </div>
 
-      <IntakeFormRenderer schema={schema} initialValues={initialValues} onSubmit={onSubmit} />
+      <IntakeFormRenderer
+        schema={schema}
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        resolveOptionsRef={resolveOptionsRef}
+      />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className={panelClass}>
@@ -156,14 +187,31 @@ export default function CaseIntakePage() {
                       <p className="text-sm font-semibold text-gray-900">{item.label || item.id}</p>
                       <p className="text-xs text-gray-600">{item.category}</p>
                     </div>
-                    <span className="text-xs font-semibold text-red-600">Required</span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`rounded-full px-2 py-1 text-2xs font-semibold ${
+                          item.status === "uploaded"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {item.status === "uploaded" ? "Uploaded" : "Missing"}
+                      </span>
+                      <span className="text-xs font-semibold text-red-600">Required</span>
+                    </div>
                   </div>
                   {item.reasons?.length ? (
                     <p className="mt-1 text-xs text-gray-600">Reasons: {item.reasons.join("; ")}</p>
                   ) : null}
-                  <p className="mt-2 text-xs text-blue-600">
-                    TODO: link to document upload and reflect upload status.
-                  </p>
+                  {item.files?.length ? (
+                    <p className="mt-2 text-xs text-gray-700">
+                      Files: {item.files.map((f) => f.filename).join(", ")}
+                    </p>
+                  ) : (
+                    <p className="mt-2 text-xs text-blue-600">
+                      TODO: link to document upload and reflect upload status.
+                    </p>
+                  )}
                 </li>
               ))
             )}
@@ -183,7 +231,13 @@ export default function CaseIntakePage() {
                       <p className="text-sm font-semibold text-gray-900">{item.label || item.id}</p>
                       <p className="text-xs text-gray-600">{item.category}</p>
                     </div>
-                    <span className="text-xs font-semibold text-gray-600">Optional</span>
+                    <span
+                      className={`rounded-full px-2 py-1 text-2xs font-semibold ${
+                        item.status === "uploaded" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {item.status === "uploaded" ? "Uploaded" : "Missing"}
+                    </span>
                   </div>
                   {item.reasons?.length ? (
                     <p className="mt-1 text-xs text-gray-600">Reasons: {item.reasons.join("; ")}</p>

@@ -30,9 +30,22 @@ const schema: IntakeSchema = {
 };
 
 describe("IntakeFormRenderer", () => {
-  it("renders fields and validates required", async () => {
+  it("renders fields, options, and validates required", async () => {
     const onSubmit = jest.fn();
-    render(<IntakeFormRenderer schema={schema} onSubmit={onSubmit} initialValues={{ "person.citizenship": "CANADA" }} />);
+    const resolveOptionsRef = jest.fn(() =>
+      Promise.resolve([
+        { value: "CANADA", label: "Canada" },
+        { value: "INDIA", label: "India" },
+      ]),
+    );
+    render(
+      <IntakeFormRenderer
+        schema={schema}
+        onSubmit={onSubmit}
+        initialValues={{ "person.citizenship": "CANADA" }}
+        resolveOptionsRef={resolveOptionsRef}
+      />,
+    );
 
     fireEvent.change(screen.getByLabelText(/First Name/i), { target: { value: "" } });
     fireEvent.click(screen.getByRole("button", { name: /Save intake/i }));

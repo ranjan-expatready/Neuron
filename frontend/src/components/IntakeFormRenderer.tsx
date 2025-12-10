@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type IntakeField = {
   id: string;
@@ -7,6 +7,7 @@ type IntakeField = {
   type: string;
   ui_control?: string | null;
   options_ref?: string[] | string | null;
+  options?: { value: any; label: string }[];
   validations?: Record<string, any>;
   help_text?: string | null;
   required?: boolean | null;
@@ -30,6 +31,7 @@ export type IntakeFormRendererProps = {
   schema: IntakeSchema;
   initialValues?: Record<string, any>;
   onSubmit: (values: Record<string, any>) => Promise<void> | void;
+  resolveOptionsRef?: (ref: string) => Promise<{ value: any; label: string }[]>;
 };
 
 type FieldErrors = Record<string, string>;
@@ -56,10 +58,11 @@ function setNested(target: Record<string, any>, path: string, value: any) {
   }
 }
 
-export function IntakeFormRenderer({ schema, initialValues = {}, onSubmit }: IntakeFormRendererProps) {
+export function IntakeFormRenderer({ schema, initialValues = {}, onSubmit, resolveOptionsRef }: IntakeFormRendererProps) {
   const [values, setValues] = useState<Record<string, any>>(initialValues);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [optionsCache, setOptionsCache] = useState<Record<string, { value: any; label: string }[]>>({});
 
   const fieldList = useMemo(() => schema.steps.flatMap((s) => s.fields), [schema.steps]);
   const fieldById = useMemo(() => Object.fromEntries(fieldList.map((f) => [f.id, f])), [fieldList]);
@@ -90,6 +93,10 @@ export function IntakeFormRenderer({ schema, initialValues = {}, onSubmit }: Int
     return Object.keys(nextErrors).length === 0;
   };
 
+  useEffect(() => {
+    setValues(initialValues);
+  }, [initialValues]);
+
   const handleChange = (fieldId: string, value: any) => {
     setValues((prev) => ({ ...prev, [fieldId]: value }));
   };
@@ -111,8 +118,19 @@ export function IntakeFormRenderer({ schema, initialValues = {}, onSubmit }: Int
     }
   };
 
+  const ensureOptions = async (field: IntakeField) => {
+    if (field.ui_control !== "select" || !field.options_ref || optionsCache[field.options_ref as string]) {
+      return;
+    }
+    if (resolveOptionsRef && typeof field.options_ref === "string") {
+      const opts = await resolveOptionsRef(field.options_ref);
+      setOptionsCache((prev) => ({ ...prev, [field.options_ref as string]: opts }));
+    }
+  };
+
   const renderField = (field: IntakeField) => {
     const value = values[field.id] ?? "";
+    void ensureOptions(field);
     const commonProps = {
       id: field.id,
       name: field.id,
@@ -130,15 +148,17 @@ export function IntakeFormRenderer({ schema, initialValues = {}, onSubmit }: Int
         return <input type="date" {...commonProps} />;
       case "select": {
         const options =
-          Array.isArray(field.options_ref) ? field.options_ref : typeof field.options_ref === "string"
-            ? []
-            : [];
+          (field as any).options && Array.isArray((field as any).options)
+            ? (field as any).options
+            : Array.isArray(field.options_ref)
+              ? field.options_ref.map((opt) => ({ value: opt, label: String(opt) }))
+              : optionsCache[field.options_ref as string] || [];
         return (
           <select {...commonProps}>
             <option value="">Select...</option>
-            {options.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
+            {options.map((opt: any) => (
+              <option key={opt.value ?? opt} value={opt.value ?? opt}>
+                {opt.label ?? opt}
               </option>
             ))}
           </select>

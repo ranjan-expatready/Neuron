@@ -153,6 +153,9 @@ app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
 from src.app.api.routes import case_evaluation, case_history, case_lifecycle  # noqa: E402
 
 app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
+from src.app.api.routes import case_profile  # noqa: E402
+
+app.include_router(case_profile.router, prefix="/api/v1", tags=["Cases"])
 app.include_router(internal_router, prefix="/internal", tags=["Internal"])
 app.include_router(
     case_history.router,

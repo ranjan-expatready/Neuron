@@ -20,12 +20,7 @@ fields:
     data_path: "profile.personal.marital_status"
     type: "enum"
     ui_control: "select"
-    options_ref:
-      - "single"
-      - "married"
-      - "common_law"
-      - "divorced"
-      - "widowed"
+    options_ref: "marital_status"
     required: true
     group: "personal"
     tags: ["crs_core"]
@@ -35,7 +30,7 @@ fields:
     data_path: "profile.personal.citizenship"
     type: "enum"
     ui_control: "select"
-    options_ref: "country_codes"
+    options_ref: "citizenship_countries"
     required: true
     group: "personal"
     tags: ["crs_core"]
@@ -45,13 +40,7 @@ fields:
     data_path: "profile.education.highest_level"
     type: "enum"
     ui_control: "select"
-    options_ref:
-      - "secondary"
-      - "one_year_post_secondary"
-      - "two_year_post_secondary"
-      - "bachelor"
-      - "masters"
-      - "doctoral"
+    options_ref: "education_levels"
     required: true
     group: "education"
     tags: ["crs_core"]
@@ -61,9 +50,7 @@ fields:
     data_path: "profile.language.first_official"
     type: "enum"
     ui_control: "radio"
-    options_ref:
-      - "english"
-      - "french"
+    options_ref: "first_official_language"
     required: true
     group: "language"
     tags: ["crs_core"]

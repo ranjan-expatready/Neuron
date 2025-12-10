@@ -275,7 +275,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [INT-007] Checklist ↔ upload integration (M6.4+)
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done (basic status surfaced; full upload UX pending)
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Frontend/Backend
@@ -296,6 +296,32 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 
 - **Domain:** 3.3 Cases & Workflows
 - **Status:** 🔵 Planned
+#### [INT-010] Canonical profile API wiring (M6.3h)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend/API
+- **Description:** Expose GET/PATCH `/cases/{case_id}/profile`, map intake data paths to canonical profile, and use it as the system-of-record for intake.
+
+#### [INT-011] Intake options from config (M6.3h)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend/Frontend
+- **Description:** Options resolved from config via `/api/v1/intake-options` and hydrated into intake schema/UI.
+
+#### [INT-012] Checklist upload status surfacing (M6.3h)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done (status surface; richer UX pending)
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** Document checklist displays uploaded/missing using case documents API; link to upload workflow to be expanded in M6.4.
 - **Priority:** MEDIUM
 - **Phase:** P2
 - **Type:** Backend rules/config

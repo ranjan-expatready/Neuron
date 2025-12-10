@@ -15,6 +15,11 @@ jest.mock("../src/lib/api-client", () => {
           form_data: { profile: { personal: { citizenship: "CANADA" } } },
         }),
       ),
+      getCaseProfile: jest.fn(() =>
+        Promise.resolve({
+          profile: { profile: { personal: { citizenship: "CANADA" } } },
+        }),
+      ),
       getIntakeSchema: jest.fn(() =>
         Promise.resolve({
           program_code: "EE_FSW",
@@ -32,7 +37,7 @@ jest.mock("../src/lib/api-client", () => {
                   data_path: "profile.personal.citizenship",
                   type: "enum",
                   ui_control: "select",
-                  options_ref: ["CANADA", "INDIA"],
+                  options_ref: "citizenship_countries",
                   required: true,
                 },
               ],
@@ -40,13 +45,25 @@ jest.mock("../src/lib/api-client", () => {
           ],
         }),
       ),
+      getIntakeOptions: jest.fn(() =>
+        Promise.resolve([
+          { value: "CANADA", label: "Canada" },
+          { value: "INDIA", label: "India" },
+        ]),
+      ),
       getDocumentChecklist: jest.fn(() =>
         Promise.resolve([
           { id: "passport_main", label: "Passport", category: "identity", required: true, reasons: ["program_applicable"] },
           { id: "pof", label: "Proof of funds", category: "financial", required: false, reasons: [] },
         ]),
       ),
+      getCaseDocuments: jest.fn(() =>
+        Promise.resolve([
+          { id: "doc-1", document_type: "passport_main", category: "identity", filename: "passport.pdf", original_filename: "passport.pdf" },
+        ]),
+      ),
       updateCase: jest.fn(() => Promise.resolve({})),
+      updateCaseProfile: jest.fn(() => Promise.resolve({ profile: { profile: {} } })),
     },
   };
 });
@@ -61,7 +78,8 @@ describe("RCIC Intake Page", () => {
       expect(screen.getByText(/Schema-driven intake/i)).toBeInTheDocument();
       expect(screen.getByText(/Citizenship/i)).toBeInTheDocument();
       expect(screen.getByText(/Required documents/i)).toBeInTheDocument();
-      expect(screen.getByText(/Passport/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/Passport/i).length).toBeGreaterThan(0);
+      expect(screen.getByText(/Uploaded/i)).toBeInTheDocument();
     });
   });
 });

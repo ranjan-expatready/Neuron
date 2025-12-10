@@ -11,6 +11,12 @@
 - IntakeFormRenderer component renders fields/steps from config schema, validates basic rules, and saves intake data back to case form data via API client; document checklist is surfaced from `/api/v1/document-checklist/{case_id}`.
 - New frontend tests for renderer and RCIC intake page; backend tests re-run to ensure stability; docs/logs/backlog/KB updated for M6.3 status.
 
+## 2025-12-10 – [backend+frontend][intake hardening][m6_3h]
+- Added canonical profile API (`GET/PATCH /api/v1/cases/{case_id}/profile`) with deep-merge semantics and dotted-path helpers; RCIC intake now reads/writes canonical profile instead of case.form_data.
+- Added config-backed options loader (`config/domain/options.yaml`) and `/api/v1/intake-options`; intake schema hydrates select options; frontend renderer fetches options via api-client.
+- Document checklist now cross-references case documents to show uploaded/missing status; RCIC UI renders status pills and file names.
+- New tests: profile API, profile mapping helpers, intake API options, renderer/options, RCIC page status; full backend/front-end test suites passing.
+
 # Engineering Memory Log
 
 ## 2025-12-10 – [backend][config][intake][documents][m6_1]

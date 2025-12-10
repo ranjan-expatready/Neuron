@@ -73,10 +73,25 @@ class ApiClient {
     return response.data;
   }
 
+  async getIntakeOptions(name: string) {
+    const response = await this.client.get("/api/v1/intake-options", { params: { name } });
+    return response.data;
+  }
+
   async getDocumentChecklist(caseId: string, program_code?: string) {
     const response = await this.client.get(`/api/v1/document-checklist/${caseId}`, {
       params: program_code ? { program_code } : undefined,
     });
+    return response.data;
+  }
+
+  async getCaseProfile(caseId: string) {
+    const response = await this.client.get(`/api/v1/cases/${caseId}/profile`);
+    return response.data;
+  }
+
+  async updateCaseProfile(caseId: string, profile: any) {
+    const response = await this.client.patch(`/api/v1/cases/${caseId}/profile`, { profile });
     return response.data;
   }
 
