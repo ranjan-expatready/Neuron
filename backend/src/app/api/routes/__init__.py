@@ -4,6 +4,7 @@ from . import (
     admin_config,
     admin_intake_config,
     admin_intake_drafts,
+    admin_agents,
     auth,
     billing_admin,
     cases,
@@ -23,6 +24,8 @@ from . import (
 __all__ = [
     "admin_config",
     "admin_intake_config",
+    "admin_intake_drafts",
+    "admin_agents",
     "auth",
     "billing_admin",
     "cases",

@@ -442,6 +442,53 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Source:** BP-03, Gap Analysis #8
 - **Dependencies:** Document storage, audit logging
 
+### 3.5 Agentic Platform (Phase 8)
+
+#### [AGENT-001] Agentic platform skeleton (M8.0)
+
+- **Domain:** Agentic / Automation
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Agent sessions/actions models + migration; AgentOrchestratorService; ClientEngagementAgent skeleton (suggestions only); admin APIs `/api/v1/admin/agents/*`; admin UI `/admin/agents`.
+
+#### [AGENT-002] Client engagement LLM suggestions (M8.1)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Wire LLM-backed suggestions for client engagement with guardrails; keep audit logs; no auto-send without approval.
+
+#### [AGENT-003] Event triggers for engagement (M8.1+)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Safe triggers (intake incomplete, missing docs) that enqueue agent suggestions without sending; admin controls and audits.
+
+#### [AGENT-004] Document Reviewer Agent skeleton (M8.2)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Agent skeleton for doc review/quality flags; logs-only; no auto decisions.
+
+#### [AGENT-005] Agent analytics dashboard (M8.2)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** Aggregate agent sessions/actions by tenant/case; charts, filters, export.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR

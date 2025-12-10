@@ -1,5 +1,11 @@
 # Engineering Memory Log
 
+## 2025-12-10 – [backend][frontend][ai][m8_0]
+- Added agentic platform skeleton: `AgentSession`/`AgentAction` models + migration `20251210_m8_agentic_platform`.
+- Added `AgentOrchestratorService` for sessions/actions and `ClientEngagementAgent` skeleton (suggestions only, no sends/LLMs).
+- New admin APIs `/api/v1/admin/agents/actions` and `/api/v1/admin/agents/sessions/{id}` (admin/owner/rcic, tenant-scoped) with tests.
+- New admin UI page `/admin/agents` to view agent actions; RTL tests added. Backend/Frontend tests pass.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

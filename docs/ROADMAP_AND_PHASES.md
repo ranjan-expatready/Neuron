@@ -17,8 +17,8 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Currently in **Phase 7 – Admin Config & Governance**, milestone **M7.2** delivered.
-- Next concrete build step: **M7.3 – Approval & Activation** (drafts → active configs, human-in-loop).
+- Currently in **Phase 8 – Agentic Platform**, milestone **M8.0** (agentic skeleton) delivered.
+- Next concrete build step: **M8.1 – LLM-backed engagement + triggers** (still gated and supervised).
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -45,11 +45,16 @@
 ### Phase 7 – Admin Config & Governance
 - M7.1 – Admin Config Console (Read-Only) ✅
 - M7.2 – Intake Config Draft/Edit Layer (Non-Live) ✅
-- M7.3 – Approval & Activation (planned)
+- M7.3 – Approval & Activation ✅
 - M7.4 – AI-Assisted Config Proposals (planned)
 
+### Phase 8 – Agentic Platform
+- M8.0 – Agentic Platform Skeleton + Client Engagement Agent Skeleton ✅ (suggestions only, no auto-send)
+- M8.1 – LLM-backed engagement + triggers (planned)
+- M8.2 – Multi-agent orchestration + analytics (planned)
+
 ## 5) Current / Next
-- Current phase: **Phase 7 – Admin Config & Governance**
-- Current milestone: **M7.2 – Draft/Edit Intake Config Layer (Non-Live)**
-- Next milestone: **M7.3 – Approval & Activation**
+- Current phase: **Phase 8 – Agentic Platform**
+- Current milestone: **M8.0 – Agentic Platform Skeleton + Client Engagement Agent Skeleton**
+- Next milestone: **M8.1 – LLM-backed engagement + triggers**
 

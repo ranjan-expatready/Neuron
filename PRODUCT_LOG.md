@@ -73,7 +73,8 @@
 ## E. Agentic & Automation Features
 
 - 🟡 Workflow/task automation scaffolding – Backlog + test plan exist, but automation loops are not wired end-to-end `[BP-08]`.
-- 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live.
+- 🟢 M8.0 Agentic Platform Skeleton: agent sessions/actions DB + migration, AgentOrchestratorService, ClientEngagementAgent (suggestions only, no sends), admin APIs `/api/v1/admin/agents/actions`/`sessions/{id}`, admin UI `/admin/agents` for audit visibility.
+- 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.
 - 🔵 Agent marketplace & extension SDK – Logged as Phase 3 `[BP-13]`, unstarted.
