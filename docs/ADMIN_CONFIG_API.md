@@ -5,6 +5,8 @@
 ## Purpose
 - Provide human admins and AI config agents with a transparent view of the loaded domain configs (CRS, language, work experience, proof of funds, program rules, arranged employment, biometrics/medicals, documents, forms).
 - Keep config-first governance: no hard-coded IRCC constants in code; everything is surfaced from YAML.
+- Security (M4.3): endpoints require authentication; only admin/owner roles may access; responses are tenant-aware where applicable.
+- Security (M4.3): endpoints require authentication; only admin/owner roles may access; responses are tenant-aware where applicable.
 
 ## Endpoints
 - `GET /api/v1/admin/config`
@@ -14,6 +16,20 @@
 - `GET /api/v1/admin/config/{section_name}`
   - Returns a specific section by name.
   - 404 if the section is not found.
+- **M7.2 Draft layer (intake-specific, non-live):**
+  - `GET /api/v1/admin/intake/drafts` — list drafts (optional filters `config_type`, `status`).
+  - `GET /api/v1/admin/intake/drafts/{draft_id}` — fetch single draft.
+  - `POST /api/v1/admin/intake/drafts` — create draft (status forced to `draft`). Payload validated against intake models.
+  - `PATCH /api/v1/admin/intake/drafts/{draft_id}` — update payload/key/status/notes (no activation yet).
+  - `DELETE /api/v1/admin/intake/drafts/{draft_id}` — soft-delete by marking `rejected`.
+  - Drafts cover: field, template, document, form. Runtime engine still uses YAML only (activation comes in M7.3).
+- **M7.3 Approval & Activation (intake overrides):**
+  - Status lifecycle: `draft` → `in_review` → `active` → `retired` (or `rejected`).
+  - `POST /api/v1/admin/intake/drafts/{id}/submit` — `draft` → `in_review` (admin/owner/rcic/rcic_admin).
+  - `POST /api/v1/admin/intake/drafts/{id}/reject` — `draft|in_review` → `rejected` (admin/owner).
+  - `POST /api/v1/admin/intake/drafts/{id}/activate` — `in_review` → `active` (admin/owner; re-validates payload).
+  - `POST /api/v1/admin/intake/drafts/{id}/retire` — `active` → `retired` (admin/owner; removes override from runtime).
+  - Runtime: YAML stays baseline; only `active` drafts are merged as overrides for fields/templates/documents/forms.
 
 ## Implementation Notes
 - Router: `backend/src/app/api/routes/admin_config.py`
@@ -32,3 +48,8 @@
 - `backend/tests/unit/api/test_admin_config.py`
 - Run: `cd backend && pytest backend/tests/unit/api/test_admin_config.py`
 
+
+> Security/Observability (M4.4): endpoints require authenticated users; logs carry request_id and tenant/user IDs; soft-deleted items stay hidden by default; internal health/metrics endpoints exist at /internal/healthz, /internal/readyz, /internal/metrics.
+
+## Related Admin Surfaces
+- Billing admin endpoints (M4.5) live under `/api/v1/admin/billing/*` for plan state, usage, and plan updates; restricted to admin/owner roles.

@@ -4,6 +4,7 @@ from .config import ConfigService
 from .organization import OrganizationService
 from .person import PersonService
 from .user import UserService
+from .agent_orchestrator import AgentOrchestratorService
 
 __all__ = [
     "AuthService",
@@ -12,4 +13,5 @@ __all__ = [
     "PersonService",
     "CaseService",
     "ConfigService",
+    "AgentOrchestratorService",
 ]

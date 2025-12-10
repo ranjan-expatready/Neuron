@@ -3,6 +3,16 @@ meta:
   status: "DRAFT"
   notes: "Express Entry forms matrix; DRAFT placeholders."
 
+form_definitions:
+  - id: "IMM0008"
+    label: "IMM 0008 – Generic Application Form for Canada"
+    applicable_programs: ["EE_FSW", "EE_CEC"]
+    field_mappings:
+      given_name: "person.first_name"
+      family_name: "person.last_name"
+      dob: "person.date_of_birth"
+      marital_status: "person.marital_status"
+
 forms:
   express_entry:
     fsw:

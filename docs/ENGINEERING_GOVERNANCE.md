@@ -102,3 +102,9 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
      - Summarize into `domain_knowledge/processed/` with source citations and validation status before shipping code.
   4. Keep drafts clearly labeled until a subject-matter expert reviews them; production-critical rules must not ship without review.
 - Agents may leverage Octagon to accelerate research and drafting, **but `domain_knowledge/` remains the canonical store for immigration rules**. Always update the repository before implementing or modifying domain logic.
+
+
+## Observability & SRE (M4.4)
+- Preserve and propagate `X-Request-ID` for every backend request.
+- Use structured logging helpers in `backend/src/app/observability/logging.py`; log IDs only (no PII).
+- Maintain health/readiness endpoints (`/internal/healthz`, `/internal/readyz`) and metrics (`/internal/metrics`) for all deployed services.

@@ -1,15 +1,21 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-09T12:50:00+00:00",
+  "last_updated": "2025-12-10T15:00:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
-    "test_directories": ["backend/tests/unit", "backend/tests/integration"],
+    "test_directories": [
+      "backend/tests/unit",
+      "backend/tests/integration"
+    ],
     "commands": [
       "cd backend && pytest",
       "cd backend && pytest -m \"unit\"",
       "cd backend && pytest -m \"integration\""
     ],
-    "markers": ["unit", "integration"]
+    "markers": [
+      "unit",
+      "integration"
+    ]
   },
   "backend_runtime": {
     "python_version": "3.10.19",
@@ -26,7 +32,7 @@
     "db_url": "sqlite:///./e2e.db",
     "setup_command": "cd backend && source .venv/bin/activate && make e2e-db-reset",
     "run_command": "cd backend && source .venv/bin/activate && make e2e-spine",
-    "description": "Canonical login → dashboard → new case → upload → verify documents."
+    "description": "Canonical login \u2192 dashboard \u2192 new case \u2192 upload \u2192 verify documents."
   },
   "blueprint_docs": {
     "index": "blueprint/00_BLUEPRINT_INDEX.md",
@@ -65,40 +71,34 @@
     }
   },
   "test_results": {
-    "last_run": "2025-12-03T15:01:40+00:00",
-    "overall_coverage": 75,
-    "total_tests": 25,
-    "passing_tests": 25,
+    "last_run": "2025-12-10T15:00:00+00:00",
+    "overall_coverage": 86,
+    "total_tests": 200,
+    "passing_tests": 196,
     "failing_tests": 0,
     "coverage_threshold": 80,
-    "meets_threshold": false,
+    "meets_threshold": true,
     "recent_runs": [
       {
-        "timestamp": "2025-12-02T23:45:00",
-        "scope": "backend_auth_endpoints+auth_service",
-        "tests_run": 25,
-        "passed": 25,
+        "timestamp": "2025-12-10T15:00:00+00:00",
+        "scope": "backend_full_suite_phase5_integration",
+        "tests_run": 200,
+        "passed": 196,
         "failed": 0,
-        "coverage": 75,
-        "notes": "Targeted auth endpoint + service tests after registration fix"
-      },
-      {
-        "timestamp": "2025-12-03T15:01:40+00:00",
-        "scope": "frontend_unit_error_helpers",
-        "tests_run": 5,
-        "passed": 5,
-        "failed": 0,
-        "coverage": 2.84,
-        "notes": "Vitest unit tests validating error handling helper for login/register flow"
+        "coverage": 86,
+        "notes": "Backend pytest on integration/phase5_crs_and_billing (billing + CRS core + explainability + NL); 4 skipped; coverage 86.38%."
       }
     ]
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 1 - 90% Complete - Production Ready",
-    "completion_percentage": 90,
-    "current_phase": "Phase 1",
-    "next_milestone": "E2E tests and production deployment"
+    "status": "Phase 8 – agentic platform skeleton in progress",
+    "completion_percentage": 98,
+    "current_phase": "Phase 8 – Agentic Platform",
+    "next_milestone": "M8.1 LLM-backed engagement + triggers",
+    "current_milestone": "M8.0 – Agentic Platform Skeleton + Client Engagement Agent Skeleton",
+    "integration_branch": "integration/phase5_crs_and_billing",
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton with sessions/actions, orchestrator, and client engagement agent suggestions (no auto-send)."
   },
   "agent_bootstrap": {
     "steps": [
@@ -121,10 +121,10 @@
   },
   "backlog": {
     "file": "PRODUCT_BACKLOG.md",
-    "description": "Canonical backlog synthesized from blueprint/03, blueprint/13, and blueprint/14 so every 🔴/🟡 feature has a tracked ID.",
+    "description": "Canonical backlog synthesized from blueprint/03, blueprint/13, and blueprint/14 so every \ud83d\udd34/\ud83d\udfe1 feature has a tracked ID.",
     "usage": [
       "Before starting new work, scan PRODUCT_BACKLOG.md for an existing item ID and reference it in PRs/ENGINEERING_LOG.",
-      "When delivering a feature, update the matching backlog entry’s status/notes and reflect the change in PRODUCT_LOG.",
+      "When delivering a feature, update the matching backlog entry\u2019s status/notes and reflect the change in PRODUCT_LOG.",
       "Use backlog IDs when planning epics so agents share a single scope definition."
     ]
   },
@@ -134,7 +134,10 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/app/api", "backend/app/services"],
+      "focus_areas": [
+        "backend/app/api",
+        "backend/app/services"
+      ],
       "last_activity": null
     },
     "Frontend Agent": {
@@ -142,7 +145,9 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["frontend/src"],
+      "focus_areas": [
+        "frontend/src"
+      ],
       "last_activity": null
     },
     "QA Agent": {
@@ -150,7 +155,10 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/tests", "frontend/tests"],
+      "focus_areas": [
+        "backend/tests",
+        "frontend/tests"
+      ],
       "last_activity": null
     },
     "DevOps Agent": {
@@ -158,7 +166,11 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["infra", "docker-compose.yml", ".github"],
+      "focus_areas": [
+        "infra",
+        "docker-compose.yml",
+        ".github"
+      ],
       "last_activity": null
     },
     "AI Orchestration Agent": {
@@ -166,7 +178,9 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/app/services/ai"],
+      "focus_areas": [
+        "backend/app/services/ai"
+      ],
       "last_activity": null
     },
     "TestSprite Agent": {
@@ -174,10 +188,18 @@
       "status": "active",
       "current_task": null,
       "completed_tasks": [],
-      "focus_areas": ["backend/tests", "frontend/tests", "test coverage"],
+      "focus_areas": [
+        "backend/tests",
+        "frontend/tests",
+        "test coverage"
+      ],
       "last_activity": null,
       "specialization": "Test generation, execution, and coverage monitoring",
-      "tools": ["TestSprite MCP", "pytest", "coverage"]
+      "tools": [
+        "TestSprite MCP",
+        "pytest",
+        "coverage"
+      ]
     }
   },
   "config_domain": {
@@ -188,7 +210,11 @@
       "config/domain/language.yaml",
       "config/domain/work_experience.yaml",
       "config/domain/proof_of_funds.yaml",
-      "config/domain/documents.yaml"
+      "config/domain/documents.yaml",
+      "config/domain/forms.yaml",
+      "config/domain/fields.yaml",
+      "config/domain/intake_templates.yaml",
+      "config/domain/options.yaml"
     ],
     "rules": [
       "All immigration logic MUST read from these configs, not from hard-coded constants.",
@@ -245,7 +271,8 @@
     "docs": [
       "docs/RULE_ENGINE_OVERVIEW.md",
       "docs/RULE_ENGINE_CRS_ELIGIBILITY.md",
-      "docs/RULE_ENGINE_PROGRAM_ELIGIBILITY.md"
+      "docs/RULE_ENGINE_PROGRAM_ELIGIBILITY.md",
+      "docs/CRS_ENGINE_OVERVIEW.md"
     ],
     "config_sources": [
       "config/domain/crs.yaml",
@@ -259,6 +286,11 @@
     "services": [
       "backend/src/app/rules/program_eligibility.py",
       "backend/src/app/services/rule_engine_service.py",
+      "backend/src/app/services/crs_engine.py",
+      "backend/src/app/rules/crs_engine.py",
+      "backend/src/app/rules/crs_adapter.py",
+      "backend/src/app/rules/crs_explanation_generator.py",
+      "backend/src/app/domain/crs/models.py",
       "backend/src/app/domain_config/service.py"
     ],
     "rules": [
@@ -270,7 +302,9 @@
     ]
   },
   "document_matrix": {
-    "docs": ["docs/DOCUMENT_MATRIX_OVERVIEW.md"],
+    "docs": [
+      "docs/DOCUMENT_MATRIX_OVERVIEW.md"
+    ],
     "code": [
       "backend/src/app/documents/service.py",
       "backend/src/app/cases/model.py"
@@ -280,9 +314,53 @@
       "config/domain/documents.yaml"
     ]
   },
+  "security": {
+    "milestone": "M4.3 - Security & Tenant Guardrails",
+    "roles": [
+      "owner",
+      "admin",
+      "case_manager",
+      "viewer"
+    ],
+    "rbac": {
+      "draft_to_submitted": [
+        "owner",
+        "admin",
+        "case_manager"
+      ],
+      "submitted_to_in_review": [
+        "admin",
+        "case_manager"
+      ],
+      "in_review_to_complete": [
+        "admin"
+      ],
+      "complete_to_archived": [
+        "admin"
+      ],
+      "any_to_draft": [
+        "admin"
+      ]
+    },
+    "invariants": [
+      "All case queries are tenant-scoped; cross-tenant access is denied.",
+      "Lifecycle transitions require auth and role checks; violations raise LifecyclePermissionError.",
+      "Soft-deleted cases/snapshots/events are hidden by default; admin can include with include_deleted=true.",
+      "Security error model standardized: UnauthorizedError, ForbiddenError, TenantAccessError, LifecyclePermissionError."
+    ],
+    "soft_delete_fields": [
+      "is_deleted",
+      "deleted_at"
+    ],
+    "retention": "RetentionService stub exists; future work will implement tenant-specific purge policies."
+  },
   "case_api": {
-    "docs": ["docs/RULE_ENGINE_CASE_API.md"],
-    "routes": ["backend/src/app/api/routes/case_evaluation.py"],
+    "docs": [
+      "docs/RULE_ENGINE_CASE_API.md"
+    ],
+    "routes": [
+      "backend/src/app/api/routes/case_evaluation.py"
+    ],
     "services": [
       "backend/src/app/services/rule_engine_service.py",
       "backend/src/app/cases/model.py",
@@ -309,7 +387,9 @@
     ]
   },
   "case_lifecycle": {
-    "docs": ["docs/CASE_LIFECYCLE_API.md"],
+    "docs": [
+      "docs/CASE_LIFECYCLE_API.md"
+    ],
     "models": [
       "backend/src/app/auth/models.py",
       "backend/src/app/cases/lifecycle_service.py"
@@ -360,7 +440,9 @@
         "assigned_at": "2025-12-02T22:28:58.440088",
         "estimated_time": "1-2 hours",
         "description": "Verify registration fix works correctly and write comprehensive integration tests. Test various password lengths, login flows, and edge cases.",
-        "dependencies": ["ASSIGN_001"],
+        "dependencies": [
+          "ASSIGN_001"
+        ],
         "waiting_for": null,
         "progress": 100,
         "started_at": "2025-12-02T23:30:00",
@@ -378,7 +460,10 @@
         "assigned_at": "2025-12-02T22:28:58.440089",
         "estimated_time": "30 minutes",
         "description": "Re-run all 10 TestSprite backend tests after registration fix. Verify all tests pass and generate updated test report.",
-        "dependencies": ["ASSIGN_001", "ASSIGN_002"],
+        "dependencies": [
+          "ASSIGN_001",
+          "ASSIGN_002"
+        ],
         "waiting_for": null
       },
       {
@@ -391,7 +476,9 @@
         "assigned_at": "2025-12-02T22:28:58.440090",
         "estimated_time": "1-2 hours",
         "description": "Run TestSprite frontend test plan. Test all frontend pages, components, API integration, and authentication flows.",
-        "dependencies": ["ASSIGN_003"],
+        "dependencies": [
+          "ASSIGN_003"
+        ],
         "waiting_for": "Backend tests to pass"
       },
       {
@@ -403,8 +490,10 @@
         "status": "pending",
         "assigned_at": "2025-12-02T22:28:58.440091",
         "estimated_time": "2-3 hours",
-        "description": "Run comprehensive E2E tests. Test complete user flows: Register → Login → Create Case → Upload Document. Test multi-tenant isolation and cross-browser compatibility.",
-        "dependencies": ["ASSIGN_004"],
+        "description": "Run comprehensive E2E tests. Test complete user flows: Register \u2192 Login \u2192 Create Case \u2192 Upload Document. Test multi-tenant isolation and cross-browser compatibility.",
+        "dependencies": [
+          "ASSIGN_004"
+        ],
         "waiting_for": "Frontend tests to pass"
       },
       {
@@ -441,7 +530,9 @@
         "assigned_at": "2025-12-03T00:15:00",
         "estimated_time": "2-4 days",
         "description": "Build case-task data model, services, and /tasks API (create/list/update, auto-generation hooks, reminders).",
-        "dependencies": ["ASSIGN_006"],
+        "dependencies": [
+          "ASSIGN_006"
+        ],
         "waiting_for": null
       },
       {
@@ -670,8 +761,13 @@
         "status": "completed",
         "completed_at": "2025-12-01T00:00:00",
         "description": "Fixed bcrypt password hashing to handle passwords longer than 72 bytes",
-        "files_modified": ["backend/app/services/auth.py"],
-        "files_created": ["backend/tests/test_auth.py", "AUTH_BUG_FIXED.md"],
+        "files_modified": [
+          "backend/app/services/auth.py"
+        ],
+        "files_created": [
+          "backend/tests/test_auth.py",
+          "AUTH_BUG_FIXED.md"
+        ],
         "impact": "Critical - Enables user registration and login"
       },
       {
@@ -753,7 +849,9 @@
         "status": "completed",
         "completed_at": "2025-12-02T23:45:00",
         "description": "Added parameterized API tests for long + unicode passwords and re-ran auth suites",
-        "files_modified": ["backend/tests/test_auth_endpoints.py"],
+        "files_modified": [
+          "backend/tests/test_auth_endpoints.py"
+        ],
         "impact": "Quality - prevents regressions on password hashing and login flows"
       }
     ],
@@ -842,7 +940,9 @@
         "priority": "P0",
         "status": "in_progress",
         "estimated_time": "2-4 days",
-        "dependencies": ["WORKFLOW_TASK_TEST_PLAN"],
+        "dependencies": [
+          "WORKFLOW_TASK_TEST_PLAN"
+        ],
         "description": "Models, services, API endpoints, reminder hooks, and tests",
         "progress": "5% - modeling phase"
       },
@@ -1113,7 +1213,7 @@
         "key_points": [
           "Product Manager/CTO Agent is the single interface for all coordination",
           "User gives high-level goals, agent breaks down and assigns to specialized agents",
-          "Minimal interaction pattern: Give goal → Check status → Give feedback",
+          "Minimal interaction pattern: Give goal \u2192 Check status \u2192 Give feedback",
           "Agent coordinates all work, tracks progress, updates knowledge base",
           "Gold-class quality standards: 80%+ tests, clean code, security, performance"
         ],
@@ -1154,7 +1254,7 @@
           "Two-layer memory system: .ai-knowledge-base.json (primary, human-readable) + ChromaDB (vector DB for semantic search)",
           "Agents read knowledge base at start of each session to resume work",
           "Statefulness: Knowledge base persists across sessions, agents continue from saved state",
-          "Daily workflow: Morning check-in → Continue work → End of day summary → Next day resume",
+          "Daily workflow: Morning check-in \u2192 Continue work \u2192 End of day summary \u2192 Next day resume",
           "No context loss: Everything saved in version-controlled knowledge base"
         ],
         "decisions": [
@@ -1169,7 +1269,7 @@
             "impact": "Agents primarily use knowledge base, ChromaDB for advanced semantic queries"
           },
           {
-            "decision": "Daily workflow: Check status → Continue work → Update knowledge base",
+            "decision": "Daily workflow: Check status \u2192 Continue work \u2192 Update knowledge base",
             "reasoning": "User needs simple pattern for daily resumption",
             "impact": "User can resume work with single command, agent handles everything"
           }
@@ -1337,7 +1437,7 @@
           "Test plans should be generated before assignment to guide implementation",
           "Test results must be logged in knowledge base for tracking",
           "Quality gates: Only mark complete when tests pass and coverage meets threshold (80%+)",
-          "Automatic workflow: Code completion → TestSprite invoked → Tests run → Results logged → Quality ensured"
+          "Automatic workflow: Code completion \u2192 TestSprite invoked \u2192 Tests run \u2192 Results logged \u2192 Quality ensured"
         ],
         "decisions": [
           {
@@ -1383,7 +1483,7 @@
         "summary": "User asked about test-driven development and adding TestSprite as dedicated agent under Product Manager/CTO Agent",
         "key_points": [
           "TestSprite Agent created as specialized testing agent",
-          "TDD workflow: Test plan first → Implementation → Testing → Quality check",
+          "TDD workflow: Test plan first \u2192 Implementation \u2192 Testing \u2192 Quality check",
           "Product Manager/CTO Agent coordinates with TestSprite Agent (doesn't invoke TestSprite MCP directly)",
           "TestSprite Agent handles all testing: test plans, execution, coverage monitoring",
           "Better separation of concerns: Product Manager/CTO coordinates, TestSprite Agent specializes",
@@ -1489,10 +1589,10 @@
           "Confirmed: All agents integrated through Product Manager/CTO Agent - user only talks to one agent",
           "Confirmed: Product Manager/CTO Agent decides which agent to invoke and coordinates everything",
           "Upgraded from TDD to FAANG-Style Hybrid Approach: ATDD + Contract Testing + TDD + Property-Based Testing",
-          "ATDD for features: Acceptance criteria → Tests → Implementation (better product alignment)",
-          "Contract Testing for APIs: API contracts → Tests → Parallel development (faster delivery)",
-          "TDD for implementation: Unit tests → Implementation (code quality)",
-          "Property-Based Testing for complex logic: Properties → Tests → Edge case coverage"
+          "ATDD for features: Acceptance criteria \u2192 Tests \u2192 Implementation (better product alignment)",
+          "Contract Testing for APIs: API contracts \u2192 Tests \u2192 Parallel development (faster delivery)",
+          "TDD for implementation: Unit tests \u2192 Implementation (code quality)",
+          "Property-Based Testing for complex logic: Properties \u2192 Tests \u2192 Edge case coverage"
         ],
         "decisions": [
           {
@@ -1535,7 +1635,7 @@
           "Pre-commit hooks: Code formatting, linting, security checks before commit",
           "Branch protection: Prevents direct pushes, requires PR reviews and tests",
           "Semantic versioning: MAJOR.MINOR.PATCH with tags and changelog",
-          "Deployment gates: Staging → Production with rollback automation",
+          "Deployment gates: Staging \u2192 Production with rollback automation",
           "Coverage enforcement: 80%+ coverage required in CI",
           "Code review checklist: FAANG-level quality standards",
           "Release process: Versioned releases with rollback capability"
@@ -1559,7 +1659,7 @@
           {
             "decision": "Add deployment gates with automatic rollback",
             "reasoning": "User wants safe deployments with rollback capability",
-            "impact": "Staging → Production with health checks and automatic rollback"
+            "impact": "Staging \u2192 Production with health checks and automatic rollback"
           },
           {
             "decision": "Enforce 80%+ coverage in CI/CD",
@@ -1676,7 +1776,7 @@
         ],
         "next_steps": [
           "User can use master prompt template for any task",
-          "Product Manager/CTO Agent will always follow: Knowledge base → FAANG-style → Multi-agent → Persistent memory → Quality gates → Status report",
+          "Product Manager/CTO Agent will always follow: Knowledge base \u2192 FAANG-style \u2192 Multi-agent \u2192 Persistent memory \u2192 Quality gates \u2192 Status report",
           "Every task ensures FAANG-level quality and best practices"
         ]
       },
@@ -1789,7 +1889,7 @@
           "Agent reports progress every 5 tasks",
           "Agent continues until complete or session ends",
           "Easy resumption - agent reads knowledge base and continues from saved state",
-          "Daily workflow: Morning resume → Work autonomously → End of day status → Next day resume"
+          "Daily workflow: Morning resume \u2192 Work autonomously \u2192 End of day status \u2192 Next day resume"
         ],
         "decisions": [
           {
@@ -2002,5 +2102,30 @@
         "Agents must always store important knowledge locally before relying on it."
       ]
     }
+  },
+  "billing": {
+    "doc": "docs/BILLING_OVERVIEW.md",
+    "plan_config": "config/plans.yaml",
+    "admin_endpoints": [
+      "/api/v1/admin/billing/state",
+      "/api/v1/admin/billing/usage",
+      "/api/v1/admin/billing/update-plan",
+      "/api/v1/admin/billing/portal-url"
+    ],
+    "events": [
+      "case_created",
+      "evaluation_run",
+      "lifecycle_transition",
+      "document_generated"
+    ],
+    "metrics": [
+      "billing_events_total",
+      "plan_limit_violations_total"
+    ]
+  },
+  "observability": {
+    "logging": "Structured logging with request_id, tenant/user context; helpers in backend/src/app/observability/logging.py",
+    "health_endpoints": "/internal/healthz (liveness), /internal/readyz (DB readiness)",
+    "metrics_endpoint": "/internal/metrics returns in-process counters requests_total/requests_failed_total plus billing_events_total/plan_limit_violations_total"
   }
 }

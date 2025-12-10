@@ -22,6 +22,7 @@ Scope is **backend-only**, internal/testing. No auth is wired yet; user/tenant l
   - `id` (UUID PK), `case_id` (FK → CaseRecord), `snapshot_at`, `source`
   - `version` (int, monotonic per `case_id`)
   - Same payload fields as CaseRecord; **immutable** after insert
+  - Includes CRS payload with score, factor contributions, and explanations (structured + NL)
 
 - **CaseEvent** (`case_events`)
   - `id` (UUID PK), `case_id` (nullable FK), `event_type` (e.g., `EVALUATION_CREATED`)
@@ -44,10 +45,16 @@ Scope is **backend-only**, internal/testing. No auth is wired yet; user/tenant l
   - `GET /api/v1/case-history/{case_id}`
   - Returns `record` (canonical state), `snapshots` (all versions), `events` (audit trail).
 
+## Security (Updated in M4.3)
+
+- Authentication required for history endpoints; user and tenant come from the token.
+- Tenant isolation: callers can only see cases/snapshots/events in their tenant; cross-tenant access raises `TenantAccessError`.
+- Soft deletes: soft-deleted records are excluded by default; admins may use `?include_deleted=true` to view.
+- Error model: unauthorized → `UnauthorizedError`, tenant mismatch → `TenantAccessError`, forbidden → `ForbiddenError`.
+
 ## Phase 3.5 Limitations
 
-- Internal/testing only; no auth, tenancy scoping, or user linkage yet.
-- Write path limited to Case Evaluation API; no update/delete of history.
+- Write path limited to Case Evaluation API; no update/delete of history beyond soft delete.
 - Config/domain files remain the source of truth; stored fingerprints mirror the hashes used per evaluation.
 
 ## Future (Phase 4)
@@ -56,3 +63,5 @@ Scope is **backend-only**, internal/testing. No auth is wired yet; user/tenant l
 - Authenticated access to history endpoints.
 - Cross-environment provenance, IP/device metadata, and export hooks for compliance.
 
+
+> Security/Observability (M4.4): endpoints require authenticated users; logs carry request_id and tenant/user IDs; soft-deleted items stay hidden by default; internal health/metrics endpoints exist at /internal/healthz, /internal/readyz, /internal/metrics.

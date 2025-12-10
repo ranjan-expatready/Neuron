@@ -1,0 +1,46 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Option sets for intake select fields; illustrative until full domain ingestion."
+
+options:
+  marital_status:
+    - value: "single"
+      label: "Single"
+    - value: "married"
+      label: "Married"
+    - value: "common_law"
+      label: "Common-law"
+    - value: "divorced"
+      label: "Divorced"
+    - value: "widowed"
+      label: "Widowed"
+
+  education_levels:
+    - value: "secondary"
+      label: "Secondary school"
+    - value: "one_year_post_secondary"
+      label: "One-year post-secondary"
+    - value: "two_year_post_secondary"
+      label: "Two-year post-secondary"
+    - value: "bachelor"
+      label: "Bachelor's degree"
+    - value: "masters"
+      label: "Master's degree"
+    - value: "doctoral"
+      label: "Doctorate"
+
+  first_official_language:
+    - value: "english"
+      label: "English"
+    - value: "french"
+      label: "French"
+
+  citizenship_countries:
+    - value: "CANADA"
+      label: "Canada"
+    - value: "INDIA"
+      label: "India"
+    - value: "USA"
+      label: "United States"
+

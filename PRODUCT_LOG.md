@@ -11,7 +11,8 @@
 
 - ✅ Backend runtime, tooling & CI parity (`backend/Makefile`, `backend/.venv`, `docs/E2E_SPINE_SETUP.md`) – Python 3.10.19 toolchain, pytest spine, and e2e helpers aligned with `[BP-07]`.
 - ✅ Canonical FastAPI surface (`backend/src/app/main.py`, `backend/src/app/api/*`) – Auth, organizations, cases, and documents online per `[BP-03]`.
-- 🟡 Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Org/person/case schemas exist but isolation, soft deletes, and retention controls from `[BP-06]` still pending.
+- ✅ Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Auth binding across case APIs, strict tenant isolation on CaseRecord/Snapshot/Event, lifecycle RBAC, soft deletes with retention stub, standardized security errors (M4.3).
+- ✅ M4.3 Security Guardrails – RCICs and tenants are protected by enforced auth/tenant scoping, role-based lifecycle controls, soft deletes by default, and consistent security error responses.
 - 🔴 Observability, metrics & SRE stack (logs, tracing, incident runbooks) – Logging strategy outlined in `[BP-05]/[BP-07]` but no implementation yet.
 - 🔴 Mobile & offline-ready client surfaces – Blueprint `[BP-04]/[BP-13]` calls for responsive & native experiences that are not in the repo.
 
@@ -29,12 +30,14 @@
 - ✅ Document intake & storage (`backend/src/app/api/routes/documents.py`, `frontend/src/app/cases/[id]/upload/page.tsx`) – Secure uploads with categorization, partial OCR hooks.
 - 🟡 Person/client profiles – Backend models exist, but dedicated UI journeys, household management, and profile completeness scoring remain `[BP-02]/[BP-03]`.
 - 🟡 Workflow & task service – Test plan + scaffolding exist (`docs/WORKFLOW_TASK_TEST_PLAN.md`), yet services/routes aren’t production-ready `[BP-08]`.
-- 🔴 Billing, payments & trust accounting – Spec’d in `[BP-03 §5.3]` and gap analysis P0 #21; no code implemented.
+- 🟡 Billing plan enforcement stub (M4.5) – Plan config + tenant billing state, plan limits on case creation/evaluation/lifecycle, admin usage endpoints; payments/trust accounting still pending `[BP-03 §5.3]`.
 - 🔴 Lead/CRM pipeline → case automation – Intake flows remain manual despite `[BP-13 §Phase 2]`.
 
 ## D. Brain & AI (Law, Rules, CRS, Intelligence)
 
-- 🔴 CRS calculator & eligibility scoring APIs – Core requirement in `[BP-03]/[BP-09]` with no current service.
+- 🟡 CRS engine core (Express Entry) – Config-first CRS computation with structured factor breakdown shipped backend-only (no UI/case wiring yet).
+- 🟡 M5.2 Structured CRS explainability – Each CRS factor now returns machine-readable explanation metadata (codes, rule paths, input/threshold summaries); no NL/UI yet.
+- 🟡 M5.3 Natural-language CRS explanations & case integration – CRS engine now emits human-friendly titles/descriptions from structured explanations and exposes CRS + explanations in case evaluation responses and history snapshots.
 - 🔴 Law intelligence & rule ingestion – Monitoring/approved-rules engine from `[BP-09]` not implemented.
 - 🔴 Advisory playbooks & compliance guidance – Blueprint `[BP-10]` artifacts exist only in docs.
 - 🔴 Client success / 24×7 support agent – No runtime or UI instrumentation yet `[BP-09]`.
@@ -53,15 +56,25 @@
   - Implemented CaseRecord, CaseSnapshot, and CaseEvent models with Alembic migration.
   - Case Evaluation API now persists evaluations and returns `case_id` + `version` with audit metadata.
   - Added internal Case History API (`/api/v1/case-history`) for listing and inspecting stored cases.
+- Phase 5 Golden Snapshot (integration/phase5_crs_and_billing): billing plan enforcement + CRS core + structured/NL explainability are integrated and tested; case evaluation returns explainable CRS breakdown, suitable for RCIC-facing backend flows (UI/report surfacing remains future).
 - ✅ Milestone 4.1 – Case Lifecycle & Tenant Infrastructure
   - Added Tenant and tenant-scoped User models (composite tenant+email uniqueness, roles, hashed_password).
   - CaseRecord now tracks tenant ownership, creator user, and lifecycle status; snapshots/events store tenant_id.
   - Case lifecycle service + API (`/api/v1/case-lifecycle/*`) manage submit/review/complete/archive with audit + snapshots; docs/tests updated.
+- 🔵 M6.1 Intake/Document/Form design foundation added (docs/INTAKE_AND_DOCUMENT_MODEL.md + config stubs for fields/intake templates/document definitions/form mappings); no runtime behavior change. Wiring planned for M6.2+.
+- 🟡 M6.2 Intake/Document engine (backend): added validated config loaders, `/api/v1/intake-schema` for program intake templates, and `/api/v1/document-checklist/{case_id}` for config-driven checklists. UI wiring remains pending in M6.3.
+- 🟡 M6.3 RCIC Intake UI: schema-driven intake page renders steps/fields from `/api/v1/intake-schema`, saves intake data to case form data, and shows document checklist from `/api/v1/document-checklist/{case_id}`. Client self-serve/mobile will reuse the same schema in future milestones.
+- 🟢 M6.3h Intake hardening: RCIC intake uses canonical profile API (`/api/v1/cases/{case_id}/profile`), select options pulled from config-backed `/api/v1/intake-options`, and document checklist displays upload status by cross-referencing case documents.
+- 🟢 M6.4 Client self-serve intake portal: client-facing intake page renders schema from `/api/v1/intake-schema`, reads/writes canonical profile via `/api/v1/cases/{case_id}/profile`, and surfaces document checklist with upload status using existing case documents API.
+- 🟢 M7.1 Admin Config Console (read-only): new admin APIs under `/api/v1/admin/intake/*` expose field dictionary, templates, documents, forms, and options; admin UI pages under `/admin/config/intake` let RCIC/admin users inspect active config (no editing).
+- 🟢 M7.2 Intake config drafts (non-live): DB-backed draft layer and admin APIs/UI (`/api/v1/admin/intake/drafts`, `/admin/config/intake/drafts`) allow creating/updating/archiving draft fields/templates/documents/forms. Runtime still driven by YAML; activation/approval in M7.3.
+- 🟢 M7.3 Intake config approval & activation: Status transitions (draft → in_review → active → retired/rejected), admin-only activation endpoints/UI, and runtime override layer that merges ACTIVE drafts on top of YAML for fields/templates/documents/forms. Retired/rejected drafts remain historical only.
 
 ## E. Agentic & Automation Features
 
 - 🟡 Workflow/task automation scaffolding – Backlog + test plan exist, but automation loops are not wired end-to-end `[BP-08]`.
-- 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live.
+- 🟢 M8.0 Agentic Platform Skeleton: agent sessions/actions DB + migration, AgentOrchestratorService, ClientEngagementAgent (suggestions only, no sends), admin APIs `/api/v1/admin/agents/actions`/`sessions/{id}`, admin UI `/admin/agents` for audit visibility.
+- 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.
 - 🔵 Agent marketplace & extension SDK – Logged as Phase 3 `[BP-13]`, unstarted.
@@ -82,3 +95,8 @@
 - 🔵 Mobile apps (consultant + client) – Strategy defined in `[BP-13 P1]`, awaiting execution.
 - 🔵 Partnership ecosystem & GTM motions – Outlined in `[BP-13]/spec gap #24` but tooling/support absent.
 - 🔵 International expansion (UK/AUS/US playbooks) – Captured in `[BP-13 Phase 3]`, unstarted.
+
+## 2025-12-09 – M4.4 Observability & SRE Baseline
+- Added request ID middleware and structured logging with tenant/user context across case evaluation, lifecycle, history, and admin config flows.
+- Exposed internal liveness/readiness (`/internal/healthz`, `/internal/readyz`) and metrics (`/internal/metrics`) endpoints for ops use.
+- Established in-process request counters to support future telemetry integration.

@@ -2,10 +2,6 @@ from datetime import date, timedelta
 
 from fastapi.testclient import TestClient
 
-from src.app.main import app
-
-client = TestClient(app)
-
 
 def _eligible_payload():
     today = date.today()
@@ -38,20 +34,20 @@ def _eligible_payload():
     }
 
 
-def test_case_history_persists_snapshot_and_event():
-    response = client.post("/api/v1/cases/evaluate", json=_eligible_payload())
+def test_case_history_persists_snapshot_and_event(client: TestClient, auth_headers):
+    response = client.post("/api/v1/cases/evaluate", json=_eligible_payload(), headers=auth_headers)
     assert response.status_code == 200
     body = response.json()
     case_id = body["case_id"]
     assert case_id
     assert body["version"] == 1
 
-    list_response = client.get("/api/v1/case-history")
+    list_response = client.get("/api/v1/case-history", headers=auth_headers)
     assert list_response.status_code == 200
     summaries = list_response.json()
     assert any(item["id"] == case_id for item in summaries)
 
-    detail_response = client.get(f"/api/v1/case-history/{case_id}")
+    detail_response = client.get(f"/api/v1/case-history/{case_id}", headers=auth_headers)
     assert detail_response.status_code == 200
     detail = detail_response.json()
 

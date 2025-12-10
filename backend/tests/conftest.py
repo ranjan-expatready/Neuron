@@ -9,10 +9,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
+from src.app.api.dependencies import get_current_user, get_current_user_org
 from src.app.db.database import Base, get_db
 from src.app.main import app
 from src.app.models import task as task_models  # noqa: F401
 from src.app.models.organization import Organization, OrganizationMembership
+from src.app.models.tenant import Tenant  # noqa: F401
+from src.app.models.billing import TenantBillingState  # noqa: F401
 from src.app.models.user import User
 from src.app.services.auth import AuthService
 
@@ -51,14 +54,51 @@ def db_session():
 def client(db_session):
     """Create a test client with database dependency override."""
 
+    # Seed a default tenant/user for auth overrides
+    tenant = Tenant(name="Test Tenant")
+    db_session.add(tenant)
+    db_session.commit()
+    db_session.refresh(tenant)
+    org = Organization(name="Test Org", type="law_firm", settings={})
+    db_session.add(org)
+    db_session.commit()
+    db_session.refresh(org)
+    user = User(
+        email="test@example.com",
+        encrypted_password=AuthService.get_password_hash("testpass123"),
+        tenant_id=tenant.id,
+        role="admin",
+    )
+    db_session.add(user)
+    db_session.commit()
+    db_session.refresh(user)
+    membership = OrganizationMembership(
+        user_id=user.id, org_id=org.id, role="admin", status="active"
+    )
+    db_session.add(membership)
+    db_session.commit()
+
     def override_get_db():
         try:
             yield db_session
         finally:
             pass
 
+    def override_get_current_user():
+        return user
+
+    def override_get_current_user_org():
+        return org
+
     app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_current_user] = override_get_current_user
+    app.dependency_overrides[get_current_user_org] = override_get_current_user_org
+
     with TestClient(app) as test_client:
+        test_client.default_user = user
+        test_client.default_tenant = tenant
+        test_client.default_org = org
+        test_client.db_session = db_session
         yield test_client
     app.dependency_overrides.clear()
 
@@ -113,12 +153,7 @@ def test_user_with_org(db_session, test_user, test_organization):
 @pytest.fixture
 def auth_headers(client, test_user_data, test_user):
     """Get authentication headers for a test user."""
-    response = client.post(
-        "/api/v1/auth/login",
-        data={"username": test_user_data["email"], "password": test_user_data["password"]},
-    )
-    assert response.status_code == 200
-    token = response.json()["access_token"]
+    token = AuthService.create_access_token(data={"sub": test_user.email})
     return {"Authorization": f"Bearer {token}"}
 
 
@@ -131,12 +166,7 @@ def auth_token(auth_headers):
 @pytest.fixture
 def admin_headers(client, test_user_with_org, test_user_data):
     """Get authentication headers for an admin user."""
-    response = client.post(
-        "/api/v1/auth/login",
-        data={"username": test_user_data["email"], "password": test_user_data["password"]},
-    )
-    assert response.status_code == 200
-    token = response.json()["access_token"]
+    token = AuthService.create_access_token(data={"sub": test_user_with_org.email})
     return {"Authorization": f"Bearer {token}"}
 
 

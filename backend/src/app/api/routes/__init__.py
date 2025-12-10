@@ -1,15 +1,43 @@
 # API routes package
 
 from . import (
+    admin_config,
+    admin_intake_config,
+    admin_intake_drafts,
+    admin_agents,
     auth,
+    billing_admin,
     cases,
     case_evaluation,
     case_history,
     case_lifecycle,
+    case_profile,
     config,
     documents,
+    intake,
     organizations,
     persons,
     tasks,
     users,
 )  # noqa: F401
+
+__all__ = [
+    "admin_config",
+    "admin_intake_config",
+    "admin_intake_drafts",
+    "admin_agents",
+    "auth",
+    "billing_admin",
+    "cases",
+    "case_evaluation",
+    "case_history",
+    "case_lifecycle",
+    "case_profile",
+    "config",
+    "documents",
+    "intake",
+    "organizations",
+    "persons",
+    "tasks",
+    "users",
+]

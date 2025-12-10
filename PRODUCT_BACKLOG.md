@@ -20,11 +20,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [PL-001] Multi-tenant Data Isolation Hardening
 
 - **Domain:** 3.1 Platform & Core
-- **Status:** 🟡 Partial
+- **Status:** ✅ Done (M4.3)
 - **Priority:** HIGH
 - **Phase:** P1 (Foundation)
 - **Type:** Database + Backend services
-- **Description:** Finish org-level isolation (row-level security, retention, soft deletes, tenant-scoped search) and add audit-friendly backup policies so every org’s data satisfies `[BP-06]`.
+- **Description:** Auth binding on case APIs, strict tenant isolation on CaseRecord/Snapshot/Event, lifecycle RBAC, soft deletes + retention stub, standardized security errors. Remaining: production retention purge policies and RLS/backup automation (future).
 - **Source:** BP-06 (Data Model & ERD), BP-14 (Gap #10)
 - **Dependencies:** Alembic migrations, tenancy middleware, org context propagation
 
@@ -167,11 +167,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [CF-003] Billing, Payments & Trust Accounting
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔴 Missing
+- **Status:** 🟡 Partial
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend + Integrations
-- **Description:** Implement invoices, payment plans, trust account handling, and PCI/AML compliance `[BP-03 §5.3]`.
+- **Description:** Implement invoices, payment plans, trust account handling, and PCI/AML compliance `[BP-03 §5.3]`. Plan enforcement + usage tracking shipped in M4.5; payments/trust accounting remain.
 - **Source:** BP-03, BP-14 Gap #21, #20
 - **Dependencies:** Payment gateway, audit logging, reporting
 
@@ -208,9 +208,197 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Source:** BP-03, Gap Analysis #9
 - **Dependencies:** Notification service, audit logging, CRM
 
+#### [INT-001] Intake config loaders & validators (M6.2)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend rules/config
+- **Description:** Implement typed loaders/validators for fields, intake templates, documents, and forms configs; expose read-only bundles for rule engine, checklists, and UI rendering.
+- **Dependencies:** Config schemas, config/domain stubs, ConfigService patterns.
+
+#### [INT-002] Intake template & checklist APIs (M6.2)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend API
+- **Description:** Add APIs to serve intake templates and document checklists derived from canonical intake/document configs; no persistence yet.
+- **Dependencies:** INT-001 loaders, Case Evaluation API patterns.
+
+#### [INT-003] Schema-driven intake UI (M6.3)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Update RCIC/client portal intake to render dynamically from intake templates and field dictionary; reuse canonical profile data across cases.
+- **Dependencies:** INT-001/INT-002, CASE_INTAKE_UI baseline.
+
+#### [INT-004] Admin Config UI for intake/doc/forms (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend/Admin
+- **Description:** Build admin UI for proposing/reviewing intake fields, templates, documents, and forms with human approval workflow and versioning.
+- **Dependencies:** Admin Config read API, governance rules, approval backend.
+
+#### [INT-005] Seed IRCC form mappings (IMM series) (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend rules/config
+- **Description:** Add initial mappings for IMM0008/IMM5669/IMM5406 and related forms referencing canonical fields; keep draft until validated.
+- **Dependencies:** INT-001 loaders, form definitions, domain knowledge for form fields.
+
 ### 3.4 Documents & OCR
 
 #### [DO-001] Document Intelligence Agent MVP
+
+#### [INT-006] Client self-serve intake portal (M6.4+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done (baseline portal)
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Client-facing intake uses the same schema-driven renderer, supports authentication, and saves canonical profile data for reuse.
+- **Dependencies:** INT-003, backend profile persistence APIs.
+
+#### [INT-007] Checklist ↔ upload integration (M6.4+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done (status surfaced; richer UX pending)
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend/Backend
+- **Description:** Tie document checklist items to upload widgets, show completion state, and surface required/optional statuses from checklist.
+- **Dependencies:** INT-002, document upload APIs.
+
+#### [INT-008] Admin Config UI + approval (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend/Admin
+- **Description:** Build admin UI and approval flow for intake fields/templates/documents/forms; enforce human-in-loop before activation.
+- **Dependencies:** INT-001/002, governance rules.
+
+#### [INT-009] Extended condition operators (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+#### [INT-010] Canonical profile API wiring (M6.3h)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend/API
+- **Description:** Expose GET/PATCH `/cases/{case_id}/profile`, map intake data paths to canonical profile, and use it as the system-of-record for intake.
+
+#### [INT-011] Intake options from config (M6.3h)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend/Frontend
+- **Description:** Options resolved from config via `/api/v1/intake-options` and hydrated into intake schema/UI.
+
+#### [INT-012] Checklist upload status surfacing (M6.3h)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** ✅ Done (status surface; richer UX pending)
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** Document checklist displays uploaded/missing using case documents API; link to upload workflow to be expanded in M6.4.
+
+#### [INT-013] Client UX polish & mobile readiness (M6.5+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Improve client portal styling, responsive/mobile layout, and wizard-like program selection; add clearer guidance per document item.
+
+#### [INT-014] Rich upload management (M6.5+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend/Backend
+- **Description:** Upload previews, status badges, deletion/re-upload, and progress; sync checklist state in real time.
+
+#### [INT-015] Program selection wizard (M6.5+)
+
+#### [CFG-006] Admin Config Console (read-only) (M7.1)
+
+- **Domain:** Admin / Config
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Read-only admin APIs (`/api/v1/admin/intake/*`) and UI under `/admin/config/intake` to inspect field dictionary, intake templates, documents, forms, and option sets.
+
+#### [CFG-007] Admin config editing (draft) (M7.2)
+
+- **Domain:** Admin / Config
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Allow creating/updating config entries in draft state via secured admin APIs; no activation without approval.
+
+#### [CFG-008] Admin config approval workflow (M7.3)
+
+- **Domain:** Admin / Config
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Draft → in_review → active → retired workflow with audit trail, role-based approvals, and status transition APIs/UI (submit, reject, activate, retire).
+
+#### [CFG-010] Draft activation pipeline (M7.3)
+
+- **Domain:** Admin / Config
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Runtime override layer merges ACTIVE drafts over YAML for intake fields/templates/documents/forms; retired/rejected drafts are ignored; activation records approver + timestamp.
+
+#### [CFG-009] AI-assisted config proposals (M7.4)
+
+- **Domain:** Admin / Config
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** AI/Backend
+- **Description:** AI suggests config diffs from `domain_knowledge`/IRCC PDFs; proposals stored as drafts awaiting human approval.
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Client-friendly program selection/confirmation with guardrails and plan awareness before rendering intake schema.
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend rules/config
+- **Description:** Add richer condition operators (lt/lte/range/regex) and nested logical groups for document/intake visibility.
+- **Dependencies:** INT-001/002, config schema updates, tests.
 
 - **Domain:** 3.4 Documents & OCR
 - **Status:** 🟡 Partial
@@ -254,6 +442,53 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Source:** BP-03, Gap Analysis #8
 - **Dependencies:** Document storage, audit logging
 
+### 3.5 Agentic Platform (Phase 8)
+
+#### [AGENT-001] Agentic platform skeleton (M8.0)
+
+- **Domain:** Agentic / Automation
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Agent sessions/actions models + migration; AgentOrchestratorService; ClientEngagementAgent skeleton (suggestions only); admin APIs `/api/v1/admin/agents/*`; admin UI `/admin/agents`.
+
+#### [AGENT-002] Client engagement LLM suggestions (M8.1)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Wire LLM-backed suggestions for client engagement with guardrails; keep audit logs; no auto-send without approval.
+
+#### [AGENT-003] Event triggers for engagement (M8.1+)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Safe triggers (intake incomplete, missing docs) that enqueue agent suggestions without sending; admin controls and audits.
+
+#### [AGENT-004] Document Reviewer Agent skeleton (M8.2)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Agent skeleton for doc review/quality flags; logs-only; no auto decisions.
+
+#### [AGENT-005] Agent analytics dashboard (M8.2)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** Aggregate agent sessions/actions by tenant/case; charts, filters, export.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR
@@ -270,11 +505,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [BA-001] CRS Core Calculator API
 
 - **Domain:** 3.5 Brain & AI
-- **Status:** 🔴 Missing
+- **Status:** ✅ Done (M5.1 core engine)
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend API + Rules Engine
-- **Description:** Implement CRS scoring per current IRCC rules with unit/integration tests `[BP-03 §CRS]`.
+- **Description:** Implement CRS scoring per current IRCC rules with unit/integration tests `[BP-03 §CRS]`. Config-first engine shipped backend-only; M5.2 delivered structured explainability; M5.3 delivered NL explanations and case integration (UI/report surfaces remain future).
 - **Source:** BP-03, BP-09, BP-14 Gap #1
 - **Dependencies:** Person profile schema, rule engine
 
@@ -798,3 +1033,6 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Extend billing/financial services to support multi-currency, tax reporting, and jurisdiction-specific rules `[BP-13 §Phase 3]`.
 - **Source:** BP-13, Gap #20
 - **Dependencies:** Financial reporting, localization, legal research
+
+- [DONE] Observability baseline (M4.4): structured logging, request IDs, health/ready/metrics endpoints.
+- [OPEN] Observability enhancements: tracing, Prometheus/Grafana integration, alerting/SLOs, per-tenant dashboards.

@@ -1,3 +1,91 @@
+# Engineering Memory Log
+
+## 2025-12-10 – [backend][frontend][ai][m8_0]
+- Added agentic platform skeleton: `AgentSession`/`AgentAction` models + migration `20251210_m8_agentic_platform`.
+- Added `AgentOrchestratorService` for sessions/actions and `ClientEngagementAgent` skeleton (suggestions only, no sends/LLMs).
+- New admin APIs `/api/v1/admin/agents/actions` and `/api/v1/admin/agents/sessions/{id}` (admin/owner/rcic, tenant-scoped) with tests.
+- New admin UI page `/admin/agents` to view agent actions; RTL tests added. Backend/Frontend tests pass.
+
+## 2025-12-10 – [backend][intake][documents][m6_2]
+- Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
+- Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).
+- New API routes `/api/v1/intake-schema` and `/api/v1/document-checklist/{case_id}` exposing config-driven schema and checklists with tenant-aware access.
+- Added tests for config loading, service resolution, and APIs; updated intake design doc with implementation status.
+
+## 2025-12-10 – [frontend][intake][m6_3]
+- Added schema-driven RCIC intake page (`frontend/src/app/cases/[caseId]/intake/page.tsx`) that fetches `/api/v1/intake-schema` and renders via reusable `IntakeFormRenderer`.
+- IntakeFormRenderer component renders fields/steps from config schema, validates basic rules, and saves intake data back to case form data via API client; document checklist is surfaced from `/api/v1/document-checklist/{case_id}`.
+- New frontend tests for renderer and RCIC intake page; backend tests re-run to ensure stability; docs/logs/backlog/KB updated for M6.3 status.
+
+## 2025-12-10 – [backend+frontend][intake hardening][m6_3h]
+- Added canonical profile API (`GET/PATCH /api/v1/cases/{case_id}/profile`) with deep-merge semantics and dotted-path helpers; RCIC intake now reads/writes canonical profile instead of case.form_data.
+- Added config-backed options loader (`config/domain/options.yaml`) and `/api/v1/intake-options`; intake schema hydrates select options; frontend renderer fetches options via api-client.
+- Document checklist now cross-references case documents to show uploaded/missing status; RCIC UI renders status pills and file names.
+- New tests: profile API, profile mapping helpers, intake API options, renderer/options, RCIC page status; full backend/front-end test suites passing.
+
+## 2025-12-10 – [frontend][intake][client][m6_4]
+- Added client self-serve intake page (`frontend/src/app/client/cases/[caseId]/intake/page.tsx`) that authenticates clients, loads canonical profile, renders schema from `/api/v1/intake-schema`, saves via `/api/v1/cases/{case_id}/profile`, and shows document checklist with upload status from case documents.
+- New frontend test `client-intake-page.test.tsx` covers client intake render and checklist status; existing renderer/RCIC tests unchanged; backend tests re-run (pass, ~86.7% coverage).
+- Docs/logs/KB/backlog updated for M6.4; product log notes client portal availability on the config-driven engine.
+
+## 2025-12-10 – [backend][frontend][admin][config][m7_1]
+- Added read-only admin intake config APIs at `/api/v1/admin/intake/*` (fields, templates with optional resolution, documents, forms, options) with admin/owner/rcic role checks; wired router into main app.
+- Frontend admin console page `/admin/config/intake` lists field dictionary, templates, documents, forms, and option sets; purely read-only with loading/error states.
+- Tests: new backend API coverage (`test_admin_intake_config_api.py`), new frontend RTL test for admin intake config page; full backend suite (219 tests) and frontend suite passing.
+- Docs/logs/KB/backlog updated to mark M7.1 delivered and outline upcoming edit/approval milestones.
+
+## 2025-12-10 – [backend][frontend][admin][config][m7_2]
+- Introduced DB-backed intake config drafts (`intake_config_drafts` table) for fields/templates/documents/forms; runtime still uses YAML.
+- Admin draft APIs under `/api/v1/admin/intake/drafts` (list/get/create/patch/delete) with validation via intake Pydantic models and admin/rcic RBAC.
+- Admin UI page `/admin/config/intake/drafts` lists drafts, filters by type/status, shows details, and supports creating new drafts via JSON payload (status limited to draft/rejected/in_review).
+- New tests: backend `test_admin_intake_drafts_api.py`; frontend `admin-intake-drafts-page.test.tsx`. Full backend + frontend suites passing.
+
+## 2025-12-10 – [backend][frontend][admin][config][m7_3]
+- Added approval/activation lifecycle: statuses now include draft, in_review, active, rejected, retired. Transition endpoints `/submit`, `/reject`, `/activate`, `/retire` with RBAC (rcic submit; admin/owner activate/reject/retire); payload re-validation on activation; approvals capture approver/time.
+- Runtime override layer: YAML baseline cached; active drafts are merged as overrides for fields/templates/documents/forms via `apply_intake_overrides`; retired/rejected drafts ignored. Intake API now loads configs with DB overrides.
+- Admin UI (`/admin/config/intake/drafts`) shows status badges, approved metadata, and action buttons for submit/activate/reject/retire; filters include active/retired.
+- Tests: new override/config tests, intake API override test, expanded admin draft API tests, updated frontend RTL tests for actions. Backend pytest: 226 passed, 4 skipped, cov ~86.38%; frontend jest suites all passing.
+
+# Engineering Memory Log
+
+## 2025-12-10 – [backend][config][intake][documents][m6_1]
+- Added intake/document/form architecture doc `docs/INTAKE_AND_DOCUMENT_MODEL.md` outlining canonical data, field dictionary, templates, document matrix, form mapping, and governance.
+- Created config stubs for intake model (`config/domain/fields.yaml`, `intake_templates.yaml`) plus document/form definition stubs appended to existing matrices; kept runtime matrix structure intact.
+- Added optional read-only loader scaffold `backend/src/app/config/intake_config.py` to parse new configs without changing existing services.
+- Updated forms/documents configs with definition samples; no behavior or engine logic changes.
+
+## 2025-12-09 – [backend][rule_engine][crs][m5_1]
+- Added config-first CRS engine for Express Entry (`backend/src/app/rules/crs_engine.py`) with structured factor contributions and CRS domain models (`backend/src/app/domain/crs/models.py`).
+- Introduced CRS adapter/service (`backend/src/app/rules/crs_adapter.py`, `backend/src/app/services/crs_engine.py`) plus observability hooks (structured logs, metrics counters `crs_evaluations_total`/`_failed_total`).
+- Expanded `config/domain/crs.yaml` with age/education/language/work/spouse/transferability/additional tables; updated config models/loader to parse new CRS structures.
+- Tests: added CRS engine scenarios in `backend/tests/rule_engine/test_crs_engine.py` (single + married profiles) and adjusted existing rule engine unit test config for new schema.
+
+## 2025-12-10 – [backend][rule_engine][crs][m5_2]
+- Implemented structured explainability on CRS factors (`CRSFactorContribution.explanation`) with codes, config rule paths, input summaries, and threshold summaries.
+- Updated CRSEngine to populate explanation metadata across core, spouse, transferability, and additional factors; no logic/points changes.
+- Added CRS tests covering explanation presence and identifiers; documentation/logs/KB updated for M5.2.
+
+## 2025-12-10 – [backend][rule_engine][crs][m5_3]
+- Added NL explanations (`CRSFactorNLExplanation`) derived from structured explanations; templates avoid hard-coded IRCC numbers.
+- CRS engine service now attaches NL explanations; Case Evaluation API returns CRS scores + contributions + explanations; history snapshots store CRS payload with explainability.
+- Updated docs/KB/product/backlog to reflect M5.3 completion; regression tests for CRS and case evaluation extended.
+
+## 2025-12-10 – [integration][phase5][crs][billing][stabilization]
+- Integrated M4.5 billing/plan enforcement and M5.1–M5.3 CRS (core, structured explainability, NL + case integration) into `integration/phase5_crs_and_billing`.
+- Backend tests: 196 passed, 4 skipped; coverage 86.38%. Frontend tests: 1 passed.
+- Represents Phase 5 golden snapshot for billing + CRS explainability; no new features added.
+
+## 2025-12-10 – [backend][billing][m4_5]
+- Added BillingService abstraction with plan config loader (`config/plans.yaml`), plan state persistence, usage counters, plan limit enforcement, and structured logging/metrics.
+- Introduced billing admin router (`/api/v1/admin/billing/*`) for state/usage/plan updates; secured via admin/owner RBAC.
+- Enforced plan limits on case creation, evaluation, and lifecycle transitions; standardized `plan_limit_exceeded` error + observability metrics (`billing_events_total`, `plan_limit_violations_total`).
+- New Alembic migration `20251210_m45_billing_plan_state`, `tenant_billing_state` model, billing doc, and billing test suite.
+
+## 2025-12-10 – [backend][security][tenant][m4_3]
+- Stabilized M4.3 security & tenant guardrails (auth binding on case evaluation/history/lifecycle/admin config).
+- Enforced tenant isolation and lifecycle RBAC; soft deletes + retention stub added for cases/snapshots/events.
+- Updated security docs and knowledge base; backend/frontend tests green (181 passing, ~85% coverage).
+
 ## 2025-12-09 – [rules][cases][m3_5_case_history_audit]
 
 - Branch: feature/case-history-m3-5; scope: case evaluation persistence/history/audit.
@@ -223,3 +311,9 @@
 - Reset main to origin/main and cleaned working tree with `git clean -xfd`.
 - Verified branch protection: required checks backend-tests/frontend-tests, strict=true, enforce_admins=true, reviews=0.
 - No runtime code touched.
+
+## 2025-12-09 – [backend][observability][sre][m4_4]
+- Implemented M4.4 observability baseline atop M4.3 (request ID middleware, structured logging helpers, tenant/user context).
+- Added /internal/healthz, /internal/readyz, and /internal/metrics endpoints with in-process counters.
+- Instrumented case evaluation, lifecycle, history, and admin config flows with structured logs.
+- Added observability tests; backend suite remains green with >85% coverage.

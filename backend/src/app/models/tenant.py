@@ -21,6 +21,9 @@ class Tenant(Base):
 
     users = relationship("User", back_populates="tenant", cascade="all, delete-orphan")
     cases = relationship("CaseRecord", back_populates="tenant")
+    billing_state = relationship(
+        "TenantBillingState", back_populates="tenant", cascade="all, delete-orphan", uselist=False
+    )
 
     def __repr__(self) -> str:
         return f"<Tenant id={self.id} name={self.name}>"

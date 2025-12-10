@@ -1,0 +1,70 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Field dictionary stub for M6.1; values are illustrative."
+
+fields:
+  - id: person.date_of_birth
+    label: "Date of birth"
+    data_path: "profile.personal.date_of_birth"
+    type: "date"
+    ui_control: "date"
+    required: true
+    validations:
+      min_age_years: 17
+    group: "personal"
+    help_text: "Must match the date on your passport."
+
+  - id: person.marital_status
+    label: "Marital status"
+    data_path: "profile.personal.marital_status"
+    type: "enum"
+    ui_control: "select"
+    options_ref: "marital_status"
+    required: true
+    group: "personal"
+    tags: ["crs_core"]
+
+  - id: person.citizenship
+    label: "Country of citizenship"
+    data_path: "profile.personal.citizenship"
+    type: "enum"
+    ui_control: "select"
+    options_ref: "citizenship_countries"
+    required: true
+    group: "personal"
+    tags: ["crs_core"]
+
+  - id: education.highest_level
+    label: "Highest education level"
+    data_path: "profile.education.highest_level"
+    type: "enum"
+    ui_control: "select"
+    options_ref: "education_levels"
+    required: true
+    group: "education"
+    tags: ["crs_core"]
+
+  - id: language.first_official
+    label: "First official language"
+    data_path: "profile.language.first_official"
+    type: "enum"
+    ui_control: "radio"
+    options_ref: "first_official_language"
+    required: true
+    group: "language"
+    tags: ["crs_core"]
+
+  - id: family.size
+    label: "Family size"
+    data_path: "profile.family.size"
+    type: "number"
+    ui_control: "number"
+    required: true
+    validations:
+      min: 1
+      max: 12
+    group: "family"
+    help_text: "Include yourself, spouse/partner, and all dependants."
+
+

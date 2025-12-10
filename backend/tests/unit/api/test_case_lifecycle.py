@@ -3,32 +3,10 @@ from datetime import date, timedelta
 from fastapi.testclient import TestClient
 
 from src.app.cases.lifecycle_service import CaseLifecycleService
-from src.app.db.database import SessionLocal
-from src.app.main import app
-from src.app.models.tenant import Tenant
-from src.app.models.user import User
-
-client = TestClient(app)
+from src.app.db.database import get_db
 
 
-def _bootstrap_case():
-    db = SessionLocal()
-    tenant = Tenant(name="Tenant API")
-    db.add(tenant)
-    db.commit()
-    db.refresh(tenant)
-
-    user = User(
-        email="api@example.com",
-        full_name="API User",
-        hashed_password="hash",
-        tenant_id=tenant.id,
-        role="admin",
-    )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-
+def _bootstrap_case(db, tenant_id: str, user_id: str):
     service = CaseLifecycleService(db)
     case = service.create_case(
         profile={
@@ -45,22 +23,21 @@ def _bootstrap_case():
                 }
             ],
         },
-        tenant_id=tenant.id,
-        user_id=user.id,
+        tenant_id=tenant_id,
+        user_id=user_id,
         source="api_test",
     )
-    case_id = case.id
-    user_id = user.id
-    tenant_id = tenant.id
-    db.close()
-    return case_id, user_id, tenant_id
+    return case.id
 
 
-def test_case_lifecycle_submit_endpoint():
-    case_id, user_id, tenant_id = _bootstrap_case()
+def test_case_lifecycle_submit_endpoint(client: TestClient, auth_headers):
+    db = next(client.app.dependency_overrides[get_db]())  # type: ignore
+    tenant_id = client.default_tenant.id
+    user_id = client.default_user.id
+    case_id = _bootstrap_case(db, tenant_id, user_id)
     response = client.post(
         f"/api/v1/case-lifecycle/{case_id}/submit",
-        json={"user_id": user_id, "tenant_id": tenant_id},
+        headers=auth_headers,
     )
     assert response.status_code == 200
     body = response.json()
