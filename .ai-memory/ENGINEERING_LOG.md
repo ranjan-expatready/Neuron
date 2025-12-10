@@ -6,6 +6,11 @@
 - Expanded `config/domain/crs.yaml` with age/education/language/work/spouse/transferability/additional tables; updated config models/loader to parse new CRS structures.
 - Tests: added CRS engine scenarios in `backend/tests/rule_engine/test_crs_engine.py` (single + married profiles) and adjusted existing rule engine unit test config for new schema.
 
+## 2025-12-10 – [backend][rule_engine][crs][m5_2]
+- Implemented structured explainability on CRS factors (`CRSFactorContribution.explanation`) with codes, config rule paths, input summaries, and threshold summaries.
+- Updated CRSEngine to populate explanation metadata across core, spouse, transferability, and additional factors; no logic/points changes.
+- Added CRS tests covering explanation presence and identifiers; documentation/logs/KB updated for M5.2.
+
 ## 2025-12-10 – [backend][billing][m4_5]
 - Added BillingService abstraction with plan config loader (`config/plans.yaml`), plan state persistence, usage counters, plan limit enforcement, and structured logging/metrics.
 - Introduced billing admin router (`/api/v1/admin/billing/*`) for state/usage/plan updates; secured via admin/owner RBAC.

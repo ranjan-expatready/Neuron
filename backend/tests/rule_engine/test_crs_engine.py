@@ -17,6 +17,15 @@ from src.app.rules.models import (
 from src.app.services.crs_engine import CRSEngineService
 
 
+def _assert_explanations_present(result):
+    for contrib in result.factor_contributions:
+        assert contrib.explanation is not None
+        assert contrib.explanation.explanation_code
+        assert contrib.explanation.rule_path
+        assert isinstance(contrib.explanation.input_summary, dict)
+        assert isinstance(contrib.explanation.threshold_summary, dict)
+
+
 def test_single_applicant_clb9_bachelor_foreign_work():
     service = CRSEngineService()
     profile = CRSProfileInput(
@@ -35,6 +44,7 @@ def test_single_applicant_clb9_bachelor_foreign_work():
     assert result.total_score == 429  # Derived from config/domain/crs.yaml tables
     assert any(c.factor_code == "core_human_capital_age" for c in result.factor_contributions)
     assert any(c.factor_code == "transferability_foreign_work_language" for c in result.factor_contributions)
+    _assert_explanations_present(result)
 
 
 def test_married_applicant_with_spouse_factors():
@@ -59,6 +69,7 @@ def test_married_applicant_with_spouse_factors():
     spouse_codes = {c.factor_code for c in result.factor_contributions}
     assert "spouse_education" in spouse_codes
     assert "spouse_language" in spouse_codes
+    _assert_explanations_present(result)
 
 
 def test_second_language_points_capped_at_config():
@@ -82,6 +93,9 @@ def test_second_language_points_capped_at_config():
     expected_cap = cfg.crs_core.second_official_language.max_points_single
     assert second_lang.points_awarded == expected_cap
     assert second_lang.rule_reference == "crs_core.second_official_language"
+    assert second_lang.explanation.explanation_code == "core.language.second"
+    assert second_lang.explanation.rule_path.startswith("crs_core.")
+    _assert_explanations_present(result)
 
 
 def test_additional_points_pnp_and_sibling():
@@ -103,6 +117,9 @@ def test_additional_points_pnp_and_sibling():
 
     assert points["additional_provincial_nomination"] == cfg.crs_additional.provincial_nomination
     assert points["additional_sibling_in_canada"] == cfg.crs_additional.sibling_in_canada
+    explanation = next(c.explanation for c in result.factor_contributions if c.factor_code == "additional_provincial_nomination")
+    assert explanation.rule_path.startswith("crs_additional.")
+    _assert_explanations_present(result)
 
 
 def test_transferability_certificate_language_points():
@@ -128,6 +145,8 @@ def test_transferability_certificate_language_points():
             expected_points = entry.points
     assert cert_factor.points_awarded == expected_points
     assert cert_factor.rule_reference == "crs_transferability.certificate_language"
+    assert cert_factor.explanation.rule_path == "crs_transferability.certificate_language"
+    _assert_explanations_present(result)
 
 
 def test_adapter_builds_crs_profile_from_candidate():
