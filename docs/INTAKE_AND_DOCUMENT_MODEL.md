@@ -103,4 +103,5 @@
 - UI wiring remains future (M6.3+); configs stay the single source of truth.
 - M6.3 delivered: RCIC intake UI renders steps/fields from `/api/v1/intake-schema`, saves intake data to case form data, and surfaces document checklist from `/api/v1/document-checklist/{case_id}`. Client self-serve/mobile will reuse the same schema in future milestones.
 - M6.3h delivered: RCIC intake now reads/writes canonical profile via `/api/v1/cases/{case_id}/profile`; select fields resolve options from config-backed `/api/v1/intake-options`; document checklist shows upload status by cross-referencing case documents.
+- M6.4 delivered: Client self-serve intake portal renders the same schema via `/api/v1/intake-schema`, reads/writes canonical profile through `/api/v1/cases/{case_id}/profile`, and shows a client-facing document checklist with upload status derived from `/api/v1/cases/{case_id}/documents`.
 

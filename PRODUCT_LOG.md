@@ -65,6 +65,7 @@
 - 🟡 M6.2 Intake/Document engine (backend): added validated config loaders, `/api/v1/intake-schema` for program intake templates, and `/api/v1/document-checklist/{case_id}` for config-driven checklists. UI wiring remains pending in M6.3.
 - 🟡 M6.3 RCIC Intake UI: schema-driven intake page renders steps/fields from `/api/v1/intake-schema`, saves intake data to case form data, and shows document checklist from `/api/v1/document-checklist/{case_id}`. Client self-serve/mobile will reuse the same schema in future milestones.
 - 🟢 M6.3h Intake hardening: RCIC intake uses canonical profile API (`/api/v1/cases/{case_id}/profile`), select options pulled from config-backed `/api/v1/intake-options`, and document checklist displays upload status by cross-referencing case documents.
+- 🟢 M6.4 Client self-serve intake portal: client-facing intake page renders schema from `/api/v1/intake-schema`, reads/writes canonical profile via `/api/v1/cases/{case_id}/profile`, and surfaces document checklist with upload status using existing case documents API.
 
 ## E. Agentic & Automation Features
 

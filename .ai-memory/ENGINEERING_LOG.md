@@ -17,6 +17,11 @@
 - Document checklist now cross-references case documents to show uploaded/missing status; RCIC UI renders status pills and file names.
 - New tests: profile API, profile mapping helpers, intake API options, renderer/options, RCIC page status; full backend/front-end test suites passing.
 
+## 2025-12-10 – [frontend][intake][client][m6_4]
+- Added client self-serve intake page (`frontend/src/app/client/cases/[caseId]/intake/page.tsx`) that authenticates clients, loads canonical profile, renders schema from `/api/v1/intake-schema`, saves via `/api/v1/cases/{case_id}/profile`, and shows document checklist with upload status from case documents.
+- New frontend test `client-intake-page.test.tsx` covers client intake render and checklist status; existing renderer/RCIC tests unchanged; backend tests re-run (pass, ~86.7% coverage).
+- Docs/logs/KB/backlog updated for M6.4; product log notes client portal availability on the config-driven engine.
+
 # Engineering Memory Log
 
 ## 2025-12-10 – [backend][config][intake][documents][m6_1]

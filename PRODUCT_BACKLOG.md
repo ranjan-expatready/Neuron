@@ -265,7 +265,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [INT-006] Client self-serve intake portal (M6.4+)
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done (baseline portal)
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Frontend UX
@@ -275,7 +275,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [INT-007] Checklist ↔ upload integration (M6.4+)
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** ✅ Done (basic status surfaced; full upload UX pending)
+- **Status:** ✅ Done (status surfaced; richer UX pending)
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Frontend/Backend
@@ -322,6 +322,33 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Phase:** P2
 - **Type:** Frontend
 - **Description:** Document checklist displays uploaded/missing using case documents API; link to upload workflow to be expanded in M6.4.
+
+#### [INT-013] Client UX polish & mobile readiness (M6.5+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Improve client portal styling, responsive/mobile layout, and wizard-like program selection; add clearer guidance per document item.
+
+#### [INT-014] Rich upload management (M6.5+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend/Backend
+- **Description:** Upload previews, status badges, deletion/re-upload, and progress; sync checklist state in real time.
+
+#### [INT-015] Program selection wizard (M6.5+)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Client-friendly program selection/confirmation with guardrails and plan awareness before rendering intake schema.
 - **Priority:** MEDIUM
 - **Phase:** P2
 - **Type:** Backend rules/config
