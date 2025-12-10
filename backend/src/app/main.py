@@ -160,12 +160,17 @@ app.include_router(
     prefix="/api/v1/admin/intake",
     tags=["Admin Intake Drafts"],
 )
-from src.app.api.routes import admin_agents  # noqa: E402
+from src.app.api.routes import admin_agents, admin_client_engagement  # noqa: E402
 
 app.include_router(
     admin_agents.router,
     prefix="/api/v1/admin/agents",
     tags=["Admin Agents"],
+)
+app.include_router(
+    admin_client_engagement.router,
+    prefix="/api/v1/admin/agents/client-engagement",
+    tags=["Admin Client Engagement"],
 )
 app.include_router(billing_admin.router, prefix="/api/v1/admin/billing", tags=["Billing Admin"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
