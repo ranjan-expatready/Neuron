@@ -54,6 +54,7 @@
 - M8.2 – Client Engagement Agent Shadow Suggestions ✅ (template-based, admin-triggered)
 - M8.3 – LLM-powered client engagement replies (shadow-only, guardrailed) ✅
 - M8.4 – Multi-agent orchestration + analytics (planned)
+- Golden snapshot: `v0.8.3-phase8-agentic-shadow` – M8.0–M8.3 (skeleton + hybrid spec + shadow + LLM drafts)
 
 ## 5) Current / Next
 - Current phase: **Phase 8 – Agentic Platform**

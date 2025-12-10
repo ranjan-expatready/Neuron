@@ -100,6 +100,13 @@
     "integration_branch": "integration/phase5_crs_and_billing",
     "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron)."
   },
+  "golden_snapshots": [
+    {
+      "tag": "v0.8.3-phase8-agentic-shadow",
+      "date": "2025-12-10",
+      "description": "Phase 8 golden snapshot after M8.0–M8.3 (skeleton + hybrid spec + shadow suggestions + LLM drafts). Backend 245 tests (4 skipped) ~86.53% cov; frontend 8 suites/12 tests pass."
+    }
+  ],
   "agent_bootstrap": {
     "steps": [
       "Read .ai-knowledge-base.json to load runtime commands & blueprint links.",

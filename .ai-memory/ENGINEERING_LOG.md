@@ -19,6 +19,10 @@
 - ClientEngagementAgent now supports LLM-assisted drafts (shadow-only) for client questions and optional reminder rewrites, logging `llm_used` metadata and falling back to templates when disabled/unavailable.
 - Admin APIs unchanged; responses include LLM metadata. Case engagement UI shows AI/template note. Tests mock LLM; no real API calls, no auto-send/cron.
 
+## 2025-12-10 – [integration][tag][phase8]
+- Integration branch `integration/phase8_agentic_foundation` merges M8.0–M8.3.
+- Tagged `v0.8.3-phase8-agentic-shadow` after full backend (245 tests, 4 skipped, ~86.53% cov) and frontend (8 suites, 12 tests) pass.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).
