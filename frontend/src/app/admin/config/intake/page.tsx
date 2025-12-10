@@ -222,6 +222,13 @@ export default function AdminIntakeConfigPage() {
               {Object.keys(options).length > 4 ? "…" : ""}
             </div>
           ) : null}
+          <div className="mt-2 text-xs">
+            Draft/edit layer lives at{" "}
+            <a className="text-blue-700 underline" href="/admin/config/intake/drafts">
+              /admin/config/intake/drafts
+            </a>{" "}
+            (M7.2). Runtime still uses YAML until M7.3 activation.
+          </div>
         </div>
 
         <div className="mb-3 flex gap-2">

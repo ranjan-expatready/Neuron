@@ -355,7 +355,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [CFG-007] Admin config editing (draft) (M7.2)
 
 - **Domain:** Admin / Config
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend + Frontend
@@ -369,6 +369,15 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Phase:** P2
 - **Type:** Backend + Frontend
 - **Description:** Draft → in_review → active workflow with audit trail and role-based approvals for config changes.
+
+#### [CFG-010] Draft activation pipeline (M7.3)
+
+- **Domain:** Admin / Config
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Mechanism to apply approved drafts to live configs (YAML regeneration or override store) with audit trail.
 
 #### [CFG-009] AI-assisted config proposals (M7.4)
 

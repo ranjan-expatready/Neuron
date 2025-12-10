@@ -28,6 +28,12 @@
 - Tests: new backend API coverage (`test_admin_intake_config_api.py`), new frontend RTL test for admin intake config page; full backend suite (219 tests) and frontend suite passing.
 - Docs/logs/KB/backlog updated to mark M7.1 delivered and outline upcoming edit/approval milestones.
 
+## 2025-12-10 – [backend][frontend][admin][config][m7_2]
+- Introduced DB-backed intake config drafts (`intake_config_drafts` table) for fields/templates/documents/forms; runtime still uses YAML.
+- Admin draft APIs under `/api/v1/admin/intake/drafts` (list/get/create/patch/delete) with validation via intake Pydantic models and admin/rcic RBAC.
+- Admin UI page `/admin/config/intake/drafts` lists drafts, filters by type/status, shows details, and supports creating new drafts via JSON payload (status limited to draft/rejected/in_review).
+- New tests: backend `test_admin_intake_drafts_api.py`; frontend `admin-intake-drafts-page.test.tsx`. Full backend + frontend suites passing.
+
 # Engineering Memory Log
 
 ## 2025-12-10 – [backend][config][intake][documents][m6_1]

@@ -67,6 +67,7 @@
 - 🟢 M6.3h Intake hardening: RCIC intake uses canonical profile API (`/api/v1/cases/{case_id}/profile`), select options pulled from config-backed `/api/v1/intake-options`, and document checklist displays upload status by cross-referencing case documents.
 - 🟢 M6.4 Client self-serve intake portal: client-facing intake page renders schema from `/api/v1/intake-schema`, reads/writes canonical profile via `/api/v1/cases/{case_id}/profile`, and surfaces document checklist with upload status using existing case documents API.
 - 🟢 M7.1 Admin Config Console (read-only): new admin APIs under `/api/v1/admin/intake/*` expose field dictionary, templates, documents, forms, and options; admin UI pages under `/admin/config/intake` let RCIC/admin users inspect active config (no editing).
+- 🟢 M7.2 Intake config drafts (non-live): DB-backed draft layer and admin APIs/UI (`/api/v1/admin/intake/drafts`, `/admin/config/intake/drafts`) allow creating/updating/archiving draft fields/templates/documents/forms. Runtime still driven by YAML; activation/approval in M7.3.
 
 ## E. Agentic & Automation Features
 

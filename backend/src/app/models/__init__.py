@@ -15,6 +15,7 @@ from .task import CaseTask, CaseTaskActivity, CaseTaskAssignment, CaseTaskDepend
 from .user import User
 from .tenant import Tenant
 from .billing import TenantBillingState
+from .intake_config_draft import IntakeConfigDraft
 
 __all__ = [
     "User",
@@ -38,4 +39,5 @@ __all__ = [
     "CaseRecord",
     "CaseSnapshot",
     "CaseEvent",
+    "IntakeConfigDraft",
 ]

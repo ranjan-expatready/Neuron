@@ -3,6 +3,7 @@
 from . import (
     admin_config,
     admin_intake_config,
+    admin_intake_drafts,
     auth,
     billing_admin,
     cases,

@@ -105,4 +105,5 @@
 - M6.3h delivered: RCIC intake now reads/writes canonical profile via `/api/v1/cases/{case_id}/profile`; select fields resolve options from config-backed `/api/v1/intake-options`; document checklist shows upload status by cross-referencing case documents.
 - M6.4 delivered: Client self-serve intake portal renders the same schema via `/api/v1/intake-schema`, reads/writes canonical profile through `/api/v1/cases/{case_id}/profile`, and shows a client-facing document checklist with upload status derived from `/api/v1/cases/{case_id}/documents`.
 - M7.1 delivered: Admin Config Console (read-only) exposes field dictionary, intake templates, document rules, form mappings, and option sets via `/api/v1/admin/intake/*` and new admin UI pages under `/admin/config/intake`.
+- M7.2 delivered: Draft/edit layer (non-live) for intake configs. New DB-backed drafts and admin APIs/UI allow creating/updating draft field/template/document/form entries. Runtime engine continues to use YAML as the active source; activation/approval will come in M7.3.
 

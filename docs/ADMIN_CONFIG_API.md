@@ -16,6 +16,13 @@
 - `GET /api/v1/admin/config/{section_name}`
   - Returns a specific section by name.
   - 404 if the section is not found.
+- **M7.2 Draft layer (intake-specific, non-live):**
+  - `GET /api/v1/admin/intake/drafts` — list drafts (optional filters `config_type`, `status`).
+  - `GET /api/v1/admin/intake/drafts/{draft_id}` — fetch single draft.
+  - `POST /api/v1/admin/intake/drafts` — create draft (status forced to `draft`). Payload validated against intake models.
+  - `PATCH /api/v1/admin/intake/drafts/{draft_id}` — update payload/key/status/notes (no activation yet).
+  - `DELETE /api/v1/admin/intake/drafts/{draft_id}` — soft-delete by marking `rejected`.
+  - Drafts cover: field, template, document, form. Runtime engine still uses YAML only (activation comes in M7.3).
 
 ## Implementation Notes
 - Router: `backend/src/app/api/routes/admin_config.py`

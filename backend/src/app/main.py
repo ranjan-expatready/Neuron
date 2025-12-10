@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from src.app.api.routes import (
     admin_config,
     admin_intake_config,
+    admin_intake_drafts,
     auth,
     billing_admin,
     cases,
@@ -153,6 +154,11 @@ app.include_router(
     admin_intake_config.router,
     prefix="/api/v1/admin/intake",
     tags=["Admin Intake Configuration"],
+)
+app.include_router(
+    admin_intake_drafts.router,
+    prefix="/api/v1/admin/intake",
+    tags=["Admin Intake Drafts"],
 )
 app.include_router(billing_admin.router, prefix="/api/v1/admin/billing", tags=["Billing Admin"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
