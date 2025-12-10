@@ -36,3 +36,13 @@
 - Not yet wired into case evaluation API; use `CRSEngineService.compute_for_candidate` or `.compute_for_profile` for now.
 - Observability: logs with `component="crs_engine"` and metrics counters `crs_evaluations_total` / `_failed_total`.
 
+## Structured Explainability (M5.2)
+- `CRSFactorContribution.explanation` is machine-readable (no natural language):
+  - `explanation_code` – stable identifier per factor (e.g., `core.age.single`, `transferability.education_language`, `additional.provincial_nomination`).
+  - `rule_path` – config path for the rule (e.g., `crs_core.age_bands`, `crs_transferability.education_language`, `crs_additional.french`).
+  - `input_summary` – normalized inputs used (age, marital_status, education_level, CLB scores, work buckets, flags).
+  - `threshold_summary` – key config values/bands applied (points, caps, min/max ranges).
+  - `notes` – optional structured extras.
+- All explanation data is derived from `config/domain/crs.yaml`; no IRCC constants appear in code.
+- M5.3 will add natural-language generation + UI surfacing; current output stays structured-only.
+

@@ -76,9 +76,20 @@ class CRSFactorContribution(BaseModel):
     points_max: int
     inputs_used: Dict[str, Any] = Field(default_factory=dict)
     rule_reference: str
+    explanation: Optional["CRSFactorExplanation"] = None
+
+
+class CRSFactorExplanation(BaseModel):
+    explanation_code: str
+    rule_path: str
+    input_summary: Dict[str, Any] = Field(default_factory=dict)
+    threshold_summary: Dict[str, Any] = Field(default_factory=dict)
+    notes: Optional[Dict[str, Any]] = None
 
 
 class CRSResult(BaseModel):
     total_score: int
     factor_contributions: list[CRSFactorContribution] = Field(default_factory=list)
 
+
+CRSFactorContribution.update_forward_refs()

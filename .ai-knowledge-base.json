@@ -92,11 +92,11 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "post-m5.1",
-    "completion_percentage": 94,
+    "status": "post-m5.2",
+    "completion_percentage": 95,
     "current_phase": "Phase 4",
-    "next_milestone": "M5.2 CRS explanations + UI wiring",
-    "current_milestone": "M5.1 CRS engine core"
+    "next_milestone": "M5.3 CRS NL explanations + UI wiring",
+    "current_milestone": "M5.2 CRS structured explainability"
   },
   "agent_bootstrap": {
     "steps": [

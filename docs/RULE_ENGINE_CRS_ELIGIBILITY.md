@@ -96,3 +96,12 @@ eligibility:
 - Adapter: `backend/src/app/rules/crs_adapter.py` builds CRSProfileInput from CandidateProfile.
 - Service wrapper: `backend/src/app/services/crs_engine.py` with structured logging (`component="crs_engine"`) and metrics counters (`crs_evaluations_total`, `crs_evaluations_failed_total`).
 - Config source: `config/domain/crs.yaml` (tables derived from domain_knowledge/raw/crs/transferability_tables.md and Canada.ca CRS page, DRAFT until SME validation).
+
+## 9) M5.2 Structured Explainability (no natural language yet)
+- Each `CRSFactorContribution` now includes `explanation` with:
+  - `explanation_code` (stable factor identifier)
+  - `rule_path` (config path e.g., `crs_core.age_bands`, `crs_transferability.education_language`)
+  - `input_summary` (normalized inputs used)
+  - `threshold_summary` (key config thresholds/bands/caps)
+- Explainability data is derived solely from `config/domain/crs.yaml`; no IRCC constants are coded.
+- M5.3 will layer NL generation + UI; current output is machine-readable only.

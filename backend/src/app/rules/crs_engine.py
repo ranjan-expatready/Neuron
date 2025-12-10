@@ -4,6 +4,7 @@ from typing import List, Tuple
 
 from src.app.domain.crs.models import (
     CRSFactorContribution,
+    CRSFactorExplanation,
     CRSProfileInput,
     CRSResult,
     EducationLevel,
@@ -37,6 +38,22 @@ class CRSEngine:
         total = sum(c.points_awarded for c in contributions)
         return CRSResult(total_score=total, factor_contributions=contributions)
 
+    def _make_explanation(
+        self,
+        explanation_code: str,
+        rule_path: str,
+        input_summary: dict,
+        threshold_summary: dict,
+        notes: dict | None = None,
+    ) -> CRSFactorExplanation:
+        return CRSFactorExplanation(
+            explanation_code=explanation_code,
+            rule_path=rule_path,
+            input_summary=input_summary,
+            threshold_summary=threshold_summary,
+            notes=notes,
+        )
+
     # --- Core human capital ---
     def _compute_core(self, profile: CRSProfileInput) -> List[CRSFactorContribution]:
         cfg: CrsCoreConfig = self.config.crs_core
@@ -44,6 +61,7 @@ class CRSEngine:
         factors: List[CRSFactorContribution] = []
 
         age_points, age_max = self._lookup_age_points(profile.age, cfg, with_spouse)
+        age_band = self._age_band(profile.age, cfg)
         factors.append(
             CRSFactorContribution(
                 factor_code="core_human_capital_age",
@@ -51,6 +69,12 @@ class CRSEngine:
                 points_max=age_max,
                 inputs_used={"age": profile.age, "with_spouse": with_spouse},
                 rule_reference="crs_core.age_bands",
+                explanation=self._make_explanation(
+                    "core.age.with_spouse" if with_spouse else "core.age.single",
+                    "crs_core.age_bands",
+                    {"age": profile.age, "marital_status": profile.marital_status.value},
+                    age_band or {},
+                ),
             )
         )
 
@@ -64,6 +88,12 @@ class CRSEngine:
                 points_max=edu_max,
                 inputs_used={"education_level": profile.education_level},
                 rule_reference="crs_core.education",
+                explanation=self._make_explanation(
+                    "core.education.with_spouse" if with_spouse else "core.education.single",
+                    "crs_core.education",
+                    {"education_level": profile.education_level.value, "marital_status": profile.marital_status.value},
+                    {"points": edu_points, "points_max": edu_max},
+                ),
             )
         )
 
@@ -80,6 +110,15 @@ class CRSEngine:
                     "with_spouse": with_spouse,
                 },
                 rule_reference="crs_core.first_official_language",
+                explanation=self._make_explanation(
+                    "core.language.first",
+                    "crs_core.first_official_language",
+                    {
+                        "with_spouse": with_spouse,
+                        "clb_scores": profile.first_official_language.dict(),
+                    },
+                    {"per_skill_points_max": first_lang_max},
+                ),
             )
         )
 
@@ -101,6 +140,17 @@ class CRSEngine:
                     "with_spouse": with_spouse,
                 },
                 rule_reference="crs_core.second_official_language",
+                explanation=self._make_explanation(
+                    "core.language.second",
+                    "crs_core.second_official_language",
+                    {
+                        "with_spouse": with_spouse,
+                        "clb_scores": profile.second_official_language.dict()
+                        if profile.second_official_language
+                        else None,
+                    },
+                    {"cap": second_lang_max},
+                ),
             )
         )
 
@@ -117,6 +167,15 @@ class CRSEngine:
                     "with_spouse": with_spouse,
                 },
                 rule_reference="crs_core.canadian_work_experience",
+                explanation=self._make_explanation(
+                    "core.canadian_work",
+                    "crs_core.canadian_work_experience",
+                    {
+                        "canadian_work_years": profile.canadian_work_experience_years,
+                        "with_spouse": with_spouse,
+                    },
+                    {"points": can_work_points, "points_max": can_work_max},
+                ),
             )
         )
 
@@ -142,6 +201,12 @@ class CRSEngine:
                 points_max=edu_max,
                 inputs_used={"spouse_education_level": profile.spouse_education_level},
                 rule_reference="crs_spouse.education",
+                explanation=self._make_explanation(
+                    "spouse.education",
+                    "crs_spouse.education",
+                    {"spouse_education_level": profile.spouse_education_level.value if profile.spouse_education_level else None},
+                    {"points": edu_points, "points_max": edu_max},
+                ),
             )
         )
 
@@ -160,6 +225,12 @@ class CRSEngine:
                 points_max=lang_max,
                 inputs_used={"spouse_language": profile.spouse_language.dict() if profile.spouse_language else None},
                 rule_reference="crs_spouse.language",
+                explanation=self._make_explanation(
+                    "spouse.language",
+                    "crs_spouse.language",
+                    {"spouse_language": profile.spouse_language.dict() if profile.spouse_language else None},
+                    {"points": lang_points, "points_max": lang_max},
+                ),
             )
         )
 
@@ -178,6 +249,12 @@ class CRSEngine:
                     "spouse_canadian_work_experience_years": profile.spouse_canadian_work_experience_years
                 },
                 rule_reference="crs_spouse.canadian_work_experience",
+                explanation=self._make_explanation(
+                    "spouse.canadian_work",
+                    "crs_spouse.canadian_work_experience",
+                    {"spouse_canadian_work_years": profile.spouse_canadian_work_experience_years},
+                    {"points": work_points, "points_max": work_max},
+                ),
             )
         )
         return factors
@@ -205,6 +282,12 @@ class CRSEngine:
                 points_max=cfg.caps.per_bundle,
                 inputs_used={"education_key": edu_key, "clb_band": clb_band},
                 rule_reference="crs_transferability.education_language",
+                explanation=self._make_explanation(
+                    "transferability.education_language",
+                    "crs_transferability.education_language",
+                    {"education_key": edu_key, "clb_band": clb_band},
+                    {"cap": cfg.caps.per_bundle, "points_awarded": edu_lang_points},
+                ),
             )
         )
 
@@ -223,6 +306,12 @@ class CRSEngine:
                     "canadian_work_bucket": can_work_bucket,
                 },
                 rule_reference="crs_transferability.education_canadian_work",
+                explanation=self._make_explanation(
+                    "transferability.education_canadian_work",
+                    "crs_transferability.education_canadian_work",
+                    {"education_key": edu_key, "canadian_work_bucket": can_work_bucket},
+                    {"cap": cfg.caps.per_bundle, "points_awarded": edu_can_work_points},
+                ),
             )
         )
 
@@ -241,6 +330,12 @@ class CRSEngine:
                     "clb_band": clb_band,
                 },
                 rule_reference="crs_transferability.foreign_language",
+                explanation=self._make_explanation(
+                    "transferability.foreign_language",
+                    "crs_transferability.foreign_language",
+                    {"foreign_work_bucket": foreign_work_bucket, "clb_band": clb_band},
+                    {"cap": cfg.caps.per_bundle, "points_awarded": foreign_lang_points},
+                ),
             )
         )
 
@@ -259,6 +354,12 @@ class CRSEngine:
                     "canadian_work_bucket": can_work_bucket,
                 },
                 rule_reference="crs_transferability.foreign_canadian_work",
+                explanation=self._make_explanation(
+                    "transferability.foreign_canadian_work",
+                    "crs_transferability.foreign_canadian_work",
+                    {"foreign_work_bucket": foreign_work_bucket, "canadian_work_bucket": can_work_bucket},
+                    {"cap": cfg.caps.per_bundle, "points_awarded": foreign_can_points},
+                ),
             )
         )
 
@@ -280,6 +381,15 @@ class CRSEngine:
                     "clb_band": self._certificate_language_band(clb_min) if profile.has_certificate_of_qualification else None,
                 },
                 rule_reference="crs_transferability.certificate_language",
+                explanation=self._make_explanation(
+                    "transferability.certificate_language",
+                    "crs_transferability.certificate_language",
+                    {
+                        "has_certificate_of_qualification": profile.has_certificate_of_qualification,
+                        "clb_band": self._certificate_language_band(clb_min) if profile.has_certificate_of_qualification else None,
+                    },
+                    {"cap": cfg.caps.per_bundle, "points_awarded": cert_points},
+                ),
             )
         )
 
@@ -306,6 +416,12 @@ class CRSEngine:
                 points_max=cfg.provincial_nomination,
                 inputs_used={"has_provincial_nomination": profile.has_provincial_nomination},
                 rule_reference="crs_additional.provincial_nomination",
+                explanation=self._make_explanation(
+                    "additional.provincial_nomination",
+                    "crs_additional.provincial_nomination",
+                    {"has_provincial_nomination": profile.has_provincial_nomination},
+                    {"points": pnp_points, "points_max": cfg.provincial_nomination},
+                ),
             )
         )
 
@@ -317,6 +433,12 @@ class CRSEngine:
                 points_max=cfg.sibling_in_canada,
                 inputs_used={"has_sibling_in_canada": profile.has_sibling_in_canada},
                 rule_reference="crs_additional.sibling_in_canada",
+                explanation=self._make_explanation(
+                    "additional.sibling_in_canada",
+                    "crs_additional.sibling_in_canada",
+                    {"has_sibling_in_canada": profile.has_sibling_in_canada},
+                    {"points": sibling_points, "points_max": cfg.sibling_in_canada},
+                ),
             )
         )
 
@@ -334,6 +456,12 @@ class CRSEngine:
                 points_max=study_max,
                 inputs_used={"canadian_study_years": profile.canadian_study_years},
                 rule_reference="crs_additional.canadian_study",
+                explanation=self._make_explanation(
+                    "additional.canadian_study",
+                    "crs_additional.canadian_study",
+                    {"canadian_study_years": profile.canadian_study_years},
+                    {"points": study_points, "points_max": study_max},
+                ),
             )
         )
 
@@ -349,6 +477,15 @@ class CRSEngine:
                     "second_language_present": profile.second_official_language is not None,
                 },
                 rule_reference="crs_additional.french",
+                explanation=self._make_explanation(
+                    "additional.french_language",
+                    "crs_additional.french",
+                    {
+                        "first_language_is_french": profile.first_language_is_french,
+                        "second_language_present": profile.second_official_language is not None,
+                    },
+                    {"points": french_points, "points_max": french_max},
+                ),
             )
         )
 
@@ -366,6 +503,15 @@ class CRSEngine:
                     "job_offer_teer_category": profile.job_offer_teer_category,
                 },
                 rule_reference="crs_additional.job_offer",
+                explanation=self._make_explanation(
+                    "additional.job_offer",
+                    "crs_additional.job_offer",
+                    {
+                        "has_valid_job_offer": profile.has_valid_job_offer,
+                        "job_offer_teer_category": profile.job_offer_teer_category,
+                    },
+                    {"points": job_offer_points, "points_max": job_offer_max},
+                ),
             )
         )
 
@@ -379,6 +525,17 @@ class CRSEngine:
             if band.min_age <= age <= band.max_age:
                 return (band.with_spouse if with_spouse else band.single, self._max_age_points(cfg, with_spouse))
         return (0, self._max_age_points(cfg, with_spouse))
+
+    def _age_band(self, age: int, cfg: CrsCoreConfig) -> dict | None:
+        for band in cfg.age_bands:
+            if band.min_age <= age <= band.max_age:
+                return {
+                    "min_age": band.min_age,
+                    "max_age": band.max_age,
+                    "single": band.single,
+                    "with_spouse": band.with_spouse,
+                }
+        return None
 
     def _max_age_points(self, cfg: CrsCoreConfig, with_spouse: bool) -> int:
         return max((band.with_spouse if with_spouse else band.single for band in cfg.age_bands), default=0)
