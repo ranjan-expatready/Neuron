@@ -77,6 +77,7 @@
 - 🟢 M8.1 Client Engagement Agent Spec (Hybrid Mode): design covering shadow vs auto modes, event triggers, safety/guardrails, memory model, data contracts, and workflows. No runtime behavior changes yet; implementation follows in M8.2+.
 - 🟢 M8.2 Client Engagement Agent (shadow mode): template-based suggestions for intake incomplete, missing documents, and client questions; admin-triggered APIs and case engagement UI; no auto-send, no LLM.
 - 🟢 M8.3 Client Engagement Agent (LLM-assisted shadow replies): LLM-assisted draft replies for client questions and optional reminder rewrites; template fallback if LLM disabled/unavailable; admin-triggered only; no auto-send/cron; strict guardrails.
+- 🟢 M8.4 Client Engagement AUTO mode (limited): tenant-controlled toggles and throttling for intake/doc reminders; admin-triggered auto-run endpoint; executed actions logged with `auto_mode=true`; client questions remain shadow-only; no internal cron added.
 - 🟢 Tagged `v0.8.3-phase8-agentic-shadow` after M8.3: Phase 8 golden snapshot with shadow + LLM drafts, full backend/frontend tests passing.
 - 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.

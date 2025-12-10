@@ -92,6 +92,6 @@ Eligibility per event:
 - M8.1: Spec only; no behavior changes.
 - M8.2: Admin-triggered, template-based shadow suggestions (intake incomplete, missing docs, client questions); RCIC review UI; no LLM, no auto-send.
 - M8.3: LLM-based draft replies (shadow-only, guardrails, template fallback) for client questions and optional reminder rewrites; still no auto-send.
-- M8.4: AUTO mode rollout for low-risk reminders with tenant controls; messaging integration.
+- M8.4: AUTO mode for low-risk reminders (intake/doc) with tenant-configurable toggles, min-days throttling, admin-triggered run endpoint; no internal cron; client questions remain shadow-only.
 - M8.5+: Additional channels (WhatsApp/SMS), analytics, deeper orchestration with other agents.
 

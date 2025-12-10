@@ -21,6 +21,14 @@ export default function AdminAgentsPage() {
   const [agentFilter, setAgentFilter] = useState("");
   const [caseFilter, setCaseFilter] = useState("");
   const [selected, setSelected] = useState<AgentAction | null>(null);
+  const [settings, setSettings] = useState({
+    auto_intake_reminders_enabled: false,
+    auto_missing_docs_reminders_enabled: false,
+    min_days_between_intake_reminders: 7,
+    min_days_between_docs_reminders: 7,
+  });
+  const [savingSettings, setSavingSettings] = useState(false);
+  const [autoRunSummary, setAutoRunSummary] = useState<string | null>(null);
 
   const loadActions = async () => {
     setLoading(true);
@@ -46,6 +54,60 @@ export default function AdminAgentsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [agentFilter, caseFilter]);
 
+  const loadSettings = async () => {
+    try {
+      const res = await fetch("/api/v1/admin/agents/client-engagement/settings");
+      if (!res.ok) throw new Error(`Failed to load settings (${res.status})`);
+      const data = await res.json();
+      setSettings(data);
+    } catch (err: any) {
+      setError(err.message || "Failed to load settings");
+    }
+  };
+
+  useEffect(() => {
+    void loadSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const saveSettings = async () => {
+    setSavingSettings(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/v1/admin/agents/client-engagement/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings),
+      });
+      if (!res.ok) throw new Error(`Failed to save settings (${res.status})`);
+      const data = await res.json();
+      setSettings(data);
+    } catch (err: any) {
+      setError(err.message || "Failed to save settings");
+    } finally {
+      setSavingSettings(false);
+    }
+  };
+
+  const runAutoTenant = async () => {
+    setAutoRunSummary(null);
+    setError(null);
+    try {
+      const res = await fetch("/api/v1/admin/agents/client-engagement/auto-run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: "tenant" }),
+      });
+      if (!res.ok) throw new Error(`Auto-run failed (${res.status})`);
+      const data = await res.json();
+      setAutoRunSummary(
+        `Processed ${data.cases_processed} cases; intake reminders ${data.intake_reminders}, docs reminders ${data.docs_reminders}`
+      );
+    } catch (err: any) {
+      setError(err.message || "Failed to run auto mode");
+    }
+  };
+
   const filtered = useMemo(() => actions, [actions]);
 
   return (
@@ -54,6 +116,69 @@ export default function AdminAgentsPage() {
         <div className="rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
           <div className="font-semibold">Agent Activity (M8.0 skeleton)</div>
           <div>View-only audit of agent suggestions. No auto-sends; suggestions only.</div>
+        </div>
+
+        <div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900 space-y-2">
+          <div className="font-semibold">Client Engagement AUTO Settings (intake/docs only)</div>
+          <div className="grid gap-3 md:grid-cols-4">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={settings.auto_intake_reminders_enabled}
+                onChange={(e) => setSettings((s) => ({ ...s, auto_intake_reminders_enabled: e.target.checked }))}
+              />
+              Enable AUTO intake reminders
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={settings.auto_missing_docs_reminders_enabled}
+                onChange={(e) => setSettings((s) => ({ ...s, auto_missing_docs_reminders_enabled: e.target.checked }))}
+              />
+              Enable AUTO missing-docs reminders
+            </label>
+            <div className="text-sm">
+              <div className="text-xs text-gray-700">Min days between intake reminders</div>
+              <input
+                type="number"
+                min={1}
+                max={30}
+                value={settings.min_days_between_intake_reminders}
+                onChange={(e) => setSettings((s) => ({ ...s, min_days_between_intake_reminders: Number(e.target.value) }))}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 text-sm"
+              />
+            </div>
+            <div className="text-sm">
+              <div className="text-xs text-gray-700">Min days between docs reminders</div>
+              <input
+                type="number"
+                min={1}
+                max={30}
+                value={settings.min_days_between_docs_reminders}
+                onChange={(e) => setSettings((s) => ({ ...s, min_days_between_docs_reminders: Number(e.target.value) }))}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 text-sm"
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={saveSettings}
+              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-60"
+              disabled={savingSettings}
+            >
+              {savingSettings ? "Saving…" : "Save settings"}
+            </button>
+            <button
+              onClick={runAutoTenant}
+              className="rounded-md bg-gray-200 px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300"
+            >
+              Run AUTO for this tenant now
+            </button>
+            {autoRunSummary && <span className="text-xs text-gray-700">{autoRunSummary}</span>}
+          </div>
+          <div className="text-xs text-gray-700">
+            AUTO applies only to intake/doc reminders. Client question replies remain shadow-only; no cron is scheduled in-app.
+          </div>
         </div>
 
         <div className="flex gap-3 flex-wrap">

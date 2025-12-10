@@ -23,6 +23,11 @@
 - Integration branch `integration/phase8_agentic_foundation` merges M8.0–M8.3.
 - Tagged `v0.8.3-phase8-agentic-shadow` after full backend (245 tests, 4 skipped, ~86.53% cov) and frontend (8 suites, 12 tests) pass.
 
+## 2025-12-10 – [backend][frontend][ai][m8_4]
+- Added `client_engagement_settings` model + migration with tenant toggles and throttling for auto intake/docs reminders.
+- Introduced `ClientEngagementSettingsService` and `ClientEngagementAutoRunner` (admin-triggered only) logging executed actions with `auto_mode=true`; no cron added; client questions remain shadow-only.
+- Admin APIs: GET/PATCH settings, POST auto-run (tenant/case scope). Admin UI updated with toggles and manual auto-run. Case engagement page can trigger auto-run per case. Backend tests: 251 passed / 4 skipped (~86.72% cov); Frontend tests: 14 passed.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

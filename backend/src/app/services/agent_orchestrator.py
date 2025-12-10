@@ -59,6 +59,7 @@ class AgentOrchestratorService:
         case_id: Optional[str] = None,
         session_id: Optional[str] = None,
         error_message: Optional[str] = None,
+        auto_mode: bool = False,
     ) -> AgentAction:
         action = AgentAction(
             agent_name=agent_name,
@@ -69,6 +70,7 @@ class AgentOrchestratorService:
             case_id=case_id,
             session_id=session_id,
             error_message=error_message,
+            auto_mode=auto_mode,
         )
         self.db.add(action)
         self.db.commit()
@@ -92,7 +94,9 @@ class AgentOrchestratorService:
         tenant_id: Optional[str] = None,
         case_id: Optional[str] = None,
         agent_name: Optional[str] = None,
+        action_type: Optional[str] = None,
         status: Optional[str] = None,
+        auto_mode: Optional[bool] = None,
     ) -> List[AgentAction]:
         query = self.db.query(AgentAction)
         if tenant_id:
@@ -101,8 +105,12 @@ class AgentOrchestratorService:
             query = query.filter(AgentAction.case_id == case_id)
         if agent_name:
             query = query.filter(AgentAction.agent_name == agent_name)
+        if action_type:
+            query = query.filter(AgentAction.action_type == action_type)
         if status:
             query = query.filter(AgentAction.status == status)
+        if auto_mode is not None:
+            query = query.filter(AgentAction.auto_mode == auto_mode)
         return query.order_by(AgentAction.created_at.desc()).all()
 
     def fetch_session_with_actions(self, session_id: str, tenant_id: Optional[str] = None) -> Optional[tuple[AgentSession, List[AgentAction]]]:

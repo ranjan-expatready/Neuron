@@ -510,11 +510,38 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [AGENT-012] AUTO mode configuration and rollout (M8.4)
 
 - **Domain:** Agentic / Automation
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend + Frontend
 - **Description:** Tenant-configurable AUTO mode for low-risk reminders (intake/docs), channel controls, frequency caps, full audit logging.
+
+#### [AGENT-013] Event-based triggers for engagement (M8.5)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Move from admin-triggered auto-run to event/bus-driven triggers for engagement reminders with backpressure controls.
+
+#### [AGENT-014] Channel expansion (WhatsApp/SMS) (M8.5+)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P3
+- **Type:** Backend + Frontend
+- **Description:** Add optional SMS/WhatsApp channels for low-risk reminders with opt-in and auditing.
+
+#### [AGENT-015] Agent analytics dashboard (conversion & engagement)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend + Backend
+- **Description:** Dashboards for engagement conversion, response rates, auto vs shadow effectiveness.
 
 #### [DO-005] Multi-Language OCR & Classification
 

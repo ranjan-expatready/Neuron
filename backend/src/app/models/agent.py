@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Column, DateTime, ForeignKey, Index, String
+from sqlalchemy import Column, DateTime, ForeignKey, Index, String, Boolean
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy.sql import func
 
@@ -37,6 +37,7 @@ class AgentAction(Base):
     status = Column(String(32), nullable=False, default="suggested")  # suggested, executed, error
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     error_message = Column(String(255), nullable=True)
+    auto_mode = Column(Boolean, nullable=False, default=False)
 
     __table_args__ = (
         Index("ix_agent_actions_tenant_case", "tenant_id", "case_id"),

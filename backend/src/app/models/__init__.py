@@ -17,6 +17,7 @@ from .tenant import Tenant
 from .billing import TenantBillingState
 from .intake_config_draft import IntakeConfigDraft
 from .agent import AgentSession, AgentAction
+from .client_engagement_settings import ClientEngagementSettings
 
 __all__ = [
     "User",
@@ -43,4 +44,5 @@ __all__ = [
     "IntakeConfigDraft",
     "AgentSession",
     "AgentAction",
+    "ClientEngagementSettings",
 ]

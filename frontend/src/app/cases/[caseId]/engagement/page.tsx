@@ -35,10 +35,12 @@ export default function CaseEngagementPage({ params }: { params: { caseId: strin
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<SuggestionResponse | null>(null);
+  const [autoRunSummary, setAutoRunSummary] = useState<string | null>(null);
 
   const trigger = async (kind: "intake" | "docs" | "question") => {
     setLoading(kind);
     setError(null);
+    setAutoRunSummary(null);
     try {
       if (kind === "intake") {
         const data = await postSuggestion(
@@ -66,6 +68,28 @@ export default function CaseEngagementPage({ params }: { params: { caseId: strin
       }
     } catch (err: any) {
       setError(err.message || "Failed to generate suggestion");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const runAutoForCase = async () => {
+    setLoading("auto");
+    setError(null);
+    setAutoRunSummary(null);
+    try {
+      const res = await fetch("/api/v1/admin/agents/client-engagement/auto-run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: "case", case_id: caseId }),
+      });
+      if (!res.ok) throw new Error(`Auto run failed (${res.status})`);
+      const data = await res.json();
+      setAutoRunSummary(
+        `Auto run: intake reminders ${data.intake_reminders}, docs reminders ${data.docs_reminders}`
+      );
+    } catch (err: any) {
+      setError(err.message || "Failed to run auto engagement");
     } finally {
       setLoading(null);
     }
@@ -115,6 +139,14 @@ export default function CaseEngagementPage({ params }: { params: { caseId: strin
                 {loading === "question" ? "Generating…" : "Draft reply to client question"}
               </button>
             </div>
+            <button
+              className="w-full rounded-md bg-gray-200 px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 disabled:opacity-60"
+              disabled={loading === "auto"}
+              onClick={runAutoForCase}
+            >
+              {loading === "auto" ? "Running auto…" : "Run AUTO engagement for this case"}
+            </button>
+            {autoRunSummary && <div className="text-xs text-gray-700">{autoRunSummary}</div>}
             <div className="text-xs text-gray-600">
               Drafts are logged as suggested actions. Copy/paste to your chosen channel; sending is manual in this milestone.
             </div>

@@ -48,6 +48,7 @@ For each agent: responsibilities, inputs, outputs, safety.
   - Inputs: case intake status, checklist/missing docs, client questions.
   - Outputs: suggested reminders/explanations; LLM-assisted draft replies (shadow-only).
   - Safety: suggestions only; no sends, no commitments; RCIC override required; template fallback if LLM unavailable.
+  - AUTO mode (M8.4): limited to intake/doc reminders, tenant-configurable, admin-triggered runner; logs executed actions with `auto_mode=true`; no auto LLM replies.
 
 ## 3. Memory & Persistence Model (product-level)
 - **Case-scoped memory**:
@@ -72,10 +73,11 @@ For each agent: responsibilities, inputs, outputs, safety.
   - M8.0: deterministic placeholders.
   - M8.2: template-based reminders and question drafts, admin-triggered; logs `suggested`.
   - M8.3: LLM-assisted draft replies (shadow-only) with template fallback; optional LLM rewrite of reminder body text without changing required sections/docs.
+  - M8.4: AUTO mode for intake/doc reminders only, tenant-controlled toggles + throttling, executed via admin-triggered runner; logged as `executed` with `auto_mode=true`.
 - **Safety constraints**:
   - No direct IRCC interactions.
   - No legal commitments; include advisory phrasing.
   - RCIC/admin override before any send/execute path.
   - If LLM fails or disabled, fallback to template draft; log whether LLM was used.
-- **Current scope (M8.3)**: shadow-only, admin-triggered, audit-logged. No auto-send, no cron, no external messaging invoked from the agent.
+- **Current scope (M8.4)**: shadow + AUTO for intake/doc reminders (admin-triggered), audit-logged; client questions remain shadow-only. No cron, no auto LLM sends.
 

@@ -9,6 +9,7 @@ class AgentActionResponse(BaseModel):
     agent_name: str
     action_type: str
     status: str
+    auto_mode: bool
     case_id: Optional[str] = None
     tenant_id: Optional[str] = None
     created_at: datetime.datetime

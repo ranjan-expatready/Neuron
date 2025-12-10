@@ -18,6 +18,18 @@ const mockSuggestion = {
 
 beforeEach(() => {
   global.fetch = jest.fn((url: RequestInfo, opts?: RequestInit) => {
+    if (typeof url === "string" && url.includes("client-engagement/auto-run")) {
+      return Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            cases_processed: 1,
+            intake_reminders: 1,
+            docs_reminders: 0,
+            details: [],
+          }),
+      } as Response);
+    }
     if (typeof url === "string" && url.includes("client-engagement/intake-reminder")) {
       return Promise.resolve({
         ok: true,
@@ -72,6 +84,14 @@ describe("Case Engagement Page", () => {
     fireEvent.click(screen.getByText(/Draft reply to client question/i));
     await waitFor(() => {
       expect(screen.getByText(/enter a client question/i)).toBeInTheDocument();
+    });
+  });
+
+  it("runs auto for case", async () => {
+    render(<CaseEngagementPage params={{ caseId: "case-123" }} />);
+    fireEvent.click(screen.getByText(/Run AUTO engagement for this case/i));
+    await waitFor(() => {
+      expect(screen.getByText(/Auto run: intake reminders 1/i)).toBeInTheDocument();
     });
   });
 });
