@@ -106,4 +106,5 @@
 - M6.4 delivered: Client self-serve intake portal renders the same schema via `/api/v1/intake-schema`, reads/writes canonical profile through `/api/v1/cases/{case_id}/profile`, and shows a client-facing document checklist with upload status derived from `/api/v1/cases/{case_id}/documents`.
 - M7.1 delivered: Admin Config Console (read-only) exposes field dictionary, intake templates, document rules, form mappings, and option sets via `/api/v1/admin/intake/*` and new admin UI pages under `/admin/config/intake`.
 - M7.2 delivered: Draft/edit layer (non-live) for intake configs. New DB-backed drafts and admin APIs/UI allow creating/updating draft field/template/document/form entries. Runtime engine continues to use YAML as the active source; activation/approval will come in M7.3.
+- M7.3 delivered: Approval + activation. Active drafts can be promoted to `active`, recorded with approver, and merged as overrides on top of YAML for runtime intake/document/form configs. `retired`/`rejected` drafts remain historical only.
 

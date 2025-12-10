@@ -5,7 +5,10 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn(), replace: jest.fn() }),
 }));
 
+let draftStatus = "draft";
+
 beforeEach(() => {
+  draftStatus = "draft";
   global.fetch = jest.fn((url: RequestInfo, opts?: RequestInit) => {
     if (typeof url === "string") {
       if (url.includes("/admin/intake/drafts") && (!opts || opts.method === "GET")) {
@@ -17,7 +20,7 @@ beforeEach(() => {
                 id: "d1",
                 config_type: "field",
                 key: "person.test_field",
-                status: "draft",
+                status: draftStatus,
                 created_by: "u1",
                 updated_by: "u1",
                 created_at: new Date().toISOString(),
@@ -25,6 +28,78 @@ beforeEach(() => {
                 payload: { id: "person.test_field", label: "Test Field" },
               },
             ]),
+        } as Response);
+      }
+      if (url.includes("/submit") && opts && opts.method === "POST") {
+        draftStatus = "in_review";
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              id: "d1",
+              config_type: "field",
+              key: "person.test_field",
+              status: "in_review",
+              created_by: "u1",
+              updated_by: "u1",
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              payload: { id: "person.test_field", label: "Test Field" },
+            }),
+        } as Response);
+      }
+      if (url.includes("/activate") && opts && opts.method === "POST") {
+        draftStatus = "active";
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              id: "d1",
+              config_type: "field",
+              key: "person.test_field",
+              status: "active",
+              created_by: "u1",
+              updated_by: "u1",
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              approved_by: "admin@example.com",
+              approved_at: new Date().toISOString(),
+              payload: { id: "person.test_field", label: "Test Field" },
+            }),
+        } as Response);
+      }
+      if (url.includes("/reject") && opts && opts.method === "POST") {
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              id: "d1",
+              config_type: "field",
+              key: "person.test_field",
+              status: "rejected",
+              created_by: "u1",
+              updated_by: "u1",
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              payload: { id: "person.test_field", label: "Test Field" },
+            }),
+        } as Response);
+      }
+      if (url.includes("/retire") && opts && opts.method === "POST") {
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              id: "d1",
+              config_type: "field",
+              key: "person.test_field",
+              status: "retired",
+              created_by: "u1",
+              updated_by: "u1",
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              payload: { id: "person.test_field", label: "Test Field" },
+            }),
         } as Response);
       }
       if (url.includes("/admin/intake/drafts") && opts && opts.method === "POST") {
@@ -87,6 +162,32 @@ describe("Admin Intake Drafts Page", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/person.new_field/i)).toBeInTheDocument();
+    });
+  });
+
+  it("supports status actions", async () => {
+    render(<DraftsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/person.test_field/)).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText(/person.test_field/));
+
+    const submitBtn = screen.getByRole("button", { name: /Submit for review/i });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("/submit"), expect.anything()));
+    await waitFor(() => expect(screen.getAllByText(/in_review/i).length).toBeGreaterThan(0));
+
+    const activateBtn = screen.getByRole("button", { name: /Activate/i });
+    fireEvent.click(activateBtn);
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining("/activate"),
+        expect.objectContaining({ method: "POST" })
+      );
     });
   });
 });

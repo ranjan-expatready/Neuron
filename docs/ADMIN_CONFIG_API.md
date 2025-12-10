@@ -23,6 +23,13 @@
   - `PATCH /api/v1/admin/intake/drafts/{draft_id}` — update payload/key/status/notes (no activation yet).
   - `DELETE /api/v1/admin/intake/drafts/{draft_id}` — soft-delete by marking `rejected`.
   - Drafts cover: field, template, document, form. Runtime engine still uses YAML only (activation comes in M7.3).
+- **M7.3 Approval & Activation (intake overrides):**
+  - Status lifecycle: `draft` → `in_review` → `active` → `retired` (or `rejected`).
+  - `POST /api/v1/admin/intake/drafts/{id}/submit` — `draft` → `in_review` (admin/owner/rcic/rcic_admin).
+  - `POST /api/v1/admin/intake/drafts/{id}/reject` — `draft|in_review` → `rejected` (admin/owner).
+  - `POST /api/v1/admin/intake/drafts/{id}/activate` — `in_review` → `active` (admin/owner; re-validates payload).
+  - `POST /api/v1/admin/intake/drafts/{id}/retire` — `active` → `retired` (admin/owner; removes override from runtime).
+  - Runtime: YAML stays baseline; only `active` drafts are merged as overrides for fields/templates/documents/forms.
 
 ## Implementation Notes
 - Router: `backend/src/app/api/routes/admin_config.py`

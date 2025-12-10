@@ -17,7 +17,14 @@ class IntakeConfigDraft(Base):
     )
     key = Column(String(255), nullable=False, index=True)  # e.g., field id, template id
     status = Column(
-        Enum("draft", "in_review", "rejected", name="intake_config_draft_status"),
+        Enum(
+            "draft",
+            "in_review",
+            "active",
+            "rejected",
+            "retired",
+            name="intake_config_draft_status",
+        ),
         default="draft",
         nullable=False,
         index=True,
@@ -30,4 +37,6 @@ class IntakeConfigDraft(Base):
         DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False
     )
     notes = Column(Text, nullable=True)
+    approved_by = Column(String(36), nullable=True)
+    approved_at = Column(DateTime(timezone=True), nullable=True)
 

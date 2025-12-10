@@ -34,6 +34,12 @@
 - Admin UI page `/admin/config/intake/drafts` lists drafts, filters by type/status, shows details, and supports creating new drafts via JSON payload (status limited to draft/rejected/in_review).
 - New tests: backend `test_admin_intake_drafts_api.py`; frontend `admin-intake-drafts-page.test.tsx`. Full backend + frontend suites passing.
 
+## 2025-12-10 – [backend][frontend][admin][config][m7_3]
+- Added approval/activation lifecycle: statuses now include draft, in_review, active, rejected, retired. Transition endpoints `/submit`, `/reject`, `/activate`, `/retire` with RBAC (rcic submit; admin/owner activate/reject/retire); payload re-validation on activation; approvals capture approver/time.
+- Runtime override layer: YAML baseline cached; active drafts are merged as overrides for fields/templates/documents/forms via `apply_intake_overrides`; retired/rejected drafts ignored. Intake API now loads configs with DB overrides.
+- Admin UI (`/admin/config/intake/drafts`) shows status badges, approved metadata, and action buttons for submit/activate/reject/retire; filters include active/retired.
+- Tests: new override/config tests, intake API override test, expanded admin draft API tests, updated frontend RTL tests for actions. Backend pytest: 226 passed, 4 skipped, cov ~86.38%; frontend jest suites all passing.
+
 # Engineering Memory Log
 
 ## 2025-12-10 – [backend][config][intake][documents][m6_1]

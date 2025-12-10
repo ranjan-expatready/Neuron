@@ -62,12 +62,13 @@ async def get_intake_schema(
     program_code: str = Query(..., alias="program_code"),
     plan_code: Optional[str] = Query(None, alias="plan_code"),
     current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
 ):
     _ = current_user  # enforced via dependency
     engine = IntakeEngine()
     options_bundle = load_options_config()
     try:
-        schema = engine.get_intake_schema_for_program(program_code, plan_code)
+        schema = engine.get_intake_schema_for_program(program_code, plan_code, db_session=db)
     except ValueError as err:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(err)) from err
 
@@ -111,7 +112,7 @@ async def get_document_checklist(
 
     engine = IntakeEngine()
     try:
-        checklist = engine.get_document_checklist_for_case(case, program_code)
+        checklist = engine.get_document_checklist_for_case(case, program_code, db_session=db)
     except ValueError as err:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(err)) from err
 

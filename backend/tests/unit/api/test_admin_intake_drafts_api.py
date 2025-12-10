@@ -41,6 +41,34 @@ def test_create_get_update_delete_draft(client: TestClient, admin_headers):
     assert del_resp.status_code == 204
 
 
+def test_status_transitions(client: TestClient, admin_headers):
+    create_resp = client.post("/api/v1/admin/intake/drafts", headers=admin_headers, json=_sample_field_draft())
+    draft_id = create_resp.json()["id"]
+
+    # submit draft -> in_review
+    submit_resp = client.post(f"/api/v1/admin/intake/drafts/{draft_id}/submit", headers=admin_headers)
+    assert submit_resp.status_code == 200
+    assert submit_resp.json()["status"] == "in_review"
+
+    # activate -> active
+    activate_resp = client.post(f"/api/v1/admin/intake/drafts/{draft_id}/activate", headers=admin_headers)
+    assert activate_resp.status_code == 200
+    assert activate_resp.json()["status"] == "active"
+
+    # retire -> retired
+    retire_resp = client.post(f"/api/v1/admin/intake/drafts/{draft_id}/retire", headers=admin_headers)
+    assert retire_resp.status_code == 200
+    assert retire_resp.json()["status"] == "retired"
+
+
+def test_invalid_transition(client: TestClient, admin_headers):
+    create_resp = client.post("/api/v1/admin/intake/drafts", headers=admin_headers, json=_sample_field_draft())
+    draft_id = create_resp.json()["id"]
+    # activate directly from draft should fail
+    activate_resp = client.post(f"/api/v1/admin/intake/drafts/{draft_id}/activate", headers=admin_headers)
+    assert activate_resp.status_code == 400
+
+
 def test_list_filtering(client: TestClient, admin_headers):
     # create two drafts
     client.post("/api/v1/admin/intake/drafts", headers=admin_headers, json=_sample_field_draft())
@@ -87,6 +115,28 @@ def test_requires_admin_roles(client: TestClient):
     try:
         resp2 = client.get("/api/v1/admin/intake/drafts")
         assert resp2.status_code == 403
+    finally:
+        client.app.dependency_overrides.pop(get_current_user, None)
+
+
+def test_admin_only_activation(client: TestClient, admin_headers):
+    # create draft
+    create_resp = client.post("/api/v1/admin/intake/drafts", headers=admin_headers, json=_sample_field_draft())
+    draft_id = create_resp.json()["id"]
+    # submit as admin for simplicity
+    client.post(f"/api/v1/admin/intake/drafts/{draft_id}/submit", headers=admin_headers)
+
+    # override current user to rcic to attempt activation (should fail)
+    from src.app.api.dependencies import get_current_user
+    from src.app.models.user import User
+
+    def _rcic_user():
+        return User(id=str(uuid.uuid4()), email="rcic@example.com", tenant_id=str(uuid.uuid4()), role="rcic")
+
+    client.app.dependency_overrides[get_current_user] = _rcic_user
+    try:
+        resp = client.post(f"/api/v1/admin/intake/drafts/{draft_id}/activate")
+        assert resp.status_code == 403
     finally:
         client.app.dependency_overrides.pop(get_current_user, None)
 

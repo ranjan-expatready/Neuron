@@ -25,6 +25,13 @@ def _require_admin_or_rcic(user: User):
         raise ForbiddenError("Draft intake config requires admin/RCIC role")
 
 
+def _require_admin_only(user: User):
+    if not user.tenant_id:
+        raise TenantAccessError("Tenant context required")
+    if user.role not in ("admin", "owner"):
+        raise ForbiddenError("Action requires admin/owner role")
+
+
 @router.get("/drafts", response_model=List[IntakeConfigDraftResponse])
 async def list_drafts(
     config_type: Optional[str] = Query(None),
@@ -92,4 +99,62 @@ async def delete_draft(
     service = IntakeConfigDraftService(db)
     service.delete(draft_id, user_id=str(current_user.id))
     return {}
+
+
+@router.post("/drafts/{draft_id}/submit", response_model=IntakeConfigDraftResponse)
+async def submit_draft(
+    draft_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    # RCIC/admin can submit for review
+    _require_admin_or_rcic(current_user)
+    service = IntakeConfigDraftService(db)
+    try:
+        return service.submit(draft_id, user_id=str(current_user.id))
+    except ValueError as err:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(err)) from err
+
+
+@router.post("/drafts/{draft_id}/reject", response_model=IntakeConfigDraftResponse)
+async def reject_draft(
+    draft_id: str,
+    notes: Optional[str] = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    _require_admin_only(current_user)
+    service = IntakeConfigDraftService(db)
+    try:
+        return service.reject(draft_id, user_id=str(current_user.id), notes=notes)
+    except ValueError as err:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(err)) from err
+
+
+@router.post("/drafts/{draft_id}/activate", response_model=IntakeConfigDraftResponse)
+async def activate_draft(
+    draft_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    _require_admin_only(current_user)
+    service = IntakeConfigDraftService(db)
+    try:
+        return service.activate(draft_id, user_id=str(current_user.id))
+    except ValueError as err:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(err)) from err
+
+
+@router.post("/drafts/{draft_id}/retire", response_model=IntakeConfigDraftResponse)
+async def retire_draft(
+    draft_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    _require_admin_only(current_user)
+    service = IntakeConfigDraftService(db)
+    try:
+        return service.retire(draft_id, user_id=str(current_user.id))
+    except ValueError as err:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(err)) from err
 

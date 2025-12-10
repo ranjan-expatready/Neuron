@@ -13,6 +13,8 @@ type Draft = {
   updated_at: string;
   payload: any;
   notes?: string | null;
+  approved_by?: string | null;
+  approved_at?: string | null;
 };
 
 const panelClass = "border rounded-md border-gray-200 bg-white shadow-sm";
@@ -55,6 +57,7 @@ export default function AdminIntakeDraftsPage() {
   const [formKey, setFormKey] = useState<string>("");
   const [formError, setFormError] = useState<string | null>(null);
   const [formSaving, setFormSaving] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
 
   const handleCreate = async () => {
     setFormError(null);
@@ -82,15 +85,29 @@ export default function AdminIntakeDraftsPage() {
 
   const filteredDrafts = useMemo(() => drafts, [drafts]);
 
+  const triggerAction = async (draftId: string, action: "submit" | "activate" | "reject" | "retire") => {
+    setActionLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/v1/admin/intake/drafts/${draftId}/${action}`, { method: "POST" });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.detail || `${action} failed (${res.status})`);
+      }
+      await loadDrafts();
+    } catch (err: any) {
+      setError(err.message || "Action failed");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <div className="mx-auto max-w-6xl px-4 py-8 space-y-4">
         <div className="rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-          <div className="font-semibold">Intake Config Drafts (Read-only runtime)</div>
-          <div>
-            Drafts are proposals only. Runtime intake/document engine still reads YAML in config/domain; activation will
-            come in M7.3.
-          </div>
+          <div className="font-semibold">Intake Config Drafts</div>
+          <div>YAML in config/domain is the baseline. ACTIVE drafts override YAML at runtime.</div>
         </div>
 
         <div className="flex gap-3">
@@ -118,7 +135,9 @@ export default function AdminIntakeDraftsPage() {
               <option value="">All</option>
               <option value="draft">Draft</option>
               <option value="in_review">In review</option>
+              <option value="active">Active</option>
               <option value="rejected">Rejected</option>
+              <option value="retired">Retired</option>
             </select>
           </div>
           <div className="flex items-end">
@@ -152,11 +171,26 @@ export default function AdminIntakeDraftsPage() {
                     >
                       <div className="flex items-center justify-between">
                         <div className="font-semibold text-gray-900">{d.key}</div>
-                        <span className="rounded-md bg-gray-100 px-2 py-1 text-2xs text-gray-700">{d.config_type}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="rounded-md bg-gray-100 px-2 py-1 text-2xs text-gray-700">{d.config_type}</span>
+                          <span
+                            className={`rounded-md px-2 py-1 text-2xs ${
+                              d.status === "active"
+                                ? "bg-green-100 text-green-800"
+                                : d.status === "in_review"
+                                ? "bg-amber-100 text-amber-800"
+                                : d.status === "rejected"
+                                ? "bg-red-100 text-red-800"
+                                : d.status === "retired"
+                                ? "bg-gray-200 text-gray-700"
+                                : "bg-blue-100 text-blue-800"
+                            }`}
+                          >
+                            {d.status}
+                          </span>
+                        </div>
                       </div>
-                      <div className="text-xs text-gray-600">
-                        Status: {d.status} • Updated: {new Date(d.updated_at).toLocaleString()}
-                      </div>
+                      <div className="text-xs text-gray-600">Updated: {new Date(d.updated_at).toLocaleString()}</div>
                     </button>
                   ))
                 )}
@@ -219,15 +253,90 @@ export default function AdminIntakeDraftsPage() {
               <div className="border-b px-4 py-3 font-semibold">Details</div>
               <div className="p-4 text-sm">
                 {selected ? (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="font-semibold">{selected.key}</div>
-                      <span className="rounded-md bg-gray-100 px-2 py-1 text-2xs text-gray-700">
-                        {selected.config_type}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="rounded-md bg-gray-100 px-2 py-1 text-2xs text-gray-700">
+                          {selected.config_type}
+                        </span>
+                        <span
+                          className={`rounded-md px-2 py-1 text-2xs ${
+                            selected.status === "active"
+                              ? "bg-green-100 text-green-800"
+                              : selected.status === "in_review"
+                              ? "bg-amber-100 text-amber-800"
+                              : selected.status === "rejected"
+                              ? "bg-red-100 text-red-800"
+                              : selected.status === "retired"
+                              ? "bg-gray-200 text-gray-700"
+                              : "bg-blue-100 text-blue-800"
+                          }`}
+                        >
+                          {selected.status}
+                        </span>
+                      </div>
                     </div>
                     <div className="text-xs text-gray-600">
-                      Status: {selected.status} • Updated: {new Date(selected.updated_at).toLocaleString()}
+                      Updated: {new Date(selected.updated_at).toLocaleString()}
+                    </div>
+                    {selected.approved_by && (
+                      <div className="text-xs text-gray-700">
+                        Approved by {selected.approved_by} at{" "}
+                        {selected.approved_at ? new Date(selected.approved_at).toLocaleString() : "n/a"}
+                      </div>
+                    )}
+                    {selected.notes && (
+                      <div>
+                        <div className="text-xs uppercase text-gray-500">Notes</div>
+                        <div className="rounded-md bg-gray-50 px-3 py-2 text-gray-800">{selected.notes}</div>
+                      </div>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        disabled={selected.status !== "draft" || actionLoading}
+                        onClick={() => triggerAction(selected.id, "submit")}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          selected.status !== "draft" || actionLoading
+                            ? "bg-gray-200 text-gray-500"
+                            : "bg-blue-600 text-white hover:bg-blue-700"
+                        }`}
+                      >
+                        Submit for review
+                      </button>
+                      <button
+                        disabled={selected.status !== "in_review" || actionLoading}
+                        onClick={() => triggerAction(selected.id, "activate")}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          selected.status !== "in_review" || actionLoading
+                            ? "bg-gray-200 text-gray-500"
+                            : "bg-green-600 text-white hover:bg-green-700"
+                        }`}
+                      >
+                        Activate (admin)
+                      </button>
+                      <button
+                        disabled={!(selected.status === "draft" || selected.status === "in_review") || actionLoading}
+                        onClick={() => triggerAction(selected.id, "reject")}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          !(selected.status === "draft" || selected.status === "in_review") || actionLoading
+                            ? "bg-gray-200 text-gray-500"
+                            : "bg-red-600 text-white hover:bg-red-700"
+                        }`}
+                      >
+                        Reject
+                      </button>
+                      <button
+                        disabled={selected.status !== "active" || actionLoading}
+                        onClick={() => triggerAction(selected.id, "retire")}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          selected.status !== "active" || actionLoading
+                            ? "bg-gray-200 text-gray-500"
+                            : "bg-gray-700 text-white hover:bg-gray-800"
+                        }`}
+                      >
+                        Retire
+                      </button>
                     </div>
                     <pre className="mt-2 max-h-64 overflow-auto rounded-md bg-gray-100 p-3 text-xs">
 {JSON.stringify(selected.payload, null, 2)}

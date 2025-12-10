@@ -138,16 +138,16 @@ class IntakeEngine:
     def __init__(self, base_path: Optional[Path] = None) -> None:
         self.base_path = base_path
 
-    def _bundle(self) -> IntakeConfigBundle:
-        return load_intake_bundle(self.base_path)
+    def _bundle(self, db_session=None) -> IntakeConfigBundle:
+        return load_intake_bundle(self.base_path, db_session=db_session)
 
-    def _field_lookup(self) -> Dict[str, FieldDefinition]:
-        return {f.id: f for f in self._bundle().fields}
+    def _field_lookup(self, db_session=None) -> Dict[str, FieldDefinition]:
+        return {f.id: f for f in self._bundle(db_session).fields}
 
     def get_intake_schema_for_program(
-        self, program_code: str, plan_code: Optional[str] = None
+        self, program_code: str, plan_code: Optional[str] = None, db_session=None
     ) -> IntakeTemplateResolved:
-        bundle = self._bundle()
+        bundle = self._bundle(db_session)
         plan_code_lower = plan_code.lower() if plan_code else None
 
         def _plan_matches(template: IntakeTemplate) -> bool:
@@ -165,7 +165,7 @@ class IntakeEngine:
         if not candidates:
             raise ValueError(f"No intake template found for program {program_code}")
 
-        field_lookup = self._field_lookup()
+        field_lookup = self._field_lookup(db_session)
         template = candidates[0]
         resolved_steps = []
         for step in template.steps:
@@ -231,10 +231,10 @@ class IntakeEngine:
         )
 
     def get_document_checklist_for_profile(
-        self, profile: Dict[str, Any], program_code: str
+        self, profile: Dict[str, Any], program_code: str, db_session=None
     ) -> List[DocumentRequirementResolved]:
-        bundle = self._bundle()
-        field_lookup = self._field_lookup()
+        bundle = self._bundle(db_session)
+        field_lookup = self._field_lookup(db_session)
         checklist: List[DocumentRequirementResolved] = []
         for doc in bundle.documents:
             checklist.append(self._evaluate_document(doc, profile, program_code, field_lookup))
@@ -253,13 +253,13 @@ class IntakeEngine:
         return prog
 
     def get_document_checklist_for_case(
-        self, case: CaseRecord, program_code: Optional[str] = None
+        self, case: CaseRecord, program_code: Optional[str] = None, db_session=None
     ) -> List[DocumentRequirementResolved]:
         resolved_program = program_code or self._infer_program_from_case(case)
         if not resolved_program:
             raise ValueError("Program code is required to resolve document checklist")
         profile_data = case.profile or {}
-        return self.get_document_checklist_for_profile(profile_data, resolved_program)
+        return self.get_document_checklist_for_profile(profile_data, resolved_program, db_session=db_session)
 
 
 __all__ = [

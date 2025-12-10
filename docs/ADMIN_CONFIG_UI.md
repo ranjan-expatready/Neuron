@@ -25,6 +25,19 @@
 - Config hashes are not surfaced yet; add when the backend exposes them.
 - M7.2 adds draft editing UI for intake configs; drafts do not change runtime behavior until an approval/activation flow (planned M7.3).
 
+## Approval & Activation UI (M7.3)
+- Lifecycle: `draft` → `in_review` → `active` → `retired` (or `rejected`).
+- Actions:
+  - Draft: Submit for review (rcic/admin/owner).
+  - In Review: Activate (admin/owner), Reject.
+  - Active: Retire (admin/owner).
+- Indicators:
+  - Status badges in list/detail.
+  - Banner reminds: YAML is baseline; ACTIVE drafts override YAML at runtime.
+- Overrides:
+  - Only `active` drafts influence runtime intake/doc/forms rendering via the override layer.
+  - `retired`/`rejected` drafts are kept for history but not applied.
+
 ## How to use (dev)
 1) Start backend and frontend normally.
 2) Navigate to `/admin/config`.

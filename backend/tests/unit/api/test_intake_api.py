@@ -54,3 +54,33 @@ def test_get_intake_options(client: TestClient, admin_headers):
     assert isinstance(data, list)
     assert any(opt["value"] == "single" for opt in data)
 
+
+def test_intake_schema_respects_active_overrides(client: TestClient, admin_headers):
+    clear_intake_config_cache()
+    # insert active draft override
+    from src.app.models.intake_config_draft import IntakeConfigDraft
+    import uuid
+
+    override = IntakeConfigDraft(
+        config_type="field",
+        key="person.date_of_birth",
+        payload={
+            "id": "person.date_of_birth",
+            "label": "DOB Override",
+            "data_path": "profile.personal.date_of_birth",
+            "type": "date",
+            "ui_control": "date",
+        },
+        status="active",
+        created_by="tester",
+        updated_by="tester",
+    )
+    client.db_session.add(override)
+    client.db_session.commit()
+
+    resp = client.get("/api/v1/intake-schema", params={"program_code": "EE_FSW"}, headers=admin_headers)
+    assert resp.status_code == 200
+    data = resp.json()
+    labels = [f["label"] for step in data["steps"] for f in step["fields"] if f["id"] == "person.date_of_birth"]
+    assert "DOB Override" in labels
+

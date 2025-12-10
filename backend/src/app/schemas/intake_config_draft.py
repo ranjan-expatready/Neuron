@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 
 ConfigType = Literal["field", "template", "document", "form"]
-DraftStatus = Literal["draft", "in_review", "rejected"]
+DraftStatus = Literal["draft", "in_review", "active", "rejected", "retired"]
 
 
 class IntakeConfigDraftBase(BaseModel):
@@ -14,6 +14,8 @@ class IntakeConfigDraftBase(BaseModel):
     payload: dict[str, Any] = Field(default_factory=dict)
     status: DraftStatus = "draft"
     notes: Optional[str] = None
+    approved_by: Optional[str] = None
+    approved_at: Optional[datetime] = None
 
 
 class IntakeConfigDraftCreate(IntakeConfigDraftBase):

@@ -364,20 +364,20 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [CFG-008] Admin config approval workflow (M7.3)
 
 - **Domain:** Admin / Config
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend + Frontend
-- **Description:** Draft → in_review → active workflow with audit trail and role-based approvals for config changes.
+- **Description:** Draft → in_review → active → retired workflow with audit trail, role-based approvals, and status transition APIs/UI (submit, reject, activate, retire).
 
 #### [CFG-010] Draft activation pipeline (M7.3)
 
 - **Domain:** Admin / Config
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend
-- **Description:** Mechanism to apply approved drafts to live configs (YAML regeneration or override store) with audit trail.
+- **Description:** Runtime override layer merges ACTIVE drafts over YAML for intake fields/templates/documents/forms; retired/rejected drafts are ignored; activation records approver + timestamp.
 
 #### [CFG-009] AI-assisted config proposals (M7.4)
 

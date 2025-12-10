@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
 import yaml
 from pydantic import BaseModel, Field, ValidationError, root_validator, validator
+from sqlalchemy.orm import Session
+
+from src.app.models.intake_config_draft import IntakeConfigDraft
 
 
 class IntakeConfigError(Exception):
@@ -191,7 +195,8 @@ def _validate_cross_references(
                 )
 
 
-def load_intake_bundle(base_path: Optional[Path] = None) -> IntakeConfigBundle:
+@lru_cache(maxsize=2)
+def _load_baseline_intake_bundle(base_path: Optional[Path] = None) -> IntakeConfigBundle:
     base_key = _base_path_key(base_path)
     fields = load_fields_config(base_key)
     templates = load_intake_templates_config(base_key)
@@ -201,9 +206,64 @@ def load_intake_bundle(base_path: Optional[Path] = None) -> IntakeConfigBundle:
     return IntakeConfigBundle(fields=fields, templates=templates, documents=documents, forms=forms)
 
 
+def apply_intake_overrides(
+    baseline: IntakeConfigBundle, active_drafts: List[IntakeConfigDraft]
+) -> IntakeConfigBundle:
+    """
+    Merge ACTIVE intake config drafts on top of YAML baseline.
+    - Baseline remains canonical; overrides are additive or replace by key.
+    - Validation is re-run after applying overrides to ensure consistency.
+    """
+    merged = deepcopy(baseline)
+
+    def _replace_or_add(collection: List[BaseModel], new_item: BaseModel, key_attr: str = "id"):
+        for idx, item in enumerate(collection):
+            if getattr(item, key_attr) == getattr(new_item, key_attr):
+                collection[idx] = new_item
+                return
+        collection.append(new_item)
+
+    for draft in active_drafts:
+        payload = draft.payload or {}
+        if draft.config_type == "field":
+            obj = FieldDefinition(**payload)
+            _replace_or_add(merged.fields, obj)
+        elif draft.config_type == "template":
+            obj = IntakeTemplate(**payload)
+            _replace_or_add(merged.templates, obj)
+        elif draft.config_type == "document":
+            obj = DocumentDefinition(**payload)
+            _replace_or_add(merged.documents, obj)
+        elif draft.config_type == "form":
+            obj = FormDefinition(**payload)
+            _replace_or_add(merged.forms, obj)
+        else:
+            raise IntakeConfigError(f"Unknown config_type '{draft.config_type}' in override")
+
+    _validate_cross_references(merged.fields, merged.templates, merged.documents, merged.forms)
+    return merged
+
+
+def load_intake_bundle(
+    base_path: Optional[Path] = None,
+    db_session: Optional[Session] = None,
+    include_overrides: bool = True,
+) -> IntakeConfigBundle:
+    baseline = _load_baseline_intake_bundle(base_path)
+    if not include_overrides or db_session is None:
+        return baseline
+    active_drafts = (
+        db_session.query(IntakeConfigDraft).filter(IntakeConfigDraft.status == "active").all()
+    )
+    if not active_drafts:
+        return baseline
+    return apply_intake_overrides(baseline, active_drafts)
+
+
 def clear_intake_config_cache() -> None:
     """Helper to clear all caches (used in tests)."""
     load_fields_config.cache_clear()
     load_intake_templates_config.cache_clear()
     load_documents_config.cache_clear()
     load_forms_config.cache_clear()
+    _load_baseline_intake_bundle.cache_clear()
