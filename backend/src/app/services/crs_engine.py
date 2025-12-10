@@ -7,6 +7,7 @@ from src.app.domain_config.service import ConfigService
 from src.app.observability.logging import get_logger, log_error, log_info
 from src.app.observability.metrics import metrics_registry
 from src.app.rules.crs_adapter import build_crs_profile_from_candidate
+from src.app.rules.crs_explanation_generator import CRSExplanationGenerator
 from src.app.rules.crs_engine import CRSEngine
 from src.app.rules.models import CandidateProfile
 
@@ -20,6 +21,7 @@ class CRSEngineService:
         self.config_service = config_service or ConfigService()
         self.engine = CRSEngine(config=self.config_service.get_domain_rules())
         self.logger = get_logger(__name__)
+        self.explainer = CRSExplanationGenerator()
 
     def compute_for_profile(
         self, crs_profile: CRSProfileInput, *, context: Optional[Dict[str, Any]] = None
@@ -27,6 +29,7 @@ class CRSEngineService:
         context = context or {}
         try:
             result = self.engine.compute(crs_profile)
+            result = self.explainer.apply(result)
             metrics_registry.record_crs_evaluation(True)
             log_info(
                 logger=self.logger,

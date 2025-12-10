@@ -46,3 +46,8 @@
 - All explanation data is derived from `config/domain/crs.yaml`; no IRCC constants appear in code.
 - M5.3 will add natural-language generation + UI surfacing; current output stays structured-only.
 
+## M5.3 – Natural-Language Explanations & Case Integration
+- Added `CRSFactorNLExplanation` and optional `nl_explanation` on each `CRSFactorContribution` with titles/descriptions derived from structured explanations (no hard-coded IRCC constants).
+- CRS engine service now enriches results with NL explanations via `crs_explanation_generator.py`.
+- Case Evaluation API now returns CRS total, factor contributions, and explanations; case history snapshots store CRS payload (score + explanations) for audit.
+

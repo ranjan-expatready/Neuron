@@ -37,6 +37,7 @@
 
 - 🟡 CRS engine core (Express Entry) – Config-first CRS computation with structured factor breakdown shipped backend-only (no UI/case wiring yet).
 - 🟡 M5.2 Structured CRS explainability – Each CRS factor now returns machine-readable explanation metadata (codes, rule paths, input/threshold summaries); no NL/UI yet.
+- 🟡 M5.3 Natural-language CRS explanations & case integration – CRS engine now emits human-friendly titles/descriptions from structured explanations and exposes CRS + explanations in case evaluation responses and history snapshots.
 - 🔴 Law intelligence & rule ingestion – Monitoring/approved-rules engine from `[BP-09]` not implemented.
 - 🔴 Advisory playbooks & compliance guidance – Blueprint `[BP-10]` artifacts exist only in docs.
 - 🔴 Client success / 24×7 support agent – No runtime or UI instrumentation yet `[BP-09]`.
