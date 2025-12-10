@@ -1,5 +1,11 @@
 # Engineering Memory Log
 
+## 2025-12-10 – [backend][intake][documents][m6_2]
+- Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
+- Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).
+- New API routes `/api/v1/intake-schema` and `/api/v1/document-checklist/{case_id}` exposing config-driven schema and checklists with tenant-aware access.
+- Added tests for config loading, service resolution, and APIs; updated intake design doc with implementation status.
+
 # Engineering Memory Log
 
 ## 2025-12-10 – [backend][config][intake][documents][m6_1]

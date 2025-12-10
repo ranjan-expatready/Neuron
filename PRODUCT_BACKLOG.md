@@ -211,7 +211,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [INT-001] Intake config loaders & validators (M6.2)
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend rules/config
@@ -221,7 +221,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [INT-002] Intake template & checklist APIs (M6.2)
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend API

@@ -98,3 +98,7 @@
 - M6.3 — Portal wiring: schema-driven UI rendering from configs.
 - Later — Agent-powered config proposals based on IRCC PDFs and form diffs; admin approval workflows.
 
+## Implementation Status
+- M6.2 delivered: validated config loaders (fields, templates, documents, forms), intake schema API (`/api/v1/intake-schema`), and document checklist API (`/api/v1/document-checklist/{case_id}`).
+- UI wiring remains future (M6.3+); configs stay the single source of truth.
+
