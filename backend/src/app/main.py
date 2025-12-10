@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 
 from src.app.api.routes import (
     admin_config,
+    admin_intake_config,
     auth,
     billing_admin,
     cases,
@@ -148,6 +149,11 @@ app.include_router(documents.router, prefix="/api/v1/documents", tags=["Document
 app.include_router(intake.router, prefix="/api/v1", tags=["Intake"])
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
 app.include_router(admin_config.router, prefix="/api/v1/admin/config", tags=["Admin Configuration"])
+app.include_router(
+    admin_intake_config.router,
+    prefix="/api/v1/admin/intake",
+    tags=["Admin Intake Configuration"],
+)
 app.include_router(billing_admin.router, prefix="/api/v1/admin/billing", tags=["Billing Admin"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
 from src.app.api.routes import case_evaluation, case_history, case_lifecycle  # noqa: E402

@@ -92,13 +92,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "post-m6.4 client self-serve intake",
+    "status": "post-m7.1 admin config console",
     "completion_percentage": 96,
     "current_phase": "Phase 6 – Intake/Checklist foundation",
-    "next_milestone": "M6.5 client UX polish + richer uploads",
-    "current_milestone": "M6.4 – Client self-serve intake portal",
+    "next_milestone": "M7.2 admin config editing (draft)",
+    "current_milestone": "M7.1 – Admin Config Console (Read-Only)",
     "integration_branch": "integration/phase5_crs_and_billing",
-    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal using the same schema/profile/checklist stack."
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI)."
   },
   "agent_bootstrap": {
     "steps": [

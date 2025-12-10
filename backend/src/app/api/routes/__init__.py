@@ -2,6 +2,7 @@
 
 from . import (
     admin_config,
+    admin_intake_config,
     auth,
     billing_admin,
     cases,
@@ -20,6 +21,7 @@ from . import (
 
 __all__ = [
     "admin_config",
+    "admin_intake_config",
     "auth",
     "billing_admin",
     "cases",

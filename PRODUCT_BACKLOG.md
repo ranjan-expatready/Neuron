@@ -343,6 +343,42 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 
 #### [INT-015] Program selection wizard (M6.5+)
 
+#### [CFG-006] Admin Config Console (read-only) (M7.1)
+
+- **Domain:** Admin / Config
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Read-only admin APIs (`/api/v1/admin/intake/*`) and UI under `/admin/config/intake` to inspect field dictionary, intake templates, documents, forms, and option sets.
+
+#### [CFG-007] Admin config editing (draft) (M7.2)
+
+- **Domain:** Admin / Config
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Allow creating/updating config entries in draft state via secured admin APIs; no activation without approval.
+
+#### [CFG-008] Admin config approval workflow (M7.3)
+
+- **Domain:** Admin / Config
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Draft → in_review → active workflow with audit trail and role-based approvals for config changes.
+
+#### [CFG-009] AI-assisted config proposals (M7.4)
+
+- **Domain:** Admin / Config
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** AI/Backend
+- **Description:** AI suggests config diffs from `domain_knowledge`/IRCC PDFs; proposals stored as drafts awaiting human approval.
+
 - **Domain:** 3.3 Cases & Workflows
 - **Status:** 🔵 Planned
 - **Priority:** MEDIUM

@@ -22,6 +22,12 @@
 - New frontend test `client-intake-page.test.tsx` covers client intake render and checklist status; existing renderer/RCIC tests unchanged; backend tests re-run (pass, ~86.7% coverage).
 - Docs/logs/KB/backlog updated for M6.4; product log notes client portal availability on the config-driven engine.
 
+## 2025-12-10 – [backend][frontend][admin][config][m7_1]
+- Added read-only admin intake config APIs at `/api/v1/admin/intake/*` (fields, templates with optional resolution, documents, forms, options) with admin/owner/rcic role checks; wired router into main app.
+- Frontend admin console page `/admin/config/intake` lists field dictionary, templates, documents, forms, and option sets; purely read-only with loading/error states.
+- Tests: new backend API coverage (`test_admin_intake_config_api.py`), new frontend RTL test for admin intake config page; full backend suite (219 tests) and frontend suite passing.
+- Docs/logs/KB/backlog updated to mark M7.1 delivered and outline upcoming edit/approval milestones.
+
 # Engineering Memory Log
 
 ## 2025-12-10 – [backend][config][intake][documents][m6_1]
