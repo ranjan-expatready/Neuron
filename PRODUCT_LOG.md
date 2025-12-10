@@ -11,7 +11,8 @@
 
 - ✅ Backend runtime, tooling & CI parity (`backend/Makefile`, `backend/.venv`, `docs/E2E_SPINE_SETUP.md`) – Python 3.10.19 toolchain, pytest spine, and e2e helpers aligned with `[BP-07]`.
 - ✅ Canonical FastAPI surface (`backend/src/app/main.py`, `backend/src/app/api/*`) – Auth, organizations, cases, and documents online per `[BP-03]`.
-- 🟡 Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Org/person/case schemas exist but isolation, soft deletes, and retention controls from `[BP-06]` still pending.
+- ✅ Multi-tenant data model & tenancy guardrails (`backend/src/app/models/*`, Alembic) – Auth binding across case APIs, strict tenant isolation on CaseRecord/Snapshot/Event, lifecycle RBAC, soft deletes with retention stub, standardized security errors (M4.3).
+- ✅ M4.3 Security Guardrails – RCICs and tenants are protected by enforced auth/tenant scoping, role-based lifecycle controls, soft deletes by default, and consistent security error responses.
 - 🔴 Observability, metrics & SRE stack (logs, tracing, incident runbooks) – Logging strategy outlined in `[BP-05]/[BP-07]` but no implementation yet.
 - 🔴 Mobile & offline-ready client surfaces – Blueprint `[BP-04]/[BP-13]` calls for responsive & native experiences that are not in the repo.
 
@@ -29,7 +30,7 @@
 - ✅ Document intake & storage (`backend/src/app/api/routes/documents.py`, `frontend/src/app/cases/[id]/upload/page.tsx`) – Secure uploads with categorization, partial OCR hooks.
 - 🟡 Person/client profiles – Backend models exist, but dedicated UI journeys, household management, and profile completeness scoring remain `[BP-02]/[BP-03]`.
 - 🟡 Workflow & task service – Test plan + scaffolding exist (`docs/WORKFLOW_TASK_TEST_PLAN.md`), yet services/routes aren’t production-ready `[BP-08]`.
-- 🔴 Billing, payments & trust accounting – Spec’d in `[BP-03 §5.3]` and gap analysis P0 #21; no code implemented.
+- 🟡 Billing plan enforcement stub (M4.5) – Plan config + tenant billing state, plan limits on case creation/evaluation/lifecycle, admin usage endpoints; payments/trust accounting still pending `[BP-03 §5.3]`.
 - 🔴 Lead/CRM pipeline → case automation – Intake flows remain manual despite `[BP-13 §Phase 2]`.
 
 ## D. Brain & AI (Law, Rules, CRS, Intelligence)
@@ -82,3 +83,8 @@
 - 🔵 Mobile apps (consultant + client) – Strategy defined in `[BP-13 P1]`, awaiting execution.
 - 🔵 Partnership ecosystem & GTM motions – Outlined in `[BP-13]/spec gap #24` but tooling/support absent.
 - 🔵 International expansion (UK/AUS/US playbooks) – Captured in `[BP-13 Phase 3]`, unstarted.
+
+## 2025-12-09 – M4.4 Observability & SRE Baseline
+- Added request ID middleware and structured logging with tenant/user context across case evaluation, lifecycle, history, and admin config flows.
+- Exposed internal liveness/readiness (`/internal/healthz`, `/internal/readyz`) and metrics (`/internal/metrics`) endpoints for ops use.
+- Established in-process request counters to support future telemetry integration.

@@ -6,11 +6,8 @@ from typing import Any, Optional, Tuple
 from sqlalchemy.orm import Session
 
 from src.app.cases.models_db import CaseRecord
-from src.app.cases.repository import (
-    CaseEventRepository,
-    CaseRepository,
-    CaseSnapshotRepository,
-)
+from src.app.cases.repository import CaseEventRepository, CaseRepository, CaseSnapshotRepository
+from src.app.security.errors import LifecyclePermissionError, TenantAccessError
 
 
 class CaseLifecycleError(Exception):
@@ -28,6 +25,14 @@ class CaseLifecycleService:
         "archived": set(),
     }
 
+    ROLE_MATRIX = {
+        ("draft", "submitted"): {"owner", "admin", "case_manager"},
+        ("submitted", "in_review"): {"admin", "case_manager"},
+        ("in_review", "complete"): {"admin"},
+        ("complete", "archived"): {"admin"},
+        ("archived", "draft"): {"admin"},
+    }
+
     def __init__(self, db: Session) -> None:
         self.db = db
         self.case_repo = CaseRepository(db)
@@ -42,6 +47,7 @@ class CaseLifecycleService:
         user_id: str,
         new_status: str,
         event_type: str,
+        user_role: str,
     ) -> Tuple[CaseRecord, int]:
         record = self.case_repo.get_case(case_id, tenant_id=tenant_id)
         if not record:
@@ -51,6 +57,11 @@ class CaseLifecycleService:
         allowed = self.ALLOWED_TRANSITIONS.get(current, set())
         if new_status not in allowed:
             raise CaseLifecycleError(f"Cannot transition from {current} to {new_status}")
+        if (current, new_status) in self.ROLE_MATRIX:
+            if user_role not in self.ROLE_MATRIX[(current, new_status)]:
+                raise LifecyclePermissionError(
+                    f"Role '{user_role}' cannot transition {current} -> {new_status}"
+                )
 
         record.status = new_status
         record.updated_at = datetime.utcnow()
@@ -93,6 +104,8 @@ class CaseLifecycleService:
         user_id: str,
         source: str = "case_lifecycle",
     ) -> CaseRecord:
+        if not tenant_id:
+            raise TenantAccessError("Tenant required for lifecycle")
         record = self.case_repo.create_case(
             profile=profile or {},
             program_eligibility=program_eligibility or {},
@@ -131,41 +144,45 @@ class CaseLifecycleService:
         self.db.refresh(record)
         return record
 
-    def submit_case(self, case_id: str, user_id: str, tenant_id: str) -> CaseRecord:
+    def submit_case(self, case_id: str, user_id: str, tenant_id: str, role: str) -> CaseRecord:
         record, _ = self._transition(
             case_id=case_id,
             tenant_id=tenant_id,
             user_id=user_id,
+            user_role=role,
             new_status="submitted",
             event_type="CASE_SUBMITTED",
         )
         return record
 
-    def mark_in_review(self, case_id: str, user_id: str, tenant_id: str) -> CaseRecord:
+    def mark_in_review(self, case_id: str, user_id: str, tenant_id: str, role: str) -> CaseRecord:
         record, _ = self._transition(
             case_id=case_id,
             tenant_id=tenant_id,
             user_id=user_id,
+            user_role=role,
             new_status="in_review",
             event_type="CASE_IN_REVIEW",
         )
         return record
 
-    def mark_complete(self, case_id: str, user_id: str, tenant_id: str) -> CaseRecord:
+    def mark_complete(self, case_id: str, user_id: str, tenant_id: str, role: str) -> CaseRecord:
         record, _ = self._transition(
             case_id=case_id,
             tenant_id=tenant_id,
             user_id=user_id,
+            user_role=role,
             new_status="complete",
             event_type="CASE_COMPLETE",
         )
         return record
 
-    def archive_case(self, case_id: str, user_id: str, tenant_id: str) -> CaseRecord:
+    def archive_case(self, case_id: str, user_id: str, tenant_id: str, role: str) -> CaseRecord:
         record, _ = self._transition(
             case_id=case_id,
             tenant_id=tenant_id,
             user_id=user_id,
+            user_role=role,
             new_status="archived",
             event_type="CASE_ARCHIVED",
         )

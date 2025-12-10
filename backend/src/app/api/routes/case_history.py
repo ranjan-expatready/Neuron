@@ -7,8 +7,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
+from src.app.api.dependencies import get_current_user
 from src.app.cases.repository import CaseEventRepository, CaseRepository, CaseSnapshotRepository
 from src.app.db.database import get_db
+from src.app.models.user import User
+from src.app.security.errors import ForbiddenError, TenantAccessError
 
 router = APIRouter()
 
@@ -93,9 +96,18 @@ def _crs_total(crs_breakdown: Any) -> int | None:
 
 
 @router.get("", response_model=list[CaseSummary])
-async def list_cases(limit: int = Query(50, ge=1, le=200), db: Session = Depends(get_db)):
+async def list_cases(
+    limit: int = Query(50, ge=1, le=200),
+    include_deleted: bool = Query(False),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user.tenant_id:
+        raise TenantAccessError("Tenant context required")
+    if include_deleted and current_user.role not in ("admin", "owner"):
+        raise ForbiddenError("Only admin/owner may view deleted cases")
     repo = CaseRepository(db)
-    records = repo.list_recent(limit=limit)
+    records = repo.list_recent(limit=limit, tenant_id=current_user.tenant_id)
     summaries: list[CaseSummary] = []
     for record in records:
         summaries.append(
@@ -112,17 +124,29 @@ async def list_cases(limit: int = Query(50, ge=1, le=200), db: Session = Depends
 
 
 @router.get("/{case_id}", response_model=CaseDetailResponse)
-async def get_case(case_id: str, db: Session = Depends(get_db)):
+async def get_case(
+    case_id: str,
+    include_deleted: bool = Query(False),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user.tenant_id:
+        raise TenantAccessError("Tenant context required")
+    if include_deleted and current_user.role not in ("admin", "owner"):
+        raise ForbiddenError("Only admin/owner may view deleted cases")
+
     repo = CaseRepository(db)
     snapshot_repo = CaseSnapshotRepository(db)
     event_repo = CaseEventRepository(db)
 
-    record = repo.get_case(case_id)
-    if not record:
+    record = repo.get_case(case_id, tenant_id=current_user.tenant_id, include_deleted=include_deleted)
+    if not record or (record.is_deleted and not include_deleted):
         raise HTTPException(status_code=404, detail="Case not found")
 
-    snapshots = snapshot_repo.list_snapshots(case_id)
-    events = event_repo.list_events(case_id)
+    snapshots = snapshot_repo.list_snapshots(
+        case_id, include_deleted=include_deleted, tenant_id=current_user.tenant_id
+    )
+    events = event_repo.list_events(case_id, include_deleted=include_deleted, tenant_id=current_user.tenant_id)
 
     return CaseDetailResponse(
         record=CaseRecordResponse(

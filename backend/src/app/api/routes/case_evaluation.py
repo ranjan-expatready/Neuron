@@ -1,24 +1,31 @@
 from __future__ import annotations
 
 import hashlib
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
+from src.app.api.dependencies import get_current_user
 from src.app.cases.history_service import CaseHistoryResult, CaseHistoryService
 from src.app.cases.model import CaseService
 from src.app.db.database import get_db
 from src.app.documents.service import DocumentMatrixService
 from src.app.domain_config.service import ConfigService
+from src.app.models.user import User
+from src.app.observability.logging import get_logger, log_info
 from src.app.rules.models import CandidateProfile, ProgramEligibilityResult
+from src.app.security.errors import TenantAccessError
+from src.app.services.billing_service import BillingService
 from src.app.services.rule_engine_service import RuleEngineService
 
 
 router = APIRouter()
+logger = get_logger(__name__)
 
 
 class FactorDetail(BaseModel):
@@ -114,6 +121,8 @@ def _persist_history(
     required_artifacts: dict[str, list],
     config_fingerprint: dict[str, str],
     source: str,
+    tenant_id: str,
+    created_by_user_id: str,
 ) -> CaseHistoryResult:
     program_payload = [res.model_dump(mode="json") for res in program_results]
     return history_service.persist_evaluation(
@@ -123,19 +132,27 @@ def _persist_history(
         required_artifacts=required_artifacts,
         config_fingerprint=config_fingerprint,
         source=source,
-        actor="system",
+        actor=created_by_user_id,
+        tenant_id=tenant_id,
+        created_by_user_id=created_by_user_id,
     )
 
 
 @router.post("/evaluate", response_model=CaseEvaluationResponse)
 async def evaluate_case(
-    request: CaseEvaluationRequest, db: Session = Depends(get_db)
+    request: CaseEvaluationRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> CaseEvaluationResponse:
     config_service = ConfigService()
     rule_engine = RuleEngineService(config_service=config_service)
     document_service = DocumentMatrixService(config_service=config_service)
     case_service = CaseService(rule_engine=rule_engine, document_service=document_service)
     history_service = CaseHistoryService(db)
+    if not current_user.tenant_id:
+        raise TenantAccessError("Tenant context required")
+    billing_service = BillingService(db)
+    billing_service.apply_plan_limits(current_user.tenant_id, "evaluation_run")
 
     case = case_service.build_case(request.profile)
     crs_results = rule_engine.evaluate(request.profile)
@@ -225,7 +242,10 @@ async def evaluate_case(
         required_artifacts=docs_payload,
         config_fingerprint=config_version,
         source=source,
+        tenant_id=current_user.tenant_id,
+        created_by_user_id=current_user.id,
     )
+    billing_service.record_usage_event(current_user.tenant_id, "evaluation_run")
 
     return CaseEvaluationResponse(
         case_id=history.case_id,

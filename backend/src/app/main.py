@@ -1,4 +1,6 @@
 import logging
+import time
+import uuid
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -8,15 +10,37 @@ from fastapi.security import HTTPBearer
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from src.app.api.routes import admin_config, auth, cases, documents, organizations, persons, tasks, users
+from src.app.api.routes import (
+    admin_config,
+    auth,
+    billing_admin,
+    cases,
+    documents,
+    organizations,
+    persons,
+    tasks,
+    users,
+)
 from src.app.api.routes import config as config_routes
+from src.app.api.routes.internal import router as internal_router
+
 from src.app.config import settings
 from src.app.cases import models_db as case_history_models
 from src.app.db.database import engine, get_db
 from src.app.middleware.security import security_middleware
-from src.app.models import case, config, document, organization, person, task, user
+from src.app.models import case, config, document, organization, person, task, user, billing
+from src.app.observability.logging import get_logger, log_info, log_error
+from src.app.observability.metrics import metrics_registry
+from src.app.security.errors import (
+    ForbiddenError,
+    LifecyclePermissionError,
+    PlanLimitError,
+    TenantAccessError,
+    UnauthorizedError,
+    SecurityError,
+)
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 load_dotenv()
 
 # Create all tables
@@ -46,6 +70,42 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Observability middleware (request_id, timing, metrics, structured log)
+@app.middleware("http")
+async def observability_middleware(request: Request, call_next):
+    request_id = str(uuid.uuid4())
+    request.state.request_id = request_id
+    start = time.perf_counter()
+    try:
+        response = await call_next(request)
+        status_code = response.status_code
+    except Exception:
+        status_code = 500
+        duration_ms = (time.perf_counter() - start) * 1000
+        metrics_registry.record_request(request.method, request.url.path, status_code, duration_ms)
+        log_error(
+            logger=logger,
+            message="request.failed",
+            request=request,
+            status_code=status_code,
+            duration_ms=duration_ms,
+            component="http_request",
+        )
+        raise
+
+    duration_ms = (time.perf_counter() - start) * 1000
+    metrics_registry.record_request(request.method, request.url.path, status_code, duration_ms)
+    log_info(
+        logger=logger,
+        message="request.completed",
+        request=request,
+        status_code=status_code,
+        duration_ms=duration_ms,
+        component="http_request",
+    )
+    response.headers["X-Request-ID"] = request_id
+    return response
 
 # Add security middleware
 app.middleware("http")(security_middleware)
@@ -86,10 +146,12 @@ app.include_router(cases.router, prefix="/api/v1/cases", tags=["Cases"])
 app.include_router(documents.router, prefix="/api/v1/documents", tags=["Documents"])
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
 app.include_router(admin_config.router, prefix="/api/v1/admin/config", tags=["Admin Configuration"])
+app.include_router(billing_admin.router, prefix="/api/v1/admin/billing", tags=["Billing Admin"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["Tasks"])
 from src.app.api.routes import case_evaluation, case_history, case_lifecycle  # noqa: E402
 
 app.include_router(case_evaluation.router, prefix="/api/v1/cases", tags=["Cases"])
+app.include_router(internal_router, prefix="/internal", tags=["Internal"])
 app.include_router(
     case_history.router,
     prefix="/api/v1/case-history",
@@ -109,6 +171,48 @@ async def root():
         "version": settings.app_version,
         "environment": settings.environment,
     }
+
+
+@app.exception_handler(UnauthorizedError)
+async def unauthorized_handler(request: Request, exc: UnauthorizedError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(error="unauthorized", detail=exc.detail, status_code=exc.status_code).model_dump(),
+    )
+
+
+@app.exception_handler(ForbiddenError)
+async def forbidden_handler(request: Request, exc: ForbiddenError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(error="forbidden", detail=exc.detail, status_code=exc.status_code).model_dump(),
+    )
+
+
+@app.exception_handler(TenantAccessError)
+async def tenant_handler(request: Request, exc: TenantAccessError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(error="tenant_access", detail=exc.detail, status_code=exc.status_code).model_dump(),
+    )
+
+
+@app.exception_handler(LifecyclePermissionError)
+async def lifecycle_handler(request: Request, exc: LifecyclePermissionError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=SecurityError(
+            error="lifecycle_permission", detail=exc.detail, status_code=exc.status_code
+        ).model_dump(),
+    )
+
+
+@app.exception_handler(PlanLimitError)
+async def plan_limit_handler(request: Request, exc: PlanLimitError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": "plan_limit_exceeded", "detail": exc.detail, "status_code": exc.status_code},
+    )
 
 
 @app.exception_handler(ValueError)

@@ -20,11 +20,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [PL-001] Multi-tenant Data Isolation Hardening
 
 - **Domain:** 3.1 Platform & Core
-- **Status:** 🟡 Partial
+- **Status:** ✅ Done (M4.3)
 - **Priority:** HIGH
 - **Phase:** P1 (Foundation)
 - **Type:** Database + Backend services
-- **Description:** Finish org-level isolation (row-level security, retention, soft deletes, tenant-scoped search) and add audit-friendly backup policies so every org’s data satisfies `[BP-06]`.
+- **Description:** Auth binding on case APIs, strict tenant isolation on CaseRecord/Snapshot/Event, lifecycle RBAC, soft deletes + retention stub, standardized security errors. Remaining: production retention purge policies and RLS/backup automation (future).
 - **Source:** BP-06 (Data Model & ERD), BP-14 (Gap #10)
 - **Dependencies:** Alembic migrations, tenancy middleware, org context propagation
 
@@ -167,11 +167,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [CF-003] Billing, Payments & Trust Accounting
 
 - **Domain:** 3.3 Cases & Workflows
-- **Status:** 🔴 Missing
+- **Status:** 🟡 Partial
 - **Priority:** HIGH
 - **Phase:** P1
 - **Type:** Backend + Integrations
-- **Description:** Implement invoices, payment plans, trust account handling, and PCI/AML compliance `[BP-03 §5.3]`.
+- **Description:** Implement invoices, payment plans, trust account handling, and PCI/AML compliance `[BP-03 §5.3]`. Plan enforcement + usage tracking shipped in M4.5; payments/trust accounting remain.
 - **Source:** BP-03, BP-14 Gap #21, #20
 - **Dependencies:** Payment gateway, audit logging, reporting
 
@@ -798,3 +798,6 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Description:** Extend billing/financial services to support multi-currency, tax reporting, and jurisdiction-specific rules `[BP-13 §Phase 3]`.
 - **Source:** BP-13, Gap #20
 - **Dependencies:** Financial reporting, localization, legal research
+
+- [DONE] Observability baseline (M4.4): structured logging, request IDs, health/ready/metrics endpoints.
+- [OPEN] Observability enhancements: tracing, Prometheus/Grafana integration, alerting/SLOs, per-tenant dashboards.
