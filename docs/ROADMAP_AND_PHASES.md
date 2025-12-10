@@ -10,20 +10,46 @@
 - **Phase 0 – Foundations & Discovery (✅ Done)**: Competitor research, PRD, risk analysis, spec refinement.
 - **Phase 1 – Domain Knowledge Ingestion (✅ Done for core EE)**: CRS, CLB tables, program rules (FSW/CEC/FST), PoF, NOC/TEER, biometrics/medicals, ADR patterns.
 - **Phase 2 – Rule Engine & Config Layer (✅ Done)**: ConfigService, CRS engine, program eligibility, document matrix, Case Evaluation API.
-- **Phase 3 – Initial UX & Admin Surfaces (🟡 In Progress)**: Admin Config API & UI (read-only); Case Intake UI (`/express-entry/intake`). Next: minimal case history, basic UX polish.
-- **Phase 4 – Persistence, Pricing & Accounts (🔵 Planned)**: User accounts, saved cases, pricing/plans, billing integration.
-- **Phase 5 – AI Agent Layer & Automation (🔵 Planned)**: Product agent, Configurator agent, Case coach, QA agent; OpenHands/Cursor integration for continuous improvement.
-- **Phase 6 – Production Hardening & Scale (🔵 Planned)**: Load tests, observability, incident playbooks, performance tuning.
+- **Phase 3 – Initial UX & Admin Surfaces (✅ Done)**: Admin Config read UI/API, Express Entry intake UI, case history/audit.
+- **Phase 4 – Persistence, Pricing & Accounts (✅ Done)**: Tenant/case lifecycle, security/tenant guardrails, observability baseline, billing plan enforcement.
+- **Phase 5 – CRS Engine & Explainability (✅ Done)**: CRS core, structured + NL explainability, case integration; Phase 5 golden tag created.
+- **Phase 6 – Intake & Document Engine (✅ Done)**: Intake/document design + engine, RCIC intake UI, canonical profile + checklist integration, client self-serve intake.
+- **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Currently at end of **Phase 3.3**: Admin Config UI + Case Intake UI are live; backend rule engine + configs are wired and tested.
-- Phase 3.4 (this doc) is roadmap/orientation.
-- Next concrete build step: **Phase 3.5 – Case History & Minimal Persistence** (planned).
+- Currently in **Phase 7 – Admin Config & Governance**, milestone **M7.2** delivered.
+- Next concrete build step: **M7.3 – Approval & Activation** (drafts → active configs, human-in-loop).
 
-## 4) Next Milestones (3–5)
-- **M3.5 – Case History (Local & API-ready)**: Minimal persistence for evaluated cases; history list + recall.
-- **M4.1 – Accounts & Auth Skeleton**: Basic account flows to gate case history and admin tools.
-- **M4.2 – Pricing Plans & Case Types**: Plan selection + paywall hooks around evaluations.
-- **M5.1 – Configurator AI Agent (read-only suggestions)**: Surface suggested config diffs; no auto-write.
-- **M5.2 – OpenHands-assisted refactor & deeper tests**: Hardening of rule engine + UI with automated refactors/tests.
+## 4) Milestones by Phase (through Phase 7)
+
+### Phase 4 – Tenant, Case Lifecycle, Security, Observability
+- M4.1 – Tenant + Case Lifecycle ✅
+- M4.2 – Pricing Plans & Case Types ✅
+- M4.3 – Security & Tenant Guardrails ✅
+- M4.4 – Observability & SRE Baseline ✅
+- M4.5 – Billing Plan Enforcement ✅
+
+### Phase 5 – CRS Engine & Explainability
+- M5.1 – CRS Engine Core ✅
+- M5.2 – Structured Explainability ✅
+- M5.3 – Natural Language & Case Integration ✅
+- Golden tag: `v0.5.0-phase5-golden` (Phase 5 snapshot). Phase 6/7 golden tags will follow after M7.3 approval/activation.
+
+### Phase 6 – Intake & Document Engine
+- M6.1 – Intake & Document Model Design ✅
+- M6.2 – Intake & Document Engine Backend ✅
+- M6.3 – RCIC Intake UI ✅
+- M6.3h – Canonical Profile + Checklist Integration ✅
+- M6.4 – Client Self-Serve Intake Portal ✅
+
+### Phase 7 – Admin Config & Governance
+- M7.1 – Admin Config Console (Read-Only) ✅
+- M7.2 – Intake Config Draft/Edit Layer (Non-Live) ✅
+- M7.3 – Approval & Activation (planned)
+- M7.4 – AI-Assisted Config Proposals (planned)
+
+## 5) Current / Next
+- Current phase: **Phase 7 – Admin Config & Governance**
+- Current milestone: **M7.2 – Draft/Edit Intake Config Layer (Non-Live)**
+- Next milestone: **M7.3 – Approval & Activation**
 
