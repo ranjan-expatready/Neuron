@@ -77,6 +77,7 @@ class CRSFactorContribution(BaseModel):
     inputs_used: Dict[str, Any] = Field(default_factory=dict)
     rule_reference: str
     explanation: Optional["CRSFactorExplanation"] = None
+    nl_explanation: Optional["CRSFactorNLExplanation"] = None
 
 
 class CRSFactorExplanation(BaseModel):
@@ -85,6 +86,13 @@ class CRSFactorExplanation(BaseModel):
     input_summary: Dict[str, Any] = Field(default_factory=dict)
     threshold_summary: Dict[str, Any] = Field(default_factory=dict)
     notes: Optional[Dict[str, Any]] = None
+
+
+class CRSFactorNLExplanation(BaseModel):
+    explanation_code: str
+    title: str
+    description: str
+    improvement_hint: Optional[str] = None
 
 
 class CRSResult(BaseModel):

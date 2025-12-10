@@ -105,3 +105,8 @@ eligibility:
   - `threshold_summary` (key config thresholds/bands/caps)
 - Explainability data is derived solely from `config/domain/crs.yaml`; no IRCC constants are coded.
 - M5.3 will layer NL generation + UI; current output is machine-readable only.
+
+## 10) M5.3 Natural-Language Explanations & Case Integration
+- `CRSFactorContribution` may include `nl_explanation` (title/description/hints) generated from structured explanations without hard-coding IRCC numbers.
+- Case Evaluation API now returns CRS score + factor contributions + explanations; case history snapshots store the CRS payload for audit.
+- NL templates derive values from `input_summary` and `threshold_summary` (config-driven).

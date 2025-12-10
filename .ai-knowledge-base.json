@@ -92,11 +92,11 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "post-m5.2",
-    "completion_percentage": 95,
+    "status": "post-m5.3",
+    "completion_percentage": 96,
     "current_phase": "Phase 4",
-    "next_milestone": "M5.3 CRS NL explanations + UI wiring",
-    "current_milestone": "M5.2 CRS structured explainability"
+    "next_milestone": "M5.4 UI/report surfacing for CRS",
+    "current_milestone": "M5.3 CRS NL explanations + case integration"
   },
   "agent_bootstrap": {
     "steps": [
@@ -283,6 +283,7 @@
       "backend/src/app/services/crs_engine.py",
       "backend/src/app/rules/crs_engine.py",
       "backend/src/app/rules/crs_adapter.py",
+      "backend/src/app/rules/crs_explanation_generator.py",
       "backend/src/app/domain/crs/models.py",
       "backend/src/app/domain_config/service.py"
     ],

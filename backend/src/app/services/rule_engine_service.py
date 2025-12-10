@@ -47,4 +47,5 @@ class RuleEngineService:
     def compute_crs(self, profile: CandidateProfile):
         crs_profile = build_crs_profile_from_candidate(profile)
         crs_engine = CRSEngine(config=self._domain_config)
-        return crs_engine.compute(crs_profile)
+        result = crs_engine.compute(crs_profile)
+        return result

@@ -33,12 +33,16 @@ class FactorDetail(BaseModel):
     points: int
     rule_id: str
     config_ref: str | None = None
+    explanation: str | None = None
+    explanation_code: str | None = None
 
 
 class CrsBreakdownResponse(BaseModel):
     total: int
     breakdown: dict[str, int] = Field(default_factory=dict)
     factor_details: list[FactorDetail] = Field(default_factory=list)
+    factor_contributions: list[Any] = Field(default_factory=list)
+    explanations: list[Any] = Field(default_factory=list)
 
 
 class ProgramEligibilityResponse(BaseModel):
@@ -146,6 +150,7 @@ async def evaluate_case(
 ) -> CaseEvaluationResponse:
     config_service = ConfigService()
     rule_engine = RuleEngineService(config_service=config_service)
+    crs_service = None
     document_service = DocumentMatrixService(config_service=config_service)
     case_service = CaseService(rule_engine=rule_engine, document_service=document_service)
     history_service = CaseHistoryService(db)
@@ -155,46 +160,48 @@ async def evaluate_case(
     billing_service.apply_plan_limits(current_user.tenant_id, "evaluation_run")
 
     case = case_service.build_case(request.profile)
-    crs_results = rule_engine.evaluate(request.profile)
-    crs_for_program = None
-    if case.selected_program and case.selected_program in crs_results:
-        crs_for_program = crs_results[case.selected_program].crs
-    else:
-        crs_for_program = next(iter(crs_results.values())).crs if crs_results else None
+    if crs_service is None:
+        from src.app.services.crs_engine import CRSEngineService
+        crs_service = CRSEngineService(config_service=config_service)
+    crs_result = crs_service.compute_for_candidate(request.profile)
 
     crs_breakdown: dict[str, int] = {}
     factor_details: list[FactorDetail] = []
-    total = 0
-    if crs_for_program:
+    total = crs_result.total_score if crs_result else 0
+    if crs_result:
+        # Roll up by factor category
+        core = sum(c.points_awarded for c in crs_result.factor_contributions if c.factor_code.startswith("core_"))
+        spouse = sum(c.points_awarded for c in crs_result.factor_contributions if c.factor_code.startswith("spouse"))
+        transfer = sum(c.points_awarded for c in crs_result.factor_contributions if c.factor_code.startswith("transferability"))
+        additional = sum(c.points_awarded for c in crs_result.factor_contributions if c.factor_code.startswith("additional"))
         crs_breakdown = {
-            "core_points": crs_for_program.core_points,
-            "spouse_points": crs_for_program.spouse_points,
-            "transferability_points": crs_for_program.transferability_points,
-            "additional_points": crs_for_program.additional_points,
+            "core_points": core,
+            "spouse_points": spouse,
+            "transferability_points": transfer,
+            "additional_points": additional,
         }
-        total = crs_for_program.total_points
         factor_details = [
             FactorDetail(
                 name="core_points",
-                points=crs_for_program.core_points,
+                points=core,
                 rule_id="crs.core",
                 config_ref="config/domain/crs.yaml",
             ),
             FactorDetail(
                 name="spouse_points",
-                points=crs_for_program.spouse_points,
+                points=spouse,
                 rule_id="crs.spouse",
                 config_ref="config/domain/crs.yaml",
             ),
             FactorDetail(
                 name="transferability_points",
-                points=crs_for_program.transferability_points,
+                points=transfer,
                 rule_id="crs.transferability",
                 config_ref="config/domain/crs.yaml",
             ),
             FactorDetail(
                 name="additional_points",
-                points=crs_for_program.additional_points,
+                points=additional,
                 rule_id="crs.additional",
                 config_ref="config/domain/crs.yaml",
             ),
@@ -230,6 +237,9 @@ async def evaluate_case(
         "total": total,
         "breakdown": crs_breakdown,
         "factor_details": [fd.model_dump() for fd in factor_details],
+        "factor_contributions": [
+            c.model_dump(mode="json") for c in (crs_result.factor_contributions if crs_result else [])
+        ],
     }
     config_version = _config_hashes()
     source = "express_entry_intake"
@@ -256,6 +266,10 @@ async def evaluate_case(
             total=total,
             breakdown=crs_breakdown,
             factor_details=factor_details,
+            factor_contributions=crs_result.factor_contributions if crs_result else [],
+            explanations=[
+                c.nl_explanation for c in crs_result.factor_contributions if c.nl_explanation
+            ]
         ),
         documents_and_forms=docs_payload,
         required_artifacts=docs_payload,

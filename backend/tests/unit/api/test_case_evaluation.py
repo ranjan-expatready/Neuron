@@ -43,6 +43,10 @@ def test_case_evaluation_happy_path(client: TestClient, auth_headers):
     assert "program_eligibility" in body
     assert any(item["eligible"] for item in body["program_eligibility"])
     assert body["crs"]["total"] >= 0
+    assert body["crs"]["explanations"]
+    first_expl = body["crs"]["explanations"][0]
+    assert first_expl.get("title")
+    assert first_expl.get("description")
     assert len(body["documents_and_forms"].get("forms", [])) > 0
     assert body["config_version"]
 

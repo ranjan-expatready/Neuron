@@ -11,6 +11,11 @@
 - Updated CRSEngine to populate explanation metadata across core, spouse, transferability, and additional factors; no logic/points changes.
 - Added CRS tests covering explanation presence and identifiers; documentation/logs/KB updated for M5.2.
 
+## 2025-12-10 – [backend][rule_engine][crs][m5_3]
+- Added NL explanations (`CRSFactorNLExplanation`) derived from structured explanations; templates avoid hard-coded IRCC numbers.
+- CRS engine service now attaches NL explanations; Case Evaluation API returns CRS scores + contributions + explanations; history snapshots store CRS payload with explainability.
+- Updated docs/KB/product/backlog to reflect M5.3 completion; regression tests for CRS and case evaluation extended.
+
 ## 2025-12-10 – [backend][billing][m4_5]
 - Added BillingService abstraction with plan config loader (`config/plans.yaml`), plan state persistence, usage counters, plan limit enforcement, and structured logging/metrics.
 - Introduced billing admin router (`/api/v1/admin/billing/*`) for state/usage/plan updates; secured via admin/owner RBAC.

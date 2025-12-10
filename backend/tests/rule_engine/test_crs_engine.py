@@ -120,6 +120,7 @@ def test_additional_points_pnp_and_sibling():
     explanation = next(c.explanation for c in result.factor_contributions if c.factor_code == "additional_provincial_nomination")
     assert explanation.rule_path.startswith("crs_additional.")
     _assert_explanations_present(result)
+    assert all(c.nl_explanation for c in result.factor_contributions)
 
 
 def test_transferability_certificate_language_points():
@@ -192,4 +193,21 @@ def test_adapter_builds_crs_profile_from_candidate():
     assert crs_profile.education_level == EducationLevel.BACHELOR_THREE_YEAR_PLUS
     assert crs_profile.canadian_work_experience_years >= 1
     assert crs_profile.foreign_work_experience_years >= 1
+
+
+def test_nl_explanations_present():
+    service = CRSEngineService()
+    profile = CRSProfileInput(
+        age=28,
+        marital_status=MaritalStatus.SINGLE,
+        education_level=EducationLevel.BACHELOR_THREE_YEAR_PLUS,
+        first_official_language=LanguageCLBProfile(reading=8, writing=8, listening=9, speaking=8),
+        canadian_work_experience_years=1,
+        foreign_work_experience_years=0,
+    )
+    result = service.compute_for_profile(profile)
+    assert all(c.nl_explanation is not None for c in result.factor_contributions)
+    some = result.factor_contributions[0].nl_explanation
+    assert some.title
+    assert some.description
 
