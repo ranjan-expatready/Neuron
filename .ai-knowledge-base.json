@@ -1,6 +1,6 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-10T12:00:00+00:00",
+  "last_updated": "2025-12-10T15:00:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
     "test_directories": [
@@ -71,32 +71,34 @@
     }
   },
   "test_results": {
-    "last_run": "2025-12-10T12:00:00+00:00",
-    "overall_coverage": 85,
-    "total_tests": 181,
-    "passing_tests": 181,
+    "last_run": "2025-12-10T15:00:00+00:00",
+    "overall_coverage": 86,
+    "total_tests": 200,
+    "passing_tests": 196,
     "failing_tests": 0,
     "coverage_threshold": 80,
     "meets_threshold": true,
     "recent_runs": [
       {
-        "timestamp": "2025-12-10T12:00:00+00:00",
-        "scope": "backend_full_suite_m4_3_security",
-        "tests_run": 181,
-        "passed": 181,
+        "timestamp": "2025-12-10T15:00:00+00:00",
+        "scope": "backend_full_suite_phase5_integration",
+        "tests_run": 200,
+        "passed": 196,
         "failed": 0,
-        "coverage": 85,
-        "notes": "Backend pytest (auth binding, tenant isolation, RBAC, soft deletes) all green; coverage >=85%."
+        "coverage": 86,
+        "notes": "Backend pytest on integration/phase5_crs_and_billing (billing + CRS core + explainability + NL); 4 skipped; coverage 86.38%."
       }
     ]
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "post-m5.3",
+    "status": "post-m5.3 integration",
     "completion_percentage": 96,
-    "current_phase": "Phase 4",
+    "current_phase": "Phase 5 – CRS & Explainability",
     "next_milestone": "M5.4 UI/report surfacing for CRS",
-    "current_milestone": "M5.3 CRS NL explanations + case integration"
+    "current_milestone": "M5.3 CRS natural-language explainability + case integration",
+    "integration_branch": "integration/phase5_crs_and_billing",
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend 196/200 tests passing, 4 skipped, coverage 86.38%; frontend tests passing."
   },
   "agent_bootstrap": {
     "steps": [

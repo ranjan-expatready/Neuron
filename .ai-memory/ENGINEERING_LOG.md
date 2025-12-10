@@ -16,6 +16,11 @@
 - CRS engine service now attaches NL explanations; Case Evaluation API returns CRS scores + contributions + explanations; history snapshots store CRS payload with explainability.
 - Updated docs/KB/product/backlog to reflect M5.3 completion; regression tests for CRS and case evaluation extended.
 
+## 2025-12-10 – [integration][phase5][crs][billing][stabilization]
+- Integrated M4.5 billing/plan enforcement and M5.1–M5.3 CRS (core, structured explainability, NL + case integration) into `integration/phase5_crs_and_billing`.
+- Backend tests: 196 passed, 4 skipped; coverage 86.38%. Frontend tests: 1 passed.
+- Represents Phase 5 golden snapshot for billing + CRS explainability; no new features added.
+
 ## 2025-12-10 – [backend][billing][m4_5]
 - Added BillingService abstraction with plan config loader (`config/plans.yaml`), plan state persistence, usage counters, plan limit enforcement, and structured logging/metrics.
 - Introduced billing admin router (`/api/v1/admin/billing/*`) for state/usage/plan updates; secured via admin/owner RBAC.

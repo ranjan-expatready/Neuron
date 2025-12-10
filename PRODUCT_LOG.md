@@ -56,6 +56,7 @@
   - Implemented CaseRecord, CaseSnapshot, and CaseEvent models with Alembic migration.
   - Case Evaluation API now persists evaluations and returns `case_id` + `version` with audit metadata.
   - Added internal Case History API (`/api/v1/case-history`) for listing and inspecting stored cases.
+- Phase 5 Golden Snapshot (integration/phase5_crs_and_billing): billing plan enforcement + CRS core + structured/NL explainability are integrated and tested; case evaluation returns explainable CRS breakdown, suitable for RCIC-facing backend flows (UI/report surfacing remains future).
 - ✅ Milestone 4.1 – Case Lifecycle & Tenant Infrastructure
   - Added Tenant and tenant-scoped User models (composite tenant+email uniqueness, roles, hashed_password).
   - CaseRecord now tracks tenant ownership, creator user, and lifecycle status; snapshots/events store tenant_id.
