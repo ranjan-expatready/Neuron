@@ -53,11 +53,18 @@
 - M8.1 – Client Engagement Agent (Hybrid Mode) Spec ✅
 - M8.2 – Client Engagement Agent Shadow Suggestions ✅ (template-based, admin-triggered)
 - M8.3 – LLM-powered client engagement replies (shadow-only, guardrailed) ✅
-- M8.4 – Multi-agent orchestration + analytics (planned)
+- M8.4 – Client Engagement AUTO mode (intake/docs, admin-triggered) ✅
 - Golden snapshot: `v0.8.3-phase8-agentic-shadow` – M8.0–M8.3 (skeleton + hybrid spec + shadow + LLM drafts)
 
+### Phase 9 – Document Intelligence
+- M9.0 – Document Reviewer Agent & OCR Spec ✅
+- M9.1 – Document Reviewer Agent scaffold + metadata-based classification (planned)
+- M9.2 – OCR abstraction + provider integration (planned)
+- M9.3 – Quality checks + issues UX (planned)
+- M9.4+ – Advanced ML/LLM doc understanding & auto mode (planned)
+
 ## 5) Current / Next
-- Current phase: **Phase 8 – Agentic Platform**
-- Current milestone: **M8.3 – LLM-powered client engagement replies (shadow-only)**
-- Next milestone: **M8.4 – Multi-agent orchestration + analytics**
+- Current phase: **Phase 9 – Document Intelligence**
+- Current milestone: **M9.0 – Document Reviewer Agent & OCR Spec**
+- Next milestone: **M9.1 – Document Reviewer Agent scaffold (metadata-based classification)**
 

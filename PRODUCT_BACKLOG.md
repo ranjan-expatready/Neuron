@@ -543,6 +543,42 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend + Backend
 - **Description:** Dashboards for engagement conversion, response rates, auto vs shadow effectiveness.
 
+#### [DOC-010] Document Reviewer Agent scaffold (M9.1)
+
+- **Domain:** Document Intelligence
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Implement Document Reviewer Agent skeleton with metadata/context-based classification; log suggestions; no OCR yet.
+
+#### [DOC-011] OCR abstraction + provider integration (M9.2)
+
+- **Domain:** Document Intelligence
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Implement `DocumentTextExtractor` abstraction and wire first provider; config-driven; no PII leakage.
+
+#### [DOC-012] Quality checks + issues UX (M9.3)
+
+- **Domain:** Document Intelligence
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Add issue detection (expiry, resolution, page counts, language) and surface in RCIC UI with approve/ignore workflows.
+
+#### [DOC-009] Document Reviewer Agent Spec (M9.0)
+
+- **Domain:** Document Intelligence
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Docs
+- **Description:** Spec for document reviewer agent, OCR abstraction, classification, checklist mapping, quality checks, and auditability.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR
