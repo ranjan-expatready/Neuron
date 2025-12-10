@@ -6,6 +6,9 @@
 - New admin APIs `/api/v1/admin/agents/actions` and `/api/v1/admin/agents/sessions/{id}` (admin/owner/rcic, tenant-scoped) with tests.
 - New admin UI page `/admin/agents` to view agent actions; RTL tests added. Backend/Frontend tests pass.
 
+## 2025-12-10 – [docs][ai][m8_1]
+- Added `docs/CLIENT_ENGAGEMENT_AGENT_SPEC.md` detailing hybrid (shadow/auto) modes, events/triggers, safety/guardrails, memory, data contracts, and workflows for the Client Engagement Agent. No runtime behavior changes; implementation planned for M8.2+.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

@@ -95,10 +95,10 @@
     "status": "Phase 8 – agentic platform skeleton in progress",
     "completion_percentage": 98,
     "current_phase": "Phase 8 – Agentic Platform",
-    "next_milestone": "M8.1 LLM-backed engagement + triggers",
-    "current_milestone": "M8.0 – Agentic Platform Skeleton + Client Engagement Agent Skeleton",
+    "next_milestone": "M8.2 – LLM-backed engagement + triggers",
+    "current_milestone": "M8.1 – Client Engagement Agent Spec (Hybrid Mode)",
     "integration_branch": "integration/phase5_crs_and_billing",
-    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton with sessions/actions, orchestrator, and client engagement agent suggestions (no auto-send)."
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec for Client Engagement Agent (shadow/auto) with event model and safety guardrails (design only, no runtime changes)."
   },
   "agent_bootstrap": {
     "steps": [
