@@ -9,6 +9,11 @@
 ## 2025-12-10 – [docs][ai][m8_1]
 - Added `docs/CLIENT_ENGAGEMENT_AGENT_SPEC.md` detailing hybrid (shadow/auto) modes, events/triggers, safety/guardrails, memory, data contracts, and workflows for the Client Engagement Agent. No runtime behavior changes; implementation planned for M8.2+.
 
+## 2025-12-10 – [backend][frontend][ai][m8_2]
+- Implemented template-based shadow suggestions for Client Engagement Agent (intake incomplete, missing documents, client question drafts) with logging to `AgentAction`/`AgentSession`.
+- Added admin APIs under `/api/v1/admin/agents/client-engagement/*` to manually trigger suggestions; RBAC admin/owner/rcic enforced.
+- Added case engagement UI (`/cases/[caseId]/engagement`) to generate/view drafts; frontend tests added. No auto-send, no LLM, no cron.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).
