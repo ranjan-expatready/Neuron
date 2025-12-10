@@ -10,7 +10,9 @@ from .config_models import (
     ArrangedEmploymentConfig,
     BiometricsMedicalsConfig,
     ClbTablesConfig,
+    CrsAdditionalPointsConfig,
     CrsCoreConfig,
+    CrsSpouseConfig,
     CrsTransferabilityConfig,
     DomainRulesConfig,
     LanguageConfig,
@@ -68,8 +70,12 @@ class DomainRulesConfigService:
             )
             domain_cfg = DomainRulesConfig(
                 crs_core=CrsCoreConfig(**crs_data["crs_core"]),
+                crs_spouse=CrsSpouseConfig(**crs_data.get("crs_spouse", {})),
                 crs_transferability=CrsTransferabilityConfig(
-                    notes=crs_data.get("crs_transferability", {}).get("notes")
+                    **crs_data.get("crs_transferability", {})
+                ),
+                crs_additional=CrsAdditionalPointsConfig(
+                    **crs_data.get("crs_additional", {})
                 ),
                 language=LanguageConfig(
                     **language_data["program_minima"],
