@@ -44,10 +44,10 @@ For each agent: responsibilities, inputs, outputs, safety.
   - Inputs: config changes, agent actions.
   - Outputs: QA findings, audit notes.
   - Safety: read-only, advisory only.
-- **Client Engagement Agent (primary for M8.0)**
-  - Inputs: case intake status, checklist/missing docs, client questions (future).
-  - Outputs: suggested reminders/explanations; suggested replies.
-  - Safety: suggestions only; no sends, no commitments; RCIC override required.
+- **Client Engagement Agent (primary for M8.x)**
+  - Inputs: case intake status, checklist/missing docs, client questions.
+  - Outputs: suggested reminders/explanations; LLM-assisted draft replies (shadow-only).
+  - Safety: suggestions only; no sends, no commitments; RCIC override required; template fallback if LLM unavailable.
 
 ## 3. Memory & Persistence Model (product-level)
 - **Case-scoped memory**:
@@ -66,15 +66,16 @@ For each agent: responsibilities, inputs, outputs, safety.
 - Vector memory: pgvector or external vector DB (future).
 - Notifications/Email/SMS: not wired in M8.0; future integration points only.
 
-## 5. Client Engagement Agent Spec (M8.0 skeleton)
-- **Triggers (future)**: intake not started/incomplete, missing documents, client portal questions.
-- **Actions (this milestone)**:
-  - Suggest reminders for intake or missing docs (deterministic templates).
-  - Suggest replies for client questions (placeholder).
-  - ALWAYS log suggestions to `agent_actions` with status=`suggested`.
+## 5. Client Engagement Agent Spec (M8.0–M8.3)
+- **Triggers (manual/admin)**: intake not started/incomplete, missing documents, client portal questions.
+- **Actions**:
+  - M8.0: deterministic placeholders.
+  - M8.2: template-based reminders and question drafts, admin-triggered; logs `suggested`.
+  - M8.3: LLM-assisted draft replies (shadow-only) with template fallback; optional LLM rewrite of reminder body text without changing required sections/docs.
 - **Safety constraints**:
   - No direct IRCC interactions.
   - No legal commitments; include advisory phrasing.
-  - RCIC/admin override before any send/execute path (not implemented here).
-- **M8.0 scope**: skeleton only. No LLM calls, no outbound messaging, no auto-triggers. Admin-visible audit logs only.
+  - RCIC/admin override before any send/execute path.
+  - If LLM fails or disabled, fallback to template draft; log whether LLM was used.
+- **Current scope (M8.3)**: shadow-only, admin-triggered, audit-logged. No auto-send, no cron, no external messaging invoked from the agent.
 

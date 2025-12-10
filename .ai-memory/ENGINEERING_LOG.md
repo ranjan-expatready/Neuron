@@ -14,6 +14,11 @@
 - Added admin APIs under `/api/v1/admin/agents/client-engagement/*` to manually trigger suggestions; RBAC admin/owner/rcic enforced.
 - Added case engagement UI (`/cases/[caseId]/engagement`) to generate/view drafts; frontend tests added. No auto-send, no LLM, no cron.
 
+## 2025-12-10 – [backend][frontend][ai][m8_3]
+- Added `LLMClient` (env/config-driven, mock provider by default, safe system constraints) with error-tolerant fallback.
+- ClientEngagementAgent now supports LLM-assisted drafts (shadow-only) for client questions and optional reminder rewrites, logging `llm_used` metadata and falling back to templates when disabled/unavailable.
+- Admin APIs unchanged; responses include LLM metadata. Case engagement UI shows AI/template note. Tests mock LLM; no real API calls, no auto-send/cron.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

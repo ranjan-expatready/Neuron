@@ -501,7 +501,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [AGENT-011] LLM-based reply generation with guardrails (M8.3)
 
 - **Domain:** Agentic / Automation
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend

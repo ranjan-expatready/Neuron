@@ -11,6 +11,7 @@ type SuggestionResponse = {
     missing_documents?: string[];
     risk_level?: string;
     requires_approval?: boolean;
+    llm_used?: boolean;
   };
   action_id: string;
 };
@@ -131,6 +132,13 @@ export default function CaseEngagementPage({ params }: { params: { caseId: strin
             {result ? (
               <div className="mt-2 space-y-2 text-sm">
                 <div className="text-xs text-gray-600">Type: {result.suggestion.message_type}</div>
+                {result.suggestion.llm_used !== undefined && (
+                  <div className="text-xs text-gray-600">
+                    {result.suggestion.llm_used
+                      ? "Generated with AI – RCIC review required."
+                      : "Template-based draft – RCIC review required."}
+                  </div>
+                )}
                 {result.suggestion.subject && <div className="font-semibold">{result.suggestion.subject}</div>}
                 {result.suggestion.body && (
                   <pre className="whitespace-pre-wrap rounded-md bg-gray-50 p-3 text-xs border border-gray-100">

@@ -1,6 +1,7 @@
 from src.app.agents.client_engagement_agent import ClientEngagementAgent
 from src.app.services.agent_orchestrator import AgentOrchestratorService
 from src.app.cases.repository import CaseRepository
+from src.app.services.llm_client import LLMClient
 
 
 def _make_case(client):
@@ -21,10 +22,10 @@ def _make_case(client):
     return case.id
 
 
-def _make_agent(client):
+def _make_agent(client, llm_client: LLMClient | None = None):
     orchestrator = AgentOrchestratorService(client.db_session)
     case_repo = CaseRepository(client.db_session)
-    agent = ClientEngagementAgent(orchestrator=orchestrator, case_repo=case_repo)
+    agent = ClientEngagementAgent(orchestrator=orchestrator, case_repo=case_repo, llm_client=llm_client)
     return agent, orchestrator
 
 
@@ -54,7 +55,8 @@ def test_missing_docs_suggestion_logs_action(client):
 
 def test_client_question_reply_suggestion_logs_action(client):
     case_id = _make_case(client)
-    agent, orchestrator = _make_agent(client)
+    llm = LLMClient(enabled=True, provider="mock", api_key="fake-key")
+    agent, orchestrator = _make_agent(client, llm_client=llm)
 
     question = "How long does the review take?"
     result = agent.suggest_client_question_reply(
@@ -63,7 +65,21 @@ def test_client_question_reply_suggestion_logs_action(client):
     assert result["suggestion"]["message_type"] == "client_question_reply"
     assert question in result["suggestion"]["body"]
     assert result["suggestion"]["requires_approval"] is True
+    assert result["suggestion"]["llm_used"] is True
 
     actions = orchestrator.fetch_actions(case_id=case_id, tenant_id=client.default_tenant.id)
     assert any(a.action_type == "client_question_reply_suggestion" for a in actions)
+
+
+def test_client_question_reply_falls_back_when_llm_disabled(client):
+    case_id = _make_case(client)
+    llm = LLMClient(enabled=False)
+    agent, _ = _make_agent(client, llm_client=llm)
+
+    question = "What documents are needed?"
+    result = agent.suggest_client_question_reply(
+        case_id, tenant_id=client.default_tenant.id, question_text=question, db_session=client.db_session
+    )
+    assert result["suggestion"]["llm_used"] is False
+    assert "[AI draft]" not in result["suggestion"]["body"]
 
