@@ -208,6 +208,56 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Source:** BP-03, Gap Analysis #9
 - **Dependencies:** Notification service, audit logging, CRM
 
+#### [INT-001] Intake config loaders & validators (M6.2)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend rules/config
+- **Description:** Implement typed loaders/validators for fields, intake templates, documents, and forms configs; expose read-only bundles for rule engine, checklists, and UI rendering.
+- **Dependencies:** Config schemas, config/domain stubs, ConfigService patterns.
+
+#### [INT-002] Intake template & checklist APIs (M6.2)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend API
+- **Description:** Add APIs to serve intake templates and document checklists derived from canonical intake/document configs; no persistence yet.
+- **Dependencies:** INT-001 loaders, Case Evaluation API patterns.
+
+#### [INT-003] Schema-driven intake UI (M6.3)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend UX
+- **Description:** Update RCIC/client portal intake to render dynamically from intake templates and field dictionary; reuse canonical profile data across cases.
+- **Dependencies:** INT-001/INT-002, CASE_INTAKE_UI baseline.
+
+#### [INT-004] Admin Config UI for intake/doc/forms (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend/Admin
+- **Description:** Build admin UI for proposing/reviewing intake fields, templates, documents, and forms with human approval workflow and versioning.
+- **Dependencies:** Admin Config read API, governance rules, approval backend.
+
+#### [INT-005] Seed IRCC form mappings (IMM series) (M6.X)
+
+- **Domain:** 3.3 Cases & Workflows
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend rules/config
+- **Description:** Add initial mappings for IMM0008/IMM5669/IMM5406 and related forms referencing canonical fields; keep draft until validated.
+- **Dependencies:** INT-001 loaders, form definitions, domain knowledge for form fields.
+
 ### 3.4 Documents & OCR
 
 #### [DO-001] Document Intelligence Agent MVP

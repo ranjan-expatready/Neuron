@@ -1,0 +1,41 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Program-specific intake templates; examples only."
+
+intake_templates:
+  - id: "ee_fsw_basic"
+    label: "Express Entry – FSW (basic intake)"
+    applicable_programs: ["EE_FSW"]
+    applicable_plans: ["pro", "enterprise"]
+    steps:
+      - id: "personal"
+        label: "Personal details"
+        fields:
+          - "person.date_of_birth"
+          - "person.marital_status"
+          - "person.citizenship"
+      - id: "education"
+        label: "Education"
+        fields:
+          - "education.highest_level"
+      - id: "language"
+        label: "Language"
+        fields:
+          - "language.first_official"
+
+  - id: "generic_profile"
+    label: "Generic profile capture"
+    applicable_programs: ["GENERIC"]
+    applicable_plans: ["pro", "enterprise"]
+    steps:
+      - id: "personal"
+        label: "Personal details"
+        fields:
+          - "person.date_of_birth"
+          - "person.marital_status"
+      - id: "family"
+        label: "Family"
+        fields:
+          - "family.size"
+
