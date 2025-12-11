@@ -543,6 +543,42 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend + Backend
 - **Description:** Dashboards for engagement conversion, response rates, auto vs shadow effectiveness.
 
+#### [AGENT-021] Document Reviewer Agent (M9.1, shadow)
+
+- **Domain:** Agentic / Automation
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Shadow-only document review suggestions using document matrix + case documents (metadata only); admin API trigger; RCIC UI tab; AgentActions logged; no sends/state mutation.
+
+#### [AGENT-022] OCR-aware content checks (M9.2, shadow)
+
+- **Domain:** Agentic / Automation
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** DocumentContentService abstraction; optional OCR/PDF-aware extraction adds content/quality warnings to document reviewer findings; SHADOW-only, no AUTO/sends/state change.
+
+#### [AGENT-023] Document reviewer heuristics (M9.3)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Stronger content heuristics/rules (e.g., mismatch detection, completeness hints) using extracted text; still SHADOW-only.
+
+#### [AGENT-024] Doc-review UX prompts (M9.4)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** Tighter UX integration to suggest uploads/fixes directly from doc-review findings; maintain SHADOW review step.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR

@@ -49,3 +49,7 @@
 - All content is DRAFT pending SME/legal validation.
 - Extend YAML + service to add programs, ADR rules, or tenant overrides in future milestones.
 
+## Agent usage
+- **M9.1 (shadow):** Document Reviewer Agent consumes the document matrix and case documents (metadata only, no OCR) to surface required_present/required_missing, optional_present, duplicates, and unmatched uploads. No automatic sends or state mutations.
+- **M9.2 (shadow, OCR-aware optional):** Document Reviewer Agent can use pluggable content extraction (DocumentContentService) to add content/quality warnings while still using the matrix as the primary source of truth; remains SHADOW-only.
+

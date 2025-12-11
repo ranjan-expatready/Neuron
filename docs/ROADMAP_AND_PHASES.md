@@ -57,7 +57,7 @@
 - Golden snapshot: `v0.8.3-phase8-agentic-shadow` – M8.0–M8.3 (skeleton + hybrid spec + shadow + LLM drafts)
 
 ## 5) Current / Next
-- Current phase: **Phase 8 – Agentic Platform**
-- Current milestone: **M8.3 – LLM-powered client engagement replies (shadow-only)**
-- Next milestone: **M8.4 – Multi-agent orchestration + analytics**
+- Current phase: **Phase 9 – Document Intelligence**
+- Current milestone: **M9.2 – Document Reviewer Agent (shadow, OCR-aware optional)**
+- Next milestone: **M9.3 – Document reviewer content heuristics**
 
