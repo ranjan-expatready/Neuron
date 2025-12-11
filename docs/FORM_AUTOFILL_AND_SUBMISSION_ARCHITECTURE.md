@@ -94,5 +94,6 @@
 ## 10) Implementation Status
 - M10.1 delivered (docs-only architecture).
 - M10.2 delivered: config/domain `{forms, form_mappings, form_bundles}.yaml` plus `backend/src/app/config/form_config.py` loaders with Pydantic validation and cross-reference checks. Not wired into runtime or APIs yet.
-- M10.3 delivered (backend-only preview): `FormAutofillEngine` builds `FormAutofillPreviewResult` from form configs, mappings, bundles, and canonical profile; no DB mutations, no public API/UI, no PDF/web automation. Bridge to M10.4 RCIC preview UI.
+- M10.3 delivered (backend-only preview): `FormAutofillEngine` builds `FormAutofillPreviewResult` from form configs, mappings, bundles, and canonical profile; no DB mutations, no PDF/web automation.
+- M10.4 delivered (API + RCIC UI preview): GET `/api/v1/cases/{case_id}/forms/autofill-preview` (tenant-scoped, RCIC/admin/owner only) surfaces FormAutofillEngine results read-only; RCIC UI at `/cases/[caseId]/forms-autofill` renders draft preview with sources/notes/warnings; no submission/PDF generation.
 
