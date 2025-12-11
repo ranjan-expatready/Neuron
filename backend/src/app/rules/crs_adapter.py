@@ -88,3 +88,4 @@ def build_crs_profile_from_candidate(profile: CandidateProfile) -> CRSProfileInp
         foreign_work_experience_years=_years_from_months(foreign_months),
     )
 
+

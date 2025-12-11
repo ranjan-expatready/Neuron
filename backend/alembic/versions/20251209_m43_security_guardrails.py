@@ -35,3 +35,4 @@ def downgrade():
             if _has_column(inspect(op.get_bind()), table, "is_deleted"):
                 batch.drop_column("is_deleted")
 
+

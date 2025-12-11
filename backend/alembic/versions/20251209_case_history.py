@@ -78,3 +78,4 @@ def downgrade():
     op.drop_index("ix_case_records_source", table_name="case_records")
     op.drop_table("case_records")
 
+
