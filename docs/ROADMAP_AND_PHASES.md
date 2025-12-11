@@ -66,8 +66,15 @@
   - `v0.9.2-phase9-doc-review` – Document Reviewer Agent with metadata + optional OCR, shadow-only, RCIC-facing.
   - `v0.9.3-phase9-doc-review-heuristics` – Document Reviewer Agent with metadata + optional OCR + deterministic heuristics (shadow-only), RCIC-facing.
 
+### Phase 10 – Form Autofill & Submission
+- M10.1 – Form Autofill & Submission Architecture Spec (docs-only) ✅
+- M10.2 – Form definitions + mapping config/schema + loaders (docs/config only)
+- M10.3 – FormAutofillEngine service (backend preview JSON, SHADOW-only)
+- M10.4 – RCIC Forms Preview UI (read-only manifest, no submission)
+- M10.5+ – PDF/web-flow adapters, guarded automation, RCIC approvals (planned)
+
 ## 5) Current / Next
-- Current phase: **Phase 9 – Document Intelligence**
-- Current milestone: **M9.3 – Document heuristics engine (shadow, deterministic)**
-- Next milestone: **M9.4 – Tighter UX integration + advanced ML/LLM checks**
+- Current phase: **Phase 10 – Form Autofill & Submission**
+- Current milestone: **M10.1 – Form Autofill & Submission Architecture Spec (docs-only)**
+- Next milestone: **M10.2 – Form definitions + mapping schema/loaders (config-only)**
 

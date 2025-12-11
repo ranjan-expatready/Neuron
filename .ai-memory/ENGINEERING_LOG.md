@@ -51,6 +51,11 @@
 - Tag: `v0.9.3-phase9-doc-review-heuristics`.
 - Tests: backend pytest 263 collected, 259 passed, 4 skipped, coverage ~86.70%; frontend jest 9 suites / 15 tests all passing.
 
+## 2025-12-11 – [docs][agentic][forms][m10_1]
+- Branch: `feature/m10_1_form_autofill_and_submission_spec`.
+- Added `docs/FORM_AUTOFILL_AND_SUBMISSION_ARCHITECTURE.md` outlining config-first form definitions/mappings, shadow-mode agents (FormMappingAgent/FormAutofillAgent/SubmissionPrepAgent), safety/guardrails, data flow/APIs, and phasing (M10.2–M10.4+). Docs-only milestone.
+- Governance updates: roadmap current phase set to Phase 10 / M10.1; product log/backlog reflect M10.1 done and M10.2–M10.4 planned; AI KB updated; no runtime code changes.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

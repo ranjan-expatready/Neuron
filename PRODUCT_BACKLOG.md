@@ -579,6 +579,42 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend
 - **Description:** Tighter UX integration to suggest uploads/fixes directly from doc-review findings; maintain SHADOW review step.
 
+#### [FORM-001] Form Autofill & Submission Architecture (M10.1)
+
+- **Domain:** Agentic / Forms
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Docs/Architecture
+- **Description:** Define architecture/spec for form autofill and IRCC submission prep (config-first form definitions/mappings, shadow-mode agents, safety, APIs, phasing); no runtime changes.
+
+#### [FORM-002] Form definitions & mapping schema/loaders (M10.2)
+
+- **Domain:** Agentic / Forms
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Config
+- **Description:** Add YAML/DB schemas and loaders for FormDefinition, FormFieldMapping, versions/status; align with draft/approval workflow; no runtime autofill yet.
+
+#### [FORM-003] FormAutofillEngine backend preview (M10.3)
+
+- **Domain:** Agentic / Forms
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend Service
+- **Description:** Implement FormAutofillEngine to resolve mappings into per-form JSON previews (values, sources, warnings); SHADOW-only; no PDF/web automation.
+
+#### [FORM-004] RCIC Forms Preview UI (M10.4)
+
+- **Domain:** Agentic / Forms
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** RCIC UI to display autofill previews/packages, show sources/warnings, and download manifest; read-only, no submission.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR
