@@ -28,6 +28,12 @@
 - Introduced `ClientEngagementSettingsService` and `ClientEngagementAutoRunner` (admin-triggered only) logging executed actions with `auto_mode=true`; no cron added; client questions remain shadow-only.
 - Admin APIs: GET/PATCH settings, POST auto-run (tenant/case scope). Admin UI updated with toggles and manual auto-run. Case engagement page can trigger auto-run per case. Backend tests: 251 passed / 4 skipped (~86.72% cov); Frontend tests: 14 passed.
 
+## 2025-12-10 – [docs][gov][m8_5]
+- Added NEURON_* anchor docs: vision & actor system, technical architecture, agentic platform & agents, memory & knowledge model, governance/prompts/testing. Wired roadmap/KB/logs/backlog to mark M8.5 Architecture & Governance Documentation as done. No runtime changes; tests remain green.
+
+## 2025-12-10 – [docs][agentic][m8_6]
+- Created `docs/NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE.md` defining multi-agent orchestration (triggers, modes, RBAC/tenant safety, memory, tools, roadmap). Updated roadmap/logs/backlog/KB to mark M8.6 done. No runtime changes; tests remain green.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

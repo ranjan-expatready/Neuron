@@ -543,6 +543,51 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend + Backend
 - **Description:** Dashboards for engagement conversion, response rates, auto vs shadow effectiveness.
 
+#### [AGENT-016] Agentic Orchestration Architecture (M8.6)
+
+- **Domain:** Agentic / Automation
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Docs
+- **Description:** NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE blueprint covering triggers, modes (shadow/hybrid/auto), RBAC/tenant safety, memory, tool integrations, and roadmap alignment for all agents. All future agent work must reference this doc.
+
+#### [AGENT-017] Form Autofill & IRCC Export Engine (M10.x)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Implement form/PDF autofill and IRCC export flows using config mappings and artifacts; aligned to orchestration doc; human review required.
+
+#### [AGENT-018] Eligibility & Strategy Agent (M11.x)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Use CRS/eligibility engines and profile deltas to generate explainable strategies; shadow-only with RCIC approval; conforms to orchestration guardrails.
+
+#### [AGENT-019] Case Workflow Coach (M12.x)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Suggest next best actions and lifecycle transitions using case history, documents, agent logs; shadow/hybrid per orchestration blueprint.
+
+#### [AGENT-020] IRCC Co-pilot & Controlled AUTO (M13.x)
+
+- **Domain:** Agentic / Automation
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P3
+- **Type:** Backend + Frontend
+- **Description:** Browser/RPA-assisted IRCC co-pilot and tightly scoped AUTO operations under strict tenant/RBAC controls; guided by orchestration architecture.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR
