@@ -1,5 +1,15 @@
 # Engineering Memory Log
 
+## 2025-12-11 – [docs][agentic][forms][m10_1]
+- Branch: `feature/m10_1_form_autofill_and_submission_spec`.
+- Added `docs/FORM_AUTOFILL_AND_SUBMISSION_ARCHITECTURE.md` outlining config-first form definitions/mappings, shadow-mode agents (FormMappingAgent/FormAutofillAgent/SubmissionPrepAgent), safety/guardrails, data flow/APIs, and phasing (M10.2–M10.4+). Docs-only milestone.
+- Governance updates: roadmap current phase set to Phase 10 / M10.1; product log/backlog reflect M10.1 done and M10.2–M10.4 planned; AI KB updated; no runtime code changes.
+
+## 2025-12-11 – [backend][config][forms][m10_2]
+- Branch: `feature/m10_2_form_config_and_loaders`.
+- Added config/domain form assets: `forms.yaml` (with status/version/type/fields), `form_mappings.yaml`, `form_bundles.yaml`; new loader module `backend/src/app/config/form_config.py` with Pydantic validation and cross-reference checks (forms ↔ mappings ↔ bundles).
+- Tests: backend pytest 263 collected, 259 passed, 4 skipped, ~86.70% cov; frontend jest 9 suites / 15 tests pass. No runtime wiring of autofill engine or APIs yet.
+
 ## 2025-12-10 – [backend][frontend][ai][m8_0]
 - Added agentic platform skeleton: `AgentSession`/`AgentAction` models + migration `20251210_m8_agentic_platform`.
 - Added `AgentOrchestratorService` for sessions/actions and `ClientEngagementAgent` skeleton (suggestions only, no sends/LLMs).
