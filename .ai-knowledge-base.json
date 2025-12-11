@@ -97,7 +97,7 @@
     "current_phase": "Phase 9 – Document Intelligence",
     "next_milestone": "M9.3 – Document reviewer content heuristics",
     "current_milestone": "M9.2 – Document Reviewer Agent (shadow, OCR-aware optional)",
-    "integration_branch": "integration/phase8_agentic_foundation",
+    "integration_branch": "integration/phase9_document_review",
     "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs; M8.6 defines multi-agent orchestration architecture; M9.0 defines Document Reviewer Agent & OCR spec; M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix); M9.2 adds optional OCR/PDF-aware content warnings (shadow-only)."
   },
   "golden_snapshots": [
@@ -105,6 +105,11 @@
       "tag": "v0.8.3-phase8-agentic-shadow",
       "date": "2025-12-10",
       "description": "Phase 8 golden snapshot after M8.0–M8.3 (skeleton + hybrid spec + shadow suggestions + LLM drafts). Backend 245 tests (4 skipped) ~86.53% cov; frontend 8 suites/12 tests pass."
+    },
+    {
+      "tag": "v0.9.2-phase9-doc-review",
+      "date": "2025-12-10",
+      "description": "Phase 9 Document Review golden snapshot (Document Reviewer Agent with matrix+metadata + optional OCR/PDF content warnings, shadow-only, RCIC-facing). Backend 259 tests (4 skipped) ~86.65% cov; frontend 9 suites/15 tests pass."
     }
   ],
   "agent_bootstrap": {

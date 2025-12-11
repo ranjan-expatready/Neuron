@@ -81,6 +81,7 @@
 - 🟢 Tagged `v0.8.3-phase8-agentic-shadow` after M8.3: Phase 8 golden snapshot with shadow + LLM drafts, full backend/frontend tests passing.
 - 🟢 M9.1 Document Reviewer Agent (shadow-only): Backend agent + admin endpoint to suggest required_present/required_missing/duplicates/unmatched using document matrix + case documents (metadata only); RCIC UI tab to run/view reviews; SHADOW-only, no sends or state mutation.
 - 🟢 M9.2 Document Reviewer Agent (shadow-only, OCR-aware optional): DocumentContentService abstraction; optional OCR/PDF-aware extraction adds content warnings; matrix remains source of truth; no AUTO, no external sends; RCIC UI surfaces warnings.
+- 🟢 Tagged `v0.9.2-phase9-doc-review`: Phase 9 document review golden snapshot (Document Reviewer Agent with metadata + optional OCR content checks, shadow-only, RCIC-facing).
 - 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.

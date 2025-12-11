@@ -40,6 +40,9 @@
 ## 2025-12-10 – [backend][frontend][agentic][m9_2]
 - Added `DocumentContentService` (pluggable, env-flagged) and extended Document Reviewer Agent to include content warnings from optional OCR/PDF text; still SHADOW-only, no sends/AUTO/state changes. Admin document-review API now returns content/quality warnings; RCIC doc-review UI shows warnings. Tests: backend pytest (~86.75% cov); frontend jest suites pass.
 
+## 2025-12-10 – [integration][tag][phase9_doc_review]
+- Branch: `integration/phase9_document_review` merging M9.1 (shadow, matrix+metadata) and M9.2 (optional OCR-aware warnings). Tag: `v0.9.2-phase9-doc-review`. Tests: backend pytest 259 collected (255 passed, 4 skipped), coverage ~86.65%; frontend jest 9 suites (15 tests) all passing. No behavior changes beyond merged features; SHADOW-only document reviewer baseline.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).
