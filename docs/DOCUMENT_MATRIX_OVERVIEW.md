@@ -49,3 +49,10 @@
 - All content is DRAFT pending SME/legal validation.
 - Extend YAML + service to add programs, ADR rules, or tenant overrides in future milestones.
 
+## Agent usage (M9.1)
+- Document Reviewer Agent (shadow-only) consumes the document matrix and case documents (metadata only, no OCR) to surface:
+  - required_present / required_missing
+  - optional_present
+  - duplicates or unmatched uploads
+- No automatic sends or state mutations; RCIC/admin reviews the suggestions.
+

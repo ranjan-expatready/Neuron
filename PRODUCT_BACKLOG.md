@@ -543,6 +543,15 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend + Backend
 - **Description:** Dashboards for engagement conversion, response rates, auto vs shadow effectiveness.
 
+#### [AGENT-021] Document Reviewer Agent (Shadow, M9.1)
+
+- **Domain:** Agentic / Automation
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Shadow-only document review suggestions using document matrix + case documents (metadata only, no OCR); admin API trigger; RCIC UI tab; logs AgentAction suggestions; no sends/state mutation.
+
 #### [AGENT-016] Agentic Orchestration Architecture (M8.6)
 
 - **Domain:** Agentic / Automation

@@ -92,13 +92,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 8 – agentic platform (orchestration architecture defined)",
+    "status": "Phase 9 – document intelligence (shadow reviewer live)",
     "completion_percentage": 98,
-    "current_phase": "Phase 8 – Agentic Platform",
-    "next_milestone": "M9.1 – Document Reviewer Agent scaffold (metadata-based classification)",
-    "current_milestone": "M8.6 – Agentic Orchestration Architecture",
+    "current_phase": "Phase 9 – Document Intelligence",
+    "next_milestone": "M9.2 – OCR abstraction + provider integration",
+    "current_milestone": "M9.1 – Document Reviewer Agent (shadow-only)",
     "integration_branch": "integration/phase8_agentic_foundation",
-    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs (NEURON_*); M8.6 defines multi-agent orchestration architecture (triggers, modes, safety, memory, tools) guiding M9+; M9.0 defines Document Reviewer Agent & OCR spec (design-only, no runtime changes)."
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs (NEURON_*); M8.6 defines multi-agent orchestration architecture (triggers, modes, safety, memory, tools) guiding M9+; M9.0 defines Document Reviewer Agent & OCR spec (design-only); M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix, no OCR)."
   },
   "golden_snapshots": [
     {
@@ -146,6 +146,11 @@
     ]
   },
   "agents": {
+    "capabilities": [
+      "client_engagement agent (shadow + limited auto reminders; template/LLM; tenant-configured)",
+      "document_reviewer agent (shadow-only; uses document matrix + case documents metadata; no OCR/PDF yet)",
+      "agent_sessions/actions logging with admin UI visibility"
+    ],
     "Backend API Agent": {
       "role": "Implement REST APIs and backend services",
       "status": "active",

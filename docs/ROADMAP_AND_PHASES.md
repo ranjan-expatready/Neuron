@@ -75,7 +75,7 @@
 - These are required reading for major changes.
 
 ## 5) Current / Next
-- Current phase: **Phase 8 – Agentic Platform**
-- Current milestone: **M8.6 – Agentic Orchestration Architecture**
-- Next milestone: **M9.1 – Document Reviewer Agent scaffold (metadata-based classification)**
+- Current phase: **Phase 9 – Document Intelligence**
+- Current milestone: **M9.1 – Document Reviewer Agent (shadow-only)**
+- Next milestone: **M9.2 – OCR abstraction + provider integration**
 

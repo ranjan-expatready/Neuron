@@ -34,6 +34,9 @@
 ## 2025-12-10 – [docs][agentic][m8_6]
 - Created `docs/NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE.md` defining multi-agent orchestration (triggers, modes, RBAC/tenant safety, memory, tools, roadmap). Updated roadmap/logs/backlog/KB to mark M8.6 done. No runtime changes; tests remain green.
 
+## 2025-12-10 – [backend][frontend][agentic][m9_1]
+- Added `DocumentReviewerAgent` (shadow-only) to suggest required_present/required_missing/duplicates/unmatched using document matrix + case documents (metadata only, no OCR). Admin API `/api/v1/admin/agents/document-review` with RBAC/tenant guardrails; RCIC UI tab `/cases/[caseId]/documents-review` to run/view findings. AgentActions logged (status=suggested, auto_mode=false). Tests: backend pytest (pass, ~86.7% cov); frontend jest suites pass.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

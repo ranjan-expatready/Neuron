@@ -81,6 +81,7 @@
 - 🟢 Tagged `v0.8.3-phase8-agentic-shadow` after M8.3: Phase 8 golden snapshot with shadow + LLM drafts, full backend/frontend tests passing.
 - 🟢 M8.5 Architecture & Governance Documentation: Added NEURON_* anchor docs (vision/actor system, technical architecture, agentic platform & agents, memory/knowledge model, governance/prompts/testing) and wired them into roadmap/KB/logs as mandatory references for future work.
 - 🟢 M8.6 Agentic Orchestration Architecture: Defined multi-agent orchestration blueprint (triggers, modes, RBAC/tenant safety, memory, tools, roadmap alignment). No runtime changes; reference for all future agent milestones (M9+).
+- 🟢 M9.1 Document Reviewer Agent (shadow-only): Adds backend agent + admin endpoint to suggest required_present/required_missing/duplicates/unmatched using document matrix + case documents (metadata only); RCIC UI tab to view/run reviews; SHADOW-only, no sends or state mutation.
 - 🔴 Multi-agent orchestration runtime – Still not implemented; orchestration blueprint defined in M8.6 guides future execution.
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.
