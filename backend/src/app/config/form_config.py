@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import yaml
-from pydantic import BaseModel, Field, ValidationError, root_validator, validator
+from pydantic import BaseModel, Field, ValidationError, validator
 
 
 class FormConfigError(Exception):
@@ -41,7 +41,6 @@ class FormDefinition(BaseModel):
     applicable_programs: List[str] = Field(default_factory=list)
     sections: List[FormSection] = Field(default_factory=list)
     fields: List[FormFieldDefinition] = Field(default_factory=list)
-    # Legacy field_mappings retained for backward compatibility; ignored by this loader
     field_mappings: Dict[str, str] = Field(default_factory=dict)
 
 
@@ -117,12 +116,10 @@ def _load_bundles_cached(base_key: str) -> List[FormBundleDefinition]:
 
 
 def load_form_definitions(base_path: Optional[str | Path] = None) -> List[FormDefinition]:
-    """Load form definitions from config/domain/forms.yaml."""
     return _load_forms_cached(_base_key(base_path))
 
 
 def load_form_mappings(base_path: Optional[str | Path] = None) -> List[FormFieldMapping]:
-    """Load form field mappings and validate cross-references."""
     base = _base_key(base_path)
     forms = {f.id: f for f in _load_forms_cached(base)}
     mappings = _load_mappings_cached(base)
@@ -139,7 +136,6 @@ def load_form_mappings(base_path: Optional[str | Path] = None) -> List[FormField
 
 
 def load_form_bundles(base_path: Optional[str | Path] = None) -> List[FormBundleDefinition]:
-    """Load form bundle definitions and validate form references."""
     base = _base_key(base_path)
     forms = {f.id: f for f in _load_forms_cached(base)}
     bundles = _load_bundles_cached(base)
@@ -154,9 +150,7 @@ def load_form_bundles(base_path: Optional[str | Path] = None) -> List[FormBundle
 
 
 def clear_caches() -> None:
-    """Clear caches (useful for tests)."""
     _load_forms_cached.cache_clear()
     _load_mappings_cached.cache_clear()
     _load_bundles_cached.cache_clear()
-
 

@@ -1,6 +1,6 @@
-# Form Autofill & Submission Architecture (M10.1/M10.2)
+# Form Autofill & Submission Architecture (M10.1/M10.2/M10.3)
 
-> Purpose: Define the architecture, data model, agents, and governance for Neuron’s Form Autofill & IRCC Submission layer. M10.1 is docs-only; M10.2 adds config schemas and loaders. No runtime autofill/submission is enabled yet.
+> Purpose: Define the architecture, data model, agents, and governance for Neuron’s Form Autofill & IRCC Submission layer. M10.1 was docs-only; M10.2 added config schemas/loaders; M10.3 adds a backend-only FormAutofillEngine preview. No runtime submission or UI in scope yet.
 
 ## 1) Problem Statement & Scope
 - Automate assembly of IRCC application packages (PDF forms + web-style flows) from canonical profile, document matrix outputs, and rule engine results—while keeping RCIC firmly in control.
@@ -8,7 +8,7 @@
   - Autofill IRCC PDFs/structured forms using config-driven mappings from canonical data/documents.
   - Produce human-reviewable “application packages” (forms + evidence checklist + warnings) for RCIC review.
   - Model IRCC web flows as structured “web-flow definitions” parallel to PDF forms (steps/fields).
-- Out-of-scope for M10.1:
+- Out-of-scope for M10.1–M10.3:
   - Actual PDF/HTML filling code.
   - Browser automation or direct IRCC submission.
   - Any AUTO mode; all outputs are drafts for RCIC review.
@@ -52,7 +52,7 @@
   - Orchestration aligns with NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE (manual/event triggers, tenant-scoped).
 
 ## 5) Data Flow & APIs (design only)
-- Proposed endpoints (not implemented in M10.1/M10.2):
+- Proposed endpoints (not implemented yet):
   - `POST /api/v1/cases/{case_id}/forms/autofill-preview`: triggers FormAutofillAgent, returns per-form field/value pairs with `source`, `confidence/reason`, `warnings`.
   - `GET /api/v1/cases/{case_id}/forms/package`: fetch latest generated application package (forms + evidence list + warnings + status).
   - `GET /api/v1/forms/definitions`: list active FormDefinitions with versions.
@@ -94,4 +94,5 @@
 ## 10) Implementation Status
 - M10.1 delivered (docs-only architecture).
 - M10.2 delivered: config/domain `{forms, form_mappings, form_bundles}.yaml` plus `backend/src/app/config/form_config.py` loaders with Pydantic validation and cross-reference checks. Not wired into runtime or APIs yet.
+- M10.3 delivered (backend-only preview): `FormAutofillEngine` builds `FormAutofillPreviewResult` from form configs, mappings, bundles, and canonical profile; no DB mutations, no public API/UI, no PDF/web automation. Bridge to M10.4 RCIC preview UI.
 

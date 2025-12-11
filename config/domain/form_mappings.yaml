@@ -46,4 +46,3 @@ form_field_mappings:
     status: "draft"
     notes: "Optional; may be absent for new applicants"
 
-
