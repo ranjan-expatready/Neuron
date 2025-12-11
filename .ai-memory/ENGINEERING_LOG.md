@@ -46,6 +46,11 @@
 ## 2025-12-11 – [backend][frontend][agentic][m9_3]
 - Added deterministic `DocumentHeuristicsEngine` (missing keywords, misplaced hints, filename expiry heuristic, quality signals, name mismatch) and integrated into DocumentReviewerAgent + admin API payload (`heuristic_findings`). UI renders heuristic findings (shadow-only). Tests: backend pytest 260 collected (256 passed, 4 skipped) coverage ~86.7%; frontend jest 9/9 suites pass.
 
+## 2025-12-11 – [integration][tag][phase9_doc_review_clean]
+- Branch: `integration/phase9_document_review` reset to clean M9.3 heuristics state (commit 448aa51).
+- Tag: `v0.9.3-phase9-doc-review-heuristics`.
+- Tests: backend pytest 263 collected, 259 passed, 4 skipped, coverage ~86.70%; frontend jest 9 suites / 15 tests all passing.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

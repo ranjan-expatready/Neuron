@@ -564,11 +564,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [AGENT-023] Document reviewer heuristics (M9.3)
 
 - **Domain:** Agentic / Automation
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** MEDIUM
 - **Phase:** P2
 - **Type:** Backend
-- **Description:** Stronger content heuristics/rules (e.g., mismatch detection, completeness hints) using extracted text; still SHADOW-only.
+- **Description:** Deterministic heuristics/rules (missing keywords, misplaced hints, expiry/quality signals, simple profile consistency) using extracted text/metadata; SHADOW-only.
 
 #### [AGENT-024] Doc-review UX prompts (M9.4)
 

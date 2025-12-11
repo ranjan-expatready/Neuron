@@ -62,7 +62,9 @@
 - M9.2 – Document Reviewer Agent (shadow-only, optional OCR/PDF-aware content) ✅
 - M9.3 – Document heuristics engine (shadow-only, deterministic checks) ✅
 - M9.4+ – Advanced ML/LLM doc understanding & auto mode (planned)
-- Golden snapshot: `v0.9.2-phase9-doc-review` – Document Reviewer Agent with metadata + optional OCR, shadow-only, RCIC-facing.
+- Golden snapshots:
+  - `v0.9.2-phase9-doc-review` – Document Reviewer Agent with metadata + optional OCR, shadow-only, RCIC-facing.
+  - `v0.9.3-phase9-doc-review-heuristics` – Document Reviewer Agent with metadata + optional OCR + deterministic heuristics (shadow-only), RCIC-facing.
 
 ## 5) Current / Next
 - Current phase: **Phase 9 – Document Intelligence**
