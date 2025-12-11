@@ -591,11 +591,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [FORM-002] Form definitions & mapping schema/loaders (M10.2)
 
 - **Domain:** Agentic / Forms
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend + Config
-- **Description:** Add YAML/DB schemas and loaders for FormDefinition, FormFieldMapping, versions/status; align with draft/approval workflow; no runtime autofill yet.
+- **Description:** Add YAML schemas and loaders for FormDefinition, FormFieldMapping, and FormBundle with validation; foundation only (no FormAutofillEngine/APIs/UI).
 
 #### [FORM-003] FormAutofillEngine backend preview (M10.3)
 

@@ -1,6 +1,6 @@
-# Form Autofill & Submission Architecture (M10.1, docs-only)
+# Form Autofill & Submission Architecture (M10.1/M10.2)
 
-> Purpose: Define the architecture, data model, agents, and governance for Neuron’s Form Autofill & IRCC Submission layer. This is a design-only milestone; **no runtime code changes** in M10.1. The spec must enable future engineers/agents to implement M10.2+ without ambiguity.
+> Purpose: Define the architecture, data model, agents, and governance for Neuron’s Form Autofill & IRCC Submission layer. M10.1 is docs-only; M10.2 adds config schemas and loaders. No runtime autofill/submission is enabled yet.
 
 ## 1) Problem Statement & Scope
 - Automate assembly of IRCC application packages (PDF forms + web-style flows) from canonical profile, document matrix outputs, and rule engine results—while keeping RCIC firmly in control.
@@ -14,9 +14,9 @@
   - Any AUTO mode; all outputs are drafts for RCIC review.
 
 ## 2) Conceptual Model
-- **FormDefinition**: `{ id: "IMM0008", label, version, effective_date, fields[], metadata }`
-  - Field attributes: `field_id`, `label`, `type`, `required`, `control`, `help`, `constraints`.
-- **FormFieldMapping**: links canonical data_path → `form_field_id` (with optional transforms, e.g., formatting dates, enumerations).
+- **FormDefinition**: `{ id, label, version, status, type, sections, fields[] }`
+  - Field attributes: `field_id`, `label`, `type`, `required`, `allowed_values?`, `help/hints?`.
+- **FormFieldMapping**: links canonical data_path → `form_field_id` with optional `transform`.
 - **FormBundle / ApplicationPackage**: set of FormDefinitions required for a program + checklist of supporting docs; includes ordering and per-form status.
 - **WebFlowDefinition**: IRCC online flow modeled as steps/sections with fields (mirrors FormDefinition; enables future browser-automation adapter).
 - **Relationships**:
@@ -25,14 +25,14 @@
   - Case lifecycle: package generation is gated to cases in “pre-submit” states; outputs become part of AgentActions and case history snapshots.
 
 ## 3) Config-First Design
-- All definitions/mappings live in config (`config/domain/forms.yaml`, `config/domain/form_mappings.yaml` or equivalent). **No hard-coded IRCC field ids/labels in code.**
+- All definitions/mappings live in config (`config/domain/forms.yaml`, `config/domain/form_mappings.yaml`, `config/domain/form_bundles.yaml`). **No hard-coded IRCC field ids/labels in code.**
 - Versioning:
-  - Each FormDefinition carries `version`, `effective_from`, optional `supersedes`.
-  - Mappings are versioned and statused: `draft | in_review | active | retired`.
+  - Each FormDefinition carries `version`, `status` (`draft|active|retired`).
+  - Mappings are versioned/statused; bundles reference active form ids.
   - Support coexistence of multiple IRCC form versions; “active” tagged per tenant/program.
 - Safety:
   - RCIC review required before a mapping becomes active.
-  - Drafts proposed by agents flow through the existing draft/approval pipeline (consistent with M7.x intake config lifecycle).
+  - Drafts proposed by agents flow through the same draft/approval pipeline as intake/doc configs.
 
 ## 4) Agents & Roles
 - **FormMappingAgent (shadow)**:
@@ -52,55 +52,26 @@
   - Orchestration aligns with NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE (manual/event triggers, tenant-scoped).
 
 ## 5) Data Flow & APIs (design only)
-- Proposed endpoints (not implemented in M10.1):
+- Proposed endpoints (not implemented in M10.1/M10.2):
   - `POST /api/v1/cases/{case_id}/forms/autofill-preview`: triggers FormAutofillAgent, returns per-form field/value pairs with `source`, `confidence/reason`, `warnings`.
   - `GET /api/v1/cases/{case_id}/forms/package`: fetch latest generated application package (forms + evidence list + warnings + status).
   - `GET /api/v1/forms/definitions`: list active FormDefinitions with versions.
   - `GET /api/v1/forms/mappings/{form_id}`: fetch active mapping + draft deltas.
-- Response shape (preview):
-  ```json
-  {
-    "case_id": "...",
-    "program": "EE_FSW",
-    "forms": [
-      {
-        "id": "IMM0008",
-        "version": "2024-01",
-        "fields": [
-          {
-            "field_id": "uci",
-            "value": "1234-5678",
-            "source": "profile.identifiers.uci",
-            "confidence": "high|medium|low",
-            "reason": "direct mapping",
-            "warnings": []
-          }
-        ],
-        "attachments": [
-          {"doc_type": "passport_main", "document_id": "doc-123", "status": "present"}
-        ],
-        "form_warnings": ["missing spouse info", "multiple address histories — choose one"]
-      }
-    ]
-  }
-  ```
-- Audit & history:
-  - Each autofill run logs an AgentAction (payload includes mappings version, config hashes, warnings).
-  - Case history snapshot may include a pointer to the package manifest (not files) for auditability.
+- Response shape (preview) includes fields with value, source, confidence/reason, warnings, and attachments; each run logs AgentAction payloads with config hashes/versions for audit.
 
 ## 6) Safety, Governance, Review
 - No direct IRCC submissions; all outputs are drafts requiring RCIC approval.
 - Logging: every agent run creates AgentAction with `auto_mode=false`, `mode="shadow"`, `status="suggested"`.
 - Conflict handling: when multiple candidate sources exist, return alternatives + reasons; default to blank with warning, not guesses.
-- Partial data: leave fields empty with structured `missing_reason` (e.g., “profile.family.spouse missing”).
+- Partial data: leave fields empty with structured `missing_reason`.
 - Testing strategy (future):
   - Unit: mapping resolution (canonical → form field) with fixtures per form version.
   - Integration: end-to-end autofill preview for synthetic cases (single, spouse, dependants).
   - Regression sets: curated synthetic case sets with expected packages; re-run on mapping changes.
 
 ## 7) Phasing Plan (M10.x / M11.x)
-- **M10.1 (this doc)**: Architecture/spec only; no runtime code.
-- **M10.2**: Config schema + loaders for FormDefinition and FormFieldMapping (YAML + DB drafts), status lifecycle aligned with intake/doc drafts; no runtime autofill.
+- **M10.1**: Architecture/spec only; no runtime code.
+- **M10.2**: Config schema + loaders for FormDefinition/FormFieldMapping/FormBundle (YAML), status lifecycle aligned with intake/doc drafts; no runtime autofill.
 - **M10.3**: Backend FormAutofillEngine service to resolve mappings into per-form payloads; returns JSON preview; still SHADOW-only; no PDF/web automation.
 - **M10.4**: RCIC UI “Forms Preview” page to display packages, field values, sources, and warnings; download JSON manifest; no submission.
 - **M11.x (future)**:
@@ -119,4 +90,8 @@
 - Localization: support bilingual labels/help, but internal mapping keys remain stable.
 - Compliance: PII minimization in logs; redaction for manifests stored in history; encryption at rest for generated files (when implemented).
 - Observability: metrics for autofill runs, warning rates, unmapped field counts, per-form completeness.
+
+## 10) Implementation Status
+- M10.1 delivered (docs-only architecture).
+- M10.2 delivered: config/domain `{forms, form_mappings, form_bundles}.yaml` plus `backend/src/app/config/form_config.py` loaders with Pydantic validation and cross-reference checks. Not wired into runtime or APIs yet.
 
