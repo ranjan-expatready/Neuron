@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from typing import Any, Dict, List, Optional
 
 from src.app.cases.repository import CaseRepository
 from src.app.services.agent_orchestrator import AgentOrchestratorService
+from src.app.services.document import DocumentService
 from src.app.services.intake_engine import IntakeEngine, ResolvedField, _get_value
 from src.app.services.llm_client import LLMClient, LLMInvocationError, LLMNotEnabledError
 
@@ -22,11 +24,13 @@ class ClientEngagementAgent:
         case_repo: CaseRepository,
         intake_engine: Optional[IntakeEngine] = None,
         llm_client: Optional[LLMClient] = None,
+        document_service: Optional[DocumentService] = None,
     ):
         self.orchestrator = orchestrator
         self.case_repo = case_repo
         self.intake_engine = intake_engine or IntakeEngine()
         self.llm_client = llm_client or LLMClient()
+        self.document_service = document_service or DocumentService()
 
     # Utilities
     def _start_session(self, tenant_id: Optional[str], case_id: str) -> str:
@@ -154,7 +158,33 @@ class ClientEngagementAgent:
         checklist = self.intake_engine.get_document_checklist_for_case(
             case, program_code=program_code, db_session=db_session
         )
-        missing_docs = [doc.label for doc in checklist if doc.required]
+        missing_docs: List[str] = []
+        docs_by_type = defaultdict(list)
+        if db_session:
+            candidate_org_ids = [
+                tenant_id,
+                getattr(case, "tenant_id", None),
+                getattr(case, "org_id", None),
+            ]
+            for org_candidate in [str(o) for o in candidate_org_ids if o]:
+                documents = self.document_service.get_documents_by_case(
+                    db_session, org_id=org_candidate, case_id=str(case.id)
+                )
+                if documents:
+                    for doc in documents:
+                        docs_by_type[doc.document_type].append(doc)
+                    break
+
+        for req in checklist:
+            label = req.label or req.id
+            if not req.required:
+                continue
+            if docs_by_type:
+                if not docs_by_type.get(req.id):
+                    missing_docs.append(label)
+            else:
+                # Fallback when documents cannot be fetched: behave like previous required-only list
+                missing_docs.append(label)
 
         subject = "Draft: Missing documents reminder"
         body_lines = [

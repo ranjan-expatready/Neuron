@@ -1,7 +1,13 @@
+from io import BytesIO
+
+from fastapi import UploadFile
+
 from src.app.agents.client_engagement_agent import ClientEngagementAgent
 from src.app.services.agent_orchestrator import AgentOrchestratorService
 from src.app.cases.repository import CaseRepository
+from src.app.services.document import DocumentService
 from src.app.services.llm_client import LLMClient
+from src.app.schemas.document import DocumentCreate
 
 
 def _make_case(client):
@@ -51,6 +57,44 @@ def test_missing_docs_suggestion_logs_action(client):
 
     actions = orchestrator.fetch_actions(case_id=case_id, tenant_id=client.default_tenant.id)
     assert any(a.action_type == "missing_documents_reminder_suggestion" for a in actions)
+
+
+def test_missing_docs_excludes_already_uploaded_requirements(client):
+    case_id = _make_case(client)
+    agent, _ = _make_agent(client)
+    repo = CaseRepository(client.db_session)
+    case = repo.get_case(case_id, tenant_id=client.default_tenant.id)
+    program_code = agent._infer_program(case) or "unspecified_program"  # pylint: disable=protected-access
+    checklist = agent.intake_engine.get_document_checklist_for_case(
+        case, program_code=program_code, db_session=client.db_session
+    )
+    required_req = next((r for r in checklist if r.required), None)
+    assert required_req is not None
+    label = required_req.label or required_req.id
+
+    doc_service = DocumentService()
+    upload = UploadFile(filename="required.pdf", file=BytesIO(b"hello"))
+    doc_service.create_document(
+        db=client.db_session,
+        file=upload,
+        document_data=DocumentCreate(
+            document_type=required_req.id,
+            category=required_req.category,
+            title=label,
+            description="test upload",
+            case_id=case_id,
+        ),
+        org_id=str(client.default_tenant.id),
+        uploaded_by=str(client.default_user.id),
+        case_id=case_id,
+    )
+    client.db_session.commit()
+
+    result = agent.suggest_missing_docs_reminder(
+        case_id, tenant_id=client.default_tenant.id, db_session=client.db_session
+    )
+    missing_docs = result["suggestion"]["missing_documents"]
+    assert label not in missing_docs
 
 
 def test_client_question_reply_suggestion_logs_action(client):
