@@ -60,6 +60,7 @@
   - Reads canonical profile.
   - Applies program + field-based rules.
   - Returns required/optional documents.
+- Agent usage (M9.1): Document Reviewer Agent (shadow-only) consumes the resolved checklist plus case documents (metadata only, no OCR) to suggest required_present/required_missing/duplicates/unmatched; RCIC/admin reviews.
 
 ## Form Mapping (Layer 4)
 - Forms (e.g., IMM0008) defined with:
