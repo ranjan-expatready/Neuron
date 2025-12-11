@@ -86,7 +86,8 @@
 - 🟢 Tagged `v0.9.3-phase9-doc-review-heuristics`: Updated Phase 9.3 golden snapshot with metadata + optional OCR + deterministic heuristics; shadow-only, RCIC-facing, non-destructive.
 - 🟢 M10.1 Form Autofill & Submission Architecture (docs-only): Architecture/spec for form autofill and IRCC submission prep (config-first form definitions/mappings, shadow-mode agents, safety, APIs, phasing). No runtime changes; foundation for M10.2+.
 - 🟢 M10.2 Form config schemas & loaders (backend-only): Added config/domain form definitions/mappings/bundles plus Pydantic-backed loaders with cross-reference validation; foundation only (no FormAutofillEngine/APIs/UI); tests cover happy path and invalid references.
-- 🟢 M10.3 FormAutofillEngine (backend-only preview): Service builds FormAutofillPreviewResult from configs + canonical profile; no DB mutations, no public API/UI, no PDFs/web automation; prepares for RCIC preview UI in M10.4.
+- 🟢 M10.3 FormAutofillEngine (backend-only preview): Service builds FormAutofillPreviewResult from configs + canonical profile; no DB mutations, no public API/UI, no PDFs/web automation.
+- 🟢 M10.4 Forms Autofill Preview (RCIC API + UI): Added read-only GET `/api/v1/cases/{case_id}/forms/autofill-preview` (tenant/RBAC-protected) and RCIC page `/cases/[caseId]/forms-autofill` to display FormAutofillEngine output. No PDFs or submissions; clearly labeled as draft/preview.
 - 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.

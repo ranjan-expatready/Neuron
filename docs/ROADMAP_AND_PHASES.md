@@ -70,11 +70,11 @@
 - M10.1 – Form Autofill & Submission Architecture Spec (docs-only) ✅
 - M10.2 – Form definitions + mapping config/schema + loaders (docs/config only) ✅
 - M10.3 – FormAutofillEngine service (backend preview JSON, SHADOW-only) ✅
-- M10.4 – RCIC Forms Preview UI (read-only manifest, no submission) (planned)
+- M10.4 – RCIC Forms Preview UI + read-only API (no submission) ✅
 - M10.5+ – PDF/web-flow adapters, guarded automation, RCIC approvals (planned)
 
 ## 5) Current / Next
 - Current phase: **Phase 10 – Form Autofill & Submission**
-- Current milestone: **M10.3 – FormAutofillEngine backend preview (SHADOW-only)**
-- Next milestone: **M10.4 – RCIC Forms Preview UI (read-only)**
+- Current milestone: **M10.4 – RCIC Forms Autofill Preview (API + UI, read-only)**
+- Next milestone: **M10.5 – PDF/web-flow adapters (planned)**
 

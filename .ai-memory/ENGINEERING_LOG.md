@@ -15,6 +15,12 @@
 - Added `FormAutofillEngine` (backend-only preview) and form autofill result models; builds FormAutofillPreviewResult from config/domain forms/mappings/bundles and canonical profile; no DB mutations, no public API/UI, no PDF/web automation.
 - Tests: backend pytest 268 collected, 264 passed, 4 skipped, coverage ~86.79%; frontend jest 9 suites / 15 tests pass.
 
+## 2025-12-11 – [backend][frontend][forms][m10_4]
+- Branch: `feature/m10_4_form_autofill_preview_ui`.
+- Added read-only API GET `/api/v1/cases/{case_id}/forms/autofill-preview` (tenant-scoped, RCIC/admin/owner) backed by FormAutofillEngine; no DB writes, no PDFs/submission.
+- Added RCIC UI page `/cases/[caseId]/forms-autofill` to display FormAutofillPreviewResult (values, sources, notes, warnings) with clear “preview/draft” banner; no actions.
+- Tests: backend pytest 267 passed / 4 skipped, coverage ~86.76%; frontend jest 9 suites / 15 tests pass.
+
 ## 2025-12-10 – [backend][frontend][ai][m8_0]
 - Added agentic platform skeleton: `AgentSession`/`AgentAction` models + migration `20251210_m8_agentic_platform`.
 - Added `AgentOrchestratorService` for sessions/actions and `ClientEngagementAgent` skeleton (suggestions only, no sends/LLMs).

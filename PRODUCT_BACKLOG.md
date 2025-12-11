@@ -609,11 +609,11 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 #### [FORM-004] RCIC Forms Preview UI (M10.4)
 
 - **Domain:** Agentic / Forms
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** MEDIUM
 - **Phase:** P2
 - **Type:** Frontend
-- **Description:** RCIC UI to display autofill previews/packages, show sources/warnings, and download manifest; read-only, no submission.
+- **Description:** RCIC UI + read-only API to display autofill previews/packages, show sources/warnings; no submission or PDF generation.
 
 #### [DO-005] Multi-Language OCR & Classification
 
