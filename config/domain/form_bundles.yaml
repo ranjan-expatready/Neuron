@@ -1,0 +1,23 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Application package definitions (illustrative)."
+
+form_bundles:
+  - id: "ee_fsw_base_package"
+    label: "Express Entry FSW Base Package"
+    program_codes: ["EE_FSW"]
+    forms:
+      - "IMM0008"
+      - "IMM5669"
+      - "IMM5406"
+    status: "active"
+
+  - id: "ee_cec_base_package"
+    label: "Express Entry CEC Base Package"
+    program_codes: ["EE_CEC"]
+    forms:
+      - "IMM0008"
+      - "IMM5669"
+    status: "active"
+

@@ -1,0 +1,48 @@
+meta:
+  version: "0.1.0"
+  status: "DRAFT"
+  notes: "Form field mappings from canonical profile/documents to IRCC form fields (illustrative, not exhaustive)."
+
+form_field_mappings:
+  - id: "imm0008_name_given"
+    form_id: "IMM0008"
+    field_id: "given_name"
+    source_type: "canonical_profile"
+    source_path: "profile.personal.given_name"
+    transform: null
+    status: "active"
+    notes: "Direct mapping from canonical profile"
+
+  - id: "imm0008_name_family"
+    form_id: "IMM0008"
+    field_id: "family_name"
+    source_type: "canonical_profile"
+    source_path: "profile.personal.family_name"
+    transform: null
+    status: "active"
+
+  - id: "imm0008_dob"
+    form_id: "IMM0008"
+    field_id: "dob"
+    source_type: "canonical_profile"
+    source_path: "profile.personal.date_of_birth"
+    transform: "date_iso_to_yyyymmdd"
+    status: "active"
+
+  - id: "imm0008_marital_status"
+    form_id: "IMM0008"
+    field_id: "marital_status"
+    source_type: "canonical_profile"
+    source_path: "profile.personal.marital_status"
+    transform: "enum_passthrough"
+    status: "active"
+
+  - id: "imm0008_uci"
+    form_id: "IMM0008"
+    field_id: "uci"
+    source_type: "canonical_profile"
+    source_path: "profile.identifiers.uci"
+    transform: null
+    status: "draft"
+    notes: "Optional; may be absent for new applicants"
+

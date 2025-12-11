@@ -5,6 +5,7 @@ from .organization import OrganizationService
 from .person import PersonService
 from .user import UserService
 from .agent_orchestrator import AgentOrchestratorService
+from .form_autofill_engine import FormAutofillEngine
 
 __all__ = [
     "AuthService",
@@ -14,4 +15,5 @@ __all__ = [
     "CaseService",
     "ConfigService",
     "AgentOrchestratorService",
+    "FormAutofillEngine",
 ]

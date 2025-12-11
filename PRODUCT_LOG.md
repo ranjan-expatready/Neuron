@@ -84,6 +84,9 @@
 - 🟢 Tagged `v0.9.2-phase9-doc-review`: Phase 9 document review golden snapshot (Document Reviewer Agent with metadata + optional OCR content checks, shadow-only, RCIC-facing).
 - 🟢 M9.3 Document Heuristics Engine (shadow-only): Deterministic heuristics over OCR text + metadata (missing keywords, misplaced hints, expiry filename heuristics, low-quality signals, simple profile consistency). Findings are SHADOW-only and surfaced in admin/RCIC UI; no sends or state mutation.
 - 🟢 Tagged `v0.9.3-phase9-doc-review-heuristics`: Updated Phase 9.3 golden snapshot with metadata + optional OCR + deterministic heuristics; shadow-only, RCIC-facing, non-destructive.
+- 🟢 M10.1 Form Autofill & Submission Architecture (docs-only): Architecture/spec for form autofill and IRCC submission prep (config-first form definitions/mappings, shadow-mode agents, safety, APIs, phasing). No runtime changes; foundation for M10.2+.
+- 🟢 M10.2 Form config schemas & loaders (backend-only): Added config/domain form definitions/mappings/bundles plus Pydantic-backed loaders with cross-reference validation; foundation only (no FormAutofillEngine/APIs/UI); tests cover happy path and invalid references.
+- 🟢 M10.3 FormAutofillEngine (backend-only preview): Service builds FormAutofillPreviewResult from configs + canonical profile; no DB mutations, no public API/UI, no PDFs/web automation; prepares for RCIC preview UI in M10.4.
 - 🔴 Multi-agent orchestration runtime – Architecture described in `[BP-09]` yet no orchestration service or queue workers live (planned M8.2+).
 - 🔴 Config/metadata agent + low-code builder – `[BP-03]/[BP-09]` specify dynamic config, still missing.
 - 🔴 End-user automation UX – No surfaced agent suggestions, checklists, or automation toggles `[BP-03 §5.4]`.

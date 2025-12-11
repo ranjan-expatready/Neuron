@@ -17,8 +17,8 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Currently in **Phase 8 – Agentic Platform**, milestone **M8.0** (agentic skeleton) delivered.
-- Next concrete build step: **M8.1 – LLM-backed engagement + triggers** (still gated and supervised).
+- Currently in **Phase 10 – Form Autofill & Submission**, milestone **M10.3** (FormAutofillEngine backend preview) delivered.
+- Next concrete build step: **M10.4 – RCIC Forms Preview UI (read-only)**.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -66,8 +66,15 @@
   - `v0.9.2-phase9-doc-review` – Document Reviewer Agent with metadata + optional OCR, shadow-only, RCIC-facing.
   - `v0.9.3-phase9-doc-review-heuristics` – Document Reviewer Agent with metadata + optional OCR + deterministic heuristics (shadow-only), RCIC-facing.
 
+### Phase 10 – Form Autofill & Submission
+- M10.1 – Form Autofill & Submission Architecture Spec (docs-only) ✅
+- M10.2 – Form definitions + mapping config/schema + loaders (docs/config only) ✅
+- M10.3 – FormAutofillEngine service (backend preview JSON, SHADOW-only) ✅
+- M10.4 – RCIC Forms Preview UI (read-only manifest, no submission) (planned)
+- M10.5+ – PDF/web-flow adapters, guarded automation, RCIC approvals (planned)
+
 ## 5) Current / Next
-- Current phase: **Phase 9 – Document Intelligence**
-- Current milestone: **M9.3 – Document heuristics engine (shadow, deterministic)**
-- Next milestone: **M9.4 – Tighter UX integration + advanced ML/LLM checks**
+- Current phase: **Phase 10 – Form Autofill & Submission**
+- Current milestone: **M10.3 – FormAutofillEngine backend preview (SHADOW-only)**
+- Next milestone: **M10.4 – RCIC Forms Preview UI (read-only)**
 
