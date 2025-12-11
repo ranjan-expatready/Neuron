@@ -61,5 +61,6 @@
 - M12.x: Case Workflow Coach/Automation.
 - M13.x: IRCC co-pilot and deeper AUTO within guardrails.
 - M9.1: Document Reviewer Agent (shadow-only, metadata + document matrix) implemented on this architecture.
+- M9.2: Document Reviewer Agent (shadow-only, optional OCR/PDF-aware content checks) implemented on this architecture.
 - This doc is the canonical reference; update it whenever new agents/orchestration behaviors are added. All M9+ implementation PRs must reference and conform to it.
 

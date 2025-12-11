@@ -92,13 +92,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 9 – document intelligence (shadow reviewer live)",
+    "status": "Phase 9 – document intelligence (OCR-aware doc reviewer)",
     "completion_percentage": 98,
     "current_phase": "Phase 9 – Document Intelligence",
-    "next_milestone": "M9.2 – OCR abstraction + provider integration",
-    "current_milestone": "M9.1 – Document Reviewer Agent (shadow-only)",
+    "next_milestone": "M9.3 – Document reviewer content heuristics",
+    "current_milestone": "M9.2 – Document Reviewer Agent (shadow, OCR-aware optional)",
     "integration_branch": "integration/phase8_agentic_foundation",
-    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs (NEURON_*); M8.6 defines multi-agent orchestration architecture (triggers, modes, safety, memory, tools) guiding M9+; M9.0 defines Document Reviewer Agent & OCR spec (design-only); M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix, no OCR)."
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs; M8.6 defines multi-agent orchestration architecture; M9.0 defines Document Reviewer Agent & OCR spec; M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix); M9.2 adds optional OCR/PDF-aware content warnings (shadow-only)."
   },
   "golden_snapshots": [
     {
@@ -112,23 +112,13 @@
       "Read .ai-knowledge-base.json to load runtime commands & blueprint links.",
       "Open PRODUCT_LOG.md for current product status and priorities.",
       "Review .ai-memory/ENGINEERING_LOG.md for the latest engineering changes.",
-      "Skim relevant blueprint docs (e.g., 03/04/06/09/13/14) before domain-heavy tasks.",
-      "Read architecture anchor docs: docs/NEURON_VISION_AND_ACTOR_SYSTEM.md, docs/NEURON_TECHNICAL_ARCHITECTURE.md, docs/NEURON_AGENTIC_PLATFORM_AND_AGENTS.md, docs/NEURON_MEMORY_AND_KNOWLEDGE_MODEL.md, docs/NEURON_GOVERNANCE_PROMPTS_AND_TESTING.md, docs/NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE.md."
+      "Skim relevant blueprint docs (e.g., 03/04/06/09/13/14) before domain-heavy tasks."
     ]
   },
   "governance": {
     "doc": "docs/ENGINEERING_GOVERNANCE.md",
     "engineering_log": ".ai-memory/ENGINEERING_LOG.md",
     "product_log": "PRODUCT_LOG.md",
-    "architecture_docs": [
-      "docs/NEURON_VISION_AND_ACTOR_SYSTEM.md",
-      "docs/NEURON_TECHNICAL_ARCHITECTURE.md",
-      "docs/NEURON_AGENTIC_PLATFORM_AND_AGENTS.md",
-      "docs/NEURON_MEMORY_AND_KNOWLEDGE_MODEL.md",
-      "docs/NEURON_GOVERNANCE_PROMPTS_AND_TESTING.md",
-      "docs/NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE.md"
-    ],
-    "resync_protocol": "On new chats, read NEURON_* docs, ENGINEERING_GOVERNANCE, ROADMAP_AND_PHASES, .ai-memory/ENGINEERING_LOG (recent), PRODUCT_LOG, PRODUCT_BACKLOG, .ai-knowledge-base.json, plus current branch/tag to reconstruct phase/milestone, architecture invariants, agent capabilities/constraints, and pending work before issuing a Cursor task plan.",
     "rules": [
       "Always run the bootstrap checklist in docs/ENGINEERING_GOVERNANCE.md before making changes.",
       "Every meaningful change must append to ENGINEERING_LOG with date, tags, modules touched, and test impact.",
@@ -146,11 +136,6 @@
     ]
   },
   "agents": {
-    "capabilities": [
-      "client_engagement agent (shadow + limited auto reminders; template/LLM; tenant-configured)",
-      "document_reviewer agent (shadow-only; uses document matrix + case documents metadata; no OCR/PDF yet)",
-      "agent_sessions/actions logging with admin UI visibility"
-    ],
     "Backend API Agent": {
       "role": "Implement REST APIs and backend services",
       "status": "active",
@@ -2145,6 +2130,10 @@
       "plan_limit_violations_total"
     ]
   },
+  "agentic_capabilities": [
+    "client_engagement: shadow + limited AUTO reminders; template/LLM; tenant-configured",
+    "document_reviewer: shadow-only; document matrix + case docs; optional OCR/PDF content warnings via DocumentContentService"
+  ],
   "observability": {
     "logging": "Structured logging with request_id, tenant/user context; helpers in backend/src/app/observability/logging.py",
     "health_endpoints": "/internal/healthz (liveness), /internal/readyz (DB readiness)",

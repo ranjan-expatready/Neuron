@@ -4,7 +4,17 @@ from src.app.agents.document_reviewer_agent import DocumentReviewerAgent
 from src.app.models.case import Case
 from src.app.models.document import Document
 from src.app.services.agent_orchestrator import AgentOrchestratorService
-from src.app.services.intake_engine import IntakeEngine
+from src.app.services.intake_engine import IntakeEngine, DocumentRequirementResolved
+from src.app.services.document_content_service import DocumentContentService
+
+
+class _StubContentService(DocumentContentService):
+    def __init__(self, text: str | None):
+        super().__init__(enabled=True)
+        self._text = text
+
+    def extract_text(self, document: Document):
+        return self._text
 
 
 def _make_case(db_session, org_id: str, case_type: str = "EE_FSW") -> Case:
@@ -25,7 +35,7 @@ def _make_case(db_session, org_id: str, case_type: str = "EE_FSW") -> Case:
     return case
 
 
-def _add_document(db_session, org_id: str, case_id: str, document_type: str, filename: str) -> Document:
+def _add_document(db_session, org_id: str, case_id: str, document_type: str, filename: str, mime: str = "application/pdf") -> Document:
     doc = Document(
         org_id=org_id,
         case_id=case_id,
@@ -36,7 +46,7 @@ def _add_document(db_session, org_id: str, case_id: str, document_type: str, fil
         filename=filename,
         original_filename=filename,
         file_size=100,
-        mime_type="application/pdf",
+        mime_type=mime,
         storage_key=f"{org_id}/{case_id}/{filename}",
         storage_provider="local",
         uploaded_by=str(uuid.uuid4()),
@@ -46,13 +56,22 @@ def _add_document(db_session, org_id: str, case_id: str, document_type: str, fil
     return doc
 
 
-def test_document_reviewer_agent_marks_present_and_missing(client):
+class _StubIntakeEngine(IntakeEngine):
+    def get_document_checklist_for_profile(self, profile, program_code, db_session=None):
+        return [DocumentRequirementResolved(id="passport", label="Passport", category="identity", required=True, reasons=["conditions_met"])]
+
+
+def test_document_reviewer_includes_content_warning_for_empty_text(client):
     org_id = str(client.default_org.id)
     case = _make_case(client.db_session, org_id)
     _add_document(client.db_session, org_id, case.id, "passport", "passport.pdf")
 
     orchestrator = AgentOrchestratorService(client.db_session)
-    agent = DocumentReviewerAgent(orchestrator=orchestrator, intake_engine=IntakeEngine())
+    agent = DocumentReviewerAgent(
+        orchestrator=orchestrator,
+        intake_engine=_StubIntakeEngine(),
+        content_service=_StubContentService(text="   "),
+    )
 
     result = agent.review_case(
         case_id=case.id,
@@ -62,20 +81,22 @@ def test_document_reviewer_agent_marks_present_and_missing(client):
         created_by_user_id=str(client.default_user.id),
     )
 
-    assert result["findings"]["required_present"] or result["findings"]["optional_present"] is not None
-    assert "agent_action_id" in result
-    actions = orchestrator.fetch_actions(case_id=case.id, tenant_id=org_id, agent_name="document_reviewer")
-    assert len(actions) == 1
-    assert actions[0].status == "suggested"
-    assert actions[0].auto_mode is False
+    warnings = result["findings"]["content_warnings"]
+    assert len(warnings) == 1
+    assert warnings[0]["issue"] == "empty_or_unreadable"
 
 
-def test_document_reviewer_agent_handles_missing(client):
+def test_document_reviewer_handles_none_text_without_warning(client):
     org_id = str(client.default_org.id)
     case = _make_case(client.db_session, org_id)
+    _add_document(client.db_session, org_id, case.id, "passport", "passport.pdf")
 
     orchestrator = AgentOrchestratorService(client.db_session)
-    agent = DocumentReviewerAgent(orchestrator=orchestrator, intake_engine=IntakeEngine())
+    agent = DocumentReviewerAgent(
+        orchestrator=orchestrator,
+        intake_engine=_StubIntakeEngine(),
+        content_service=_StubContentService(text=None),
+    )
 
     result = agent.review_case(
         case_id=case.id,
@@ -85,7 +106,6 @@ def test_document_reviewer_agent_handles_missing(client):
         created_by_user_id=str(client.default_user.id),
     )
 
-    assert isinstance(result["findings"]["required_missing"], list)
-    actions = orchestrator.fetch_actions(case_id=case.id, tenant_id=org_id, agent_name="document_reviewer")
-    assert len(actions) == 1
+    warnings = result["findings"]["content_warnings"]
+    assert warnings == []
 

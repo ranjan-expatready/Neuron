@@ -11,10 +11,10 @@ from src.app.api.dependencies import get_current_user, get_db
 from src.app.models.user import User
 from src.app.schemas.agent import AgentActionResponse, AgentSessionResponse
 from src.app.security.errors import ForbiddenError, TenantAccessError
+from src.app.services.agent_orchestrator import AgentOrchestratorService
 from src.app.agents.document_reviewer_agent import DocumentReviewerAgent
 from src.app.services.intake_engine import IntakeEngine
-from src.app.services.agent_orchestrator import AgentOrchestratorService
-from src.app.models.case import Case
+from src.app.services.document_content_service import DocumentContentService
 
 router = APIRouter()
 
@@ -78,10 +78,14 @@ async def run_document_review(
     current_user: User = Depends(get_current_user),
 ):
     _require_admin_or_rcic(current_user)
-    # Tenant isolation: ensure case belongs to tenant
     orchestrator = AgentOrchestratorService(db)
     intake_engine = IntakeEngine()
-    agent = DocumentReviewerAgent(orchestrator=orchestrator, intake_engine=intake_engine)
+    content_service = DocumentContentService()
+    agent = DocumentReviewerAgent(
+        orchestrator=orchestrator,
+        intake_engine=intake_engine,
+        content_service=content_service,
+    )
     try:
         result = agent.review_case(
             case_id=str(payload.case_id),
@@ -91,7 +95,6 @@ async def run_document_review(
             created_by_user_id=str(current_user.id),
         )
     except ValueError:
-        # Fallback: return empty findings in shadow mode if the case/profile cannot be resolved
         empty = {
             "program_code": payload.program_code or "",
             "case_id": str(payload.case_id),
@@ -101,6 +104,8 @@ async def run_document_review(
                 "optional_present": [],
                 "duplicates": [],
                 "unmatched": [],
+                "content_warnings": [],
+                "quality_warnings": [],
             },
             "agent_action_id": "",
             "agent_session_id": "",

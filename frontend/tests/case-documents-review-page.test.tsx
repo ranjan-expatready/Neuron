@@ -12,7 +12,7 @@ describe("DocumentsReviewPage", () => {
     jest.resetAllMocks();
   });
 
-  it("runs review and renders findings", async () => {
+  it("runs review and renders findings with warnings", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({
@@ -24,6 +24,8 @@ describe("DocumentsReviewPage", () => {
           optional_present: [],
           duplicates: [],
           unmatched: [],
+          content_warnings: [{ issue: "empty_or_unreadable", document_id: "d1" }],
+          quality_warnings: [],
         },
         agent_action_id: "action-1",
         agent_session_id: "session-1",
@@ -34,6 +36,7 @@ describe("DocumentsReviewPage", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Passport/)).toBeInTheDocument();
+      expect(screen.getAllByText(/empty_or_unreadable/).length).toBeGreaterThan(0);
     });
 
     mockFetch.mockResolvedValueOnce({
@@ -47,6 +50,8 @@ describe("DocumentsReviewPage", () => {
           optional_present: [],
           duplicates: [],
           unmatched: [],
+          content_warnings: [{ issue: "unexpected_file_extension", extension: ".txt" }],
+          quality_warnings: [],
         },
         agent_action_id: "action-2",
         agent_session_id: "session-2",
@@ -57,6 +62,7 @@ describe("DocumentsReviewPage", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/ID Card/)).toBeInTheDocument();
+      expect(screen.getAllByText(/unexpected_file_extension/).length).toBeGreaterThan(0);
     });
   });
 });

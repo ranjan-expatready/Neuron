@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from src.app.models.case import Case
 from src.app.services.agent_orchestrator import AgentOrchestratorService
 from src.app.services.document import DocumentService
+from src.app.services.document_content_service import DocumentContentService
 from src.app.services.intake_engine import IntakeEngine, DocumentRequirementResolved
 from src.app.cases.repository import CaseRepository
 
@@ -15,18 +16,21 @@ from src.app.cases.repository import CaseRepository
 class DocumentReviewerAgent:
     """
     Shadow-only document reviewer.
-    Uses existing document matrix + case documents to suggest completeness findings.
-    No OCR, no external sends, no state mutation.
+    Uses document matrix + case documents. Optional content extraction is pluggable via DocumentContentService.
+    No OCR/PDF provider calls unless enabled; no external sends or state mutation.
     """
 
-    def __init__(self, orchestrator: AgentOrchestratorService, intake_engine: Optional[IntakeEngine] = None):
+    def __init__(
+        self,
+        orchestrator: AgentOrchestratorService,
+        intake_engine: Optional[IntakeEngine] = None,
+        content_service: Optional[DocumentContentService] = None,
+    ):
         self.orchestrator = orchestrator
         self.intake_engine = intake_engine or IntakeEngine()
+        self.content_service = content_service or DocumentContentService()
 
     def _get_case_context(self, db: Session, case_id: str, tenant_id: Optional[str]) -> dict:
-        """
-        Try to load a lifecycle Case (has org_id) first; if not found, fall back to CaseRecord.
-        """
         lifecycle_case = (
             db.query(Case)
             .filter(Case.id == case_id, Case.deleted_at.is_(None))
@@ -71,6 +75,41 @@ class DocumentReviewerAgent:
             grouped[doc.document_type].append(doc)
         return grouped
 
+    @staticmethod
+    def _ext_from_filename(filename: str) -> str:
+        if not filename:
+            return ""
+        lowered = filename.lower()
+        if "." in lowered:
+            return lowered[lowered.rfind(".") :]
+        return ""
+
+    def _collect_content_warnings(self, documents, expected_type: str) -> List[Dict[str, Any]]:
+        warnings: List[Dict[str, Any]] = []
+        for doc in documents:
+            text = self.content_service.extract_text(doc)
+            if text is not None:
+                if not text.strip() or len(text.strip()) < 20:
+                    warnings.append(
+                        {
+                            "document_id": doc.id,
+                            "document_type": doc.document_type,
+                            "issue": "empty_or_unreadable",
+                        }
+                    )
+            ext = self._ext_from_filename(doc.filename)
+            if ext and ext not in {".pdf", ".png", ".jpg", ".jpeg"}:
+                warnings.append(
+                    {
+                        "document_id": doc.id,
+                        "document_type": doc.document_type,
+                        "issue": "unexpected_file_extension",
+                        "extension": ext,
+                        "expected_type": expected_type,
+                    }
+                )
+        return warnings
+
     def review_case(
         self,
         case_id: str,
@@ -99,6 +138,8 @@ class DocumentReviewerAgent:
         optional_present: List[Dict[str, Any]] = []
         duplicates: List[Dict[str, Any]] = []
         unmatched: List[Dict[str, Any]] = []
+        content_warnings: List[Dict[str, Any]] = []
+        quality_warnings: List[Dict[str, Any]] = []
 
         checklist_ids = {c.id for c in checklist}
 
@@ -119,6 +160,9 @@ class DocumentReviewerAgent:
             else:
                 if matched_docs:
                     optional_present.append(entry)
+
+            if matched_docs and self.content_service.enabled:
+                content_warnings.extend(self._collect_content_warnings(matched_docs, requirement.id))
 
         for doc_type, items in docs_by_type.items():
             if len(items) > 1:
@@ -143,6 +187,8 @@ class DocumentReviewerAgent:
                 "optional_present": optional_present,
                 "duplicates": duplicates,
                 "unmatched": unmatched,
+                "content_warnings": content_warnings,
+                "quality_warnings": quality_warnings,
             },
         }
 

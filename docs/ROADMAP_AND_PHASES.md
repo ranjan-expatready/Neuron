@@ -53,29 +53,11 @@
 - M8.1 – Client Engagement Agent (Hybrid Mode) Spec ✅
 - M8.2 – Client Engagement Agent Shadow Suggestions ✅ (template-based, admin-triggered)
 - M8.3 – LLM-powered client engagement replies (shadow-only, guardrailed) ✅
-- M8.4 – Client Engagement AUTO mode (intake/docs, admin-triggered) ✅
-- M8.5 – Architecture & Governance Documentation ✅
-- M8.6 – Agentic Orchestration Architecture ✅
+- M8.4 – Multi-agent orchestration + analytics (planned)
 - Golden snapshot: `v0.8.3-phase8-agentic-shadow` – M8.0–M8.3 (skeleton + hybrid spec + shadow + LLM drafts)
-
-### Phase 9 – Document Intelligence
-- M9.0 – Document Reviewer Agent & OCR Spec ✅
-- M9.1 – Document Reviewer Agent scaffold + metadata-based classification (planned)
-- M9.2 – OCR abstraction + provider integration (planned)
-- M9.3 – Quality checks + issues UX (planned)
-- M9.4+ – Advanced ML/LLM doc understanding & auto mode (planned)
-
-### Architecture & Governance Docs
-- NEURON_VISION_AND_ACTOR_SYSTEM.md — vision, actor model, journeys.
-- NEURON_TECHNICAL_ARCHITECTURE.md — layered architecture and components.
-- NEURON_AGENTIC_PLATFORM_AND_AGENTS.md — agent platform, modes, guardrails.
-- NEURON_MEMORY_AND_KNOWLEDGE_MODEL.md — memory layers and ChatGPT resync protocol.
-- NEURON_GOVERNANCE_PROMPTS_AND_TESTING.md — governance principles, prompt template, testing strategy.
-- NEURON_AGENTIC_ORCHESTRATION_ARCHITECTURE.md — multi-agent orchestration, triggers, modes, safety, tools, future roadmap.
-- These are required reading for major changes.
 
 ## 5) Current / Next
 - Current phase: **Phase 9 – Document Intelligence**
-- Current milestone: **M9.1 – Document Reviewer Agent (shadow-only)**
-- Next milestone: **M9.2 – OCR abstraction + provider integration**
+- Current milestone: **M9.2 – Document Reviewer Agent (shadow, OCR-aware optional)**
+- Next milestone: **M9.3 – Document reviewer content heuristics**
 

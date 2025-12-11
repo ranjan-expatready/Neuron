@@ -8,6 +8,8 @@ type Findings = {
   optional_present: any[];
   duplicates: any[];
   unmatched: any[];
+  content_warnings?: any[];
+  quality_warnings?: any[];
 };
 
 type ReviewResponse = {
@@ -57,12 +59,18 @@ export default function DocumentsReviewPage({ params }: { params: { caseId: stri
   const list = (title: string, items: any[]) => (
     <div className="space-y-1">
       <div className="font-semibold text-sm">{title}</div>
-      {items.length === 0 && <div className="text-xs text-gray-500">None</div>}
-      {items.map((item, idx) => (
+      {(!items || items.length === 0) && <div className="text-xs text-gray-500">None</div>}
+      {items?.map((item, idx) => (
         <div key={`${title}-${idx}`} className="rounded border border-gray-200 bg-gray-50 p-2 text-xs">
-          {item.label || item.document_type || item.requirement_id || "entry"}
+          {item.label || item.document_type || item.requirement_id || item.issue || "entry"}
           {item.filenames && item.filenames.length > 0 && (
             <div className="text-gray-600">Files: {item.filenames.join(", ")}</div>
+          )}
+          {item.issue && (
+            <div className="text-gray-600">
+              Issue: {item.issue}
+              {item.extension ? ` (${item.extension})` : ""}
+            </div>
           )}
         </div>
       ))}
@@ -74,7 +82,7 @@ export default function DocumentsReviewPage({ params }: { params: { caseId: stri
       <div className="mx-auto max-w-4xl px-4 py-8 space-y-4">
         <div className="rounded border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
           <div className="font-semibold">Document Reviewer Agent (Shadow)</div>
-          <div>AI-assisted suggestions only. RCIC must review and take action.</div>
+          <div>AI-assisted suggestions only. RCIC must review and take action. No auto-send or lifecycle changes.</div>
         </div>
 
         {error && <div className="rounded border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">{error}</div>}
@@ -98,6 +106,8 @@ export default function DocumentsReviewPage({ params }: { params: { caseId: stri
               {list("Optional present", result.findings.optional_present)}
               {list("Duplicates", result.findings.duplicates)}
               {list("Unmatched uploads", result.findings.unmatched)}
+              {list("Content Warnings", result.findings.content_warnings || [])}
+              {list("Quality Warnings", result.findings.quality_warnings || [])}
             </div>
           </div>
         )}
