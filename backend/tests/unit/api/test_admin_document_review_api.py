@@ -64,6 +64,7 @@ def test_document_review_api_success(client: TestClient, admin_headers):
     assert "agent_action_id" in data
     assert isinstance(data["findings"], dict)
     assert "content_warnings" in data["findings"]
+    assert "heuristic_findings" in data["findings"]
 
 
 def test_document_review_api_rbac(client: TestClient):

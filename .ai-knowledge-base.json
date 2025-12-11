@@ -92,13 +92,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 9 – document intelligence (OCR-aware doc reviewer)",
-    "completion_percentage": 98,
+    "status": "Phase 9 – document intelligence (heuristics shadow reviewer)",
+    "completion_percentage": 99,
     "current_phase": "Phase 9 – Document Intelligence",
-    "next_milestone": "M9.3 – Document reviewer content heuristics",
-    "current_milestone": "M9.2 – Document Reviewer Agent (shadow, OCR-aware optional)",
+    "next_milestone": "M9.4 – UX integration + advanced ML/LLM checks",
+    "current_milestone": "M9.3 – Document heuristics engine (shadow, deterministic)",
     "integration_branch": "integration/phase9_document_review",
-    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs; M8.6 defines multi-agent orchestration architecture; M9.0 defines Document Reviewer Agent & OCR spec; M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix); M9.2 adds optional OCR/PDF-aware content warnings (shadow-only)."
+    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs; M8.6 defines multi-agent orchestration architecture; M9.0 defines Document Reviewer Agent & OCR spec; M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix); M9.2 adds optional OCR/PDF-aware content warnings; M9.3 adds deterministic document heuristics (missing keywords, misplaced hints, expiry/quality signals, name consistency) in shadow-only mode."
   },
   "golden_snapshots": [
     {
@@ -2137,7 +2137,7 @@
   },
   "agentic_capabilities": [
     "client_engagement: shadow + limited AUTO reminders; template/LLM; tenant-configured",
-    "document_reviewer: shadow-only; document matrix + case docs; optional OCR/PDF content warnings via DocumentContentService"
+    "document_reviewer: shadow-only; document matrix + case docs; optional OCR/PDF content warnings via DocumentContentService; deterministic heuristics (missing keywords, misplaced hints, expiry/quality signals, simple profile consistency)"
   ],
   "observability": {
     "logging": "Structured logging with request_id, tenant/user context; helpers in backend/src/app/observability/logging.py",

@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
 
 from src.app.models.case import Case
+from src.app.heuristics.document_heuristics import DocumentHeuristicsEngine
 from src.app.services.agent_orchestrator import AgentOrchestratorService
 from src.app.services.document import DocumentService
 from src.app.services.document_content_service import DocumentContentService
@@ -25,10 +26,12 @@ class DocumentReviewerAgent:
         orchestrator: AgentOrchestratorService,
         intake_engine: Optional[IntakeEngine] = None,
         content_service: Optional[DocumentContentService] = None,
+        heuristics_engine: Optional[DocumentHeuristicsEngine] = None,
     ):
         self.orchestrator = orchestrator
         self.intake_engine = intake_engine or IntakeEngine()
         self.content_service = content_service or DocumentContentService()
+        self.heuristics_engine = heuristics_engine or DocumentHeuristicsEngine()
 
     def _get_case_context(self, db: Session, case_id: str, tenant_id: Optional[str]) -> dict:
         lifecycle_case = (
@@ -84,10 +87,10 @@ class DocumentReviewerAgent:
             return lowered[lowered.rfind(".") :]
         return ""
 
-    def _collect_content_warnings(self, documents, expected_type: str) -> List[Dict[str, Any]]:
+    def _collect_content_warnings(self, documents, expected_type: str, text_map: Dict[str, Optional[str]]) -> List[Dict[str, Any]]:
         warnings: List[Dict[str, Any]] = []
         for doc in documents:
-            text = self.content_service.extract_text(doc)
+            text = text_map.get(doc.id)
             if text is not None:
                 if not text.strip() or len(text.strip()) < 20:
                     warnings.append(
@@ -109,6 +112,17 @@ class DocumentReviewerAgent:
                     }
                 )
         return warnings
+
+    def _extract_text_map(self, documents) -> Dict[str, Optional[str]]:
+        if not self.content_service.enabled:
+            return {}
+        text_map: Dict[str, Optional[str]] = {}
+        for doc in documents:
+            try:
+                text_map[doc.id] = self.content_service.extract_text(doc)
+            except Exception:
+                text_map[doc.id] = None
+        return text_map
 
     def review_case(
         self,
@@ -132,6 +146,7 @@ class DocumentReviewerAgent:
                 db_session, org_id=ctx["org_id"], case_id=ctx["case_id"]
             )
         docs_by_type = self._group_documents(documents)
+        text_map = self._extract_text_map(documents)
 
         required_present: List[Dict[str, Any]] = []
         required_missing: List[Dict[str, Any]] = []
@@ -140,6 +155,7 @@ class DocumentReviewerAgent:
         unmatched: List[Dict[str, Any]] = []
         content_warnings: List[Dict[str, Any]] = []
         quality_warnings: List[Dict[str, Any]] = []
+        heuristic_findings: List[Dict[str, Any]] = []
 
         checklist_ids = {c.id for c in checklist}
 
@@ -161,8 +177,20 @@ class DocumentReviewerAgent:
                 if matched_docs:
                     optional_present.append(entry)
 
-            if matched_docs and self.content_service.enabled:
-                content_warnings.extend(self._collect_content_warnings(matched_docs, requirement.id))
+            if matched_docs:
+                if self.content_service.enabled:
+                    content_warnings.extend(
+                        self._collect_content_warnings(matched_docs, requirement.id, text_map)
+                    )
+                for doc in matched_docs:
+                    heuristic_findings.extend(
+                        self.heuristics_engine.analyze(
+                            doc_definition=requirement,
+                            uploaded_doc=doc,
+                            ocr_text=text_map.get(doc.id),
+                            canonical_profile=profile_data,
+                        )
+                    )
 
         for doc_type, items in docs_by_type.items():
             if len(items) > 1:
@@ -189,6 +217,7 @@ class DocumentReviewerAgent:
                 "unmatched": unmatched,
                 "content_warnings": content_warnings,
                 "quality_warnings": quality_warnings,
+                "heuristic_findings": heuristic_findings,
             },
         }
 

@@ -43,6 +43,9 @@
 ## 2025-12-10 – [integration][tag][phase9_doc_review]
 - Branch: `integration/phase9_document_review` merging M9.1 (shadow, matrix+metadata) and M9.2 (optional OCR-aware warnings). Tag: `v0.9.2-phase9-doc-review`. Tests: backend pytest 259 collected (255 passed, 4 skipped), coverage ~86.65%; frontend jest 9 suites (15 tests) all passing. No behavior changes beyond merged features; SHADOW-only document reviewer baseline.
 
+## 2025-12-11 – [backend][frontend][agentic][m9_3]
+- Added deterministic `DocumentHeuristicsEngine` (missing keywords, misplaced hints, filename expiry heuristic, quality signals, name mismatch) and integrated into DocumentReviewerAgent + admin API payload (`heuristic_findings`). UI renders heuristic findings (shadow-only). Tests: backend pytest 260 collected (256 passed, 4 skipped) coverage ~86.7%; frontend jest 9/9 suites pass.
+
 ## 2025-12-10 – [backend][intake][documents][m6_2]
 - Implemented validated intake/document/form config loaders with cross-reference checks and caching (`backend/src/app/config/intake_config.py`).
 - Added IntakeEngine service for resolved intake schemas and document checklist evaluation, including condition evaluation helpers (`backend/src/app/services/intake_engine.py`).

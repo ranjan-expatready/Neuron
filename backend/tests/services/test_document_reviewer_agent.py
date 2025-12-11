@@ -6,6 +6,7 @@ from src.app.models.document import Document
 from src.app.services.agent_orchestrator import AgentOrchestratorService
 from src.app.services.intake_engine import IntakeEngine, DocumentRequirementResolved
 from src.app.services.document_content_service import DocumentContentService
+from src.app.heuristics.document_heuristics import DocumentHeuristicsEngine
 
 
 class _StubContentService(DocumentContentService):
@@ -61,6 +62,23 @@ class _StubIntakeEngine(IntakeEngine):
         return [DocumentRequirementResolved(id="passport", label="Passport", category="identity", required=True, reasons=["conditions_met"])]
 
 
+class _StubHeuristicsEngine(DocumentHeuristicsEngine):
+    def __init__(self):
+        super().__init__()
+
+    def analyze(self, *, doc_definition, uploaded_doc, ocr_text, canonical_profile):
+        return [
+            {
+                "document_id": uploaded_doc.id,
+                "document_type": uploaded_doc.document_type,
+                "requirement_id": doc_definition.id,
+                "finding_code": "passport.missing_keywords",
+                "severity": "warning",
+                "details": {"missing_keywords": ["surname"]},
+            }
+        ]
+
+
 def test_document_reviewer_includes_content_warning_for_empty_text(client):
     org_id = str(client.default_org.id)
     case = _make_case(client.db_session, org_id)
@@ -71,6 +89,7 @@ def test_document_reviewer_includes_content_warning_for_empty_text(client):
         orchestrator=orchestrator,
         intake_engine=_StubIntakeEngine(),
         content_service=_StubContentService(text="   "),
+        heuristics_engine=_StubHeuristicsEngine(),
     )
 
     result = agent.review_case(
@@ -84,6 +103,9 @@ def test_document_reviewer_includes_content_warning_for_empty_text(client):
     warnings = result["findings"]["content_warnings"]
     assert len(warnings) == 1
     assert warnings[0]["issue"] == "empty_or_unreadable"
+    heuristics = result["findings"]["heuristic_findings"]
+    assert heuristics
+    assert heuristics[0]["finding_code"] == "passport.missing_keywords"
 
 
 def test_document_reviewer_handles_none_text_without_warning(client):

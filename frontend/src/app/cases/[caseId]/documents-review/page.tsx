@@ -10,6 +10,7 @@ type Findings = {
   unmatched: any[];
   content_warnings?: any[];
   quality_warnings?: any[];
+  heuristic_findings?: any[];
 };
 
 type ReviewResponse = {
@@ -62,7 +63,8 @@ export default function DocumentsReviewPage({ params }: { params: { caseId: stri
       {(!items || items.length === 0) && <div className="text-xs text-gray-500">None</div>}
       {items?.map((item, idx) => (
         <div key={`${title}-${idx}`} className="rounded border border-gray-200 bg-gray-50 p-2 text-xs">
-          {item.label || item.document_type || item.requirement_id || item.issue || "entry"}
+          {item.finding_code || item.label || item.document_type || item.requirement_id || item.issue || "entry"}
+          {item.severity && <span className="ml-1 text-gray-600">({item.severity})</span>}
           {item.filenames && item.filenames.length > 0 && (
             <div className="text-gray-600">Files: {item.filenames.join(", ")}</div>
           )}
@@ -70,6 +72,11 @@ export default function DocumentsReviewPage({ params }: { params: { caseId: stri
             <div className="text-gray-600">
               Issue: {item.issue}
               {item.extension ? ` (${item.extension})` : ""}
+            </div>
+          )}
+          {item.details && (
+            <div className="text-gray-600">
+              Details: {typeof item.details === "string" ? item.details : JSON.stringify(item.details)}
             </div>
           )}
         </div>
@@ -108,6 +115,7 @@ export default function DocumentsReviewPage({ params }: { params: { caseId: stri
               {list("Unmatched uploads", result.findings.unmatched)}
               {list("Content Warnings", result.findings.content_warnings || [])}
               {list("Quality Warnings", result.findings.quality_warnings || [])}
+              {list("Heuristic Findings (Shadow)", result.findings.heuristic_findings || [])}
             </div>
           </div>
         )}

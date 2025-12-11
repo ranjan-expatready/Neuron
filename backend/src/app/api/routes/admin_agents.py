@@ -15,6 +15,7 @@ from src.app.services.agent_orchestrator import AgentOrchestratorService
 from src.app.agents.document_reviewer_agent import DocumentReviewerAgent
 from src.app.services.intake_engine import IntakeEngine
 from src.app.services.document_content_service import DocumentContentService
+from src.app.heuristics.document_heuristics import DocumentHeuristicsEngine
 
 router = APIRouter()
 
@@ -81,10 +82,12 @@ async def run_document_review(
     orchestrator = AgentOrchestratorService(db)
     intake_engine = IntakeEngine()
     content_service = DocumentContentService()
+    heuristics_engine = DocumentHeuristicsEngine()
     agent = DocumentReviewerAgent(
         orchestrator=orchestrator,
         intake_engine=intake_engine,
         content_service=content_service,
+        heuristics_engine=heuristics_engine,
     )
     try:
         result = agent.review_case(
@@ -106,6 +109,7 @@ async def run_document_review(
                 "unmatched": [],
                 "content_warnings": [],
                 "quality_warnings": [],
+                "heuristic_findings": [],
             },
             "agent_action_id": "",
             "agent_session_id": "",

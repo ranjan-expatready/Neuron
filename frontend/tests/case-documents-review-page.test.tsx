@@ -26,6 +26,9 @@ describe("DocumentsReviewPage", () => {
           unmatched: [],
           content_warnings: [{ issue: "empty_or_unreadable", document_id: "d1" }],
           quality_warnings: [],
+          heuristic_findings: [
+            { finding_code: "passport.missing_keywords", severity: "warning", details: { missing_keywords: ["surname"] } },
+          ],
         },
         agent_action_id: "action-1",
         agent_session_id: "session-1",
@@ -37,6 +40,8 @@ describe("DocumentsReviewPage", () => {
     await waitFor(() => {
       expect(screen.getByText(/Passport/)).toBeInTheDocument();
       expect(screen.getAllByText(/empty_or_unreadable/).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/Heuristic Findings/)[0]).toBeInTheDocument();
+      expect(screen.getAllByText(/missing_keywords/).length).toBeGreaterThan(0);
     });
 
     mockFetch.mockResolvedValueOnce({
@@ -52,6 +57,7 @@ describe("DocumentsReviewPage", () => {
           unmatched: [],
           content_warnings: [{ issue: "unexpected_file_extension", extension: ".txt" }],
           quality_warnings: [],
+          heuristic_findings: [],
         },
         agent_action_id: "action-2",
         agent_session_id: "session-2",
