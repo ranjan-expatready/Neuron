@@ -34,6 +34,11 @@ def _safe_drop_index(name: str, table: str):
 
 
 def upgrade():
+    bind = op.get_bind()
+    dialect = bind.dialect.name if bind is not None else "postgresql"
+    if dialect != "sqlite":
+        op.alter_column("alembic_version", "version_num", type_=sa.String(length=64))
+
     op.create_table(
         "client_engagement_settings",
         sa.Column("id", sa.String(length=36), primary_key=True),
