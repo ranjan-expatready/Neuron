@@ -615,23 +615,41 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend
 - **Description:** RCIC UI + read-only API to display autofill previews/packages, show sources/warnings; no submission or PDF generation.
 
-#### [FORM-005] PDF/Web-flow adapters (M10.5 planned)
+#### [FORM-005] PDF/Web-flow adapters (M11.2 planned)
 
 - **Domain:** Agentic / Forms
 - **Status:** 🔵 Planned
 - **Priority:** MEDIUM
 - **Phase:** P2
 - **Type:** Backend + Frontend
-- **Description:** Guarded PDF/web-form adapters for RCIC-reviewed autofill outputs; no unsupervised submissions.
+- **Description:** Guarded PDF/web-form adapters for RCIC-reviewed autofill outputs; no unsupervised submissions. Planned as M11.2 after readiness report.
+ 
+#### [FORM-006] Submission Readiness Report (M11.1)
 
-#### [FORM-006] Submission prep & approvals (Phase 11 placeholder)
+- **Domain:** Agentic / Forms
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend Service + API
+- **Description:** Deterministic, read-only `SubmissionReadinessService` computing per-form completion, blockers (missing required fields/docs), warnings (confirmation needed), and overall status. API GET `/api/v1/cases/{case_id}/submission/readiness?bundle_id=...`; optional GET `/api/v1/config/form-bundles`.
+
+#### [FORM-007] Submission Readiness UI (M11.1b)
+
+- **Domain:** Agentic / Forms
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** Read-only UI at `/cases/[caseId]/submission-readiness` rendering readiness report (status, blockers/warnings, per-form/doc completeness); no submission actions.
+ 
+#### [FORM-008] Submission prep & RCIC approvals (M11.3)
 
 - **Domain:** Agentic / Forms
 - **Status:** 🔵 Planned
 - **Priority:** MEDIUM
 - **Phase:** P2
 - **Type:** Backend + Frontend
-- **Description:** Submission prep workflow with RCIC approval gates for autofilled packages; scope follows roadmap submission phase.
+- **Description:** Submission prep workflow with RCIC approval gates for autofilled packages; gated release after readiness + PDF/web adapters (M11.3).
 
 #### [DO-005] Multi-Language OCR & Classification
 
