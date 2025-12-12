@@ -1,5 +1,10 @@
 # Engineering Memory Log
 
+## 2025-12-12 – [integration][tag][phase10_m10_4]
+- Branch: `integration/phase10_forms_autofill`.
+- Tagged `v0.10.4-phase10-forms-autofill-preview` on commit `4dc22b42e64c777170bc92bae515eec38aced1df`.
+- Tests: backend pytest 275 collected / 271 passed / 4 skipped; coverage 86.88%. Frontend jest 10/10 suites, 16/16 tests passed.
+
 ## 2025-12-11 – [docs][agentic][forms][m10_1]
 - Branch: `feature/m10_1_form_autofill_and_submission_spec`.
 - Added `docs/FORM_AUTOFILL_AND_SUBMISSION_ARCHITECTURE.md` outlining config-first form definitions/mappings, shadow-mode agents (FormMappingAgent/FormAutofillAgent/SubmissionPrepAgent), safety/guardrails, data flow/APIs, and phasing (M10.2–M10.4+). Docs-only milestone.

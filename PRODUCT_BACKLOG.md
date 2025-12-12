@@ -615,6 +615,24 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend
 - **Description:** RCIC UI + read-only API to display autofill previews/packages, show sources/warnings; no submission or PDF generation.
 
+#### [FORM-005] PDF/Web-flow adapters (M10.5 planned)
+
+- **Domain:** Agentic / Forms
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Guarded PDF/web-form adapters for RCIC-reviewed autofill outputs; no unsupervised submissions.
+
+#### [FORM-006] Submission prep & approvals (Phase 11 placeholder)
+
+- **Domain:** Agentic / Forms
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Backend + Frontend
+- **Description:** Submission prep workflow with RCIC approval gates for autofilled packages; scope follows roadmap submission phase.
+
 #### [DO-005] Multi-Language OCR & Classification
 
 - **Domain:** 3.4 Documents & OCR
