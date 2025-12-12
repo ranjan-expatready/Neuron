@@ -58,7 +58,17 @@ class FormAutofillEngine:
             .all()
         )
 
-    def _pick_bundle(self, bundles: List[FormBundleDefinition], program_code: Optional[str]) -> Optional[FormBundleDefinition]:
+    def _pick_bundle(
+        self,
+        bundles: List[FormBundleDefinition],
+        program_code: Optional[str],
+        bundle_id: Optional[str],
+    ) -> Optional[FormBundleDefinition]:
+        if bundle_id:
+            for bundle in bundles:
+                if bundle.id == bundle_id:
+                    return bundle
+            raise FormAutofillEngineError(f"Bundle id {bundle_id} not found")
         if program_code:
             for bundle in bundles:
                 if program_code in bundle.program_codes:
@@ -108,6 +118,7 @@ class FormAutofillEngine:
         *,
         case_id: str,
         program_code: Optional[str],
+        bundle_id: Optional[str] = None,
         tenant_id: str,
         db_session: Session,
     ) -> FormAutofillPreviewResult:
@@ -126,7 +137,7 @@ class FormAutofillEngine:
         profile = self._get_case_profile(db_session, case_id, tenant_id)
         documents = self._get_case_documents(db_session, case_id, tenant_id)
 
-        bundle = self._pick_bundle(bundles, program_code)
+        bundle = self._pick_bundle(bundles, program_code, bundle_id)
         target_form_ids = set(bundle.forms) if bundle else {f.id for f in forms}
 
         forms_by_id = {f.id: f for f in forms}
