@@ -106,7 +106,7 @@
 
 
 ## Phase 11 – Submission Readiness (Golden)
-- ✅ `v0.11.1-phase11-submission-readiness` — Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation). Tests: backend pytest 275 collected / 271 passed / 4 skipped, coverage 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
+- ✅ `v0.11.1-phase11-submission-readiness+1` — Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation). Tests: backend pytest 275 collected / 271 passed / 4 skipped, coverage 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
 
 ## G. Future Expansion & Go-To-Market
 
