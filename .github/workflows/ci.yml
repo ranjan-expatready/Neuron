@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - integration/**
+  push:
+    branches:
+      - main
+      - integration/**
+
+  workflow_dispatch:
+jobs:
+  backend:
+    uses: ./.github/workflows/backend-ci.yml
+    secrets: inherit
+
+  frontend:
+    uses: ./.github/workflows/frontend-ci.yml
+    secrets: inherit
+
+  all:
+    name: all
+    runs-on: ubuntu-latest
+    needs:
+      - backend
+      - frontend
+    steps:
+      - name: Backend and frontend checks passed
+        run: echo "backend + frontend passed"
+

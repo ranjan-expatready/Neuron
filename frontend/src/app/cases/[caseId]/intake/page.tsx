@@ -83,19 +83,21 @@ export default function CaseIntakePage() {
         // fetch documents to determine status
         const caseDocs = await apiClient.getCaseDocuments(caseId);
         const enriched = checklistData.map((item) => {
+          const { status: _ignoredStatus, ...rest } = item;
           const matches = caseDocs.filter(
             (doc: any) =>
               doc.document_type === item.id ||
               doc.category === item.category ||
               doc.title?.toLowerCase().includes(item.label?.toLowerCase() || ""),
           );
+          const status: "uploaded" | "missing" | undefined = matches.length > 0 ? "uploaded" : "missing";
           return {
-            ...item,
-            status: matches.length > 0 ? "uploaded" : "missing",
+            ...rest,
+            status,
             files: matches.map((d: any) => ({ id: d.id, filename: d.original_filename || d.filename })),
-          };
+          } as ChecklistItem;
         });
-        setChecklist(enriched);
+        setChecklist(enriched as ChecklistItem[]);
       } catch (err) {
         console.error("Failed to load intake data", err);
         setError("Unable to load intake schema or checklist. Please ensure backend is reachable.");

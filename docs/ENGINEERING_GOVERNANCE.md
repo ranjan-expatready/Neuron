@@ -16,7 +16,7 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
    - Operations/support: 12
    - AI/agents/automation: 09
 5. **Confirm branch:** Use `main` for reading; create/checkout a dedicated feature branch (`feature/<name>`) before making changes.
-6. **Confirm CI guardrails:** `backend-tests` (pytest + ≥80% coverage) and `frontend-tests` (lint + build) are required status checks on `main`. Local work should mirror those commands.
+6. **Confirm CI guardrails:** `backend-tests` (pytest + ≥80% coverage) and `frontend-tests` (lint + build) are required status checks on `main` and all `integration/**` PRs (enforced via umbrella `CI / all`). Local runs are required but not sufficient—PR checks must be green.
 
 ## 3. Change Types & Required Memory Updates
 
@@ -64,7 +64,7 @@ This document defines the FAANG-style governance loop for every agent (Cursor, G
 1. **Before coding:** Run the Agent Bootstrap Checklist (Section 2).
 2. **During implementation:** Keep each change scoped to one change type when possible; follow its required memory/product updates.
 3. **Before pushing:** Run relevant tests (backend-tests, frontend-tests, e2e if touched). Update ENGINEERING_LOG (and PRODUCT_LOG if applicable).
-4. **On PR:** Ensure `backend-tests` and `frontend-tests` are green, and reference the ENGINEERING_LOG entry (date + tags) in the PR description.
+4. **On PR:** Ensure `backend-tests` and `frontend-tests` (or umbrella `CI / all`) are green for PRs targeting `main` or `integration/**`, and reference the ENGINEERING_LOG entry (date + tags) in the PR description.
 5. **After merge:** Confirm logs/KB are committed so future sessions can resume seamlessly.
 
 ## 7. Domain Knowledge Check (IRCC / Immigration)

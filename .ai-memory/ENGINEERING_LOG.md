@@ -1,5 +1,9 @@
 # Engineering Memory Log
 
+## 2025-12-12 – [infra][ci] CI triggers hardened for integration branches
+- Branch: `chore/ci_integration_pr_triggers`.
+- Workflows now run backend/frontend checks for PRs to `main` and `integration/**`, plus a `CI / all` umbrella check. Added push triggers for main/integration and reusable workflow_call. Updated governance doc to reflect required checks.
+
 ## 2025-12-12 – [integration][tag][phase10_m10_4]
 - Branch: `integration/phase10_forms_autofill`.
 - Tagged `v0.10.4-phase10-forms-autofill-preview` on commit `4dc22b42e64c777170bc92bae515eec38aced1df`.
