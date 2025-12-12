@@ -1,21 +1,33 @@
 # Neuron Agentic Platform & Agents
 
-## Agent Platform Core
-- Persistence: `AgentSession` and `AgentAction` scoped by tenant/case/agent_name/status/payload/timestamps; `auto_mode` marks AUTO actions.
-- Orchestrator: records sessions/actions; no cron/scheduler by default.
+## 1) Agentic Platform Core
+- Persistence: `AgentSession` and `AgentAction` tables scoped by tenant/case/agent_name/action_type/status/payload/timestamps.
+- Sessions group related actions; actions capture suggestions/executions with audit payloads; `auto_mode` flag differentiates AUTO vs shadow.
 
-## Agent Inventory
-- **Client Engagement Agent (M8.x)**: intake/missing-doc reminders, client question drafts; SHADOW (template/LLM) and limited AUTO for low-risk reminders.
-- **Document Reviewer Agent (M9.1–M9.3, shadow)**: uses document matrix + case documents; M9.2 adds optional OCR/PDF-aware content extraction (DocumentContentService); M9.3 adds deterministic heuristics over OCR text/metadata (missing keywords, misplaced hints, expiry/quality signals, simple profile consistency); outputs required_present/required_missing/optional/duplicates/unmatched + warnings/heuristics; SHADOW-only; RCIC/admin review.
-- **Document Reviewer Agent (future)**: deeper OCR/classification + ML/LLM quality checks, checklist mapping with issues.
-- **Form Autofill & Submission Prep (future)**: config-driven PDF/IRCC export artifacts for human review.
-- **Eligibility & Strategy Agent (future)**: explains eligibility/strategy using CRS/eligibility engines; human-reviewed.
-- **Config & Rules Drafting Agent (future)**: proposes config drafts; never auto-activates.
-- **Case Lifecycle Coach (future)**: suggests next-best actions from lifecycle state/history/documents/agent logs.
+## 2) Agent Types & Roles
+- **Client Engagement Agent**:
+  - Scenarios: intake incomplete reminders, missing docs reminders, client question replies (shadow).
+  - Modes: template, LLM-assisted (shadow), AUTO for low-risk reminders (intake/docs).
+- **Document Reviewer Agent (future)**:
+  - Uses OCR and document matrix; suggests classification, issues, checklist mapping; shadow first.
+- **Rule/Config Assistant (future)**:
+  - Proposes config drafts for intake/templates/documents/forms.
+- **Case Lifecycle Agent (future)**:
+  - Suggests lifecycle transitions/next steps under guardrails.
+- Others (future): eligibility explainer, analytics/insights.
 
-## Modes & Guardrails
-- SHADOW: suggestions only; human approval required.
-- HYBRID (future): safe internal adjustments only; no external comms without approval.
-- AUTO: low-risk, template-based, tenant-configured; must log `auto_mode=true`.
-- All agents: config-first (no hard-coded IRCC rules), tenant/case scoped, RBAC enforced, audit/observability required.
+## 3) Agent Modes
+- **SHADOW**: Logs suggestions only; human approval required.
+- **HYBRID**: Pre-executes safe subsets; still requires approval.
+- **AUTO**: Executes low-risk actions under tenant-configured guardrails; fully logged.
+
+## 4) Safety & Guardrails
+- Agents must not modify legal decisions/config without proper workflows.
+- No unsupervised client sends outside approved channels/templates.
+- All actions logged to `AgentAction`; admin UI visibility; RBAC + tenant isolation enforced.
+
+## 5) Agent Observability
+- Metrics: actions per agent, errors, escalations, AUTO vs shadow ratio.
+- Logs: structured, tenant/case-scoped.
+- Admin UI: `/admin/agents` for sessions/actions, filters; per-case views for engagement.
 
