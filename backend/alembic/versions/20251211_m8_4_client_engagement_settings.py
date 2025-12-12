@@ -37,13 +37,7 @@ def upgrade():
     op.create_table(
         "client_engagement_settings",
         sa.Column("id", sa.String(length=36), primary_key=True),
-        sa.Column(
-            "tenant_id",
-            sa.String(length=36),
-            sa.ForeignKey("tenants.id", ondelete="CASCADE"),
-            nullable=False,
-            index=True,
-        ),
+        sa.Column("tenant_id", sa.String(length=36), sa.ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False),
         sa.Column("auto_intake_reminders_enabled", sa.Boolean(), nullable=False, server_default=sa.false()),
         sa.Column(
             "auto_missing_docs_reminders_enabled", sa.Boolean(), nullable=False, server_default=sa.false()
