@@ -10,13 +10,17 @@ depends_on = None
 
 
 def upgrade():
+    bind = op.get_bind()
+    dialect = bind.dialect.name if bind is not None else "postgresql"
+    json_default = sa.text("'{}'::jsonb") if dialect == "postgresql" else sa.text("'{}'")
+
     op.create_table(
         "tenant_billing_state",
         sa.Column("tenant_id", sa.String(length=36), nullable=False),
         sa.Column("plan_code", sa.String(length=100), nullable=False, server_default="starter"),
         sa.Column("subscription_status", sa.String(length=50), nullable=False, server_default="active"),
         sa.Column("renewal_date", sa.DateTime(timezone=True), nullable=True),
-        sa.Column("usage_counters", sa.JSON(), nullable=False, server_default=sa.text("'{}'::jsonb")),
+        sa.Column("usage_counters", sa.JSON(), nullable=False, server_default=json_default),
         sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP"), nullable=False),
         sa.Column(
             "updated_at",
