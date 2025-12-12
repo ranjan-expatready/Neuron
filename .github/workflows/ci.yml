@@ -11,6 +11,7 @@ on:
       - main
       - integration/**
 
+  workflow_dispatch:
 jobs:
   backend:
     uses: ./.github/workflows/backend-ci.yml
