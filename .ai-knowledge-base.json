@@ -138,7 +138,8 @@
       "Always run the bootstrap checklist in docs/ENGINEERING_GOVERNANCE.md before making changes.",
       "Every meaningful change must append to ENGINEERING_LOG with date, tags, modules touched, and test impact.",
       "Any user-visible or roadmap change must update PRODUCT_LOG under the correct section.",
-      "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and documentation updates."
+      "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and documentation updates.",
+      "PRs into main or integration/** must have backend-tests and frontend-tests (or umbrella CI / all) green; local runs are required but not sufficient."
     ]
   },
   "backlog": {
