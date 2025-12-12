@@ -10,6 +10,12 @@
 - Ruleset restored to approvals=1 immediately after merge (required check `all` retained).
 - Post-merge tests on integration head: backend pytest 275 collected / 271 passed / 4 skipped, cov 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
 
+## 2025-12-12 – [integration][tag][phase11_m11_1]
+- Tag: `v0.11.1-phase11-submission-readiness` on commit `012d843633dffd9974bc2e508b298f123b5a43e0`.
+- Scope: Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation).
+- Tests: backend pytest 275 collected / 271 passed / 4 skipped; coverage 86.88%. Frontend jest 10/10 suites, 16/16 tests passed.
+- Snapshot is rollback-safe; no data migrations or runtime behavior changes beyond the audited release.
+
 ## 2025-12-12 – [integration][tag][phase10_m10_4]
 - Branch: `integration/phase10_forms_autofill`.
 - Tagged `v0.10.4-phase10-forms-autofill-preview` on commit `4dc22b42e64c777170bc92bae515eec38aced1df`.

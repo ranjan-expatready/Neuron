@@ -17,8 +17,9 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Currently in **Phase 10 – Form Autofill & Submission**, milestone **M10.4 – RCIC Forms Autofill Preview (API + UI, read-only)** ✅ delivered.
-- Next concrete build step: **M10.5 – PDF/web-flow adapters (planned)**.
+- Currently in **Phase 11 – Submission Readiness & Prep**, milestone **M11.1 – Submission Readiness Report (deterministic, read-only)** ✅ delivered (backend-only, read-only evaluation; no UI, no automation).
+- Golden snapshot: `v0.11.1-phase11-submission-readiness`.
+- Next concrete build step: **M11.2 – Submission readiness UI (read-only)** and **M11.3 – PDF/web-flow adapters (planned)**.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -74,8 +75,15 @@
 - Golden snapshot: `v0.10.4-phase10-forms-autofill-preview` – RCIC forms autofill preview (API + UI, read-only)
 - M10.5+ – PDF/web-flow adapters, guarded automation, RCIC approvals (planned)
 
+
+### Phase 11 – Submission Readiness & Prep
+- M11.1 – Submission Readiness Report (deterministic, read-only; backend service + API, no UI/automation) ✅
+- Golden snapshot: `v0.11.1-phase11-submission-readiness`
+- M11.2 – Submission readiness UI (read-only) (planned)
+- M11.3 – PDF/web-flow adapters (planned)
+
 ## 5) Current / Next
-- Current phase: **Phase 10 – Form Autofill & Submission**
-- Current milestone: **M10.4 – RCIC Forms Autofill Preview (API + UI, read-only)**
-- Next milestone: **M10.5 – PDF/web-flow adapters (planned)**
+- Current phase: **Phase 11 – Submission Readiness & Prep**
+- Current milestone: **M11.1 – Submission Readiness Report (deterministic, read-only)**
+- Next milestone: **M11.2 – Submission readiness UI (read-only)**
 
