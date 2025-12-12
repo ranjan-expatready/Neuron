@@ -1,6 +1,6 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-10T15:00:00+00:00",
+  "last_updated": "2025-12-12T00:00:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
     "test_directories": [
@@ -71,14 +71,23 @@
     }
   },
   "test_results": {
-    "last_run": "2025-12-10T15:00:00+00:00",
-    "overall_coverage": 86,
-    "total_tests": 200,
-    "passing_tests": 196,
+    "last_run": "2025-12-12T00:00:00+00:00",
+    "overall_coverage": 87,
+    "total_tests": 284,
+    "passing_tests": 280,
     "failing_tests": 0,
     "coverage_threshold": 80,
     "meets_threshold": true,
     "recent_runs": [
+      {
+        "timestamp": "2025-12-12T00:00:00+00:00",
+        "scope": "backend_full_suite_m11_1_submission_readiness",
+        "tests_run": 284,
+        "passed": 280,
+        "failed": 0,
+        "coverage": 87.01,
+        "notes": "Backend pytest on feature/m11_1_submission_readiness_report; 4 skipped; coverage 87.01%."
+      },
       {
         "timestamp": "2025-12-10T15:00:00+00:00",
         "scope": "backend_full_suite_phase5_integration",
@@ -92,19 +101,19 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 10 – form autofill & submission architecture (RCIC preview)",
+    "status": "Phase 11 \u2013 submission readiness (backend-only)",
     "completion_percentage": 99,
-    "current_phase": "Phase 10 – Form Autofill & Submission",
-    "next_milestone": "M10.5 – PDF/web-flow adapters (planned)",
-    "current_milestone": "M10.4 – RCIC forms autofill preview (API + UI, read-only)",
+    "current_phase": "Phase 11 \u2013 Submission Readiness & Prep",
+    "next_milestone": "M11.2 \u2013 PDF/web-flow adapters (planned)",
+    "current_milestone": "M11.1 \u2013 Submission Readiness Report (deterministic, read-only)",
     "integration_branch": "integration/phase10_forms_autofill",
-    "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs; M8.6 defines multi-agent orchestration architecture; M9.0 defines Document Reviewer Agent & OCR spec; M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix); M9.2 adds optional OCR/PDF-aware content warnings; M9.3 adds deterministic document heuristics (missing keywords, misplaced hints, expiry/quality signals, name consistency) in shadow-only mode; M10.1 delivers the form autofill/submission architecture spec (docs-only); M10.2 adds form config schemas/mappings/bundles with Pydantic loaders (no runtime wiring yet); M10.3 implements the backend FormAutofillEngine preview (no public API/UI/PDF automation); M10.4 exposes RCIC-only read-only autofill preview API and UI."
+    "summary": "Submission readiness report (M11.1) delivered as deterministic, read-only backend service/API using FormAutofillEngine + document matrix; no PDFs/submission. Backend pytest 284 collected / 280 passed / 4 skipped, coverage 87.01%. Frontend unchanged. Integration branch remains integration/phase10_forms_autofill."
   },
   "golden_snapshots": [
     {
       "tag": "v0.8.3-phase8-agentic-shadow",
       "date": "2025-12-10",
-      "description": "Phase 8 golden snapshot after M8.0–M8.3 (skeleton + hybrid spec + shadow suggestions + LLM drafts). Backend 245 tests (4 skipped) ~86.53% cov; frontend 8 suites/12 tests pass."
+      "description": "Phase 8 golden snapshot after M8.0\u2013M8.3 (skeleton + hybrid spec + shadow suggestions + LLM drafts). Backend 245 tests (4 skipped) ~86.53% cov; frontend 8 suites/12 tests pass."
     },
     {
       "tag": "v0.9.2-phase9-doc-review",
@@ -138,7 +147,8 @@
       "Always run the bootstrap checklist in docs/ENGINEERING_GOVERNANCE.md before making changes.",
       "Every meaningful change must append to ENGINEERING_LOG with date, tags, modules touched, and test impact.",
       "Any user-visible or roadmap change must update PRODUCT_LOG under the correct section.",
-      "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and documentation updates."
+      "Reference docs/ENGINEERING_GOVERNANCE.md when deciding change type, tests, and documentation updates.",
+      "PRs into main or integration/** must have backend-tests and frontend-tests (or umbrella CI / all) green; local runs are required but not sufficient."
     ]
   },
   "backlog": {
