@@ -104,6 +104,10 @@
 - 🔴 Data residency, backups & DR – Requirements captured in `[BP-05]/[BP-12]` but no infra automation yet.
 - 🔵 Production deployment automation – Deployment runbooks exist, but no GitHub environments/K8s manifests checked in.
 
+
+## Phase 11 – Submission Readiness (Golden)
+- ✅ `v0.11.1-phase11-submission-readiness` — Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation). Tests: backend pytest 275 collected / 271 passed / 4 skipped, coverage 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
+
 ## G. Future Expansion & Go-To-Market
 
 - 🔵 Integration marketplace & developer portal – Planned for Phase 2 `[BP-13 §Integrations]`.
