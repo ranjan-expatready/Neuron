@@ -11,7 +11,7 @@
 - Post-merge tests on integration head: backend pytest 275 collected / 271 passed / 4 skipped, cov 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
 
 ## 2025-12-12 – [integration][tag][phase11_m11_1]
-- Tag: `v0.11.1-phase11-submission-readiness+1` on commit `8e8d2432fe000dc02ea8aa9344aad92bbfc655c8`.
+- Tag: `v0.11.1-phase11-submission-readiness+2` on commit `f4d8b8399007636a72518e15270218e41513c4f2`.
 - Scope: Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation).
 - Tests: backend pytest 275 collected / 271 passed / 4 skipped; coverage 86.88%. Frontend jest 10/10 suites, 16/16 tests passed.
 - Snapshot is rollback-safe; no data migrations or runtime behavior changes beyond the audited release.

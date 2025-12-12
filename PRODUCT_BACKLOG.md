@@ -4,7 +4,7 @@
 
 This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, and the implementation gap analysis into a single, version-controlled source of truth. Every 🔴 **Missing** or 🟡 **Partial** capability from the blueprints now maps to a concrete backlog ID so engineers, product, and agents can reference the same plan before opening a PR.
 
-- Golden snapshot recorded: `v0.11.1-phase11-submission-readiness+1` (Submission Readiness Report, backend-only, read-only).
+- Golden snapshot recorded: `v0.11.1-phase11-submission-readiness+2` (Submission Readiness Report, backend-only, read-only).
 
 ## 2. Backlog Conventions
 
