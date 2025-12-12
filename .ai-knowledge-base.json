@@ -122,7 +122,7 @@
       "description": "Phase 10 forms autofill preview (M10.4) with RCIC read-only API/UI. Backend pytest 275 collected / 271 passed / 4 skipped, coverage 86.88%; frontend jest 10/10 suites, 16/16 tests passed."
     },
     {
-      "tag": "v0.11.1-phase11-submission-readiness",
+      "tag": "v0.11.1-phase11-submission-readiness+1",
       "date": "2025-12-12",
       "description": "Phase 11.1 golden snapshot: Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation). Backend pytest 275 collected / 271 passed / 4 skipped, coverage 86.88%; frontend jest 10/10 suites, 16/16 tests passed."
     }
