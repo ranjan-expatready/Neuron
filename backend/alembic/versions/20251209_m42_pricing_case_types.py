@@ -47,7 +47,7 @@ def upgrade():
                 "case_type",
                 existing_type=sa.String(length=100),
                 nullable=False,
-                server_default=None,
+                server_default="express_entry_basic",
             )
 
     # CaseSnapshot case_type
@@ -69,7 +69,7 @@ def upgrade():
                 "case_type",
                 existing_type=sa.String(length=100),
                 nullable=False,
-                server_default=None,
+                server_default="express_entry_basic",
             )
 
 
