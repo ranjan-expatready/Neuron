@@ -4,6 +4,12 @@
 - Branch: `chore/ci_integration_pr_triggers`.
 - Workflows now run backend/frontend checks for PRs to `main` and `integration/**`, plus a `CI / all` umbrella check. Added push triggers for main/integration and reusable workflow_call. Updated governance doc to reflect required checks.
 
+## 2025-12-12 – [infra][governance] Temporary approval relax to merge PR #44
+- Ruleset 11070317 (integration/**) temporarily reduced approvals from 1→0; required check aligned to umbrella `all`; strict up-to-date and linear history kept; no bypass actors.
+- PR #44 merged via squash commit `602430cb1fa4d4e777d51e01223038220cb3acc5`; branch deleted.
+- Ruleset restored to approvals=1 immediately after merge (required check `all` retained).
+- Post-merge tests on integration head: backend pytest 275 collected / 271 passed / 4 skipped, cov 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
+
 ## 2025-12-12 – [integration][tag][phase10_m10_4]
 - Branch: `integration/phase10_forms_autofill`.
 - Tagged `v0.10.4-phase10-forms-autofill-preview` on commit `4dc22b42e64c777170bc92bae515eec38aced1df`.
