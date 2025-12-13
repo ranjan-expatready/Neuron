@@ -1,8 +1,8 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-13T13:10:00+00:00",
-  "current_phase": "Phase 11 – Submission Readiness (closed)",
-  "current_milestone": "M12.1 – Submission Preparation Engine (planned)",
+  "last_updated": "2025-12-13T13:25:00+00:00",
+  "current_phase": "Phase 12 – Submission Preparation",
+  "current_milestone": "M12.2 – Submission Preparation (planned)",
   "integration_branch": "integration/phase10_forms_autofill",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
@@ -95,13 +95,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 11 – Submission Readiness (closed)",
-    "completion_percentage": 93,
-    "current_phase": "Phase 11 – Submission Readiness (closed)",
-    "next_milestone": "M12.1 – Submission Preparation Engine (planned)",
-    "current_milestone": "M12.1 – Submission Preparation Engine (planned)",
+    "status": "Phase 12 – Submission Preparation",
+    "completion_percentage": 94,
+    "current_phase": "Phase 12 – Submission Preparation",
+    "next_milestone": "M12.2 – Submission Preparation (planned)",
+    "current_milestone": "M12.2 – Submission Preparation (planned)",
     "integration_branch": "integration/phase10_forms_autofill",
-    "summary": "Phase 11 closed with M11.1 Submission Readiness Engine, M11.2 Verification + Evidence Bundle (read-only/shadow, deterministic), and M11.3 RCIC Readiness UI (read-only) surfacing readiness + evidence. Config-first rule engine, eligibility, document matrix, case history, intake + admin config, agentic platform + doc review heuristics, RCIC forms autofill preview (M10.4) delivered. Phase 12 (Submission Preparation Engine) remains planned."
+    "summary": "Phase 11 closed with M11.1 Submission Readiness Engine, M11.2 Verification + Evidence Bundle, and M11.3 RCIC Readiness UI (all read-only/shadow). Phase 12 started with P12.1 Submission Preparation Engine (read-only/shadow) producing deterministic submission preparation packages; Phase 12.2 planned next."
   },
   "golden_snapshots": [
     {
@@ -140,6 +140,12 @@
       "date": "2025-12-13",
       "commit": "976e6eae550f6904918c7a0c854ad0cc9d6493dd",
       "description": "M11.3 verified: RCIC Submission Readiness UI (read-only) consuming readiness + evidence APIs; evidence bundle export; CI all passed."
+    },
+    {
+      "tag": "v0.12.1-phase12-submission-preparation-engine",
+      "date": "2025-12-13",
+      "commit": "153e2ec313917dcaf69c14a49f7f25d6ecc93d97",
+      "description": "P12.1 verified: Submission Preparation Engine (shadow/read-only) producing deterministic preparation package with audit hash; pytest 287 passed / 4 skipped; coverage 86.97%."
     }
   ],
   "agent_bootstrap": {

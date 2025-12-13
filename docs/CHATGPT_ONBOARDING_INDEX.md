@@ -27,11 +27,11 @@ Precedence (highest first):
 If any conflict exists, STOP and reconcile by updating the relevant docs/KB via a governance realignment PR—do not guess.
 
 ## D) Current Snapshot (Must Stay Updated Each Milestone PR)
-- Current phase: Phase 11 – Submission Readiness (closed)
-- Current milestone: M12.1 – Submission Preparation Engine (planned)
+- Current phase: Phase 12 – Submission Preparation
+- Current milestone: M12.2 – Submission Preparation (planned)
 - Integration branch: integration/phase10_forms_autofill
-- Latest golden tag: v0.11.3-phase11-readiness-ui
-- Integration HEAD commit: 976e6eae550f6904918c7a0c854ad0cc9d6493dd
+- Latest golden tag: v0.12.1-phase12-submission-preparation-engine
+- Integration HEAD commit: 153e2ec313917dcaf69c14a49f7f25d6ecc93d97
 - Last updated: 2025-12-13
 Rule: This snapshot is refreshed in every milestone PR alongside roadmap/log/KB updates.
 
