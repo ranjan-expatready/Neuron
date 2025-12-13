@@ -114,6 +114,9 @@
 - ✅ `v0.12.1-phase12-submission-preparation-engine` — Submission Preparation Engine (shadow/read-only) producing deterministic preparation package with field/attachment gaps, readiness/evidence cross-links, and package hash. Tests: backend pytest 287 passed / 4 skipped; coverage 86.97%. Integration branch: `integration/phase10_forms_autofill`.
 - ✅ `v0.12.2-phase12-submission-prep-ui` — Submission Preparation Review UI (read-only/shadow) consuming submission preparation API; evidence JSON export. Tests: CI `all` passed (includes frontend suites). Integration branch: `integration/phase10_forms_autofill`. Phase 12 closed; Phase 13 planned next.
 
+## Phase 13 – Assisted Automation (P13.1 Complete)
+- ✅ `v0.13.1-phase13-automation-readiness-gate` — Contract tests for readiness/evidence/preparation APIs, golden scenarios for PASS/FAIL/UNKNOWN, and automation_readiness gate (read-only signal; no actions). Tests: backend pytest full suite 294 passed / 4 skipped; coverage 87.02%. Integration branch: `integration/phase10_forms_autofill`. Next: P13.2 assisted automation drafts (planned).
+
 ## G. Future Expansion & Go-To-Market
 
 - 🔵 Integration marketplace & developer portal – Planned for Phase 2 `[BP-13 §Integrations]`.

@@ -1,8 +1,8 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-13T14:05:00+00:00",
-  "current_phase": "Phase 12 – Submission Preparation (closed)",
-  "current_milestone": "P12.2 – Submission Preparation Review UI (completed)",
+  "last_updated": "2025-12-13T15:20:00+00:00",
+  "current_phase": "Phase 13 – Assisted Automation (in progress)",
+  "current_milestone": "P13.1 – Contract Tests & Automation Readiness Gate (completed)",
   "integration_branch": "integration/phase10_forms_autofill",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
@@ -95,13 +95,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 12 – Submission Preparation (closed)",
-    "completion_percentage": 96,
-    "current_phase": "Phase 12 – Submission Preparation (closed)",
-    "next_milestone": "Phase 13 – Submission Automation (planned)",
-    "current_milestone": "P12.2 – Submission Preparation Review UI (completed)",
+    "status": "Phase 13 – Assisted Automation (in progress)",
+    "completion_percentage": 97,
+    "current_phase": "Phase 13 – Assisted Automation",
+    "next_milestone": "Phase 13.2 – Assisted Automation drafts (planned)",
+    "current_milestone": "P13.1 – Contract Tests & Automation Readiness Gate (completed)",
     "integration_branch": "integration/phase10_forms_autofill",
-    "summary": "Phase 11 closed with M11.1 Submission Readiness Engine, M11.2 Verification + Evidence Bundle, and M11.3 RCIC Readiness UI (all read-only/shadow). Phase 12 delivered P12.1 Submission Preparation Engine (read-only/shadow, deterministic package hash) and P12.2 Submission Preparation Review UI (read-only, evidence export). Phase 13 – Submission Automation is planned next."
+    "summary": "Phase 11 closed with M11.1 Submission Readiness Engine, M11.2 Verification + Evidence Bundle, and M11.3 RCIC Readiness UI (all read-only/shadow). Phase 12 delivered P12.1 Submission Preparation Engine (read-only/shadow, deterministic package hash) and P12.2 Submission Preparation Review UI (read-only, evidence export). Phase 13 kicked off with P13.1 contract tests + golden scenarios + automation readiness gate (read-only signal). Phase 13.2 (assisted automation drafts) is planned next."
   },
   "golden_snapshots": [
     {
@@ -152,6 +152,12 @@
       "date": "2025-12-13",
       "commit": "33364a374e323b3abb1c0b6ad819efa8c6b3acad",
       "description": "P12.2 verified: RCIC Submission Preparation Review UI (read-only/shadow) consuming submission preparation API; evidence JSON export; CI `all` passed (frontend/full)."
+    },
+    {
+      "tag": "v0.13.1-phase13-automation-readiness-gate",
+      "date": "2025-12-13",
+      "commit": "2aad06f1764f1b2ba927361c605d2b74e7d5a4ee",
+      "description": "P13.1 verified: API contract tests + golden scenarios (PASS/FAIL/UNKNOWN) + automation_readiness gate; pytest 294 passed / 4 skipped; coverage 87.02%."
     }
   ],
   "agent_bootstrap": {

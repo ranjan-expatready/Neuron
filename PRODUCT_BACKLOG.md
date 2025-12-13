@@ -662,14 +662,23 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Frontend + Adapter
 - **Description:** Read-only UI to surface submission preparation packages; evidence JSON export; consumes P12.1 submission preparation API. Tag: `v0.12.2-phase12-submission-prep-ui`; tests: CI `all` passed (frontend suites included).
 
-#### [FORM-008] Submission Automation (Phase 13 planned)
+#### [FORM-008] Automation Readiness Gate & Contracts (Phase 13.1)
+
+- **Domain:** Agentic / Forms
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P3
+- **Type:** Backend (contracts/tests)
+- **Description:** Contract tests for readiness/evidence/preparation APIs, golden PASS/FAIL/UNKNOWN scenarios, and read-only automation_readiness gate signal (eligible only when readiness PASS, verification PASS, no blocking gaps, no unsourced). Tag: `v0.13.1-phase13-automation-readiness-gate`; tests: backend pytest 294 passed / 4 skipped; coverage 87.02%.
+
+#### [FORM-009] Assisted Automation Drafts (Phase 13.2 planned)
 
 - **Domain:** Agentic / Forms
 - **Status:** 🔵 Planned
 - **Priority:** HIGH
-- **Phase:** P2
+- **Phase:** P3
 - **Type:** Backend + Frontend
-- **Description:** Submission automation and adapters building on preparation outputs; governed and approval-gated. Planned for Phase 13.
+- **Description:** Assisted automation draft flows building on readiness + preparation outputs; governance-gated, no auto-submit.
 
 #### [DO-005] Multi-Language OCR & Classification
 

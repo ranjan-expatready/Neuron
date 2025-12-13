@@ -17,9 +17,9 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Phase **12 – Submission Preparation** is complete (P12.1 Engine + P12.2 Review UI, read-only/shadow). Phase 11 is fully closed.
-- Latest runnable snapshot: `v0.12.2-phase12-submission-prep-ui`.
-- Next: Phase 13 (Submission Automation) planned; Phase 11.4 adapters remain planned.
+- Phase **13 – Assisted Automation** has begun with P13.1 (contract tests, golden scenarios, automation readiness gate). Phase 12 is fully closed; Phase 11 fully closed.
+- Latest runnable snapshot: `v0.13.1-phase13-automation-readiness-gate`.
+- Next: Phase 13.2 (assisted automation drafts) planned; Phase 11.4 adapters remain planned.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -91,9 +91,14 @@
 - P12.2 – Submission Preparation Review UI (read-only; RCIC-facing; consumes submission preparation API; evidence export) ✅
 - Golden snapshot: `v0.12.2-phase12-submission-prep-ui`
 
+### Phase 13 – Assisted Automation
+- P13.1 – Contract tests + golden scenarios + automation readiness gate (read-only signal; no actions) ✅
+- Golden snapshot: `v0.13.1-phase13-automation-readiness-gate`
+- P13.2 – Assisted automation drafts & governance hooks 🔵 Planned
+
 ## 5) Current / Next
-- Current phase: **Phase 12 – Submission Preparation (closed)** — latest tag `v0.12.2-phase12-submission-prep-ui`
-- Current milestone: **P12.2 Submission Preparation Review UI (completed, read-only/shadow)**; next execution is planned work.
-- Next milestone: **Phase 13 – Submission Automation (planned)**; M11.4 adapters remain planned within Phase 11 backlog.
-- Upcoming phases (not started): **Phase 13 – Submission Automation** and beyond per roadmap
+- Current phase: **Phase 13 – Assisted Automation** — latest tag `v0.13.1-phase13-automation-readiness-gate`
+- Current milestone: **P13.1 Contract Tests + Automation Readiness Gate (completed, read-only)**; next execution is planned work.
+- Next milestone: **P13.2 – Assisted automation drafts (planned)**; M11.4 adapters remain planned within Phase 11 backlog.
+- Upcoming phases (not started): **Phase 13.2+ – Assisted Automation** and beyond per roadmap
 
