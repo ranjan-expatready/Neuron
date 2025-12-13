@@ -4,7 +4,7 @@
 
 This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, and the implementation gap analysis into a single, version-controlled source of truth. Every 🔴 **Missing** or 🟡 **Partial** capability from the blueprints now maps to a concrete backlog ID so engineers, product, and agents can reference the same plan before opening a PR.
 
-- Golden snapshot recorded: `v0.11.1-phase11-submission-readiness-engine` (Submission Readiness Engine, backend read-only/shadow).
+- Golden snapshot recorded: `v0.11.2-phase11-readiness-evidence-bundle` (Submission Readiness Engine + Verification/Evidence Bundle, backend read-only/shadow).
 
 ## 2. Backlog Conventions
 
@@ -633,7 +633,16 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend
-- **Description:** Deterministic, read-only submission readiness engine/service + API; shadow-only, no UI/automation. Tag: `v0.11.1-phase11-submission-readiness-engine`; tests: backend pytest full suite, coverage 86.95%.
+- **Description:** Deterministic, read-only submission readiness engine/service + verification and Evidence Bundle v1 (shadow-only, no UI/automation). Tag: `v0.11.2-phase11-readiness-evidence-bundle`; tests: backend pytest 282 passed / 4 skipped, coverage 86.90%.
+
+#### [FORM-006-UI] Submission Readiness UI (M11.3 planned)
+
+- **Domain:** Agentic / Forms
+- **Status:** 🔵 Planned
+- **Priority:** MEDIUM
+- **Phase:** P2
+- **Type:** Frontend
+- **Description:** Read-only UI to surface submission readiness results and evidence bundle outputs; no automation or submission actions; follows backend M11.1/M11.2 responses.
 
 #### [FORM-007] Submission Preparation Engine (Phase 12.1)
 

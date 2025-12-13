@@ -29,8 +29,10 @@ class CaseLifecycleService:
         ("draft", "submitted"): {"owner", "admin", "case_manager"},
         ("submitted", "in_review"): {"admin", "case_manager"},
         ("in_review", "complete"): {"admin"},
+        ("draft", "archived"): {"admin"},
+        ("submitted", "archived"): {"admin"},
+        ("in_review", "archived"): {"admin"},
         ("complete", "archived"): {"admin"},
-        ("archived", "draft"): {"admin"},
     }
 
     def __init__(self, db: Session) -> None:

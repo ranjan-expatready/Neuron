@@ -1,8 +1,8 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-13T12:21:00+00:00",
-  "current_phase": "Phase 10 – Form Autofill & Submission",
-  "current_milestone": "M11.1 – Submission Readiness Engine (read-only, shadow)",
+  "last_updated": "2025-12-13T12:45:00+00:00",
+  "current_phase": "Phase 11 – Submission Readiness (closed)",
+  "current_milestone": "M12.1 – Submission Preparation Engine (planned)",
   "integration_branch": "integration/phase10_forms_autofill",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
@@ -95,13 +95,13 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 10 – Form Autofill & Submission",
-    "completion_percentage": 90,
-    "current_phase": "Phase 10 – Form Autofill & Submission",
-    "next_milestone": "M10.5 – PDF/web-flow adapters (planned)",
-    "current_milestone": "M11.1 – Submission Readiness Engine (read-only, shadow)",
+    "status": "Phase 11 – Submission Readiness (closed)",
+    "completion_percentage": 92,
+    "current_phase": "Phase 11 – Submission Readiness (closed)",
+    "next_milestone": "M12.1 – Submission Preparation Engine (planned)",
+    "current_milestone": "M12.1 – Submission Preparation Engine (planned)",
     "integration_branch": "integration/phase10_forms_autofill",
-    "summary": "Up to M11.1 delivered in code: config-first rule engine, eligibility, document matrix, case history, intake + admin config (read/draft/activation), agentic platform + engagement/doc review heuristics in shadow, RCIC forms autofill preview API/UI (M10.4), and Submission Readiness Engine (read-only, shadow) with audit metadata and config hashing. Phase 12 remains planned only."
+    "summary": "Phase 11 closed with M11.1 Submission Readiness Engine and M11.2 Verification + Evidence Bundle (read-only/shadow, deterministic). Config-first rule engine, eligibility, document matrix, case history, intake + admin config, agentic platform + doc review heuristics, RCIC forms autofill preview (M10.4) delivered. Phase 12 (Submission Preparation Engine) remains planned."
   },
   "golden_snapshots": [
     {
@@ -128,6 +128,12 @@
       "tag": "v0.11.1-phase11-submission-readiness-engine",
       "date": "2025-12-13",
       "description": "M11.1 verified: Submission Readiness Engine (read-only, shadow). pytest full suite 277 passed / 4 skipped; coverage 86.95%."
+    },
+    {
+      "tag": "v0.11.2-phase11-readiness-evidence-bundle",
+      "date": "2025-12-13",
+      "commit": "5d55d73c74c013162deb460f271bf9be2ab02bf5",
+      "description": "M11.2 verified: Readiness Verification + Evidence Bundle v1 (read-only/shadow). pytest 282 passed / 4 skipped; coverage 86.90%; deterministic bundle with audit metadata."
     }
   ],
   "agent_bootstrap": {
