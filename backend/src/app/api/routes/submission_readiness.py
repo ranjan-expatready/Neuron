@@ -19,6 +19,11 @@ from src.app.services.submission_readiness_verification import (
     EvidenceBundle,
     SubmissionReadinessVerificationService,
 )
+from src.app.services.submission_preparation import (
+    SubmissionPreparationPackage,
+    SubmissionPreparationService,
+    SubmissionPreparationServiceError,
+)
 
 router = APIRouter()
 
@@ -82,5 +87,33 @@ def get_submission_readiness_evidence(
             db_session=db,
         )
     except SubmissionReadinessEngineError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+
+
+@router.get(
+    "/cases/{case_id}/submission-preparation",
+    response_model=SubmissionPreparationPackage,
+    status_code=status.HTTP_200_OK,
+)
+def get_submission_preparation_package(
+    case_id: uuid.UUID,
+    program_code: Optional[str] = Query(None),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Deterministic, read-only submission preparation package (shadow-only).
+    No submission is executed. RCIC/Admin/Owner only.
+    """
+    _require_admin_or_rcic(current_user)
+    svc = SubmissionPreparationService()
+    try:
+        return svc.build_package(
+            case_id=str(case_id),
+            program_code=program_code,
+            tenant_id=str(current_user.tenant_id),
+            db_session=db,
+        )
+    except (SubmissionPreparationServiceError, SubmissionReadinessEngineError) as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
