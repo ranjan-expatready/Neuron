@@ -108,6 +108,9 @@
 ## Phase 11 – Submission Readiness (Golden)
 - ✅ `v0.11.1-phase11-submission-readiness+2` — Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation). Tests: backend pytest 275 collected / 271 passed / 4 skipped, coverage 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
 
+## Phase 12 – Submission Preparation Engine (Shadow-Only)
+- ✅ M12.1 – Submission Preparation Engine (deterministic assembly of submission-ready package using existing autofill + readiness data; backend service + read-only API + tests + governance; no UI, no automation). Tests: backend pytest TBD, coverage TBD; frontend jest unchanged.
+
 ## G. Future Expansion & Go-To-Market
 
 - 🔵 Integration marketplace & developer portal – Planned for Phase 2 `[BP-13 §Integrations]`.

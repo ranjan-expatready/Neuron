@@ -17,9 +17,9 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Currently in **Phase 11 – Submission Readiness & Prep**, milestone **M11.1 – Submission Readiness Report (deterministic, read-only)** ✅ delivered (backend-only, read-only evaluation; no UI, no automation).
-- Golden snapshot: `v0.11.1-phase11-submission-readiness+2`.
-- Next concrete build step: **M11.2 – Submission readiness UI (read-only)** and **M11.3 – PDF/web-flow adapters (planned)**.
+- Currently in **Phase 12 – Submission Preparation Engine**, milestone **M12.1 – Submission Preparation Engine (shadow-only)** ✅ delivered (deterministic assembly of submission-ready package using existing autofill + readiness data; backend service + read-only API + tests + governance; no UI, no automation).
+- Golden snapshot: `v0.11.1-phase11-submission-readiness+2` (2025-12-12) capturing Phase 11.1 foundation.
+- Next concrete build step: **M12.2 – Submission Preparation UI (read-only)** and **M12.3 – PDF/web-flow adapters (planned)**.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -82,8 +82,13 @@
 - M11.2 – Submission readiness UI (read-only) (planned)
 - M11.3 – PDF/web-flow adapters (planned)
 
+### Phase 12 – Submission Preparation Engine
+- M12.1 – Submission Preparation Engine (shadow-only; deterministic assembly of submission-ready package using autofill + readiness data; backend service + read-only API + tests + governance; no UI, no automation) ✅
+- M12.2 – Submission Preparation UI (read-only) (planned)
+- M12.3 – PDF/web-flow adapters (planned)
+
 ## 5) Current / Next
-- Current phase: **Phase 11 – Submission Readiness & Prep**
-- Current milestone: **M11.1 – Submission Readiness Report (deterministic, read-only)**
-- Next milestone: **M11.2 – Submission readiness UI (read-only)**
+- Current phase: **Phase 12 – Submission Preparation Engine**
+- Current milestone: **M12.1 – Submission Preparation Engine (shadow-only)**
+- Next milestone: **M12.2 – Submission Preparation UI (read-only)**
 

@@ -1,6 +1,6 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-10T15:00:00+00:00",
+  "last_updated": "2025-12-13T12:00:00+00:00",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
     "test_directories": [
@@ -92,11 +92,11 @@
   },
   "project": {
     "name": "Canada Immigration OS",
-    "status": "Phase 11 – Submission Readiness & Prep",
+    "status": "Phase 12 – Submission Preparation Engine (shadow-only)",
     "completion_percentage": 99,
-    "current_phase": "Phase 11 – Submission Readiness & Prep",
-    "next_milestone": "M11.2 – Submission Readiness UI (planned)",
-    "current_milestone": "M11.1 – Submission Readiness Report (Golden)",
+    "current_phase": "Phase 12 – Submission Preparation Engine",
+    "next_milestone": "M12.2 – Submission Preparation UI (planned)",
+    "current_milestone": "M12.1 – Submission Preparation Engine (shadow-only)",
     "integration_branch": "integration/phase10_forms_autofill",
     "summary": "Billing plan enforcement plus CRS core + structured and NL explainability integrated and tested on integration/phase5_crs_and_billing; backend coverage ~86%; frontend tests passing. Intake/document/form architecture defined (M6.1); M6.2 adds validated loaders + intake-schema/document-checklist APIs; M6.3 adds schema-driven RCIC intake UI; M6.3h wires canonical profile API, config-driven options, and checklist upload status; M6.4 delivers client self-serve intake portal; M7.1 introduces read-only admin intake config console (APIs + UI); M7.2 adds DB-backed draft/edit layer for intake configs (fields/templates/docs/forms) without changing runtime YAML source; M7.3 delivers approval/activation with ACTIVE drafts merged as runtime overrides on top of YAML (retired/rejected ignored); M8.0 introduces agentic platform skeleton; M8.1 adds hybrid-mode spec; M8.2 delivers template-based shadow suggestions (intake/docs/questions) with admin-triggered APIs/UI; M8.3 adds LLM-assisted shadow drafts with template fallback and strict guardrails (no auto-send/cron); M8.4 adds tenant-controlled AUTO mode for intake/doc reminders via admin-triggered runner with throttling/audit; M8.5 adds architecture/governance anchor docs; M8.6 defines multi-agent orchestration architecture; M9.0 defines Document Reviewer Agent & OCR spec; M9.1 ships Document Reviewer Agent in shadow mode (metadata + matrix); M9.2 adds optional OCR/PDF-aware content warnings; M9.3 adds deterministic document heuristics (missing keywords, misplaced hints, expiry/quality signals, name consistency) in shadow-only mode; M10.1 delivers the form autofill/submission architecture spec (docs-only); M10.2 adds form config schemas/mappings/bundles with Pydantic loaders (no runtime wiring yet); M10.3 implements the backend FormAutofillEngine preview (no public API/UI/PDF automation); M10.4 exposes RCIC-only read-only autofill preview API and UI."
   },

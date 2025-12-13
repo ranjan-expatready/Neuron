@@ -16,6 +16,15 @@
 - Tests: backend pytest 275 collected / 271 passed / 4 skipped; coverage 86.88%. Frontend jest 10/10 suites, 16/16 tests passed.
 - Snapshot is rollback-safe; no data migrations or runtime behavior changes beyond the audited release.
 
+## 2025-12-13 – [backend][forms][m12_1]
+- Branch: `feature/m12_1_submission_preparation_engine`.
+- Added domain models: `SubmissionPrepResult`, `FormPrepResult`, `FieldPrepResult`, `AttachmentPlan`, `ReadinessGap` in `backend/src/app/domain/forms/models.py`.
+- Implemented `SubmissionPrepEngine` service in `backend/src/app/services/submission_prep_engine.py`: deterministic assembly of submission-ready package using existing autofill + readiness data; shadow-only, no DB mutations.
+- Added read-only API endpoint `GET /api/v1/cases/{case_id}/submission/prep` in `backend/src/app/api/routes/submission_prep.py`; RBAC admin/owner/rcic; tenant-scoped.
+- Added unit tests in `backend/tests/services/test_submission_prep_engine.py` and API tests in `backend/tests/unit/api/test_submission_prep_api.py`.
+- Tests: backend pytest TBD collected / TBD passed / TBD skipped; coverage TBD. Frontend jest unchanged (no UI).
+- Governance: updated roadmap, product log, backlog, KB to mark M12.1 as current milestone in Phase 12.
+
 ## 2025-12-12 – [integration][tag][phase10_m10_4]
 - Branch: `integration/phase10_forms_autofill`.
 - Tagged `v0.10.4-phase10-forms-autofill-preview` on commit `4dc22b42e64c777170bc92bae515eec38aced1df`.

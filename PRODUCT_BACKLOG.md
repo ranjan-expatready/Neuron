@@ -626,14 +626,23 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Backend + Frontend
 - **Description:** Guarded PDF/web-form adapters for RCIC-reviewed autofill outputs; no unsupervised submissions.
 
-#### [FORM-006] Submission prep & approvals (Phase 11 placeholder)
+#### [FORM-006] Submission Readiness Report (M11.1)
 
 - **Domain:** Agentic / Forms
-- **Status:** 🔵 Planned
-- **Priority:** MEDIUM
+- **Status:** ✅ Done
+- **Priority:** HIGH
 - **Phase:** P2
-- **Type:** Backend + Frontend
-- **Description:** Submission prep workflow with RCIC approval gates for autofilled packages; scope follows roadmap submission phase.
+- **Type:** Backend Service
+- **Description:** Deterministic, read-only submission readiness report (service + API + tests + governance); no UI, no automation; tagged `v0.11.1-phase11-submission-readiness+2`.
+
+#### [FORM-007] Submission Preparation Engine (M12.1)
+
+- **Domain:** Agentic / Forms
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend Service + API
+- **Description:** Deterministic assembly of submission-ready package using existing autofill + readiness data; backend service + read-only API + tests + governance; shadow-only, no UI/automation.
 
 #### [DO-005] Multi-Language OCR & Classification
 
