@@ -1,8 +1,8 @@
 {
   "version": "4.0",
-  "last_updated": "2025-12-13T15:20:00+00:00",
+  "last_updated": "2025-12-13T16:00:00+00:00",
   "current_phase": "Phase 13 – Assisted Automation (in progress)",
-  "current_milestone": "P13.1 – Contract Tests & Automation Readiness Gate (completed)",
+  "current_milestone": "P13.2 – Assisted Automation Drafts (completed, draft-only)",
   "integration_branch": "integration/phase10_forms_autofill",
   "backend_testing": {
     "backend_pytest_spine": "initialized",
@@ -96,12 +96,12 @@
   "project": {
     "name": "Canada Immigration OS",
     "status": "Phase 13 – Assisted Automation (in progress)",
-    "completion_percentage": 97,
+    "completion_percentage": 98,
     "current_phase": "Phase 13 – Assisted Automation",
-    "next_milestone": "Phase 13.2 – Assisted Automation drafts (planned)",
-    "current_milestone": "P13.1 – Contract Tests & Automation Readiness Gate (completed)",
+    "next_milestone": "Phase 13.3 – Assisted Automation (governed execution drafts) (planned)",
+    "current_milestone": "P13.2 – Assisted Automation Drafts (completed)",
     "integration_branch": "integration/phase10_forms_autofill",
-    "summary": "Phase 11 closed with M11.1 Submission Readiness Engine, M11.2 Verification + Evidence Bundle, and M11.3 RCIC Readiness UI (all read-only/shadow). Phase 12 delivered P12.1 Submission Preparation Engine (read-only/shadow, deterministic package hash) and P12.2 Submission Preparation Review UI (read-only, evidence export). Phase 13 kicked off with P13.1 contract tests + golden scenarios + automation readiness gate (read-only signal). Phase 13.2 (assisted automation drafts) is planned next."
+    "summary": "Phase 11 closed with M11.1 Submission Readiness Engine, M11.2 Verification + Evidence Bundle, and M11.3 RCIC Readiness UI (all read-only/shadow). Phase 12 delivered P12.1 Submission Preparation Engine (read-only/shadow, deterministic package hash) and P12.2 Submission Preparation Review UI (read-only, evidence export). Phase 13 delivered P13.1 contract tests + golden scenarios + automation readiness gate (read-only signal) and P13.2 firm-gated assisted drafts (draft-only). Phase 13.3 (assisted automation governed execution drafts) is planned next."
   },
   "golden_snapshots": [
     {
@@ -158,6 +158,12 @@
       "date": "2025-12-13",
       "commit": "2aad06f1764f1b2ba927361c605d2b74e7d5a4ee",
       "description": "P13.1 verified: API contract tests + golden scenarios (PASS/FAIL/UNKNOWN) + automation_readiness gate; pytest 294 passed / 4 skipped; coverage 87.02%."
+    },
+    {
+      "tag": "v0.13.2-phase13-assisted-drafts",
+      "date": "2025-12-13",
+      "commit": "88fae4fb87a34278e629ae090fe7d72a64d1a080",
+      "description": "P13.2 verified: Firm-gated assisted drafts (draft-only); readiness gated; tenant policy gate; pytest 297 passed / 4 skipped; coverage 86.98%."
     }
   ],
   "agent_bootstrap": {

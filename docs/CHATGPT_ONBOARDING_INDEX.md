@@ -28,10 +28,10 @@ If any conflict exists, STOP and reconcile by updating the relevant docs/KB via 
 
 ## D) Current Snapshot (Must Stay Updated Each Milestone PR)
 - Current phase: Phase 13 – Assisted Automation
-- Current milestone: P13.1 – Contract Tests & Automation Readiness Gate (completed, read-only)
+- Current milestone: P13.2 – Assisted Automation Drafts (completed, draft-only, firm-gated)
 - Integration branch: integration/phase10_forms_autofill
-- Latest golden tag: v0.13.1-phase13-automation-readiness-gate
-- Integration HEAD commit: 2aad06f1764f1b2ba927361c605d2b74e7d5a4ee
+- Latest golden tag: v0.13.2-phase13-assisted-drafts
+- Integration HEAD commit: 88fae4fb87a34278e629ae090fe7d72a64d1a080
 - Last updated: 2025-12-13
 Rule: This snapshot is refreshed in every milestone PR alongside roadmap/log/KB updates.
 

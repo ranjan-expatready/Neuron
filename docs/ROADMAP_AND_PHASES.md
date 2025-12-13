@@ -17,9 +17,9 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Phase **13 – Assisted Automation** has begun with P13.1 (contract tests, golden scenarios, automation readiness gate). Phase 12 is fully closed; Phase 11 fully closed.
-- Latest runnable snapshot: `v0.13.1-phase13-automation-readiness-gate`.
-- Next: Phase 13.2 (assisted automation drafts) planned; Phase 11.4 adapters remain planned.
+- Phase **13 – Assisted Automation** continues: P13.1 (contracts + automation readiness gate) and P13.2 (firm-gated assisted drafts, draft-only) are complete. Phase 12 and Phase 11 are fully closed.
+- Latest runnable snapshot: `v0.13.2-phase13-assisted-drafts`.
+- Next: Phase 13.3 (assisted automation governed execution drafts) planned; Phase 11.4 adapters remain planned.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -93,12 +93,15 @@
 
 ### Phase 13 – Assisted Automation
 - P13.1 – Contract tests + golden scenarios + automation readiness gate (read-only signal; no actions) ✅
-- Golden snapshot: `v0.13.1-phase13-automation-readiness-gate`
-- P13.2 – Assisted automation drafts & governance hooks 🔵 Planned
+- P13.2 – Assisted automation drafts (firm-gated, draft-only; tenant policy + automation readiness gate) ✅
+- Golden snapshots:
+  - `v0.13.1-phase13-automation-readiness-gate`
+  - `v0.13.2-phase13-assisted-drafts`
+- P13.3 – Assisted automation governed execution drafts 🔵 Planned
 
 ## 5) Current / Next
-- Current phase: **Phase 13 – Assisted Automation** — latest tag `v0.13.1-phase13-automation-readiness-gate`
-- Current milestone: **P13.1 Contract Tests + Automation Readiness Gate (completed, read-only)**; next execution is planned work.
-- Next milestone: **P13.2 – Assisted automation drafts (planned)**; M11.4 adapters remain planned within Phase 11 backlog.
-- Upcoming phases (not started): **Phase 13.2+ – Assisted Automation** and beyond per roadmap
+- Current phase: **Phase 13 – Assisted Automation** — latest tag `v0.13.2-phase13-assisted-drafts`
+- Current milestone: **P13.2 Assisted Automation Drafts (completed, draft-only, firm-gated)**; next execution is planned work.
+- Next milestone: **P13.3 – Assisted automation governed execution drafts (planned)**; M11.4 adapters remain planned within Phase 11 backlog.
+- Upcoming phases (not started): **Phase 13.3+ – Assisted Automation** and beyond per roadmap
 
