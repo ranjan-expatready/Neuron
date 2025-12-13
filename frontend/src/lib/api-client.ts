@@ -58,6 +58,20 @@ class ApiClient {
     return response.data;
   }
 
+  async getSubmissionReadiness(caseId: string, params?: { program_code?: string }) {
+    const response = await this.client.get(`/api/v1/cases/${caseId}/submission-readiness`, {
+      params,
+    });
+    return response.data;
+  }
+
+  async getSubmissionReadinessEvidence(caseId: string, params?: { program_code?: string }) {
+    const response = await this.client.get(`/api/v1/cases/${caseId}/submission-readiness/evidence`, {
+      params,
+    });
+    return response.data;
+  }
+
   async createCase(data: any) {
     const response = await this.client.post("/api/v1/cases/", data);
     return response.data;
