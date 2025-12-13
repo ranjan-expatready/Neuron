@@ -24,6 +24,7 @@ from src.app.services.submission_preparation import (
     SubmissionPreparationService,
     SubmissionPreparationServiceError,
 )
+from src.app.services.assisted_drafts import AssistedDraftBundle, AssistedDraftService, AssistedDraftsError
 
 router = APIRouter()
 
@@ -116,4 +117,32 @@ def get_submission_preparation_package(
         )
     except (SubmissionPreparationServiceError, SubmissionReadinessEngineError) as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+
+
+@router.get(
+    "/cases/{case_id}/assisted-drafts",
+    response_model=AssistedDraftBundle,
+    status_code=status.HTTP_200_OK,
+)
+def get_assisted_drafts(
+    case_id: uuid.UUID,
+    program_code: Optional[str] = Query(None),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Draft-only assisted automation outputs, gated by automation readiness and tenant policy.
+    """
+    _require_admin_or_rcic(current_user)
+    svc = AssistedDraftService()
+    try:
+        return svc.build_drafts(
+            case_id=str(case_id),
+            tenant_id=str(current_user.tenant_id),
+            program_code=program_code,
+            db_session=db,
+        )
+    except AssistedDraftsError as exc:
+        status_code = getattr(exc, "status_code", status.HTTP_400_BAD_REQUEST)
+        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
 
