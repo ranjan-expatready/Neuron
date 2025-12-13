@@ -44,6 +44,16 @@ class GapsSummary(BaseModel):
     non_blocking: List[str]
 
 
+class AutomationReadiness(BaseModel):
+    automation_eligible: bool
+    blocking_reasons: List[str]
+    recommended_next_steps: List[str]
+    engine_version: str
+    verification_verdict: str
+    readiness_status: str
+    evidence_bundle_ref: Optional[str] = None
+
+
 class SubmissionPreparationPackage(BaseModel):
     package_version: str = "v1"
     case_id: str
@@ -55,6 +65,7 @@ class SubmissionPreparationPackage(BaseModel):
     gaps_summary: GapsSummary
     readiness_reference: dict
     audit: dict
+    automation_readiness: AutomationReadiness
     deterministic_hash: str
 
 
@@ -169,6 +180,13 @@ class SubmissionPreparationService:
 
         eval_ts = evidence.evaluation_timestamp or readiness.evaluation_timestamp or datetime.now(timezone.utc).isoformat()
 
+        automation_readiness = self._compute_automation_readiness(
+            readiness=readiness,
+            verification=evidence.verification_result,
+            gaps_blocking=sorted(set(blocking_gaps)),
+            evidence=evidence,
+        )
+
         package = SubmissionPreparationPackage(
             case_id=case_id,
             tenant_id=tenant_id,
@@ -193,9 +211,47 @@ class SubmissionPreparationService:
                 "consulted_configs": getattr(evidence, "consulted_configs", []) or [],
                 "source_bundle_version": getattr(evidence, "source_bundle_version", None),
             },
+            automation_readiness=automation_readiness,
             deterministic_hash="",
         )
 
         package.deterministic_hash = self._hash_package(package.model_dump())
         return package
+
+    def _compute_automation_readiness(
+        self,
+        *,
+        readiness,
+        verification,
+        gaps_blocking: List[str],
+        evidence: EvidenceBundle,
+    ) -> dict:
+        blocking_reasons: List[str] = []
+        unsourced_ids = sorted([doc.id for doc in readiness.documents or [] if getattr(doc, "unsourced", False)])
+
+        if readiness.status != "READY":
+            blocking_reasons.append(f"readiness_status:{readiness.status}")
+        if verification.verdict != "PASS":
+            blocking_reasons.append(f"verification:{verification.verdict}")
+        if gaps_blocking:
+            blocking_reasons.extend(gaps_blocking)
+        if unsourced_ids:
+            blocking_reasons.extend([f"unsourced_requirement:{doc_id}" for doc_id in unsourced_ids])
+
+        automation_eligible = len(blocking_reasons) == 0
+        blocking_reasons = sorted(set(blocking_reasons))
+
+        recommended_next_steps = [
+            f"Resolve blocker: {reason}" for reason in blocking_reasons
+        ]
+
+        return AutomationReadiness(
+            automation_eligible=automation_eligible,
+            blocking_reasons=blocking_reasons,
+            recommended_next_steps=recommended_next_steps,
+            engine_version=PREPARATION_ENGINE_VERSION,
+            verification_verdict=verification.verdict,
+            readiness_status=readiness.status,
+            evidence_bundle_ref=evidence.config_hashes[0] if getattr(evidence, "config_hashes", None) else None,
+        )
 

@@ -106,6 +106,8 @@ def test_complete_package_no_blocking_gaps():
     assert pkg.readiness_reference["readiness_verdict"] == "PASS"
     assert pkg.forms[0].fields[0].status == "mapped"
     assert pkg.deterministic_hash
+    assert pkg.automation_readiness.automation_eligible is True
+    assert pkg.automation_readiness.blocking_reasons == []
 
 
 def test_missing_field_creates_blocking_gap():
@@ -118,6 +120,20 @@ def test_missing_field_creates_blocking_gap():
     pkg = svc.build_package(case_id="case-2", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
     assert "field:IMM0008:given_name" in pkg.gaps_summary.blocking
     assert pkg.readiness_reference["readiness_verdict"] == "FAIL"
+    assert pkg.automation_readiness.automation_eligible is False
+    assert "verification:FAIL" in pkg.automation_readiness.blocking_reasons
+
+
+def test_blocking_gap_even_when_verification_passes():
+    readiness = _base_readiness(status="NOT_READY", missing=[])
+    svc = SubmissionPreparationService(
+        readiness_service=FakeReadinessService(readiness, verification_verdict="PASS"),
+        form_engine=FakeFormEngine(_preview(None)),
+    )
+
+    pkg = svc.build_package(case_id="case-2b", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
+    assert pkg.automation_readiness.automation_eligible is False
+    assert any(reason.startswith("field:IMM0008:given_name") for reason in pkg.automation_readiness.blocking_reasons)
 
 
 def test_missing_attachment_creates_blocking_gap():
@@ -129,6 +145,8 @@ def test_missing_attachment_creates_blocking_gap():
 
     pkg = svc.build_package(case_id="case-3", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
     assert any(gap.startswith("attachment:IMM0008:passport_main") for gap in pkg.gaps_summary.blocking)
+    assert pkg.automation_readiness.automation_eligible is False
+    assert any("attachment:IMM0008:passport_main" in r for r in pkg.automation_readiness.blocking_reasons)
 
 
 def test_unknown_readiness_propagates_verdict():
@@ -140,6 +158,8 @@ def test_unknown_readiness_propagates_verdict():
 
     pkg = svc.build_package(case_id="case-4", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
     assert pkg.readiness_reference["readiness_verdict"] == "UNKNOWN"
+    assert pkg.automation_readiness.automation_eligible is False
+    assert "verification:UNKNOWN" in pkg.automation_readiness.blocking_reasons
 
 
 def test_deterministic_hash_stable():
@@ -152,5 +172,45 @@ def test_deterministic_hash_stable():
     pkg1 = svc.build_package(case_id="case-5", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
     pkg2 = svc.build_package(case_id="case-5", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
     assert pkg1.deterministic_hash == pkg2.deterministic_hash
+    assert pkg1.automation_readiness.model_dump() == pkg2.automation_readiness.model_dump()
+
+
+def test_deterministic_hash_stable_fail_case():
+    readiness = _base_readiness(status="NOT_READY", missing=["passport_main"])
+    svc = SubmissionPreparationService(
+        readiness_service=FakeReadinessService(readiness, verification_verdict="FAIL"),
+        form_engine=FakeFormEngine(_preview(None)),
+    )
+
+    pkg1 = svc.build_package(case_id="case-7", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
+    pkg2 = svc.build_package(case_id="case-7", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
+    assert pkg1.deterministic_hash == pkg2.deterministic_hash
+    assert pkg1.automation_readiness.model_dump() == pkg2.automation_readiness.model_dump()
+
+
+def test_deterministic_hash_stable_unknown_case():
+    readiness = _base_readiness(status="UNKNOWN", missing=[])
+    svc = SubmissionPreparationService(
+        readiness_service=FakeReadinessService(readiness, verification_verdict="UNKNOWN"),
+        form_engine=FakeFormEngine(_preview("John")),
+    )
+
+    pkg1 = svc.build_package(case_id="case-8", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
+    pkg2 = svc.build_package(case_id="case-8", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
+    assert pkg1.deterministic_hash == pkg2.deterministic_hash
+    assert pkg1.automation_readiness.model_dump() == pkg2.automation_readiness.model_dump()
+
+
+def test_automation_readiness_unsourced_blocks():
+    readiness = _base_readiness(status="READY", missing=[])
+    readiness.documents[0].unsourced = True
+    svc = SubmissionPreparationService(
+        readiness_service=FakeReadinessService(readiness, verification_verdict="PASS"),
+        form_engine=FakeFormEngine(_preview("John")),
+    )
+
+    pkg = svc.build_package(case_id="case-6", tenant_id="tenant-1", program_code="EE_FSW", db_session=None)
+    assert pkg.automation_readiness.automation_eligible is False
+    assert any("unsourced_requirement:passport_main" in r for r in pkg.automation_readiness.blocking_reasons)
 
 
