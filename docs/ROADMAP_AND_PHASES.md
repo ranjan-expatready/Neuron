@@ -17,9 +17,9 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Phase **11 – Submission Readiness** is complete (M11.1 Engine + M11.2 Verification & Evidence Bundle + M11.3 RCIC Readiness UI, read-only/shadow).
-- Latest runnable snapshot: `v0.11.3-phase11-readiness-ui`.
-- Next: Phase 12 (Submission Preparation Engine) **planned/not implemented**.
+- Phase **12 – Submission Preparation** has started; P12.1 (Submission Preparation Engine, read-only/shadow) is complete. Phase 11 is fully closed.
+- Latest runnable snapshot: `v0.12.1-phase12-submission-preparation-engine`.
+- Next: Phase 12.2 (planned) and Phase 11.4 adapters remain planned.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -86,9 +86,13 @@
   - `v0.11.3-phase11-readiness-ui`
 - M11.4 – PDF/web-flow adapters 🔵 Planned
 
+### Phase 12 – Submission Preparation
+- P12.1 – Submission Preparation Engine (shadow/read-only; deterministic package with field/attachment gaps, evidence refs, audit hash) ✅
+- P12.2 – Submission Preparation UX and adapter wiring 🔵 Planned
+
 ## 5) Current / Next
-- Current phase: **Phase 11 – Submission Readiness (closed)** — latest tag `v0.11.3-phase11-readiness-ui`
-- Current milestone: **Phase 11 completed (M11.1 + M11.2 + M11.3)**; next execution is planned work.
-- Next milestone: **Phase 12 – Submission Preparation Engine (planned)** (M11.4 adapters remain planned within Phase 11 backlog)
-- Upcoming phases (not started): **Phase 12 – Submission Preparation Engine**
+- Current phase: **Phase 12 – Submission Preparation** — latest tag `v0.12.1-phase12-submission-preparation-engine`
+- Current milestone: **P12.1 complete (Submission Preparation Engine, read-only/shadow)**; next execution is planned work.
+- Next milestone: **P12.2 – Submission Preparation (planned)**; M11.4 adapters remain planned within Phase 11 backlog.
+- Upcoming phases (not started): **Phase 12 – Submission Preparation (remaining work)**; **Phase 13+ per roadmap**
 
