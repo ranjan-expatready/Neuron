@@ -117,6 +117,9 @@
 ## Phase 13 – Assisted Automation (P13.1 Complete)
 - ✅ `v0.13.1-phase13-automation-readiness-gate` — Contract tests for readiness/evidence/preparation APIs, golden scenarios for PASS/FAIL/UNKNOWN, and automation_readiness gate (read-only signal; no actions). Tests: backend pytest full suite 294 passed / 4 skipped; coverage 87.02%. Integration branch: `integration/phase10_forms_autofill`. Next: P13.2 assisted automation drafts (planned).
 
+## Phase 13 – Assisted Automation (P13.2 Complete)
+- ✅ `v0.13.2-phase13-assisted-drafts` — Firm-gated assisted drafts (draft-only, shadow-only). Endpoint: `GET /api/v1/cases/{case_id}/assisted-drafts`; gates: tenant `assisted_automation_enabled` (default false) -> 403 when off; `automation_eligible` required -> 412 with blocking reasons when not eligible; no persistence/background jobs. Tests: backend pytest full suite 297 passed / 4 skipped; coverage 86.98%. Integration branch: `integration/phase10_forms_autofill`. Next: P13.3 planned.
+
 ## G. Future Expansion & Go-To-Market
 
 - 🔵 Integration marketplace & developer portal – Planned for Phase 2 `[BP-13 §Integrations]`.
