@@ -1,5 +1,11 @@
 # Engineering Memory Log
 
+## 2025-12-13 – [docs][governance] Phase 11.1 realignment
+- Branch: `chore/phase11_governance_realignment`.
+- Scope: refreshed governance artifacts to reflect Phase 11.1 Submission Readiness golden tag `v0.11.1-phase11-submission-readiness+2` and integration branch `integration/phase10_forms_autofill`; docs-only.
+- Files: `.ai-knowledge-base.json`, `docs/ROADMAP_AND_PHASES.md`, `PRODUCT_LOG.md`, `PRODUCT_BACKLOG.md`.
+- Tests: docs-only change; no code executed.
+
 ## 2025-12-12 – [infra][ci] CI triggers hardened for integration branches
 - Branch: `chore/ci_integration_pr_triggers`.
 - Workflows now run backend/frontend checks for PRs to `main` and `integration/**`, plus a `CI / all` umbrella check. Added push triggers for main/integration and reusable workflow_call. Updated governance doc to reflect required checks.

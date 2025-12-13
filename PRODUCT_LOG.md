@@ -107,6 +107,7 @@
 
 ## Phase 11 – Submission Readiness (Golden)
 - ✅ `v0.11.1-phase11-submission-readiness+2` — Submission Readiness Report (deterministic, read-only; backend service + API + tests + governance; no UI, no automation). Tests: backend pytest 275 collected / 271 passed / 4 skipped, coverage 86.88%; frontend jest 10/10 suites, 16/16 tests passed.
+- Integration branch: `integration/phase10_forms_autofill`; tag date 2025-12-12.
 
 ## G. Future Expansion & Go-To-Market
 

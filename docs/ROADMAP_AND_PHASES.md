@@ -18,8 +18,8 @@
 
 ## 3) Where We Are Today
 - Currently in **Phase 11 – Submission Readiness & Prep**, milestone **M11.1 – Submission Readiness Report (deterministic, read-only)** ✅ delivered (backend-only, read-only evaluation; no UI, no automation).
-- Golden snapshot: `v0.11.1-phase11-submission-readiness+2`.
-- Next concrete build step: **M11.2 – Submission readiness UI (read-only)** and **M11.3 – PDF/web-flow adapters (planned)**.
+- Golden snapshot: `v0.11.1-phase11-submission-readiness+2` (2025-12-12) capturing the deterministic readiness service + API + tests/governance, no UI/automation.
+- Next concrete build step: **M11.2 – Submission readiness UI (read-only)** and **M11.3 – PDF/web-flow adapters (planned)**; **Phase 12 – Submission Preparation Engine** follows after M11.x delivery (not started).
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -78,7 +78,7 @@
 
 ### Phase 11 – Submission Readiness & Prep
 - M11.1 – Submission Readiness Report (deterministic, read-only; backend service + API, no UI/automation) ✅
-- Golden snapshot: `v0.11.1-phase11-submission-readiness+2`
+- Golden snapshot: `v0.11.1-phase11-submission-readiness+2` (2025-12-12)
 - M11.2 – Submission readiness UI (read-only) (planned)
 - M11.3 – PDF/web-flow adapters (planned)
 
@@ -86,4 +86,5 @@
 - Current phase: **Phase 11 – Submission Readiness & Prep**
 - Current milestone: **M11.1 – Submission Readiness Report (deterministic, read-only)**
 - Next milestone: **M11.2 – Submission readiness UI (read-only)**
+- Upcoming phase (not started): **Phase 12 – Submission Preparation Engine (shadow-only)** following M11.x completion
 
