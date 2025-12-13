@@ -99,6 +99,7 @@
 - ✅ CI guardrails + branch protection (`backend-tests`, `frontend-tests`) – Required on `main`, `.env` provisioning fixed, documented in `docs/ENGINEERING_GOVERNANCE.md`.
 - ✅ Engineering governance + persistent memory – Mandatory bootstrap/log loop enforced via `.ai-memory/ENGINEERING_LOG.md`.
 - ✅ Temporary ruleset exception (2025-12-12) — integration ruleset approvals briefly reduced 1→0 to merge PR #44 (CI trigger fixes) with CI `all` check enforced; approvals restored to 1 immediately post-merge. Documented in `docs/governance/exceptions/2025-12-12_pr44_temporary_ruleset_relax.md`.
+- ✅ Temporary ruleset exception (2025-12-13 UTC) — Ruleset `11070317` (integration/**) approvals briefly reduced 1→0 to merge PR #49 (M11.1 governance/tag correction); required status check `all` (and component checks) remained enforced; approvals restored to 1 immediately post-merge. Merge commit: `a62d03a45e11951f25bf868249481042d62d9675`. Golden tag `v0.11.1-phase11-submission-readiness-engine` (tag object `022cb3f9a2d313da359f51cd11487e40ad5f0b7a`, peeled commit `a62d03a45e11951f25bf868249481042d62d9675`) pushed after merge.
 - 🟡 Test infrastructure & TestSprite automation – Manual e2e spine works, but automated orchestration + coverage gating pending `[BP-11]`.
 - 🔴 Observability & alerting – Metrics/log stacks described in `[BP-07]` and FAANG DevOps review; nothing deployed.
 - 🔴 Data residency, backups & DR – Requirements captured in `[BP-05]/[BP-12]` but no infra automation yet.
