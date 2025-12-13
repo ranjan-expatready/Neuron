@@ -72,6 +72,13 @@ class ApiClient {
     return response.data;
   }
 
+  async getSubmissionPreparation(caseId: string, params?: { program_code?: string }) {
+    const response = await this.client.get(`/api/v1/cases/${caseId}/submission-preparation`, {
+      params,
+    });
+    return response.data;
+  }
+
   async createCase(data: any) {
     const response = await this.client.post("/api/v1/cases/", data);
     return response.data;
