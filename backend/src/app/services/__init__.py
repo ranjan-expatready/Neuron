@@ -7,6 +7,11 @@ from .user import UserService
 from .agent_orchestrator import AgentOrchestratorService
 from .form_autofill_engine import FormAutofillEngine
 from .submission_readiness import SubmissionReadinessEngine, SubmissionReadinessResult
+from .submission_readiness_verification import (
+    SubmissionReadinessVerificationService,
+    EvidenceBundle,
+    VerificationResult,
+)
 
 __all__ = [
     "AuthService",
@@ -19,4 +24,7 @@ __all__ = [
     "FormAutofillEngine",
     "SubmissionReadinessEngine",
     "SubmissionReadinessResult",
+    "SubmissionReadinessVerificationService",
+    "EvidenceBundle",
+    "VerificationResult",
 ]
