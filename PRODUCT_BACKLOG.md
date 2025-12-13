@@ -635,14 +635,14 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Backend
 - **Description:** Deterministic, read-only submission readiness engine/service + verification and Evidence Bundle v1 (shadow-only, no UI/automation). Tag: `v0.11.2-phase11-readiness-evidence-bundle`; tests: backend pytest 282 passed / 4 skipped, coverage 86.90%.
 
-#### [FORM-006-UI] Submission Readiness UI (M11.3 planned)
+#### [FORM-006-UI] Submission Readiness UI (M11.3)
 
 - **Domain:** Agentic / Forms
-- **Status:** 🔵 Planned
+- **Status:** ✅ Done
 - **Priority:** MEDIUM
 - **Phase:** P2
 - **Type:** Frontend
-- **Description:** Read-only UI to surface submission readiness results and evidence bundle outputs; no automation or submission actions; follows backend M11.1/M11.2 responses.
+- **Description:** Read-only UI surfacing submission readiness + evidence bundle outputs; evidence JSON export; consumes existing readiness + evidence APIs. Tag: `v0.11.3-phase11-readiness-ui`; tests: frontend `npm test` full suite (11 suites).
 
 #### [FORM-007] Submission Preparation Engine (Phase 12.1)
 

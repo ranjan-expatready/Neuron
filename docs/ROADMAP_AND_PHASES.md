@@ -17,8 +17,8 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Phase **11 – Submission Readiness** is complete (M11.1 Engine + M11.2 Verification & Evidence Bundle, read-only/shadow).
-- Latest runnable snapshot: `v0.11.2-phase11-readiness-evidence-bundle`.
+- Phase **11 – Submission Readiness** is complete (M11.1 Engine + M11.2 Verification & Evidence Bundle + M11.3 RCIC Readiness UI, read-only/shadow).
+- Latest runnable snapshot: `v0.11.3-phase11-readiness-ui`.
 - Next: Phase 12 (Submission Preparation Engine) **planned/not implemented**.
 
 ## 4) Milestones by Phase (through Phase 7)
@@ -79,15 +79,16 @@
 ### Phase 11 – Submission Readiness & Prep
 - M11.1 – Submission Readiness Engine (deterministic, read-only/shadow; backend service + API; no UI/automation) ✅
 - M11.2 – Submission Readiness Verification & Evidence Bundle (read-only/shadow; deterministic bundle + audit metadata) ✅
+- M11.3 – Submission readiness UI (read-only; RCIC-facing; consumes readiness + evidence APIs; evidence export) ✅
 - Golden snapshots:
   - `v0.11.1-phase11-submission-readiness-engine`
   - `v0.11.2-phase11-readiness-evidence-bundle`
-- M11.3 – Submission readiness UI (read-only) 🔵 Planned
+  - `v0.11.3-phase11-readiness-ui`
 - M11.4 – PDF/web-flow adapters 🔵 Planned
 
 ## 5) Current / Next
-- Current phase: **Phase 11 – Submission Readiness (closed)** — latest tag `v0.11.2-phase11-readiness-evidence-bundle`
-- Current milestone: **Phase 11 completed (M11.1 + M11.2)**; next execution is planned work.
-- Next milestone: **Phase 12 – Submission Preparation Engine (planned)** (or M11.3 UI if Phase 12 is deferred)
+- Current phase: **Phase 11 – Submission Readiness (closed)** — latest tag `v0.11.3-phase11-readiness-ui`
+- Current milestone: **Phase 11 completed (M11.1 + M11.2 + M11.3)**; next execution is planned work.
+- Next milestone: **Phase 12 – Submission Preparation Engine (planned)** (M11.4 adapters remain planned within Phase 11 backlog)
 - Upcoming phases (not started): **Phase 12 – Submission Preparation Engine**
 
