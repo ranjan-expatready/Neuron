@@ -4,7 +4,7 @@
 
 This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, and the implementation gap analysis into a single, version-controlled source of truth. Every 🔴 **Missing** or 🟡 **Partial** capability from the blueprints now maps to a concrete backlog ID so engineers, product, and agents can reference the same plan before opening a PR.
 
-- Golden snapshot recorded: `v0.11.1-phase11-submission-readiness+2` (Submission Readiness Report, backend-only, read-only).
+- Golden snapshot recorded: `v0.11.1-phase11-submission-readiness-engine` (Submission Readiness Engine, backend read-only/shadow).
 
 ## 2. Backlog Conventions
 
@@ -626,14 +626,23 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Backend + Frontend
 - **Description:** Guarded PDF/web-form adapters for RCIC-reviewed autofill outputs; no unsupervised submissions.
 
-#### [FORM-006] Submission prep & approvals (Phase 11 placeholder)
+#### [FORM-006] Submission Readiness Report (M11.1)
+
+- **Domain:** Agentic / Forms
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Backend
+- **Description:** Deterministic, read-only submission readiness engine/service + API; shadow-only, no UI/automation. Tag: `v0.11.1-phase11-submission-readiness-engine`; tests: backend pytest full suite, coverage 86.95%.
+
+#### [FORM-007] Submission Preparation Engine (Phase 12.1)
 
 - **Domain:** Agentic / Forms
 - **Status:** 🔵 Planned
-- **Priority:** MEDIUM
+- **Priority:** HIGH
 - **Phase:** P2
-- **Type:** Backend + Frontend
-- **Description:** Submission prep workflow with RCIC approval gates for autofilled packages; scope follows roadmap submission phase.
+- **Type:** Backend (shadow-only)
+- **Description:** Submission Preparation Engine to assemble submission-ready packages from canonical profile, form definitions/mappings, document matrix, and readiness results; deterministic, read-only, tenant/RBAC scoped; outputs forms with field resolution status, attachment plans, gaps, and explanations.
 
 #### [DO-005] Multi-Language OCR & Classification
 

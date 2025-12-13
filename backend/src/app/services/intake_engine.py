@@ -128,6 +128,8 @@ class DocumentRequirementResolved:
     category: str
     required: bool
     reasons: List[str]
+    config_ref: Optional[str] = None
+    source_ref: Optional[str] = None
 
 
 class IntakeEngine:
@@ -202,13 +204,25 @@ class IntakeEngine:
         required = self._is_required_for_program(doc, program_code)
         if not required:
             return DocumentRequirementResolved(
-                id=doc.id, label=doc.label, category=doc.category, required=False, reasons=["program_not_applicable"]
+                id=doc.id,
+                label=doc.label,
+                category=doc.category,
+                required=False,
+                reasons=["program_not_applicable"],
+                config_ref=doc.config_ref,
+                source_ref=doc.source_ref,
             )
 
         if not doc.required_when:
             reasons.append("program_applicable")
             return DocumentRequirementResolved(
-                id=doc.id, label=doc.label, category=doc.category, required=True, reasons=reasons
+                id=doc.id,
+                label=doc.label,
+                category=doc.category,
+                required=True,
+                reasons=reasons,
+                config_ref=doc.config_ref,
+                source_ref=doc.source_ref,
             )
 
         for cond in doc.required_when:
@@ -220,6 +234,8 @@ class IntakeEngine:
                     category=doc.category,
                     required=False,
                     reasons=[reason or "condition_not_met"],
+                    config_ref=doc.config_ref,
+                    source_ref=doc.source_ref,
                 )
             if reason:
                 reasons.append(reason)
@@ -227,7 +243,13 @@ class IntakeEngine:
         if not reasons:
             reasons.append("conditions_met")
         return DocumentRequirementResolved(
-            id=doc.id, label=doc.label, category=doc.category, required=True, reasons=reasons
+            id=doc.id,
+            label=doc.label,
+            category=doc.category,
+            required=True,
+            reasons=reasons,
+            config_ref=doc.config_ref,
+            source_ref=doc.source_ref,
         )
 
     def get_document_checklist_for_profile(

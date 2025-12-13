@@ -19,6 +19,7 @@ from src.app.api.routes import (
     cases,
     documents,
     forms_autofill,
+    submission_readiness,
     intake,
     organizations,
     persons,
@@ -149,6 +150,9 @@ app.include_router(persons.router, prefix="/api/v1/persons", tags=["Persons"])
 app.include_router(cases.router, prefix="/api/v1/cases", tags=["Cases"])
 app.include_router(documents.router, prefix="/api/v1/documents", tags=["Documents"])
 app.include_router(forms_autofill.router, prefix="/api/v1", tags=["Forms Autofill"])
+app.include_router(
+    submission_readiness.router, prefix="/api/v1", tags=["Submission Readiness"]
+)
 app.include_router(intake.router, prefix="/api/v1", tags=["Intake"])
 app.include_router(config_routes.router, prefix="/api/v1/config", tags=["Configuration"])
 app.include_router(admin_config.router, prefix="/api/v1/admin/config", tags=["Admin Configuration"])
