@@ -81,6 +81,8 @@ class DocumentDefinition(BaseModel):
     category: str
     required_for_programs: List[str] = Field(default_factory=list)
     required_when: List[DocumentCondition] = Field(default_factory=list)
+    config_ref: Optional[str] = None
+    source_ref: Optional[str] = None
 
 
 class FormDefinition(BaseModel):

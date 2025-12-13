@@ -17,9 +17,9 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Currently in **Phase 11 – Submission Readiness & Prep**, milestone **M11.1 – Submission Readiness Report (deterministic, read-only)** ✅ delivered (backend-only, read-only evaluation; no UI, no automation).
-- Golden snapshot: `v0.11.1-phase11-submission-readiness+2` (2025-12-12) capturing the deterministic readiness service + API + tests/governance, no UI/automation.
-- Next concrete build step: **M11.2 – Submission readiness UI (read-only)** and **M11.3 – PDF/web-flow adapters (planned)**; **Phase 12 – Submission Preparation Engine** follows after M11.x delivery (not started).
+- Currently in **Phase 10 – Form Autofill & Submission**, milestone **M11.1 – Submission Readiness Engine (read-only, shadow)** implemented and verified.
+- Latest runnable snapshot: `v0.11.1-phase11-submission-readiness-engine`.
+- Phase 12 (Submission Preparation Engine) remains **planned/not implemented**.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -77,14 +77,14 @@
 
 
 ### Phase 11 – Submission Readiness & Prep
-- M11.1 – Submission Readiness Report (deterministic, read-only; backend service + API, no UI/automation) ✅
-- Golden snapshot: `v0.11.1-phase11-submission-readiness+2` (2025-12-12)
-- M11.2 – Submission readiness UI (read-only) (planned)
-- M11.3 – PDF/web-flow adapters (planned)
+- M11.1 – Submission Readiness Engine (deterministic, read-only/shadow; backend service + API; no UI/automation) ✅
+- Golden snapshot: `v0.11.1-phase11-submission-readiness-engine`
+- M11.2 – Submission readiness UI (read-only) 🔵 Planned
+- M11.3 – PDF/web-flow adapters 🔵 Planned
 
 ## 5) Current / Next
-- Current phase: **Phase 11 – Submission Readiness & Prep**
-- Current milestone: **M11.1 – Submission Readiness Report (deterministic, read-only)**
-- Next milestone: **M11.2 – Submission readiness UI (read-only)**
-- Upcoming phase (not started): **Phase 12 – Submission Preparation Engine (shadow-only)** following M11.x completion
+- Current phase: **Phase 10 – Form Autofill & Submission**
+- Current milestone: **M10.4 – RCIC Forms Preview (read-only)**
+- Next milestone: **M10.5 – PDF/web-flow adapters (planned)**
+- Upcoming phases (not started): **Phase 11 – Submission Readiness & Prep**, **Phase 12 – Submission Preparation Engine**
 

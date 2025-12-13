@@ -4,7 +4,7 @@
 
 This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, and the implementation gap analysis into a single, version-controlled source of truth. Every 🔴 **Missing** or 🟡 **Partial** capability from the blueprints now maps to a concrete backlog ID so engineers, product, and agents can reference the same plan before opening a PR.
 
-- Golden snapshot recorded: `v0.11.1-phase11-submission-readiness+2` (Submission Readiness Report, backend-only, read-only).
+- Golden snapshot recorded: `v0.11.1-phase11-submission-readiness-engine` (Submission Readiness Engine, backend read-only/shadow).
 
 ## 2. Backlog Conventions
 
@@ -633,7 +633,7 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Priority:** HIGH
 - **Phase:** P2
 - **Type:** Backend
-- **Description:** Deterministic, read-only submission readiness report (service + API + tests + governance); no UI, no automation; tagged `v0.11.1-phase11-submission-readiness+2`.
+- **Description:** Deterministic, read-only submission readiness engine/service + API; shadow-only, no UI/automation. Tag: `v0.11.1-phase11-submission-readiness-engine`; tests: backend pytest full suite, coverage 86.95%.
 
 #### [FORM-007] Submission Preparation Engine (Phase 12.1)
 
