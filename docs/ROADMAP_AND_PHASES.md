@@ -17,9 +17,9 @@
 - **Phase 7 – Admin Config & Governance (🟡 In Progress)**: Read-only admin console + draft layer shipped; approval/activation + AI-assisted proposals upcoming.
 
 ## 3) Where We Are Today
-- Currently in **Phase 10 – Form Autofill & Submission**, milestone **M11.1 – Submission Readiness Engine (read-only, shadow)** implemented and verified.
-- Latest runnable snapshot: `v0.11.1-phase11-submission-readiness-engine`.
-- Phase 12 (Submission Preparation Engine) remains **planned/not implemented**.
+- Phase **11 – Submission Readiness** is complete (M11.1 Engine + M11.2 Verification & Evidence Bundle, read-only/shadow).
+- Latest runnable snapshot: `v0.11.2-phase11-readiness-evidence-bundle`.
+- Next: Phase 12 (Submission Preparation Engine) **planned/not implemented**.
 
 ## 4) Milestones by Phase (through Phase 7)
 
@@ -78,13 +78,16 @@
 
 ### Phase 11 – Submission Readiness & Prep
 - M11.1 – Submission Readiness Engine (deterministic, read-only/shadow; backend service + API; no UI/automation) ✅
-- Golden snapshot: `v0.11.1-phase11-submission-readiness-engine`
-- M11.2 – Submission readiness UI (read-only) 🔵 Planned
-- M11.3 – PDF/web-flow adapters 🔵 Planned
+- M11.2 – Submission Readiness Verification & Evidence Bundle (read-only/shadow; deterministic bundle + audit metadata) ✅
+- Golden snapshots:
+  - `v0.11.1-phase11-submission-readiness-engine`
+  - `v0.11.2-phase11-readiness-evidence-bundle`
+- M11.3 – Submission readiness UI (read-only) 🔵 Planned
+- M11.4 – PDF/web-flow adapters 🔵 Planned
 
 ## 5) Current / Next
-- Current phase: **Phase 10 – Form Autofill & Submission**
-- Current milestone: **M10.4 – RCIC Forms Preview (read-only)**
-- Next milestone: **M10.5 – PDF/web-flow adapters (planned)**
-- Upcoming phases (not started): **Phase 11 – Submission Readiness & Prep**, **Phase 12 – Submission Preparation Engine**
+- Current phase: **Phase 11 – Submission Readiness (closed)** — latest tag `v0.11.2-phase11-readiness-evidence-bundle`
+- Current milestone: **Phase 11 completed (M11.1 + M11.2)**; next execution is planned work.
+- Next milestone: **Phase 12 – Submission Preparation Engine (planned)** (or M11.3 UI if Phase 12 is deferred)
+- Upcoming phases (not started): **Phase 12 – Submission Preparation Engine**
 

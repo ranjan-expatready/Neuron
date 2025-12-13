@@ -107,6 +107,7 @@
 
 ## Phase 11 – Submission Readiness (M11.1 Complete)
 - ✅ `v0.11.1-phase11-submission-readiness-engine` — Submission Readiness Engine (read-only/shadow; config-driven, audit metadata, deterministic ordering). Tests: backend pytest full suite 277 passed / 4 skipped; coverage 86.95%. Integration branch: `integration/phase10_forms_autofill`.
+- ✅ `v0.11.2-phase11-readiness-evidence-bundle` — Submission Readiness Verification + Evidence Bundle v1 (read-only/shadow; deterministic ordering, audit metadata, config hashes). Tests: backend pytest full suite 282 passed / 4 skipped; coverage 86.90%. Integration branch: `integration/phase10_forms_autofill`. Phase 11 closed; Phase 12 planned next.
 
 ## G. Future Expansion & Go-To-Market
 
