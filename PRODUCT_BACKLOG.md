@@ -653,14 +653,23 @@ This backlog synthesizes blueprint packets `[BP-00…BP-14]`, the refined PRD, a
 - **Type:** Backend (shadow-only)
 - **Description:** Submission Preparation Engine to assemble submission-ready packages from canonical profile, form definitions/mappings, document matrix, and readiness results; deterministic, read-only, tenant/RBAC scoped; outputs forms with field resolution status, attachment plans, gaps, and explanations. Tag: `v0.12.1-phase12-submission-preparation-engine`; tests: backend pytest 287 passed / 4 skipped; coverage 86.97%.
 
-#### [FORM-007-UX] Submission Preparation UX/Adapters (Phase 12.2 planned)
+#### [FORM-007-UX] Submission Preparation Review UI (Phase 12.2)
+
+- **Domain:** Agentic / Forms
+- **Status:** ✅ Done
+- **Priority:** HIGH
+- **Phase:** P2
+- **Type:** Frontend + Adapter
+- **Description:** Read-only UI to surface submission preparation packages; evidence JSON export; consumes P12.1 submission preparation API. Tag: `v0.12.2-phase12-submission-prep-ui`; tests: CI `all` passed (frontend suites included).
+
+#### [FORM-008] Submission Automation (Phase 13 planned)
 
 - **Domain:** Agentic / Forms
 - **Status:** 🔵 Planned
 - **Priority:** HIGH
 - **Phase:** P2
-- **Type:** Frontend + Adapter
-- **Description:** Read-only UI and adapter wiring to surface submission preparation packages; no submission execution; reuses P12.1 outputs.
+- **Type:** Backend + Frontend
+- **Description:** Submission automation and adapters building on preparation outputs; governed and approval-gated. Planned for Phase 13.
 
 #### [DO-005] Multi-Language OCR & Classification
 

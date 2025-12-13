@@ -110,8 +110,9 @@
 - ✅ `v0.11.2-phase11-readiness-evidence-bundle` — Submission Readiness Verification + Evidence Bundle v1 (read-only/shadow; deterministic ordering, audit metadata, config hashes). Tests: backend pytest full suite 282 passed / 4 skipped; coverage 86.90%. Integration branch: `integration/phase10_forms_autofill`. Phase 11 closed; Phase 12 planned next.
 - ✅ `v0.11.3-phase11-readiness-ui` — RCIC Submission Readiness UI (read-only/shadow) consuming readiness + evidence APIs with evidence bundle JSON export. Tests: frontend `npm test` full suite (11 suites). Integration branch: `integration/phase10_forms_autofill`. Phase 11 fully closed; Phase 12 planned next.
 
-## Phase 12 – Submission Preparation (P12.1 Complete)
-- ✅ `v0.12.1-phase12-submission-preparation-engine` — Submission Preparation Engine (shadow/read-only) producing deterministic preparation package with field/attachment gaps, readiness/evidence cross-links, and package hash. Tests: backend pytest 287 passed / 4 skipped; coverage 86.97%. Integration branch: `integration/phase10_forms_autofill`. Next: P12.2 planned.
+## Phase 12 – Submission Preparation (Closed)
+- ✅ `v0.12.1-phase12-submission-preparation-engine` — Submission Preparation Engine (shadow/read-only) producing deterministic preparation package with field/attachment gaps, readiness/evidence cross-links, and package hash. Tests: backend pytest 287 passed / 4 skipped; coverage 86.97%. Integration branch: `integration/phase10_forms_autofill`.
+- ✅ `v0.12.2-phase12-submission-prep-ui` — Submission Preparation Review UI (read-only/shadow) consuming submission preparation API; evidence JSON export. Tests: CI `all` passed (includes frontend suites). Integration branch: `integration/phase10_forms_autofill`. Phase 12 closed; Phase 13 planned next.
 
 ## G. Future Expansion & Go-To-Market
 
